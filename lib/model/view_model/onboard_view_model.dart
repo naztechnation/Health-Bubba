@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../res/app_colors.dart';
 import '../../res/enum.dart';
  
-import '../workinng_hours.dart';
+import '../working_hours.dart';
 import 'base_viewmodel.dart';
 
 class OnboardViewModel extends BaseViewModel {
@@ -25,11 +25,25 @@ class OnboardViewModel extends BaseViewModel {
 
    List<String> _selectedLanguages = [];
 
+    List<String> _selectedSpecialties = [];
+
+
+  void toggleSpecialty(String specialty) {
+    if (_selectedSpecialties.contains(specialty)) {
+      _selectedSpecialties.remove(specialty);
+    } else {
+      _selectedSpecialties.add(specialty);
+    }
+       setViewState(ViewState.success);
+
+  }
+
 
   void addLanguage(String language) {
     if (!_selectedLanguages.contains(language)) {
       _selectedLanguages.add(language);
-      notifyListeners();
+          setViewState(ViewState.success);
+
     } else {
       debugPrint('$language is already in the list.');
     }
@@ -37,11 +51,11 @@ class OnboardViewModel extends BaseViewModel {
 
   void removeLanguage(String language) {
     _selectedLanguages.remove(language);
-    notifyListeners();
+        setViewState(ViewState.success);
+
   }
 
   void saveLanguages() {
-    print('Selected Languages: $_selectedLanguages');
   }
 
 
@@ -161,10 +175,16 @@ _workBio = bio;
     _schedule = newSchedule;
     setViewState(ViewState.success);
   }
+  
+  
+  
+  
   PageController get pageController => _pageController;
   
   bool get showPasswordStatus => _showPassword;
   bool get scrollable => _isScrollable;
+  List<String> get selectedSpecialties => _selectedSpecialties;
+
 
   List<DaySchedule> get schedule => _schedule;
   List<String> get selectedLanguages => _selectedLanguages;

@@ -35,6 +35,7 @@ class AppImages {
   static const appointmentOutline = '${_baseUrl}appointment_outline.svg';
   static const medication = '${_baseUrl}medication.svg';
   static const medicationOutline = '${_baseUrl}medication_outline.svg';
+  static const check = '${_baseUrl}check.svg';
 
 
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
+import 'package:healthbubba/presentation/profile/add_specialties.dart';
 import 'package:healthbubba/presentation/profile/language_spoken.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
@@ -299,85 +301,106 @@ class WorkInformation extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(top:12.0),
-                                  child: ImageView.svg(AppImages.clock),
+                                  Padding(
+                                  padding: EdgeInsets.only(top: (onboard.schedule.isEmpty)
+                                        ? 12.0 : 20),
+                                  child:const ImageView.svg(AppImages.clock),
                                 ),
                                 const SizedBox(
                                   width: 2,
                                 ),
                                 SizedBox(
-                                  width: 300,
-                                  child: (onboard.schedule.isEmpty)
-                                      ? Text(
-                                          'Working hours or availabiilty',
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF6B7280),
-                                          ),
-                                        )
-                                      : Consumer<OnboardViewModel>(
-                                          builder: (context, scheduleProvider,
-                                              child) {
-                                            final schedule =
-                                                scheduleProvider.schedule;
-                                            return ListView.builder(
-                                              itemCount: schedule.length,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemBuilder: (context, index) {
-                                                final daySchedule =
-                                                    schedule[index];
-                                                return ListTile(
-                                                  title: Text(daySchedule.day,
+                                    width: 300,
+                                    child: (onboard.schedule.isEmpty)
+                                        ? Text(
+                                            'Working hours or availabiilty',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF6B7280),
+                                            ),
+                                          )
+                                        : Consumer<OnboardViewModel>(
+                                            builder: (context, scheduleProvider,
+                                                child) {
+                                              final schedule =
+                                                  scheduleProvider.schedule;
+                                              return ListView.builder(
+                                                itemCount: schedule.length,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemBuilder: (context, index) {
+                                                  final daySchedule =
+                                                      schedule[index];
+
+                                                  return ListTile(
+                                                    title: Text(
+                                                      daySchedule.day,
                                                       style: const TextStyle(
-                                                          fontSize: 14,
-                                                          color:
-                                                              Color(0xFF0A0D14),
-                                                          fontWeight:
-                                                              FontWeight.w500)),
-                                                  trailing: daySchedule.isOpen
-                                                      ? Column(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: daySchedule
-                                                              .timeSlots
-                                                              .map((slot) {
-                                                            final start =
-                                                                slot['start']!;
-                                                            final end =
-                                                                slot['end']!;
-                                                            return Text(
-                                                                '${start.format(context)} - ${end.format(context)}', style: const TextStyle(
-                                                          fontSize: 13,
-                                                          color:
-                                                              Color(0xFF0A0D14),
-                                                          fontWeight:
-                                                              FontWeight.w500));
-                                                          }).toList(),
-                                                        )
-                                                      : const Text('Closed',
-                                                          style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xFF0A0D14),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    trailing: daySchedule
+                                                                .isOpen &&
+                                                            daySchedule
+                                                                .timeSlots
+                                                                .isNotEmpty
+                                                        ? Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children:
+                                                                daySchedule
+                                                                    .timeSlots
+                                                                    .map(
+                                                                        (slot) {
+                                                              final start =
+                                                                  slot[
+                                                                      'start']!;
+                                                              final end =
+                                                                  slot['end']!;
+                                                              return Text(
+                                                                '${start.format(context)} - ${end.format(context)}',
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Color(
+                                                                      0xFF0A0D14),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              );
+                                                            }).toList(),
+                                                          )
+                                                        : const Text(
+                                                            'Closed',
+                                                            style: TextStyle(
                                                               fontSize: 14,
                                                               color: Color(
                                                                   0xFF6B7280),
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w500)),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                ),
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          )),
                                 GestureDetector(
                                   onTap: () {
                                     AppNavigator.pushAndStackPage(context,
@@ -401,46 +424,60 @@ class WorkInformation extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: Container(
-                          padding:
-                              const EdgeInsets.fromLTRB(16.2, 15, 16, 15),
+                          padding: const EdgeInsets.fromLTRB(16.2, 15, 16, 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    0, 2.5, 12.2, 0),
-                                child: const ImageView.svg(
-                                    AppImages.language),
+                                margin:
+                                    const EdgeInsets.fromLTRB(0, 2.5, 12.2, 0),
+                                child: const ImageView.svg(AppImages.language),
                               ),
-                              SizedBox(
-                                width: 300,
-                                child: (onboard.selectedLanguages.isEmpty) ? Text(
-                                  'Languages spoken',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: const Color(0xFF6B7280),
-                                  ),
-                                ) : Consumer<OnboardViewModel>(
+                              Expanded(
+                                child: (onboard.selectedLanguages.isEmpty)
+                                    ? Text(
+                                        'Languages spoken',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.4,
+                                          color: const Color(0xFF6B7280),
+                                        ),
+                                      )
+                                    : Consumer<OnboardViewModel>(
                                         builder: (context, provider, child) {
-                                          return   Row(
-                                            children: [
-                                              ...provider.selectedLanguages.map((language) => Padding(
-                                                padding: const EdgeInsets.only(right: 8.0),
-                                                child:   Text('$language${(language.length > 1) ? ', ' : ''}')
-                                              )),
-                                            ],
+                                          return Wrap(
+                                            children: List<Widget>.generate(
+                                              provider.selectedLanguages.length,
+                                              (index) {
+                                                final language = provider
+                                                    .selectedLanguages[index];
+                                                final isLast = index ==
+                                                    provider.selectedLanguages
+                                                            .length -
+                                                        1;
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: Text(
+                                                    '$language${isLast ? '' : ', '}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                           );
                                         },
                                       ),
                               ),
                               GestureDetector(
-                                 onTap: () {
+                                onTap: () {
                                   AppNavigator.pushAndStackPage(context,
                                       page: LanguageSelector());
                                 },
@@ -457,32 +494,23 @@ class WorkInformation extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFFFFFF),
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Container(
-                            padding:
-                                const EdgeInsets.fromLTRB(20.2, 15, 16, 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 2.5, 12.2, 0),
-                                      child: const ImageView.svg(
-                                          AppImages.specialties),
-                                    ),
-                                    SizedBox(
-                                      width: 300,
-                                      child: Text(
+                      SizedBox(
+                        width: double.infinity,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16.2, 15, 16, 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(0, 2.5, 12.2, 0),
+                                child:
+                                    const ImageView.svg(AppImages.specialties),
+                              ),
+                              Expanded(
+                                child: (onboard.selectedSpecialties.isEmpty)
+                                    ? Text(
                                         'Specialties or areas of focus',
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
@@ -493,11 +521,42 @@ class WorkInformation extends StatelessWidget {
                                           height: 1.4,
                                           color: const Color(0xFF6B7280),
                                         ),
+                                      )
+                                    : Consumer<OnboardViewModel>(
+                                        builder: (context, provider, child) {
+                                          return Wrap(
+                                            children: List<Widget>.generate(
+                                              provider
+                                                  .selectedSpecialties.length,
+                                              (index) {
+                                                final specialties = provider
+                                                    .selectedSpecialties[index];
+                                                final isLast = index ==
+                                                    provider.selectedSpecialties
+                                                            .length -
+                                                        1;
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                  child: Text(
+                                                    '$specialties${isLast ? '' : ', '}',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const Padding(
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  AppNavigator.pushAndStackPage(context,
+                                      page: SpecialtyListPage());
+                                },
+                                child: const Padding(
                                   padding: EdgeInsets.only(right: 8.0),
                                   child: SizedBox(
                                     width: 15,
@@ -505,8 +564,8 @@ class WorkInformation extends StatelessWidget {
                                     child: ImageView.svg(AppImages.edit),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -534,7 +593,10 @@ class WorkInformation extends StatelessWidget {
                           height: 14,
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            AppNavigator.pushAndReplacePage(context,
+                                page: const Dashboard());
+                          },
                           child: Container(
                               width: MediaQuery.sizeOf(context).width,
                               height: 42,
@@ -558,9 +620,9 @@ class WorkInformation extends StatelessWidget {
                       ],
                     ),
                   ),
-                   const SizedBox(
-                          height: 50,
-                        ),
+                  const SizedBox(
+                    height: 50,
+                  ),
                 ]),
           ),
         ),

@@ -20,26 +20,26 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: AppImages.home,
-      activeIcon: AppImages.homeOutline,
+      icon: AppImages.homeOutline,
+      activeIcon: AppImages.home,
       title: "Home",
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
-      icon: AppImages.patient,
-      activeIcon: AppImages.patientOutline,
+      icon: AppImages.patientOutline,
+      activeIcon: AppImages.patient,
       title: "Patient",
       type: BottomBarEnum.Patient,
     ),
     BottomMenuModel(
-      icon: AppImages.appointment,
-      activeIcon: AppImages.appointmentOutline,
+      icon: AppImages.appointmentOutline,
+      activeIcon: AppImages.appointment,
       title: "Appointment",
       type: BottomBarEnum.Appointment,
     ),
     BottomMenuModel(
-      icon: AppImages.medication,
-      activeIcon: AppImages.medicationOutline,
+      icon: AppImages.medicationOutline,
+      activeIcon: AppImages.medication,
       title: "Medication",
       type: BottomBarEnum.Medication,
     )
@@ -56,14 +56,13 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserViewModel>(context, listen: true);
     
-    return SizedBox(
-      
+    return SafeArea(
       child: BottomNavigationBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedFontSize: 0,
-        elevation: 0,
+        elevation: 3,
         currentIndex: widget.selectedIndex,
         type: BottomNavigationBarType.fixed,
         items: [
@@ -79,11 +78,13 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                   
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.only(top: 4, bottom: 10),
                   child: Text(
                     bottomMenuList[0].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -105,6 +106,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[0].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -128,6 +131,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[1].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -148,6 +153,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[1].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -171,6 +178,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[2].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -191,6 +200,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[2].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -214,6 +225,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[3].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -224,7 +237,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                  ImageView.svg(
-                    bottomMenuList[4].icon,
+                    bottomMenuList[3].activeIcon,
                   height: 20,
                   width: 18,
                 ),
@@ -234,6 +247,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[3].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14
                     ),
                   ),
                 ),
@@ -244,10 +259,10 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         ],
         onTap: (index) {
                       user.updateIndex(index);
-
+      
             widget.onChanged?.call(index);
           setState(() {});
-
+      
         },
       ),
     );

@@ -121,15 +121,20 @@ class TextEditView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(borderRadius),
                       borderSide: BorderSide(
                           width: borderWidth,
-                          color: AppColors.lightSecondary,
+                          color: const Color(0xFF40B93C),
                           style: BorderStyle.solid)),
                   focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(borderRadius),
                       borderSide: BorderSide(
                           width: borderWidth,
-                          color: borderColor ?? AppColors.lightSecondary,
+                          color: borderColor ?? const Color(0xFFF70000),
                           style: BorderStyle.solid)),
-                  errorBorder: _border(context),
+                  errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      borderSide: BorderSide(
+                          width: borderWidth,
+                          color: borderColor ?? const Color(0xFFF70000),
+                          style: BorderStyle.solid)),
                   disabledBorder: _border(context),
                   hintText: hintText,
                   hintStyle: const TextStyle(

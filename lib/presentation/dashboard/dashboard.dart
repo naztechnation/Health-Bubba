@@ -8,14 +8,14 @@ import '../../model/view_model/user_view_model.dart';
 import 'dashboard_pages.dart/home_page.dart';
 import 'widget/custom_bottom_bar.dart';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+class Dashboard extends StatefulWidget {
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _DashboardState extends State<Dashboard> {
 
    
   @override

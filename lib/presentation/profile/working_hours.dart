@@ -4,10 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/view_model/onboard_view_model.dart';
-import '../../model/workinng_hours.dart';
+import '../../model/working_hours.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
+import '../../widgets/modals.dart';
 import 'work_profile.dart';
 
 class ScheduleWidget extends StatefulWidget {
@@ -87,6 +89,23 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
         .updateSchedule(newSchedule);
   }
 
+  void _clearSchedule() {
+  _daySwitchState.clear();
+  _dayTimeSlots.clear();
+
+  List<DaySchedule> emptySchedule = _daySwitchState.keys.map((day) {
+    return DaySchedule(
+      day: day,
+      isOpen: false,
+      timeSlots: [],
+    );
+  }).toList();
+
+  Provider.of<OnboardViewModel>(context, listen: false)
+      .updateSchedule(emptySchedule);
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,10 +117,16 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
         centerTitle: false,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.', primaryText: 'Discard', secondaryText: 'Save', primaryAction: (){
+               
+               _clearSchedule();
+               AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+            },primaryBgColor: const Color(0xFFF70000)),);
+              
           },
           child: const Padding(
-            padding: EdgeInsets.only(left: 12.0, top: 21, bottom: 21),
+            padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
             child: SizedBox(
               width: 15,
               height: 15,
@@ -133,10 +158,13 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
         child: Column(
           children: [
             const Divider(
-              color: Color(0xFF40B93C, ),
-            ),const SizedBox(
-                      height: 10,
-                    ),
+              color: Color(
+                0xFF40B93C,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
@@ -157,7 +185,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                                     fontWeight: FontWeight.w500)),
                             Transform.scale(
                               transformHitTests: false,
-                          scale: .7,
+                              scale: .7,
                               child: CupertinoSwitch(
                                 value: _daySwitchState[day]!,
                                 onChanged: (bool value) {
@@ -213,7 +241,6 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          
           Column(
             children: _dayTimeSlots[day]!.asMap().entries.map((entry) {
               int idx = entry.key;
@@ -226,40 +253,39 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     onTap: () => _selectTime(context, day, idx, true),
                     child: Row(
                       children: [
-                        Text(
-                            '${startTime.format(context)} ',
-                            
+                        Text('${startTime.format(context)} ',
                             style: const TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 15, fontWeight: FontWeight.w400, color: Color(0xFF0A0D14))),
-
-                              const Text(
-                            ' - ',
-                            
+                                decoration: TextDecoration.underline,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF0A0D14))),
+                        const Text(' - ',
                             style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w400, color: Color(0xFF0A0D14))),
-
-                              Text(
-                            ' ${endTime.format(context)}',
-                            
-                            style:const  TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 15, fontWeight: FontWeight.w400, color: Color(0xFF0A0D14))),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF0A0D14))),
+                        Text(' ${endTime.format(context)}',
+                            style: const TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF0A0D14))),
                       ],
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.black, size: 18,),
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.black,
+                      size: 18,
+                    ),
                     onPressed: () => _removeTimeSlot(day, idx),
                   ),
                 ],
               );
             }).toList(),
           ),
-
-
-              const SizedBox(height: 10),
-
+          const SizedBox(height: 10),
           Row(
             children: <Widget>[
               GestureDetector(

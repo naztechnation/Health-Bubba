@@ -15,6 +15,7 @@ import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/checkbox.dart';
 import '../../widgets/image_view.dart';
+import '../dashboard/dashboard.dart';
 
 class SignInScreen extends StatelessWidget {
 
@@ -247,6 +248,8 @@ class SignInScreen extends StatelessWidget {
                             ),
                             ButtonView(
                                 onPressed: () {
+                            AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+
                                 },
                                 borderRadius: 100,
                                 color: AppColors.lightSecondary,
