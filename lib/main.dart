@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healthbubba/model/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 import 'model/view_model/onboard_view_model.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
     MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => OnboardViewModel(), lazy: false),
+      ChangeNotifierProvider(create: (_) => UserViewModel(), lazy: false),
        
     ],
     child: const HealthBubba(),

@@ -86,7 +86,7 @@ class TextEditView extends StatelessWidget {
           colorScheme: const ColorScheme.light(
               primary: AppColors.lightSecondary)),
       child: SizedBox(
-        height: 45,
+       // height: 45,
         child: Material(
           elevation: 1,
           borderRadius: BorderRadius.circular(8),
@@ -142,7 +142,7 @@ class TextEditView extends StatelessWidget {
                   isDense: isDense,
                   fillColor: fillColor ?? AppColors.lightPrimary,
                   helperText: helperText,
-                  helperMaxLines: 2,
+                  helperMaxLines: maxLength,
                   helperStyle: const TextStyle(fontSize: 10),
                   prefixText: prefixText,
                   prefixIcon: prefixIcon,

@@ -27,5 +27,18 @@ class AppImages {
   static const clock = '${_baseUrl}clock.svg';
   static const language = '${_baseUrl}language.svg';
   static const specialties = '${_baseUrl}specialties.svg';
+  static const home = '${_baseUrl}home.svg';
+  static const homeOutline = '${_baseUrl}home_outline.svg';
+  static const patient = '${_baseUrl}patient.svg';
+  static const patientOutline = '${_baseUrl}patient_outline.svg';
+  static const appointment = '${_baseUrl}appointment.svg';
+  static const appointmentOutline = '${_baseUrl}appointment_outline.svg';
+  static const medication = '${_baseUrl}medication.svg';
+  static const medicationOutline = '${_baseUrl}medication_outline.svg';
+
+
+
+
+
    
 }
