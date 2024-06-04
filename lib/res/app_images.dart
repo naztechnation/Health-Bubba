@@ -6,17 +6,20 @@ class AppImages {
   static const String _baseUrl = 'assets/images/';
   
 
-  static const appLogo = '${_baseUrl}logo1.svg';
-  static const appLogo1 = '${_baseUrl}bubba_logo1.svg';
+  
   static const splashIcon = '${_baseUrl}splash_logo.png';
   static const logo = '${_baseUrl}logo1.jpg';
   static const onboardingOne = '${_baseUrl}onboard1.png';
   static const onboardingTwo = '${_baseUrl}onboard2.png';
   static const profileBg = '${_baseUrl}profile_bg.png';
   static const onboardingThree = '${_baseUrl}onboard3.jpeg';
+   static const scheduleAppointment = '${_baseUrl}schedule_appointment.png';
+  static const viewPatient = '${_baseUrl}view_patient.png';
+  static const createPrescriptionn = '${_baseUrl}create_prescription.png';
   
 
- 
+ static const appLogo = '${_baseUrl}logo1.svg';
+  static const appLogo1 = '${_baseUrl}bubba_logo1.svg';
   static const good = '${_baseUrl}good.svg';
   static const bad = '${_baseUrl}bad.svg';
   static const dropDown = '${_baseUrl}drop_down.svg';
@@ -36,6 +39,14 @@ class AppImages {
   static const medication = '${_baseUrl}medication.svg';
   static const medicationOutline = '${_baseUrl}medication_outline.svg';
   static const check = '${_baseUrl}check.svg';
+  static const success = '${_baseUrl}success.svg';
+  static const tick = '${_baseUrl}tick.svg';
+  static const error = '${_baseUrl}error.svg';
+  static const info = '${_baseUrl}info.svg';
+  static const warning = '${_baseUrl}warning.svg';
+  static const notifyIcon = '${_baseUrl}notify_icon.svg';
+  static const noData = '${_baseUrl}no_result.svg';
+ 
 
 
 

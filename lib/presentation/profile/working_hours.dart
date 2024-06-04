@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../model/view_model/onboard_view_model.dart';
 import '../../model/working_hours.dart';
+import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/decision_widgets.dart';
@@ -50,6 +51,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     });
   }
 
+   bool _hasTimeSlots() {
+    return _dayTimeSlots.values.any((slots) => slots.isNotEmpty);
+  }
+
   void _removeTimeSlot(String day, int index) {
     setState(() {
       _dayTimeSlots[day]?.removeAt(index);
@@ -76,8 +81,10 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     }
   }
 
+  List<DaySchedule> newSchedule = [];
+
   void _saveSchedule() {
-    List<DaySchedule> newSchedule = _daySwitchState.keys.map((day) {
+    newSchedule = _daySwitchState.keys.map((day) {
       return DaySchedule(
         day: day,
         isOpen: _daySwitchState[day]!,
@@ -117,12 +124,39 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
         centerTitle: false,
         leading: GestureDetector(
           onTap: () {
-            Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.', primaryText: 'Discard', secondaryText: 'Save', primaryAction: (){
+
+             
+
+            if(_hasTimeSlots()){
+              Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+             primaryText: 'Discard', secondaryText: 'Save', 
+             primaryAction: (){
                
                _clearSchedule();
                AppNavigator.pushAndReplacePage(context,
                     page: const WorkInformation());
-            },primaryBgColor: const Color(0xFFF70000)),);
+            },primaryBgColor: const Color(0xFFF70000), secondaryAction: (){
+               _saveSchedule();
+                AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+            }),
+            
+            );
+            //  Modals.showDialogModal(context, page: successActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+            //  primaryText: 'Close', 
+            //  primaryAction: (){
+               
+            //    _clearSchedule();
+            //    AppNavigator.pushAndReplacePage(context,
+            //         page: const WorkInformation());
+            // },primaryBgColor: AppColors.lightSecondary,  ),
+            
+            // );
+            }else{
+              AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+            }
+            
               
           },
           child: const Padding(

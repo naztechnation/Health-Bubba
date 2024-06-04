@@ -55,6 +55,18 @@ class OnboardViewModel extends BaseViewModel {
 
   }
 
+  void clearLanguage() {
+    _selectedLanguages.clear();
+        setViewState(ViewState.success);
+
+  }
+
+  void clearSpecialties() {
+    _selectedSpecialties.clear();
+        setViewState(ViewState.success);
+
+  }
+
   void saveLanguages() {
   }
 

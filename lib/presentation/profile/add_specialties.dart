@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
+import '../../widgets/modals.dart';
 import 'work_profile.dart';
 
 class SpecialtyListPage extends StatelessWidget {
@@ -32,10 +34,27 @@ class SpecialtyListPage extends StatelessWidget {
         centerTitle: false,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            if(context.read<OnboardViewModel>().selectedSpecialties.isNotEmpty){
+               context.read<OnboardViewModel>().clearSpecialties();
+            Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.', primaryText: 'Discard', secondaryText: 'Save', primaryAction: (){
+               
+               
+               AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+            },primaryBgColor: const Color(0xFFF70000), secondaryAction: (){
+                  AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+                          
+            }),);
+            }else{
+               AppNavigator.pushAndReplacePage(context,
+                    page: const WorkInformation());
+            }
+           
+              
           },
           child: const Padding(
-            padding: EdgeInsets.only(left: 12.0, top: 21, bottom: 21),
+            padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
             child: SizedBox(
               width: 15,
               height: 15,
@@ -50,7 +69,7 @@ class SpecialtyListPage extends StatelessWidget {
           GestureDetector(
             onTap: () {
               AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-              context.read<OnboardViewModel>().saveLanguages();
+              
             },
             child: const Padding(
               padding: EdgeInsets.only(right: 12.0),

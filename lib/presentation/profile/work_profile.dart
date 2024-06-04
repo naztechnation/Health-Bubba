@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/button_view.dart';
+import '../../widgets/custom_toast.dart';
 import 'widget/work_bio_textfield.dart';
 import 'working_hours.dart';
 
@@ -301,10 +302,10 @@ class WorkInformation extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                  Padding(
-                                  padding: EdgeInsets.only(top: (onboard.schedule.isEmpty)
-                                        ? 12.0 : 20),
-                                  child:const ImageView.svg(AppImages.clock),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: (onboard.schedule.isEmpty) ? 2 : 20),
+                                  child: const ImageView.svg(AppImages.clock),
                                 ),
                                 const SizedBox(
                                   width: 2,
@@ -406,10 +407,13 @@ class WorkInformation extends StatelessWidget {
                                     AppNavigator.pushAndStackPage(context,
                                         page: ScheduleWidget());
                                   },
-                                  child: const Padding(
-                                    padding:
-                                        EdgeInsets.only(right: 8.0, top: 20),
-                                    child: SizedBox(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 8.0,
+                                        top: (onboard.schedule.isEmpty)
+                                            ? 2
+                                            : 20),
+                                    child: const SizedBox(
                                       width: 15,
                                       height: 15,
                                       child: ImageView.svg(AppImages.edit),
@@ -579,7 +583,15 @@ class WorkInformation extends StatelessWidget {
                     child: Column(
                       children: [
                         ButtonView(
-                            onPressed: () {},
+                            onPressed: () {
+                              ToastService().showToast(
+                                context,
+                                leadingIcon:
+                                    const ImageView.svg(AppImages.tick),
+                                title: 'Info',
+                                subtitle: 'This is a custom toast message This is a custom toast messageThis is a custom toast message.',
+                              );
+                            },
                             borderRadius: 100,
                             color: AppColors.lightSecondary,
                             child: const Text(
