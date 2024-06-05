@@ -46,6 +46,12 @@ class AppImages {
   static const warning = '${_baseUrl}warning.svg';
   static const notifyIcon = '${_baseUrl}notify_icon.svg';
   static const noData = '${_baseUrl}no_result.svg';
+  static const avatar = '${_baseUrl}avatar.svg';
+  static const videoIcon = '${_baseUrl}video.svg';
+  static const searchIcon = '${_baseUrl}search.svg';
+  static const ageIcon = '${_baseUrl}age.svg';
+  static const weightIcon = '${_baseUrl}weight.svg';
+  static const genderIcon = '${_baseUrl}gender.svg';
  
 
 
