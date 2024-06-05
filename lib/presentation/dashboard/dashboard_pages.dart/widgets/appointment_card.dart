@@ -46,16 +46,14 @@ appointmentCard(){
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: Text(
-                                          'Upcoming Appointment',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF0A0D14),
-                                          ),
+                                      Text(
+                                        'Upcoming Appointment',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          height: 1.4,
+                                          color: const Color(0xFF0A0D14),
                                         ),
                                       ),
                                       Container(

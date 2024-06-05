@@ -46,7 +46,7 @@ class _DashboardState extends State<Dashboard> {
       case 1:
         return   PatientPage();
       case 2:
-        return const AppointmentPage();
+        return   AppointmentPage();
       case 3:
         return const MedicationPage();
       default:
