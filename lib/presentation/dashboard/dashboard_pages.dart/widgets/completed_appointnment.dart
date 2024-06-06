@@ -17,7 +17,7 @@ class CompletedPage extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-        child: const Column(
+        child:   Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,11 +30,9 @@ class CompletedPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                    
-                                        AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
-
-                    //
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
                   ],
                 ),
               ),

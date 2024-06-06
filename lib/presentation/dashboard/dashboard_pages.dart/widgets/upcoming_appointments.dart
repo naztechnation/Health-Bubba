@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
  
+import '../../../../utils/navigator/page_navigator.dart';
 import 'appointment_patient_card.dart';
+import 'reschedule.dart';
 
 class UpcomingPage extends StatelessWidget {
   @override
@@ -293,11 +295,14 @@ class UpcomingPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                   //
-                                        const AppointmentPatientCard(isScheduled: false, isReBook: false,actionText: 'Reschedule'),
+                     AppointmentPatientCard(isScheduled: false, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){
 
-                    //
-                    const AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule'),
+                     },),
+
+                      AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){
+                      AppNavigator.pushAndStackPage(context, page: const ReschedulePage(isSchedule: true,));
+
+                      },),
                   ],
                 ),
               ),

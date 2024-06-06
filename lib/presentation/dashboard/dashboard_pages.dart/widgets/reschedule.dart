@@ -1,23 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/book_appointment.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/widgets/cancel_appointment.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
 import '../../../../res/app_colors.dart';
 import '../../../../widgets/button_view.dart';
+import 'document_lists.dart';
 
-class PatientDetails extends StatelessWidget {
+class ReschedulePage extends StatelessWidget {
+  final bool isSchedule;
+
+  const ReschedulePage({super.key, required this.isSchedule});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
+        title: Center(
           child: Text(
-            'Akeem Adewale',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            (isSchedule) ? 'Appointment' : 'Akeem Adewale',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         centerTitle: true,
@@ -116,6 +122,37 @@ class PatientDetails extends StatelessWidget {
                                         color: const Color(0xFF0A0D14),
                                       ),
                                     ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    if (!isSchedule)
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'Ajohn.doe@example.com',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF0A0D14),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            '(123) 456-7890',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF0A0D14),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                   ],
                                 ),
                               ),
@@ -300,6 +337,221 @@ class PatientDetails extends StatelessWidget {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Appointed Time',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: const Color(0xFF0A0D14),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Date',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                                Text(
+                                  'Nov 24, 2023',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Time',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                                Text(
+                                  '8:00AM - 8:30(AM)',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Booking For',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                                Text(
+                                  'Self',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade300,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Complaint',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: const Color(0xFF0A0D14),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Hello, doctor I need help I believe I am falling sick as I am experiencing headache and body temperature.',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: const Color(0xFF0A0D14),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Divider(
+                              color: Colors.grey.shade300,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    if(isSchedule)  GestureDetector(
+                      onTap: () {
+                        AppNavigator.pushAndStackPage(context, page: const DocumentLists());
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                               
+                              Text(
+                                'Attachments',
+                                style: GoogleFonts.getFont(
+                                  'Inter',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  height: 1.4,
+                                  color: const Color(0xFF0A0D14),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: const ImageView.asset(AppImages.onboardingThree, height: 60, width: 70, fit: BoxFit.cover,)),
+                                  Container(
+                                    height: 60, width: 70,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.3),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                 const Positioned(
+                                  top: 15,
+                                  
+                                  left: 0,
+                                  right: 0,
+                      
+                                  child:  Text('+5',
+                                  textAlign: TextAlign.center,
+                                   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),))
+                      
+                                
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                color: Colors.grey.shade300,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                    ),
                       Container(
                         decoration: const BoxDecoration(
                           color: Color(0xFFFFFFFF),
@@ -311,7 +563,7 @@ class PatientDetails extends StatelessWidget {
                           ),
                         ),
                         child: Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 0, 15),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 15),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -837,40 +1089,73 @@ class PatientDetails extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: const Color(0xFF093126),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33212126),
-                  offset: Offset(0, 1),
-                  blurRadius: 1.5,
+          child: (!isSchedule)
+              ? ButtonView(
+                  onPressed: () {
+                    
+                  },
+                  borderRadius: 100,
+                  color: AppColors.lightSecondary,
+                  child: const Text(
+                    'Rebook',
+                    style: TextStyle(
+                        color: AppColors.lightPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ))
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                           AppNavigator.pushAndStackPage(context,
+                        page:   CancelAppointment( ));
+                        },
+                        child: Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 42,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  100,
+                                ),
+                                color: AppColors.lightPrimary,
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5)),
+                            child: const Center(
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                    color: AppColors.lightSecondary,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: ButtonView(
+                          expanded: false,
+                          onPressed: () {
+                            AppNavigator.pushAndStackPage(context,
+                        page: const BookAppointentPage(isReBookAppointment: true,));
+                          },
+                          borderRadius: 100,
+                          color: AppColors.lightSecondary,
+                          child: const Text(
+                            'Reschedule',
+                            style: TextStyle(
+                                color: AppColors.lightPrimary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ),
+                  ],
                 ),
-                BoxShadow(
-                  color: Color(0xFF083025),
-                  offset: Offset(0, 0),
-                  blurRadius: 0,
-                ),
-              ],
-            ),
-            child: ButtonView(
-                onPressed: () {
-                  AppNavigator.pushAndStackPage(context,
-                      page: const BookAppointentPage(
-                        isReBookAppointment: false,
-                      ));
-                },
-                borderRadius: 100,
-                color: AppColors.lightSecondary,
-                child: const Text(
-                  'Schedule an Appointment',
-                  style: TextStyle(
-                      color: AppColors.lightPrimary,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                )),
-          ),
         ),
       ),
     );

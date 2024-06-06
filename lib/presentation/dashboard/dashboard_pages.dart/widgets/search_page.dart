@@ -55,7 +55,7 @@ class SearchPage extends StatelessWidget {
               ],
             ),
            
-                    const AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule'),
+                      AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){},),
           ],
         ),
       ),

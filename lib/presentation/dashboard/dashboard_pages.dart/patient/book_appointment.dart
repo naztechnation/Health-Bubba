@@ -11,14 +11,17 @@ import '../../../../widgets/image_view.dart';
 import '../widgets/calender_widget.dart';
 
 class BookAppointentPage extends StatelessWidget {
+  final bool isReBookAppointment;
+
+  const BookAppointentPage({super.key, required this.isReBookAppointment}); 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
+        title:   Center(
           child: Text(
-            'Book a Time & Date',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+           isReBookAppointment ?    'Reschedule Appointment':  'Book a Time & Date',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         centerTitle: true,
@@ -779,9 +782,9 @@ class BookAppointentPage extends StatelessWidget {
                             },
                             borderRadius: 100,
                             color: AppColors.lightSecondary,
-                            child: const Text(
-                              'Book Appointment',
-                              style: TextStyle(
+                            child:   Text(
+                            ( !isReBookAppointment) ?  'Book Appointment' : 'Confrim Rescheduling',
+                              style:const TextStyle(
                                   color: AppColors.lightPrimary,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500),
@@ -812,7 +815,7 @@ class BookAppointentPage extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Divider(),
+              const Divider(),
               DropdownButton<int>(
                 value: selectedYear,
                 items: List.generate(

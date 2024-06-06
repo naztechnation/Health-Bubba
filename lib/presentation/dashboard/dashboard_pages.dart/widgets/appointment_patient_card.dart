@@ -13,7 +13,16 @@ class AppointmentPatientCard extends StatelessWidget {
   final bool isScheduled;
   final  bool isReBook;
   final String actionText;
-  const AppointmentPatientCard({super.key, required this.isScheduled, required this.isReBook, required this.actionText});
+  final  Function onAccept;
+  final  Function onCancel;
+  const AppointmentPatientCard({super.key,
+   required this.isScheduled, 
+  required this.isReBook,
+  required this.actionText, 
+  required this.onAccept,
+  required this.onCancel,
+  
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +260,9 @@ class AppointmentPatientCard extends StatelessWidget {
                                             children: [
                                              if(!isReBook) Expanded(
                                                 child: GestureDetector(
-                                                  onTap: () {},
+                                                  onTap: () {
+                                                    onCancel();
+                                                  },
                                                   child: Container(
                                                       width: MediaQuery.sizeOf(
                                                               context)
@@ -291,7 +302,9 @@ class AppointmentPatientCard extends StatelessWidget {
                                                   opacity: (isScheduled)? 1 : 0.5,
                                                   child: ButtonView(
                                                       expanded: false,
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        onAccept();
+                                                      },
                                                       borderRadius: 100,
                                                       color: AppColors
                                                           .lightSecondary,

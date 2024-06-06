@@ -52,6 +52,7 @@ class AppImages {
   static const ageIcon = '${_baseUrl}age.svg';
   static const weightIcon = '${_baseUrl}weight.svg';
   static const genderIcon = '${_baseUrl}gender.svg';
+  static const pdf = '${_baseUrl}pdf.png';
  
 
 

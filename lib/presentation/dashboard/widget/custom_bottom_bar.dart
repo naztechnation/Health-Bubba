@@ -56,7 +56,23 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserViewModel>(context, listen: true);
     
-    return SafeArea(
+    return Container(
+       decoration: const BoxDecoration(
+          color: Color(0xFFFFFFFF),
+          border: Border(
+            top: BorderSide(
+              color: Color(0xFFE5E7EB),
+              width: 1,
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(0, -4),
+              blurRadius: 8.8999996185,
+            ),
+          ],
+        ),
       child: BottomNavigationBar(
         backgroundColor: Colors.white,
         showSelectedLabels: false,

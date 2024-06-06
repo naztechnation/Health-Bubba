@@ -1,8 +1,10 @@
  
 import 'package:flutter/material.dart';
+import 'package:healthbubba/utils/navigator/page_navigator.dart';
   
  
 import 'appointment_patient_card.dart';
+import 'reschedule.dart';
 
 class CancelledPage extends StatelessWidget {
   @override
@@ -14,7 +16,7 @@ class CancelledPage extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-        child: const Column(
+        child:   Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -27,11 +29,11 @@ class CancelledPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                    
-                                        AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
-
-                    //
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook'),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){
+                      AppNavigator.pushAndStackPage(context, page: const ReschedulePage(isSchedule: false,));
+                    },),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook',  onCancel: (){}, onAccept: (){},),
+                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
                   ],
                 ),
               ),
