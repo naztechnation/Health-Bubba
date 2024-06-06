@@ -6,6 +6,7 @@ import 'package:healthbubba/res/app_routes.dart';
 import 'package:healthbubba/widgets/button_view.dart';
 
 import '../../handlers/secure_handler.dart';
+import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 
 class OnboardingThree extends StatelessWidget {
@@ -20,7 +21,7 @@ class OnboardingThree extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 20),
+          padding: const EdgeInsets.fromLTRB(0, 2, 0, 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -29,7 +30,7 @@ class OnboardingThree extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.5,
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Container(
                        width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.53,
@@ -38,7 +39,7 @@ class OnboardingThree extends StatelessWidget {
                         image: const DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            'assets/images/onboard3.png',
+                            AppImages.onboardingThree,
                           ),
                         ),
                       ),

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../handlers/secure_handler.dart';
 import '../../model/view_model/onboard_view_model.dart';
+import '../../res/app_images.dart';
 import '../../res/app_routes.dart';
 import '../../utils/navigator/page_navigator.dart';
 
@@ -26,7 +27,7 @@ class OnboardingTwo extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 20),
+          padding: const EdgeInsets.fromLTRB(0, 2, 0, 20),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +36,11 @@ class OnboardingTwo extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.5,
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                         
+                      ),
                     child: Container(
                        width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.5,
@@ -44,7 +49,7 @@ class OnboardingTwo extends StatelessWidget {
                         image: const DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            'assets/images/onnboard2.png',
+                            AppImages.onboardingTwo,
                           ),
                         ),
                       ),

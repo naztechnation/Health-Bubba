@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
@@ -26,7 +24,6 @@ class WorkInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final onboard = Provider.of<OnboardViewModel>(context, listen: true);
 
-    // Modals.showToast(onboard.scrollable.toString());
     return GestureDetector(
       onTap: () {
         onboard.updateScroll(false);

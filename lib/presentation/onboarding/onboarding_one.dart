@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_colors.dart';
+import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/button_view.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,7 @@ class OnboardingOne extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           child: Container(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 20),
+            padding: const EdgeInsets.fromLTRB(0, 2, 0, 20),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +36,7 @@ class OnboardingOne extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.sizeOf(context).height * 0.5,
                     child: Container(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Container(
                          width: double.infinity,
                           height: MediaQuery.sizeOf(context).height * 0.5,
@@ -44,7 +45,7 @@ class OnboardingOne extends StatelessWidget {
                           image: const DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
-                              'assets/images/onboard1.jpeg',
+                              AppImages.onboardingOne,
                             ),
                           ),
                         ),

@@ -10,9 +10,9 @@ class AppImages {
   static const splashIcon = '${_baseUrl}splash_logo.png';
   static const logo = '${_baseUrl}logo1.jpg';
   static const onboardingOne = '${_baseUrl}onboard1.png';
-  static const onboardingTwo = '${_baseUrl}onboard2.png';
+  static const onboardingTwo = '${_baseUrl}onnboard2.png';
   static const profileBg = '${_baseUrl}profile_bg.png';
-  static const onboardingThree = '${_baseUrl}onboard3.jpeg';
+  static const onboardingThree = '${_baseUrl}onboard3.png';
    static const scheduleAppointment = '${_baseUrl}schedule_appointment.png';
   static const viewPatient = '${_baseUrl}view_patient.png';
   static const createPrescriptionn = '${_baseUrl}create_prescription.png';

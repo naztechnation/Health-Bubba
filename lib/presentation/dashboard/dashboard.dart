@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/appointment_page.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/widgets/upcoming_appointments.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/medication_page.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/patient_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/view_model/user_view_model.dart';
+import 'dashboard_pages.dart/appointment_tabs.dart';
 import 'dashboard_pages.dart/home_page.dart';
 import 'widget/custom_bottom_bar.dart';
 
@@ -46,7 +47,7 @@ class _DashboardState extends State<Dashboard> {
       case 1:
         return   PatientPage();
       case 2:
-        return   AppointmentPage();
+        return   AppointmentTabView();
       case 3:
         return const MedicationPage();
       default:
