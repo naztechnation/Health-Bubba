@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/widgets/text_edit_view.dart';
 
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
@@ -65,8 +66,6 @@ class CancelAppointment extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   
-                        
-                         
                    
                   Container(
                     decoration: const BoxDecoration(
@@ -168,67 +167,13 @@ class CancelAppointment extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(12, 11, 12, 82),
-                          child: Text(
-                            'Please explain the reason you are cancelling',
-                            style: GoogleFonts.getFont(
-                              'Inter',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              height: 1.4,
-                              color: const Color(0xFF6B7280),
-                            ),
-                          ),
-                        ),
+                        child: TextEditView(controller: TextEditingController(),maxLines: 5, hintText: 'Please explain the reason you are cancelling',)
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: const Color(0xFFF70000),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x33212126),
-                      offset: Offset(0, 1),
-                      blurRadius: 1.5,
-                    ),
-                    BoxShadow(
-                      color: Color(0xFFE10505),
-                      offset: Offset(0, 0),
-                      blurRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x40000000),
-                          offset: Offset(0, 0),
-                          blurRadius: 0.5,
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      'Cancel Appointment',
-                      style: GoogleFonts.getFont(
-                        'Inter',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 1.6,
-                        color: const Color(0xFFFFFFFF),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+               
             ],
           ),
         ),

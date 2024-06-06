@@ -142,16 +142,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
             }),
             
             );
-            //  Modals.showDialogModal(context, page: successActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
-            //  primaryText: 'Close', 
-            //  primaryAction: (){
-               
-            //    _clearSchedule();
-            //    AppNavigator.pushAndReplacePage(context,
-            //         page: const WorkInformation());
-            // },primaryBgColor: AppColors.lightSecondary,  ),
             
-            // );
             }else{
               AppNavigator.pushAndReplacePage(context,
                     page: const WorkInformation());

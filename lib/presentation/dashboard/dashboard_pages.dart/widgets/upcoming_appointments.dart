@@ -7,6 +7,7 @@ import 'package:healthbubba/widgets/image_view.dart';
  
 import '../../../../utils/navigator/page_navigator.dart';
 import 'appointment_patient_card.dart';
+import 'cancel_appointment.dart';
 import 'reschedule.dart';
 
 class UpcomingPage extends StatelessWidget {
@@ -295,11 +296,17 @@ class UpcomingPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                     AppointmentPatientCard(isScheduled: false, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){
+                     AppointmentPatientCard(isScheduled: false, isReBook: false,actionText: 'Reschedule', onCancel: (){
+                      AppNavigator.pushAndStackPage(context,
+                        page:   CancelAppointment( ));
+                     }, onAccept: (){
 
                      },),
 
-                      AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){
+                      AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule', onCancel: (){
+                        AppNavigator.pushAndStackPage(context,
+                        page:   CancelAppointment( ));
+                      }, onAccept: (){
                       AppNavigator.pushAndStackPage(context, page: const ReschedulePage(isSchedule: true,));
 
                       },),

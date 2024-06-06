@@ -67,7 +67,7 @@ class TextEditView extends StatelessWidget {
       this.focusNode,
       this.helperText,
       this.maxLength,
-      this.maxLines = 1,
+      this.maxLines,
       this.textViewTitle = '',
       this.inputFormatters,   this.boxHeight = 20})
       : super(key: key);
@@ -86,11 +86,29 @@ class TextEditView extends StatelessWidget {
           colorScheme: const ColorScheme.light(
               primary: AppColors.lightSecondary)),
       child: SizedBox(
-       // height: 45,
-        child: Material(
-          elevation: 1,
-          borderRadius: BorderRadius.circular(8),
-          color: AppColors.lightPrimary,
+        height: (maxLines == null) ? 45 : null,
+        child: Container(
+          decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: const Color(0xFFFFFFFF),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0xFF40B93C),
+                              offset: Offset(0, 0),
+                              blurRadius: 0,
+                            ),
+                            BoxShadow(
+                              color: Color(0x409F9E9E),
+                              offset: Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                            BoxShadow(
+                              color: Color(0x3690D68E),
+                              offset: Offset(0, 0),
+                              blurRadius: 0,
+                            ),
+                          ],
+                        ),
           child: Center(
             child: TextFormField(
               controller: controller,
@@ -103,7 +121,7 @@ class TextEditView extends StatelessWidget {
               readOnly: readOnly,
               autofocus: autofocus,
               obscureText: obscureText,
-              maxLines: maxLines,
+              maxLines: maxLines ?? 1,
               inputFormatters: inputFormatters,
               maxLength: maxLength,
               autofillHints: autofillHints,

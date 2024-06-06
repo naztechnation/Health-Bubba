@@ -722,29 +722,27 @@ class PatientDetails extends StatelessWidget {
                                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                 child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Container(
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'Last Appointment: ',
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 13,
-                                          height: 1.5,
-                                          color: const Color(0xFF131316),
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: 'April 15, 2024, 11:00 AM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 13,
-                                              height: 1.3,
-                                            ),
-                                          ),
-                                        ],
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'Last Appointment: ',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13,
+                                        height: 1.5,
+                                        color: const Color(0xFF131316),
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text: 'April 15, 2024, 11:00 AM',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 13,
+                                            height: 1.3,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

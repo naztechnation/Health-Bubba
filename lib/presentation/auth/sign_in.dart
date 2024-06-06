@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart'; 
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/sign_up.dart';
 import 'package:healthbubba/res/app_routes.dart';
@@ -18,13 +18,11 @@ import '../../widgets/image_view.dart';
 import '../dashboard/dashboard.dart';
 
 class SignInScreen extends StatelessWidget {
-
   final _passwordController = TextEditingController();
 
   final _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     final password = Provider.of<OnboardViewModel>(context, listen: true);
 
     return Scaffold(
@@ -167,17 +165,20 @@ class SignInScreen extends StatelessWidget {
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
                                           validator: (value) {
-                        return Validator.validate(value, 'Password');
-                      },
-                       obscureText: password.showPasswordStatus,
-                      suffixIcon: GestureDetector(
-                        onTap: () {
-                          password.showPassword();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: password.showPasswordStatus
-                              ? const Icon(
+                                            return Validator.validate(
+                                                value, 'Password');
+                                          },
+                                          obscureText:
+                                              password.showPasswordStatus,
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
+                                              password.showPassword();
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: password.showPasswordStatus
+                                                  ? const Icon(
                                                       Icons
                                                           .visibility_off_outlined,
                                                       size: 18,
@@ -185,8 +186,8 @@ class SignInScreen extends StatelessWidget {
                                                   : const Icon(
                                                       Icons.visibility_outlined,
                                                       size: 18),
-                        ),
-                      ),
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -207,7 +208,9 @@ class SignInScreen extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             CustomCheckbox(),
-                                            const SizedBox(width: 10,),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
                                             Text(
                                               'Keep me logged in',
                                               style: GoogleFonts.getFont(
@@ -222,8 +225,9 @@ class SignInScreen extends StatelessWidget {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                       AppNavigator.pushAndReplaceName(context, name: AppRoutes.forgetPassword);
-                                            
+                                            AppNavigator.pushAndReplaceName(
+                                                context,
+                                                name: AppRoutes.forgetPassword);
                                           },
                                           child: Text(
                                             'Forgot Password?',
@@ -248,8 +252,8 @@ class SignInScreen extends StatelessWidget {
                             ),
                             ButtonView(
                                 onPressed: () {
-                            AppNavigator.pushAndReplacePage(context, page: const Dashboard());
-
+                                  AppNavigator.pushAndReplacePage(context,
+                                      page: const Dashboard());
                                 },
                                 borderRadius: 100,
                                 color: AppColors.lightSecondary,
@@ -288,9 +292,9 @@ class SignInScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                                  AppNavigator.pushAndStackPage(context, page: SignUpScreen());
-                            
-                          },
+                              AppNavigator.pushAndStackPage(context,
+                                  page: SignUpScreen());
+                            },
                             child: Text(
                               'Register',
                               style: GoogleFonts.getFont(

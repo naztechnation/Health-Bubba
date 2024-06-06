@@ -19,7 +19,21 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     return GestureDetector(
       onTap: _toggleCheckbox,
       child: Container(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
+          decoration: BoxDecoration(color: Colors.white,
+           borderRadius: BorderRadius.circular(6),
+           boxShadow: const [
+            BoxShadow(
+              color: Color(0xFFE5E7EB),
+              offset: Offset(0, 0),
+              blurRadius: 0,
+            ),
+            BoxShadow(
+              color: Color(0x33030712),
+              offset: Offset(0, 1),
+              blurRadius: 1,
+            ),
+          ],
+           ),
 
         child: CustomPaint(
           painter: CheckboxPainter(isChecked: _isChecked),
@@ -53,7 +67,7 @@ class CheckboxPainter extends CustomPainter {
 
      
     Paint boxPaint = Paint()
-      ..color = Colors.white
+      ..color = isChecked ? Colors.green : Colors.white
       ..style = PaintingStyle.fill;
 
     Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
@@ -63,7 +77,7 @@ class CheckboxPainter extends CustomPainter {
     if (isChecked) {
     
       Paint checkPaint = Paint()
-        ..color = Colors.black
+        ..color = Colors.white
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.0;
 
@@ -73,7 +87,7 @@ class CheckboxPainter extends CustomPainter {
         ..lineTo(size.width * 0.4, size.height * 0.7)
         ..lineTo(size.width * 0.8, size.height * 0.3);
 
-      // Draw the check mark
+      
       canvas.drawPath(path, checkPaint);
     }
   }

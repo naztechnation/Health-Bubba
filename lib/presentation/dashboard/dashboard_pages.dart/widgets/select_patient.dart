@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dart:ui';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/patient_details.dart';
-import 'package:healthbubba/utils/navigator/page_navigator.dart';
+ 
+ 
 
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/text_edit_view.dart';
-import '../widgets/patient_card.dart';
- 
+import 'patient_card.dart';
 
-class PatientPage extends StatelessWidget {
+class SelectPatient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Patient',
+          'Select Patient',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
-         
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+            child: SizedBox(
+              width: 15,
+              height: 15,
+              child: ImageView.svg(
+                AppImages.backBtn,
+                height: 15,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -30,7 +40,7 @@ class PatientPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -90,15 +100,8 @@ class PatientPage extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index){
-                            return 
-                            GestureDetector(onTap: () {
-                              AppNavigator.pushAndStackPage(context, page: PatientDetails());
-                            },
-                            child:  patientCard(context:context
-                            )
+                            return patientCard(context:context
                             );
-                            
-                           
                           }, )
                             ],
                           ),

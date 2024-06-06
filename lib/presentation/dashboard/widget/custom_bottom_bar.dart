@@ -78,7 +78,6 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedFontSize: 0,
-        elevation: 3,
         currentIndex: widget.selectedIndex,
         type: BottomNavigationBarType.fixed,
         items: [
@@ -122,7 +121,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[0].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -147,7 +146,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[1].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -169,7 +168,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[1].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -194,7 +193,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[2].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -216,7 +215,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[2].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -241,7 +240,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[3].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF6B7280),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
@@ -263,7 +262,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                     bottomMenuList[3].title ?? "",
                     style: const TextStyle(
                       color: Color(0xFF40B93C),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       fontSize: 14
                     ),
                   ),
