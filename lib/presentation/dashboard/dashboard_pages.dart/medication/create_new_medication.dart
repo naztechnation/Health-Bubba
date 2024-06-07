@@ -17,7 +17,7 @@ class CreateNewMedication extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Create New Medication',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
         leading: GestureDetector(

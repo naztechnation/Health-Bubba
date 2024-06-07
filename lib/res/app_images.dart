@@ -17,6 +17,7 @@ class AppImages {
   static const viewPatient = '${_baseUrl}view_patient.png';
   static const createPrescriptionn = '${_baseUrl}create_prescription.png';
   static const pdf = '${_baseUrl}pdf.png';
+  static const settingsBg = '${_baseUrl}settings_bg.png';
 
   
 
@@ -55,6 +56,17 @@ class AppImages {
   static const weightIcon = '${_baseUrl}weight.svg';
   static const genderIcon = '${_baseUrl}gender.svg';
   static const remove = '${_baseUrl}removed.svg';
+  static const profileDetails = '${_baseUrl}profile_details.svg';
+  static const workInfo = '${_baseUrl}work_info.svg';
+  static const paymentSettings = '${_baseUrl}payment_settings.svg';
+  static const notificationSettings = '${_baseUrl}notify_settings.svg';
+  static const getHelp = '${_baseUrl}get_help.svg';
+  static const privacyPolicy = '${_baseUrl}privacy_policy.svg';
+  static const passwordManager = '${_baseUrl}password_manager.svg';
+  static const signOut = '${_baseUrl}sign_out.svg';
+  static const card = '${_baseUrl}card.svg';
+  static const bank = '${_baseUrl}bank.svg';
+  static const phone = '${_baseUrl}phone.svg';
  
 
 

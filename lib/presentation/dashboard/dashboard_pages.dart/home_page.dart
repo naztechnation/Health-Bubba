@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/settings/settings.dart';
 import 'package:healthbubba/res/app_images.dart';
+import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
 import 'widgets/appointment_card.dart';
@@ -114,13 +117,18 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: const ImageView.asset(
-                                            AppImages.onboardingOne)),
+                                  GestureDetector(
+                                    onTap: () {
+                                      AppNavigator.pushAndStackPage(context, page: SettingsPage());
+                                    },
+                                    child: SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(50),
+                                          child: const ImageView.asset(
+                                              AppImages.onboardingOne)),
+                                    ),
                                   ),
                                 ],
                               ),
