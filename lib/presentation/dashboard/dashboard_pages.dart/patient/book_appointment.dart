@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
- 
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../model/view_model/book_appointment_viewmodel.dart';
-import '../../../../res/app_images.dart'; 
+import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
 import '../widgets/calender_widget.dart';
@@ -13,14 +13,16 @@ import '../widgets/calender_widget.dart';
 class BookAppointentPage extends StatelessWidget {
   final bool isReBookAppointment;
 
-  const BookAppointentPage({super.key, required this.isReBookAppointment}); 
+  const BookAppointentPage({super.key, required this.isReBookAppointment});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:   Center(
+        title: Center(
           child: Text(
-           isReBookAppointment ?    'Reschedule Appointment':  'Book a Time & Date',
+            isReBookAppointment
+                ? 'Reschedule Appointment'
+                : 'Book a Time & Date',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
@@ -176,10 +178,13 @@ class BookAppointentPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 20,),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               CalendarScreen(),
-                              const SizedBox(height: 10,),
-
+                              const SizedBox(
+                                height: 10,
+                              ),
                             ],
                           ),
                         ),
@@ -220,136 +225,9 @@ class BookAppointentPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                      Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 7.5, 4),
-                                          child: Text(
-                                            '5:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                  
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 7.5, 4),
-                                          child: Text(
-                                            '5:30 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                  
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8.2, 4),
-                                          child: Text(
-                                            '6:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8.2, 4),
-                                          child: Text(
-                                            '6:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15,),
-
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -381,8 +259,9 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
-                                  
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -411,8 +290,9 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
-                                  
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -441,7 +321,9 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -472,137 +354,12 @@ class BookAppointentPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 15,),
-                                 Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 7.5, 4),
-                                          child: Text(
-                                            '5:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                  
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 7.5, 4),
-                                          child: Text(
-                                            '5:30 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                  
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8.2, 4),
-                                          child: Text(
-                                            '6:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 5,),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8.2, 4),
-                                          child: Text(
-                                            '6:00 PM',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  const SizedBox(
+                                    height: 15,
                                   ),
-                                  const SizedBox(height: 15,),
-
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -634,8 +391,9 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
-                                  
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -664,8 +422,9 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
-                                  
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -694,7 +453,273 @@ class BookAppointentPage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 5,),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8.2, 4),
+                                          child: Text(
+                                            '6:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                   mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 7.5, 4),
+                                          child: Text(
+                                            '5:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 7.5, 4),
+                                          child: Text(
+                                            '5:30 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8.2, 4),
+                                          child: Text(
+                                            '6:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8.2, 4),
+                                          child: Text(
+                                            '6:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 7.5, 4),
+                                          child: Text(
+                                            '5:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 7.5, 4),
+                                          child: Text(
+                                            '5:30 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(9999),
+                                          color: const Color(0xFFFAFAFB),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: Color(0x1A2F3037),
+                                              offset: Offset(0, 0),
+                                              blurRadius: 0,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8.2, 4),
+                                          child: Text(
+                                            '6:00 PM',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -734,64 +759,65 @@ class BookAppointentPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                 
               ],
             ),
           ),
         ),
       ),
-       bottomNavigationBar:  Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                    border: Border(
-                      top:  BorderSide (
-                        color: Color(0xFFE5E7EB),
-                        width: 1,
-                      ),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x14000000),
-                        offset: Offset(0, -4),
-                        blurRadius: 8.8999996185,
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color(0xFF093126),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x33212126),
-                            offset: Offset(0, 1),
-                            blurRadius: 1.5,
-                          ),
-                          BoxShadow(
-                            color: Color(0xFF083025),
-                            offset: Offset(0, 0),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child:  ButtonView(
-                            onPressed: () {
-                             // AppNavigator.pushAndStackPage(context, page: BookAppointentPage());
-                            },
-                            borderRadius: 100,
-                            color: AppColors.lightSecondary,
-                            child:   Text(
-                            ( !isReBookAppointment) ?  'Book Appointment' : 'Confrim Rescheduling',
-                              style:const TextStyle(
-                                  color: AppColors.lightPrimary,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            )),
-                    ),
-                  ),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFFFFFFFF),
+          border: Border(
+            top: BorderSide(
+              color: Color(0xFFE5E7EB),
+              width: 1,
+            ),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(0, -4),
+              blurRadius: 8.8999996185,
+            ),
+          ],
+        ),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              color: const Color(0xFF093126),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33212126),
+                  offset: Offset(0, 1),
+                  blurRadius: 1.5,
                 ),
+                BoxShadow(
+                  color: Color(0xFF083025),
+                  offset: Offset(0, 0),
+                  blurRadius: 0,
+                ),
+              ],
+            ),
+            child: ButtonView(
+                onPressed: () {
+                  // AppNavigator.pushAndStackPage(context, page: BookAppointentPage());
+                },
+                borderRadius: 100,
+                color: AppColors.lightSecondary,
+                child: Text(
+                  (!isReBookAppointment)
+                      ? 'Book Appointment'
+                      : 'Confrim Rescheduling',
+                  style: const TextStyle(
+                      color: AppColors.lightPrimary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -807,7 +833,7 @@ class BookAppointentPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Center(
-            child:  Text(
+            child: Text(
               'Select Month and Year',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
@@ -879,14 +905,17 @@ class BookAppointentPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop(null);
               },
-              child: const Text('Cancel', style: TextStyle(color:  Colors.red)),
+              child: const Text('Cancel', style: TextStyle(color: Colors.red)),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context)
                     .pop(DateTime(selectedYear, selectedMonth));
               },
-              child: const Text('OK',style: TextStyle(color: AppColors.lightSecondary),),
+              child: const Text(
+                'OK',
+                style: TextStyle(color: AppColors.lightSecondary),
+              ),
             ),
           ],
         );

@@ -18,6 +18,9 @@ class SearchPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.03,
+              ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

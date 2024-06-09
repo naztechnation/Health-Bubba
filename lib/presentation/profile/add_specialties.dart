@@ -7,7 +7,7 @@ import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/modals.dart';
-import 'work_profile.dart';
+import 'work_information.dart';
 
 class SpecialtyListPage extends StatelessWidget {
   final List<String> specialties = [
@@ -29,7 +29,7 @@ class SpecialtyListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Add Specialties',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
         leading: GestureDetector(
@@ -76,7 +76,7 @@ class SpecialtyListPage extends StatelessWidget {
               child: Text(
                 'Save',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),

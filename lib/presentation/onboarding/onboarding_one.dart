@@ -34,12 +34,12 @@ class OnboardingOne extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.5,
+                    height: MediaQuery.sizeOf(context).height * 0.6,
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Container(
                          width: double.infinity,
-                          height: MediaQuery.sizeOf(context).height * 0.5,
+                          height: MediaQuery.sizeOf(context).height * 0.6,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           image: const DecorationImage(
@@ -117,7 +117,7 @@ class OnboardingOne extends StatelessWidget {
                                     color: const Color(0xFF093126),
                                     borderRadius: BorderRadius.circular(100),
                                   ),
-                                  child: Container(
+                                  child: const SizedBox(
                                     width: 30,
                                     height: 6,
                                   ),
@@ -149,11 +149,12 @@ class OnboardingOne extends StatelessWidget {
                     ),
                   ),
                  const SizedBox(height: 30,),
-      
+                
                  Padding(
                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                    child: Column(
                      children: [
+                        // Spacer(),
                        ButtonView(
                         
                         onPressed: (){

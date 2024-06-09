@@ -30,7 +30,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
             BoxShadow(
               color: Color(0x33030712),
               offset: Offset(0, 1),
-              blurRadius: 1,
+              blurRadius: 2,
             ),
           ],
            ),
@@ -58,8 +58,8 @@ class CheckboxPainter extends CustomPainter {
 
     // Draw the shadow (elevation)
     Paint shadowPaint = Paint()
-      ..color = Colors.black  
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+      ..color = Colors.black  ;
+     // ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
 
     Rect shadowRect = Rect.fromLTWH(4, 4, size.width - 8, size.height -  8);
     RRect shadowRRect = RRect.fromRectAndRadius(shadowRect, Radius.circular(borderRadius));

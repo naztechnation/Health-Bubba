@@ -1165,85 +1165,65 @@ class HomePage extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          SizedBox(
-                                            width: 289.1,
-                                            height: 48,
-                                            child: Container(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  0, 1, 0, 1),
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  const SizedBox(
-                                                    width: 45,
-                                                    height: 46,
-                                                    child: ImageView.asset(
-                                                        AppImages
-                                                            .scheduleAppointment),
-                                                  ),
-                                                  Positioned(
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    child: SizedBox(
-                                                      width: 228.1,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 0, 0, 8),
-                                                            child: Align(
-                                                              alignment: Alignment
-                                                                  .topLeft,
-                                                              child: Text(
-                                                                'Schedule Appointment',
-                                                                style: GoogleFonts
-                                                                    .getFont(
-                                                                  'Inter',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 14,
-                                                                  height: 1.4,
-                                                                  color: const Color(
-                                                                      0xFF0A0D14),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            bottom: 0,
-                                                            child: SizedBox(
-                                                              height: 20,
-                                                              child: Text(
-                                                                'Book appointment on behalf of a patient',
-                                                                style: GoogleFonts
-                                                                    .getFont(
-                                                                  'Inter',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontSize: 12,
-                                                                  height: 1.7,
-                                                                  color: const Color(
-                                                                      0xFF6B7280),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                          Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 1, 0, 1),
+                                            child: Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 45,
+                                                  height: 46,
+                                                  child: ImageView.asset(
+                                                      AppImages
+                                                          .scheduleAppointment),
+                                                ),
+                                                const SizedBox(width: 12,),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    Align(
+                                                      alignment: Alignment
+                                                          .topLeft,
+                                                      child: Text(
+                                                        'Schedule Appointment',
+                                                        style: GoogleFonts
+                                                            .getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                          fontSize: 14,
+                                                          height: 1.4,
+                                                          color: const Color(
+                                                              0xFF0A0D14),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                      child: Text(
+                                                        'Book appointment on behalf of a patient',
+                                                        style: GoogleFonts
+                                                            .getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                          fontSize: 12,
+                                                          height: 1.7,
+                                                          color: const Color(
+                                                              0xFF6B7280),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
                                           Container(
@@ -1290,7 +1270,7 @@ class HomePage extends StatelessWidget {
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
-                                                        .spaceBetween,
+                                                        .start,
                                                 children: [
                                                   const SizedBox(
                                                     width: 45,
@@ -1299,6 +1279,7 @@ class HomePage extends StatelessWidget {
                                                         AppImages
                                                             .createPrescriptionn),
                                                   ),
+                                                  const SizedBox(width: 12,),
                                                   SizedBox(
                                                     height: 48,
                                                     child: Column(
@@ -1308,31 +1289,26 @@ class HomePage extends StatelessWidget {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Container(
-                                                          margin: const EdgeInsets
-                                                              .fromLTRB(
-                                                              0, 0, 0, 8),
-                                                          child: Align(
-                                                            alignment:
-                                                                Alignment.topLeft,
+                                                        Align(
+                                                          alignment:
+                                                              Alignment.topLeft,
+                                                          child: SizedBox(
+                                                            height: 20,
                                                             child: SizedBox(
                                                               height: 20,
-                                                              child: SizedBox(
-                                                                height: 20,
-                                                                child: Text(
-                                                                  'Create a New Prescription',
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .getFont(
-                                                                    'Inter',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 14,
-                                                                    height: 1.4,
-                                                                    color: const Color(
-                                                                        0xFF0A0D14),
-                                                                  ),
+                                                              child: Text(
+                                                                'Create a New Prescription',
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 14,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF0A0D14),
                                                                 ),
                                                               ),
                                                             ),
@@ -1410,7 +1386,7 @@ class HomePage extends StatelessWidget {
                                                   child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .spaceBetween,
+                                                            .start,
                                                     children: [
                                                       const SizedBox(
                                                         width: 45,
@@ -1419,6 +1395,7 @@ class HomePage extends StatelessWidget {
                                                             AppImages
                                                                 .viewPatient),
                                                       ),
+                                                      const SizedBox(width: 12,),
                                                       SizedBox(
                                                         width: MediaQuery.sizeOf(
                                                                     context)
@@ -1432,31 +1409,23 @@ class HomePage extends StatelessWidget {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      0, 0, 0, 8),
-                                                              child: Align(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .topLeft,
-                                                                child: Container(
-                                                                  child: Text(
-                                                                    'View Patient Profiles',
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          14,
-                                                                      height: 1.4,
-                                                                      color: const Color(
-                                                                          0xFF0A0D14),
-                                                                    ),
-                                                                  ),
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
+                                                                'View Patient Profiles',
+                                                                style: GoogleFonts
+                                                                    .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      14,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF0A0D14),
                                                                 ),
                                                               ),
                                                             ),
@@ -1652,116 +1621,112 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 358,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: const Color(0xFFE2E4E9)),
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFF6F8FA),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x3DE4E5E7),
+                                            offset: Offset(0, 1),
+                                            blurRadius: 1,
+                                          ),
+                                        ],
+                                      ),
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: const Color(0xFFE2E4E9)),
-                                          borderRadius: BorderRadius.circular(12),
-                                          color: const Color(0xFFF6F8FA),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x3DE4E5E7),
-                                              offset: Offset(0, 1),
-                                              blurRadius: 1,
-                                            ),
-                                          ],
-                                        ),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            3, 3, 3, 3),
                                         child: Container(
-                                          width: 358,
-                                          padding: const EdgeInsets.fromLTRB(
-                                              3, 3, 3, 3),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              color: const Color(0xFFFFFFFF),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x0A000000),
-                                                  offset: Offset(0, 1),
-                                                  blurRadius: 1.5,
-                                                ),
-                                                BoxShadow(
-                                                  color: Color(0x0D2F3037),
-                                                  offset: Offset(0, 24),
-                                                  blurRadius: 34,
-                                                ),
-                                                BoxShadow(
-                                                  color: Color(0x0A222A35),
-                                                  offset: Offset(0, 4),
-                                                  blurRadius: 3,
-                                                ),
-                                                BoxShadow(
-                                                  color: Color(0x0D000000),
-                                                  offset: Offset(0, 1),
-                                                  blurRadius: 0.5,
-                                                ),
-                                              ],
-                                            ),
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        10, 16, 10, 0),
-                                                child: Stack(
-                                                  clipBehavior: Clip.none,
-                                                  children: [
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        const SizedBox(
-                                                            height: 80,
-                                                            width: 80,
-                                                            child: ImageView.svg(
-                                                                AppImages
-                                                                    .noData)),
-                                                        Container(
-                                                          margin: const EdgeInsets
-                                                              .fromLTRB(
-                                                              0, 0, 0, 15),
-                                                          child: Text(
-                                                            'No Data Available Yet. ',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w500,
-                                                              fontSize: 14,
-                                                              height: 1.7,
-                                                              color: const Color(
-                                                                  0xFF0A0D14),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Once you start using the app for consultations and prescriptions, your analytics will be displayed here',
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style:
-                                                              GoogleFonts.getFont(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: const Color(0xFFFFFFFF),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Color(0x0A000000),
+                                                offset: Offset(0, 1),
+                                                blurRadius: 1.5,
+                                              ),
+                                              BoxShadow(
+                                                color: Color(0x0D2F3037),
+                                                offset: Offset(0, 24),
+                                                blurRadius: 34,
+                                              ),
+                                              BoxShadow(
+                                                color: Color(0x0A222A35),
+                                                offset: Offset(0, 4),
+                                                blurRadius: 3,
+                                              ),
+                                              BoxShadow(
+                                                color: Color(0x0D000000),
+                                                offset: Offset(0, 1),
+                                                blurRadius: 0.5,
+                                              ),
+                                            ],
+                                          ),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      10, 16, 10, 0),
+                                              child: Stack(
+                                                clipBehavior: Clip.none,
+                                                children: [
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const SizedBox(
+                                                          height: 80,
+                                                          width: 80,
+                                                          child: ImageView.svg(
+                                                              AppImages
+                                                                  .noData)),
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .fromLTRB(
+                                                            0, 0, 0, 15),
+                                                        child: Text(
+                                                          'No Data Available Yet. ',
+                                                          style: GoogleFonts
+                                                              .getFont(
                                                             'Inter',
                                                             fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 12,
+                                                                FontWeight.w500,
+                                                            fontSize: 14,
                                                             height: 1.7,
                                                             color: const Color(
-                                                                0xFF6B7280),
+                                                                0xFF0A0D14),
                                                           ),
                                                         ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                      ),
+                                                      Text(
+                                                        'Once you start using the app for consultations and prescriptions, your analytics will be displayed here',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 12,
+                                                          height: 1.7,
+                                                          color: const Color(
+                                                              0xFF6B7280),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 30,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),

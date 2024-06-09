@@ -11,7 +11,7 @@ import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
-import 'work_profile.dart';
+import 'work_information.dart';
 
 class LanguageSelector extends StatelessWidget {
   final List<String> languages = ['Igbo', 'English', 'Hausa', 'Yoruba', 'Nigerian Pidgin'];
@@ -76,7 +76,7 @@ class LanguageSelector extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Language Spoken',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
           leading: GestureDetector(
@@ -124,7 +124,7 @@ class LanguageSelector extends StatelessWidget {
                 padding: EdgeInsets.only(right: 12.0),
                 child: Text(
                   'Save',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500,
                   
                   
                   ),

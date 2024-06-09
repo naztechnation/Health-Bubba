@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.06,
+                height: MediaQuery.sizeOf(context).height * 0.08,
               ),
               const Align(
                 child: ImageView.svg(
@@ -318,46 +318,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    child: Opacity(
-                      opacity: 0.8,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0.5, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(0, 0, 8.7, 0),
-                              child: Text(
-                                'Already have an account?',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: const Color(0xFF6B7280),
-                                ),
+                  Opacity(
+                    opacity: 0.8,
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0.5, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 8.7, 0),
+                            child: Text(
+                              'Already have an account?',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: const Color(0xFF6B7280),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                    AppNavigator.pushAndStackPage(context, page: SignInScreen());
-                                
-                              },
-                              child: Text(
-                                'Login',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: const Color(0xFF40B93C),
-                                ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                                  AppNavigator.pushAndStackPage(context, page: SignInScreen());
+                              
+                            },
+                            child: Text(
+                              'Login',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                height: 1.4,
+                                color: const Color(0xFF40B93C),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

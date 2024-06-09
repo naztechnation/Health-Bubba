@@ -16,7 +16,10 @@ class PatientPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+      backgroundColor: Colors.white,
+
         title: const Text(
           'Patient',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

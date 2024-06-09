@@ -36,7 +36,7 @@ class SignInScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.07,
+                height: MediaQuery.sizeOf(context).height * 0.08,
               ),
               const Align(
                 child: ImageView.svg(

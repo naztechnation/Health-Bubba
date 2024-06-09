@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/view_model/onboard_view_model.dart';
 import '../../model/working_hours.dart';
-import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/modals.dart';
-import 'work_profile.dart';
+import 'work_information.dart';
 
 class ScheduleWidget extends StatefulWidget {
   @override
@@ -51,7 +50,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     });
   }
 
-   bool _hasTimeSlots() {
+  bool _hasTimeSlots() {
     return _dayTimeSlots.values.any((slots) => slots.isNotEmpty);
   }
 
@@ -81,6 +80,13 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
     }
   }
 
+  String _formatTime(TimeOfDay time) {
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    final format = DateFormat.jm();  // 'jm' stands for hour and minute with AM/PM
+    return format.format(dt);
+  }
+
   List<DaySchedule> newSchedule = [];
 
   void _saveSchedule() {
@@ -97,21 +103,20 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
   }
 
   void _clearSchedule() {
-  _daySwitchState.clear();
-  _dayTimeSlots.clear();
+    _daySwitchState.clear();
+    _dayTimeSlots.clear();
 
-  List<DaySchedule> emptySchedule = _daySwitchState.keys.map((day) {
-    return DaySchedule(
-      day: day,
-      isOpen: false,
-      timeSlots: [],
-    );
-  }).toList();
+    List<DaySchedule> emptySchedule = _daySwitchState.keys.map((day) {
+      return DaySchedule(
+        day: day,
+        isOpen: false,
+        timeSlots: [],
+      );
+    }).toList();
 
-  Provider.of<OnboardViewModel>(context, listen: false)
-      .updateSchedule(emptySchedule);
-}
-
+    Provider.of<OnboardViewModel>(context, listen: false)
+        .updateSchedule(emptySchedule);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,36 +124,37 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       appBar: AppBar(
         title: const Text(
           'Add Working Hours / Availability',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         centerTitle: false,
         leading: GestureDetector(
           onTap: () {
-
-             
-
-            if(_hasTimeSlots()){
-              Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
-             primaryText: 'Discard', secondaryText: 'Save', 
-             primaryAction: (){
-               
-               _clearSchedule();
-               AppNavigator.pushAndReplacePage(context,
-                    page: const WorkInformation());
-            },primaryBgColor: const Color(0xFFF70000), secondaryAction: (){
-               _saveSchedule();
-                AppNavigator.pushAndReplacePage(context,
-                    page: const WorkInformation());
-            }),
-            
-            );
-            
-            }else{
+            if (_hasTimeSlots()) {
+              Modals.showDialogModal(
+                context,
+                page: destructiveActions(
+                  context: context,
+                  message:
+                      'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+                  primaryText: 'Discard',
+                  secondaryText: 'Save',
+                  primaryAction: () {
+                    _clearSchedule();
+                    AppNavigator.pushAndReplacePage(context,
+                        page: const WorkInformation());
+                  },
+                  primaryBgColor: const Color(0xFFF70000),
+                  secondaryAction: () {
+                    _saveSchedule();
+                    AppNavigator.pushAndReplacePage(context,
+                        page: const WorkInformation());
+                  },
+                ),
+              );
+            } else {
               AppNavigator.pushAndReplacePage(context,
-                    page: const WorkInformation());
+                  page: const WorkInformation());
             }
-            
-              
           },
           child: const Padding(
             padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
@@ -278,18 +284,25 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
                     onTap: () => _selectTime(context, day, idx, true),
                     child: Row(
                       children: [
-                        Text('${startTime.format(context)} ',
+                        Text('${_formatTime(startTime)} ',
                             style: const TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: Color(0xFF0A0D14))),
-                        const Text(' - ',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF0A0D14))),
-                        Text(' ${endTime.format(context)}',
+                      ],
+                    ),
+                  ),
+                  const Text(' - ',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF0A0D14))),
+                  GestureDetector(
+                    onTap: () => _selectTime(context, day, idx, false),
+                    child: Row(
+                      children: [
+                        Text(' ${_formatTime(endTime)}',
                             style: const TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 15,

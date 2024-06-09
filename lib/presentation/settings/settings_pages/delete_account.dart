@@ -2,6 +2,7 @@
 
 
  
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
@@ -10,6 +11,7 @@ import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
+import '../../../widgets/checkbox.dart';
 
 class DeleteAccount extends StatelessWidget {
   @override
@@ -126,6 +128,9 @@ class DeleteAccount extends StatelessWidget {
                                 ],
                               ),
                             ),
+                                Divider(
+              color: Colors.grey.shade300,
+            ),  
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 decoration: const BoxDecoration(
@@ -164,7 +169,39 @@ class DeleteAccount extends StatelessWidget {
                   ),
                 ),
               ),
-               
+              const SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:15.0),
+                child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CustomCheckbox(),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  'I would like my account to be deleted and I acknowledge that my details will be completely removed from the HealthBubba’s system after 30days.',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    height: 1.4,
+                                                    color: const Color(0xFF131316),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+              ),
+              const SizedBox(height: 30,),
+
+                Divider(
+              color: Colors.grey.shade300,
+            ),  
             ],
           ),
         ),

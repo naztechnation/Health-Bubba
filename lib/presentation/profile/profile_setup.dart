@@ -8,7 +8,7 @@ import '../../res/app_colors.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/checkbox.dart';
 import '../../widgets/text_edit_view.dart';
-import 'work_profile.dart';
+import 'work_information.dart';
 
 class ProfileSetup extends StatelessWidget {
 
@@ -29,7 +29,7 @@ class ProfileSetup extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              const SizedBox(height: 30,),
+                SizedBox( height: MediaQuery.sizeOf(context).height * 0.07,),
               
               Container(
                 padding: const EdgeInsets.fromLTRB(8, 12, 8, 11),

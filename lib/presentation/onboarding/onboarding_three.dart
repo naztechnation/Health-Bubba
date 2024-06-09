@@ -28,12 +28,12 @@ class OnboardingThree extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.5,
+                  height: MediaQuery.sizeOf(context).height * 0.6,
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Container(
                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.53,
+                        height: MediaQuery.sizeOf(context).height * 0.6,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         image: const DecorationImage(

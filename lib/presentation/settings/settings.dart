@@ -5,13 +5,18 @@ import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/help_support.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/notification_settings.dart';
+import 'package:healthbubba/presentation/settings/settings_pages/password_manager.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/privacy_policy.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../widgets/decision_widgets.dart';
+import '../../widgets/modals.dart';
+import 'settings_pages/bank_account_update.dart';
 import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
 
@@ -33,117 +38,104 @@ class SettingsPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 50),
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  AppImages.settingsBg,
-                                ),
-                              ),
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(50),
-                                bottomLeft: Radius.circular(50),
-                              ),
+                    Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          margin: const EdgeInsets.only(bottom: 50),
+                          decoration: const BoxDecoration(
+                            // image: DecorationImage(
+                            //   image: AssetImage(
+                            //     AppImages.settingsBg,
+                            //   ),
+                            // ),
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(50),
+                              bottomLeft: Radius.circular(50),
                             ),
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(16, 16, 16, 68),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 11),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 4.3, 0, 4.3),
-                                          child: SizedBox(
-                                            width: 0,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 5, 0.7),
-                                                  child: SizedBox(
-                                                    width: 17,
-                                                    height: 10.7,
-                                                    child: SvgPicture.asset(
-                                                      'assets/vectors/Unknown',
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 5, 0.3),
-                                                  child: SizedBox(
-                                                    width: 15.3,
-                                                    height: 11,
-                                                    child: SvgPicture.asset(
-                                                      'assets/vectors/Unknown',
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 24.3,
-                                                  height: 11.3,
+                          ),
+                          child: Container(
+                            padding:
+                                const EdgeInsets.fromLTRB(16, 16, 16, 68),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 11),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(
+                                            0, 4.3, 0, 4.3),
+                                        child: SizedBox(
+                                          width: 0,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                               
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 5, 0.3),
+                                                child: SizedBox(
+                                                  width: 15.3,
+                                                  height: 11,
                                                   child: SvgPicture.asset(
                                                     'assets/vectors/Unknown',
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              SizedBox(
+                                                width: 24.3,
+                                                height: 11.3,
+                                                child: SvgPicture.asset(
+                                                  'assets/vectors/Unknown',
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: ClipRect(
-                                      child: BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                          sigmaX: 20.625,
-                                          sigmaY: 20.625,
+                                ),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: ClipRect(
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 20.625,
+                                        sigmaY: 20.625,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0x0D000000),
+                                          borderRadius:
+                                              BorderRadius.circular(16.5),
                                         ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: const Color(0x0D000000),
-                                            borderRadius:
-                                                BorderRadius.circular(16.5),
-                                          ),
-                                          child: SizedBox(
-                                            width: 33,
-                                            height: 33,
-                                            child: Positioned(
-                                              left: 14,
-                                              bottom: 11,
+                                        child: SizedBox(
+                                          width: 33,
+                                          height: 33,
+                                          child: Positioned(
+                                            left: 14,
+                                            bottom: 11,
+                                            child: SizedBox(
+                                              width: 4,
+                                              height: 10,
                                               child: SizedBox(
                                                 width: 4,
                                                 height: 10,
-                                                child: SizedBox(
-                                                  width: 4,
-                                                  height: 10,
-                                                  child: SvgPicture.asset(
-                                                    'assets/vectors/Unknown',
-                                                  ),
+                                                child: SvgPicture.asset(
+                                                  'assets/vectors/Unknown',
                                                 ),
                                               ),
                                             ),
@@ -152,53 +144,53 @@ class SettingsPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                          Positioned(
-                            left: 146,
-                            top: 101,
-                            child: Container(
-                              width: 91,
-                              height: 91,
-                              padding:
-                                  const EdgeInsets.fromLTRB(4, 4.5, 4, 3.5),
-                              child: SizedBox(
-                                width: 83,
-                                height: 83,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(41.5),
-                                    image: const DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        AppImages.onboardingTwo,
-                                      ),
+                        ),
+                        Positioned(
+                          left: 160,
+                          top: 101,
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            padding:
+                                const EdgeInsets.fromLTRB(4, 4.5, 4, 3.5),
+                            child: SizedBox(
+                              width: 83,
+                              height: 83,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(41.5),
+                                  image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      AppImages.onboardingTwo,
                                     ),
                                   ),
-                                  child: const SizedBox(
-                                    width: 83,
-                                    height: 83,
-                                  ),
+                                ),
+                                child: const SizedBox(
+                                  width: 83,
+                                  height: 83,
                                 ),
                               ),
                             ),
                           ),
-                          Positioned(
-                              top: 56,
-                              left: 25,
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Icon(
-                                    Icons.arrow_back_ios,
-                                    size: 16,
-                                    color: Colors.white,
-                                  )))
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                            top: 56,
+                            left: 25,
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  size: 16,
+                                  color: Colors.white,
+                                )))
+                      ],
                     ),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 0, 0, 48),
@@ -272,10 +264,16 @@ class SettingsPage extends StatelessWidget {
                                             }),
                                         settingsDetails(
                                             title: 'Work Information',
-                                            icon: AppImages.workInfo, onTap: (){}),
+                                            icon: AppImages.workInfo, onTap: (){
+                                              AppNavigator.pushAndStackPage(context, page: const WorkInformation());
+
+                                            }),
                                         settingsDetails(
                                             title: 'Payment Settings',
-                                            icon: AppImages.paymentSettings, onTap: (){}),
+                                            icon: AppImages.paymentSettings, onTap: (){
+                                              AppNavigator.pushAndStackPage(context, page: BankAccountUpdate());
+
+                                            }),
                                       ],
                                     ),
                                   ),
@@ -362,7 +360,10 @@ class SettingsPage extends StatelessWidget {
                                         settingsDetails(
                                             title: 'Password Manager',
                                             icon: AppImages.passwordManager,
-                                              onTap: (){}
+                                              onTap: (){
+                                              AppNavigator.pushAndStackPage(context, page:   PasswordManagerPage());
+
+                                              }
                                             ),
                                       ],
                                     ),
@@ -429,7 +430,18 @@ class SettingsPage extends StatelessWidget {
                                         ),
                                         settingsDetails(
                                             title: 'Sign Out',
-                                            icon: AppImages.signOut, onTap: (){}),
+                                            icon: AppImages.signOut, onTap: (){
+                                                Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Are you sure you want to logout your account.',
+             primaryText: 'Continue', secondaryText: 'Cancel', 
+             primaryAction: (){
+               
+                
+            },primaryBgColor: const Color(0xFFF70000), secondaryAction: (){
+                
+            }),
+            
+            );
+                                            }),
                                         GestureDetector(
                                           onTap: (){
                                               AppNavigator.pushAndStackPage(context, page:   DeleteAccount());
@@ -545,18 +557,7 @@ class SettingsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Center(
-                      child: Text(
-                        'v1.0.0',
-                        style: GoogleFonts.getFont(
-                          'Inter',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          height: 1.7,
-                          color: const Color(0xFF0A0D14),
-                        ),
-                      ),
-                    ),
+                  
                   ],
                 ),
               ),
@@ -564,6 +565,30 @@ class SettingsPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar:   Container(
+                      height: 60,
+                       decoration: const BoxDecoration(
+                    color: Color(0xFFF6F8FA),
+                    border: Border(
+                      bottom: BorderSide (
+                        color: Color(0xFFE5E7EB),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                      child: Center(
+                        child: Text(
+                          'v1.0.0',
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            height: 1.7,
+                            color: const Color(0xFF0A0D14),
+                          ),
+                        ),
+                      ),
+                    ),
     );
   }
 
