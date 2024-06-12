@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../presentation/auth/forgot_password.dart';
-import '../presentation/auth/reset_password.dart';
 import '../presentation/auth/sign_in.dart';
 import '../splash_screen.dart';
 
@@ -23,7 +22,6 @@ class AppRoutes {
      forgetPassword: (context) =>   ForgotPassword(),
     // signUpScreen: (context) =>   SignUpScreen(),
      signInScreen: (context) =>   SignInScreen(),
-     resetPassword: (context) =>   ResetPassword(),
     
   };
 
@@ -43,10 +41,7 @@ class AppRoutes {
           builder: (context) =>   SignInScreen(),
         );
 
-         case resetPassword:
-        return MaterialPageRoute(
-          builder: (context) =>   ResetPassword(),
-        );
+         
       
       
        

@@ -7,7 +7,6 @@ class AppStrings {
 
    
   ///base url
-
   static const String _baseUrl = 'https://healthbubba.com/api/';
 
  
@@ -15,8 +14,14 @@ class AppStrings {
   static const String networkErrorMessage = "Network error, try again later";
   static const String errorTitle = "Error!!!";
   static const String successTitle = "Success!!!";
+
+  
   static const String registerUserUrl = "${_baseUrl}doctor/register";
-  static const String verifyOtprUrl = "${_baseUrl}verify-otp";
+  static const String verifyOtpUrl = "${_baseUrl}verify-otp";
+  static const String verifyOtpPasswordResetUrl = "${_baseUrl}verify-otp-for-password-reset";
+  static const String loginUrl = "${_baseUrl}doctor/login";
+  static const String resetPasswordUrl = "${_baseUrl}reset-password";
+  static const String initiatePasswordResetUrl = "${_baseUrl}initiate-password-reset";
 
   
 

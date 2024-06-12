@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
+  final ValueChanged<bool>? onChanged;  
+
+  const CustomCheckbox({Key? key, this.onChanged}) : super(key: key);
+
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
@@ -11,6 +15,9 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
   void _toggleCheckbox() {
     setState(() {
       _isChecked = !_isChecked;
+      if (widget.onChanged != null) {
+        widget.onChanged!(_isChecked);  
+      }
     });
   }
 
@@ -19,9 +26,10 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
     return GestureDetector(
       onTap: _toggleCheckbox,
       child: Container(
-          decoration: BoxDecoration(color: Colors.white,
-           borderRadius: BorderRadius.circular(6),
-           boxShadow: const [
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: const [
             BoxShadow(
               color: Color(0xFFE5E7EB),
               offset: Offset(0, 0),
@@ -33,8 +41,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
               blurRadius: 2,
             ),
           ],
-           ),
-
+        ),
         child: CustomPaint(
           painter: CheckboxPainter(isChecked: _isChecked),
           child: const SizedBox(
@@ -56,16 +63,12 @@ class CheckboxPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double borderRadius = 6.0;
 
-    // Draw the shadow (elevation)
-    Paint shadowPaint = Paint()
-      ..color = Colors.black  ;
-     // ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+    Paint shadowPaint = Paint()..color = Colors.black;
 
-    Rect shadowRect = Rect.fromLTWH(4, 4, size.width - 8, size.height -  8);
+    Rect shadowRect = Rect.fromLTWH(4, 4, size.width - 8, size.height - 8);
     RRect shadowRRect = RRect.fromRectAndRadius(shadowRect, Radius.circular(borderRadius));
     canvas.drawRRect(shadowRRect, shadowPaint);
 
-     
     Paint boxPaint = Paint()
       ..color = isChecked ? Colors.green : Colors.white
       ..style = PaintingStyle.fill;
@@ -75,19 +78,16 @@ class CheckboxPainter extends CustomPainter {
     canvas.drawRRect(rRect, boxPaint);
 
     if (isChecked) {
-    
       Paint checkPaint = Paint()
         ..color = Colors.white
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.0;
 
-      
       Path path = Path()
         ..moveTo(size.width * 0.2, size.height * 0.5)
         ..lineTo(size.width * 0.4, size.height * 0.7)
         ..lineTo(size.width * 0.8, size.height * 0.3);
 
-      
       canvas.drawPath(path, checkPaint);
     }
   }

@@ -64,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             subtitle: state.userData.message ?? '',
                           );
                           AppNavigator.pushAndStackPage(context,
-                              page:   VerifyCodeScreen(email: _emailController.text.trim(),));
+                              page:   VerifyCodeScreen(email: _emailController.text.trim(),isForgetPassword: false,));
                         } else {
                           if (state.userData.errors != null) {
                             ToastService().showToast(
@@ -161,6 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 TextEditView(
                                   controller: _emailController,
                                   borderColor: Colors.grey.shade200,
+                                  keyboardType: TextInputType.emailAddress,
                                   borderWidth: 0.5,
                                   validator: (value) {
                                     return Validator.validateEmail(
@@ -369,5 +370,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       }
     }
+    FocusScope.of(context).unfocus();
   }
 }

@@ -11,6 +11,7 @@ class PinCodeView extends StatelessWidget {
   final bool obscureText;
   final bool autoFocus;
   final String? label;
+  final bool activeState;
   const PinCodeView({
     required this.controller,
     this.validator,
@@ -20,7 +21,7 @@ class PinCodeView extends StatelessWidget {
     this.onCompleted,
     required this.onChanged,
     this.label,
-    Key? key}) : super(key: key);
+    Key? key, required this.activeState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +56,14 @@ class PinCodeView extends StatelessWidget {
             borderWidth: 0.1,
             fieldHeight: 65,
             fieldWidth: 65,
-            
+            errorBorderColor: Colors.red,
+            errorBorderWidth: 3,
             activeFillColor: Theme.of(context).canvasColor,
             selectedFillColor: Theme.of(context).canvasColor,
             inactiveFillColor: Colors.white.withOpacity(0.3),
             inactiveColor: Colors.grey.shade200,
-            activeColor:   Colors.green,
-            selectedColor:Colors.green 
+            activeColor: activeState ? const Color(0xFFF70000) :  Colors.green,
+            selectedColor:activeState ? const Color(0xFFF70000) :  Colors.green, 
           ),
           
           enableActiveFill: true,

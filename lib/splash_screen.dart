@@ -6,6 +6,7 @@ import '../../res/app_images.dart';
 import '../res/app_routes.dart';
 import '../utils/navigator/page_navigator.dart';
 import 'handlers/secure_handler.dart';
+import 'presentation/dashboard/dashboard.dart';
 import 'presentation/onboarding/onboard.dart';
 import 'presentation/onboarding/onboarding_one.dart';
 import 'res/app_colors.dart';
@@ -45,10 +46,11 @@ class _SplashScreenState extends State<SplashScreen>
     if (isonBoarding == '') {
       AppNavigator.pushAndStackPage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
-      //AppNavigator.pushAndStackPage(context, page: OnboardScreen());
+       
 
       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
-    } else if (userType != '') {
+    } else  {
+                          AppNavigator.pushAndStackPage(context, page: const Dashboard());
       
     }
 

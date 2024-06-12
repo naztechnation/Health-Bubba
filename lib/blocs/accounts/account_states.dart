@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:healthbubba/model/auth_model/login.dart';
+import 'package:healthbubba/model/auth_model/verify_otp.dart';
 
 import '../../model/auth_model/register.dart';
  
@@ -24,6 +26,13 @@ class AccountProcessing extends AccountStates {
   List<Object> get props => [];
 }
 
+class LoginLoaded extends AccountStates {
+  final LoginData loginData;
+  const LoginLoaded(this.loginData);
+  @override
+  List<Object> get props => [loginData];
+}
+
 class ResetPasswordLoading extends AccountStates {
   @override
   List<Object> get props => [];
@@ -35,6 +44,22 @@ class ResetPasswordLoaded extends AccountStates {
   @override
   List<Object> get props => [userData];
 }
+
+class VerifyOtpLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class VerifyOtpLoaded extends AccountStates {
+  final VerifyOtp verifyOtp;
+  const VerifyOtpLoaded(this.verifyOtp);
+  @override
+  List<Object> get props => [verifyOtp];
+}
+
+
+
+
 
 class DeletingUserLoading extends AccountStates {
   @override
@@ -66,12 +91,7 @@ class OTPResent extends AccountStates {
 }
  
 
-class AccountLoggedOut extends AccountStates {
-  final String message;
-  const AccountLoggedOut(this.message);
-  @override
-  List<Object> get props => [message];
-}
+ 
 
 class AccountNetworkErr extends AccountStates {
   final String? message;

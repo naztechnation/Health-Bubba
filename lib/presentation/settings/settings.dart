@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/auth/sign_in.dart';
 import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/help_support.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/notification_settings.dart';
@@ -14,6 +15,7 @@ import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../handlers/secure_handler.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
 import 'settings_pages/bank_account_update.dart';
@@ -55,8 +57,7 @@ class SettingsPage extends StatelessWidget {
                             ),
                           ),
                           child: Container(
-                            padding:
-                                const EdgeInsets.fromLTRB(16, 16, 16, 68),
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 68),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +82,6 @@ class SettingsPage extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                               
                                               Container(
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
@@ -155,8 +155,7 @@ class SettingsPage extends StatelessWidget {
                           child: Container(
                             width: 100,
                             height: 100,
-                            padding:
-                                const EdgeInsets.fromLTRB(4, 4.5, 4, 3.5),
+                            padding: const EdgeInsets.fromLTRB(4, 4.5, 4, 3.5),
                             child: SizedBox(
                               width: 83,
                               height: 83,
@@ -259,20 +258,28 @@ class SettingsPage extends StatelessWidget {
                                         ),
                                         settingsDetails(
                                             title: 'Profile Details',
-                                            icon: AppImages.profileDetails, onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page: PaymentDetails());
+                                            icon: AppImages.profileDetails,
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: PaymentDetails());
                                             }),
                                         settingsDetails(
                                             title: 'Work Information',
-                                            icon: AppImages.workInfo, onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page: const WorkInformation());
-
+                                            icon: AppImages.workInfo,
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page:
+                                                      const WorkInformation());
                                             }),
                                         settingsDetails(
                                             title: 'Payment Settings',
-                                            icon: AppImages.paymentSettings, onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page: BankAccountUpdate());
-
+                                            icon: AppImages.paymentSettings,
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: BankAccountUpdate());
                                             }),
                                       ],
                                     ),
@@ -339,32 +346,37 @@ class SettingsPage extends StatelessWidget {
                                         settingsDetails(
                                             title: 'Notification Settings',
                                             icon:
-                                                AppImages.notificationSettings, onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page: const NotificationSettings());
-
-                                                }),
+                                                AppImages.notificationSettings,
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page:
+                                                      const NotificationSettings());
+                                            }),
                                         settingsDetails(
                                             title: 'Get Help. Contact Support',
-                                            icon: AppImages.getHelp, onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page:   HelpSupport());
-                                              
+                                            icon: AppImages.getHelp,
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: HelpSupport());
                                             }),
                                         settingsDetails(
                                             title: 'Privacy Policy',
                                             icon: AppImages.privacyPolicy,
-                                              onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page:   PrivacyPolicy());
-
-                                              }
-                                            ),
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: PrivacyPolicy());
+                                            }),
                                         settingsDetails(
                                             title: 'Password Manager',
                                             icon: AppImages.passwordManager,
-                                              onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page:   PasswordManagerPage());
-
-                                              }
-                                            ),
+                                            onTap: () {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: PasswordManagerPage());
+                                            }),
                                       ],
                                     ),
                                   ),
@@ -422,30 +434,48 @@ class SettingsPage extends StatelessWidget {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14,
                                                 height: 1.4,
-                                                color:
-                                                    const Color(0xFF0A0D14),
+                                                color: const Color(0xFF0A0D14),
                                               ),
                                             ),
                                           ),
                                         ),
                                         settingsDetails(
                                             title: 'Sign Out',
-                                            icon: AppImages.signOut, onTap: (){
-                                                Modals.showDialogModal(context, page: destructiveActions(context: context, message: 'Are you sure you want to logout your account.',
-             primaryText: 'Continue', secondaryText: 'Cancel', 
-             primaryAction: (){
-               
-                
-            },primaryBgColor: const Color(0xFFF70000), secondaryAction: (){
-                
-            }),
-            
-            );
+                                            icon: AppImages.signOut,
+                                            onTap: () {
+                                              Modals.showDialogModal(
+                                                context,
+                                                page: destructiveActions(
+                                                    context: context,
+                                                    message:
+                                                        'Are you sure you want to logout your account.',
+                                                    primaryText: 'Continue',
+                                                    secondaryText: 'Cancel',
+                                                    primaryAction: () async {
+                                                      await StorageHandler
+                                                          .clearCache();
+                                                      StorageHandler
+                                                          .saveOnboardState(
+                                                              'true');
+
+                                                      AppNavigator
+                                                          .pushAndReplacePage(
+                                                              context,
+                                                              page:
+                                                                  SignInScreen());
+                                                    },
+                                                    primaryBgColor:
+                                                        const Color(0xFFF70000),
+                                                    secondaryAction: () {
+                                                      Navigator.pop(context);
+                                                    }),
+                                              );
                                             }),
                                         GestureDetector(
-                                          onTap: (){
-                                              AppNavigator.pushAndStackPage(context, page:   DeleteAccount());
-
+                                          onTap: () {
+                                            AppNavigator.pushAndStackPage(
+                                                context,
+                                                page: DeleteAccount());
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -476,8 +506,9 @@ class SettingsPage extends StatelessWidget {
                                               ],
                                             ),
                                             child: Container(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  13.7, 10, 22, 10),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      13.7, 10, 22, 10),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -486,9 +517,9 @@ class SettingsPage extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
-                                                    padding:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 1.7, 0, 1.7),
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        0, 1.7, 0, 1.7),
                                                     child: Row(
                                                       children: [
                                                         const SizedBox(
@@ -497,7 +528,8 @@ class SettingsPage extends StatelessWidget {
                                                           child: SizedBox(
                                                             width: 16.7,
                                                             height: 16.7,
-                                                            child: ImageView.svg(
+                                                            child:
+                                                                ImageView.svg(
                                                               AppImages.remove,
                                                               color: Colors.red,
                                                             ),
@@ -514,7 +546,8 @@ class SettingsPage extends StatelessWidget {
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight.w400,
+                                                                  FontWeight
+                                                                      .w400,
                                                               fontSize: 14,
                                                               height: 1.4,
                                                               color: const Color(
@@ -526,9 +559,8 @@ class SettingsPage extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 5, 0, 5),
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 5, 0, 5),
                                                     width: 4,
                                                     height: 10,
                                                     child: SizedBox(
@@ -537,8 +569,8 @@ class SettingsPage extends StatelessWidget {
                                                       child: Icon(
                                                         Icons.arrow_forward_ios,
                                                         size: 16,
-                                                        color:
-                                                            Colors.grey.shade300,
+                                                        color: Colors
+                                                            .grey.shade300,
                                                       ),
                                                     ),
                                                   ),
@@ -557,7 +589,6 @@ class SettingsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  
                   ],
                 ),
               ),
@@ -565,30 +596,30 @@ class SettingsPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:   Container(
-                      height: 60,
-                       decoration: const BoxDecoration(
-                    color: Color(0xFFF6F8FA),
-                    border: Border(
-                      bottom: BorderSide (
-                        color: Color(0xFFE5E7EB),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                      child: Center(
-                        child: Text(
-                          'v1.0.0',
-                          style: GoogleFonts.getFont(
-                            'Inter',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            height: 1.7,
-                            color: const Color(0xFF0A0D14),
-                          ),
-                        ),
-                      ),
-                    ),
+      bottomNavigationBar: Container(
+        height: 60,
+        decoration: const BoxDecoration(
+          color: Color(0xFFF6F8FA),
+          border: Border(
+            bottom: BorderSide(
+              color: Color(0xFFE5E7EB),
+              width: 1,
+            ),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'v1.0.0',
+            style: GoogleFonts.getFont(
+              'Inter',
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              height: 1.7,
+              color: const Color(0xFF0A0D14),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
