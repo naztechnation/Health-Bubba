@@ -12,6 +12,7 @@ import 'base_viewmodel.dart';
 class OnboardViewModel extends BaseViewModel {
  
   bool _showPassword = true;
+  bool _showConfirmPassword1 = true;
   bool _isScrollable = true;
   File? _imageURl;
 
@@ -92,8 +93,12 @@ _workBio = bio;
 
   }
 
-   showPassword() {
+  showPassword() {
     _showPassword = !_showPassword;
+    setViewState(ViewState.success);
+  }
+  showConfirmPassword() {
+    _showConfirmPassword1 = !_showConfirmPassword1;
     setViewState(ViewState.success);
   }
 
@@ -194,6 +199,7 @@ _workBio = bio;
   PageController get pageController => _pageController;
   
   bool get showPasswordStatus => _showPassword;
+  bool get showConfirmPasswordStatus => _showConfirmPassword1;
   bool get scrollable => _isScrollable;
   List<String> get selectedSpecialties => _selectedSpecialties;
 

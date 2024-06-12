@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart'; 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/presentation/auth/create_new_password.dart';
 import 'package:healthbubba/presentation/profile/profile_setup.dart';
 
 import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
-import '../../res/app_routes.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/pin_code_view.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
+  final String email;
 
 
-  const VerifyCodeScreen({super.key});
+  const VerifyCodeScreen({super.key, required this.email});
 
   @override
   State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
@@ -119,7 +118,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                   const SizedBox(width: 2,),
                                   Expanded(
                                     child: Text(
-                                      'alexanderogunyemi99@gm...',
+                                      widget.email,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,

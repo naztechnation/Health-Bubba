@@ -23,14 +23,18 @@ class RequestHandler{
                 return response.body;
 
       case 401:
+
+      case 409:
+          return response.body;
+
       case 403:
-        // throw UnauthorisedException(handleApiError(map).first.msg);
       case 404:
-        // throw FileNotFoundException(handleApiError(map).first.msg);
+                throw NetworkException('Address not found');
+
       case 422:
         // throw AlreadyRegisteredException(handleApiError(map).first.msg);
       case 500:
-        throw NetworkException('Network error');
+        throw NetworkException('Internal server error');
       default:
         throw NetworkException('Network error');
     }

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healthbubba/model/view_model/account_view_model.dart';
 import 'package:healthbubba/model/view_model/book_appointment_viewmodel.dart';
 import 'package:healthbubba/model/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => OnboardViewModel(), lazy: false),
       ChangeNotifierProvider(create: (_) => UserViewModel(), lazy: false),
+      ChangeNotifierProvider(create: (_) => AccountViewModel(), lazy: false),
       ChangeNotifierProvider(create: (_) => BookAppointmentViewModel(), lazy: false),
        
     ],
@@ -52,9 +54,7 @@ class HealthBubba extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       themeMode: ThemeMode.light,
-      theme: ThemeData(
-        fontFamily: AppStrings.satoshi,
-      ),
+       
       routes: AppRoutes.routes,
       initialRoute: AppRoutes.splashScreen,
       onGenerateRoute: AppRoutes.generateRoute,
