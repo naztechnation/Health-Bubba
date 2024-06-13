@@ -1,9 +1,7 @@
  
 import 'package:flutter/material.dart';
  
-import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/res/app_images.dart';
-import 'package:healthbubba/widgets/image_view.dart';
+ 
  
 import 'appointment_patient_card.dart';
 
@@ -23,19 +21,15 @@ class CompletedPage extends StatelessWidget {
           children: [
              
             
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                   
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
-                  ],
-                ),
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+              ],
             ),
           ],
         ),

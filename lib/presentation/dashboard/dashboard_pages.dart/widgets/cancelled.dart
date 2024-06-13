@@ -22,21 +22,17 @@ class CancelledPage extends StatelessWidget {
           children: [
              
             
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                   
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){
-                      AppNavigator.pushAndStackPage(context, page: const ReschedulePage(isSchedule: false,));
-                    },),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook',  onCancel: (){}, onAccept: (){},),
-                    AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
-                  ],
-                ),
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){
+                  AppNavigator.pushAndStackPage(context, page: const ReschedulePage(isSchedule: false,));
+                },),
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook',  onCancel: (){}, onAccept: (){},),
+                AppointmentPatientCard(isScheduled: true, isReBook: true,actionText: 'Rebook', onCancel: (){}, onAccept: (){},),
+              ],
             ),
           ],
         ),

@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/utils/navigator/page_navigator.dart';
 
 import '../../../res/app_images.dart';
+import '../../../utils/navigator/page_navigator.dart';
 import '../../../widgets/image_view.dart';
 import 'widgets/cancelled.dart';
 import 'widgets/completed_appointnment.dart';
@@ -11,25 +12,16 @@ import 'widgets/search_page.dart';
 import 'widgets/upcoming_appointments.dart';
 
 class AppointmentTabView extends StatefulWidget {
+  const AppointmentTabView({super.key});
+
   @override
-  _AppointmentTabViewState createState() => _AppointmentTabViewState();
+  State<AppointmentTabView> createState() => _AppointmentsState();
 }
 
-class _AppointmentTabViewState extends State<AppointmentTabView>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+class _AppointmentsState extends State<AppointmentTabView> {
+  bool upComing = true;
+  bool completed = false;
+  bool cancelled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,95 +68,150 @@ class _AppointmentTabViewState extends State<AppointmentTabView>
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEFF1F5),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: const BoxDecoration(
-                color: Colors.transparent,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: const Color(0xFFEFF1F5),
+                  borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        upComing = true;
+                        cancelled = false;
+                        completed = false;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      decoration: upComing
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: const Color(0xFFFFFFFF),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            )
+                          : null,
+                      child: Text('Upcoming',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+
+                              color: upComing ? Colors.black : Colors.grey)),
+                    ),
+                  ),
+                  Container(
+                    height: 20,
+                    width: 1,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFA09CAB),
+                        borderRadius: BorderRadius.circular(11)),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        upComing = false;
+                        cancelled = false;
+                        completed = true;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      decoration: completed
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: const Color(0xFFFFFFFF),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            )
+                          : null,
+                      child: Text('Completed',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+
+                              color: completed ? Colors.black : Colors.grey)),
+                    ),
+                  ),
+                  Container(
+                    height: 20,
+                    width: 1,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xFFA09CAB),
+                        borderRadius: BorderRadius.circular(11)),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        upComing = false;
+                        cancelled = true;
+                        completed = false;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
+                      decoration: cancelled
+                          ? BoxDecoration(
+                              borderRadius: BorderRadius.circular(11),
+                              color: const Color(0xFFFFFFFF),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            )
+                          : null,
+                      child: Text('Cancelled',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: cancelled ? Colors.black : Colors.grey)),
+                    ),
+                  ),
+                ],
               ),
-              labelPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-              tabs: [
-                CustomTab(
-                  text: 'Upcoming',
-                  isSelected: _tabController.index == 0,
-                ),
-                
-                CustomTab(
-                  text: 'Completed',
-                  isSelected: _tabController.index == 1,
-                ),
-                CustomTab(
-                  text: 'Cancelled',
-                  isSelected: _tabController.index == 2,
-                ),
-              ].map((tab) => Expanded(child: tab)).toList(),
-              onTap: (index) {
-                setState(() {});
-              },
             ),
           ),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          UpcomingPage(),
-          CompletedPage(),
-          CancelledPage(),
+         Expanded(
+           child: SingleChildScrollView(
+             child: Column(children: [
+               if (upComing)
+                UpcomingPage()
+              else if (completed)
+                CompletedPage()
+              else if (cancelled)
+                CancelledPage()
+             ],),
+           ),
+         )
         ],
       ),
     );
   }
 }
-
-class CustomTab extends StatelessWidget {
-  final String text;
-  final bool isSelected;
-
-  CustomTab({required this.text, required this.isSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      decoration: isSelected
-          ? BoxDecoration(
-              borderRadius: BorderRadius.circular(11),
-              color: const Color(0xFFFFFFFF),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x0D000000),
-                  offset: Offset(0, 4),
-                  blurRadius: 2,
-                ),
-              ],
-            )
-          : null,
-       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Center(
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: isSelected ? Colors.black : Colors.grey,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
- 
-
- 
-
