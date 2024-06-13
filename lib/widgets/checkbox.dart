@@ -1,17 +1,26 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 
 class CustomCheckbox extends StatefulWidget {
-  final ValueChanged<bool>? onChanged;  
+  final ValueChanged<bool>? onChanged; 
+  final Color? bgColor; 
+  final bool isChecked;
 
-  const CustomCheckbox({Key? key, this.onChanged}) : super(key: key);
+    CustomCheckbox({Key? key, 
+    required this.isChecked,
+    this.onChanged, this.bgColor = const Color.fromARGB(255, 53, 114, 55)}) : super(key: key);
 
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
 
 class _CustomCheckboxState extends State<CustomCheckbox> {
-  bool _isChecked = false;
+  late bool _isChecked;
 
+  @override
+  void initState() {
+    super.initState();
+    _isChecked = widget.isChecked;
+  }
   void _toggleCheckbox() {
     setState(() {
       _isChecked = !_isChecked;
@@ -43,7 +52,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
           ],
         ),
         child: CustomPaint(
-          painter: CheckboxPainter(isChecked: _isChecked),
+          painter: CheckboxPainter(isChecked: _isChecked, widget.bgColor!),
           child: const SizedBox(
             width: 23,
             height: 23,
@@ -56,8 +65,9 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
 
 class CheckboxPainter extends CustomPainter {
   final bool isChecked;
+  final Color bgColor;
 
-  CheckboxPainter({required this.isChecked});
+  CheckboxPainter(this.bgColor, {required this.isChecked});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -70,7 +80,7 @@ class CheckboxPainter extends CustomPainter {
     canvas.drawRRect(shadowRRect, shadowPaint);
 
     Paint boxPaint = Paint()
-      ..color = isChecked ? Colors.green : Colors.white
+      ..color = isChecked ? bgColor : Colors.white
       ..style = PaintingStyle.fill;
 
     Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);

@@ -68,6 +68,8 @@ class AppImages {
   static const bank = '${_baseUrl}bank.svg';
   static const phone = '${_baseUrl}phone.svg';
   static const bg = '${_baseUrl}bg.svg';
+  static const gallery = '${_baseUrl}gallery.svg';
+  static const photo = '${_baseUrl}photo.svg';
  
 
 

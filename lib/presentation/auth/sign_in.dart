@@ -338,7 +338,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            CustomCheckbox(onChanged: (value){
+                                                            CustomCheckbox(
+                                                              isChecked: _checkboxState,
+                                                              onChanged: (value){
                                                               _handleCheckboxChanged(value);
 
                                                             if (_checkboxState) {

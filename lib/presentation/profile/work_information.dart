@@ -50,7 +50,6 @@ class WorkInformation extends StatelessWidget {
         ),
       ),
       body: Container(
-        
         decoration: BoxDecoration(
           color: const Color(0xFFFFFFFF),
           borderRadius: BorderRadius.circular(16),
@@ -60,18 +59,19 @@ class WorkInformation extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-               
-                 
-                Text(
-                              'Provide more details about you and the services you offer',
-                              style: GoogleFonts.getFont(
-                                'Inter',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 13,
-                                height: 1.7,
-                                color: const Color(0xFF6B7280),
-                              ),
-                            ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 17.0),
+                  child: Text(
+                    'Provide more details about you and the services you offer',
+                    style: GoogleFonts.getFont(
+                      'Inter',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13,
+                      height: 1.7,
+                      color: const Color(0xFF6B7280),
+                    ),
+                  ),
+                ),
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -101,6 +101,28 @@ class WorkInformation extends StatelessWidget {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Color(0xFFFFFFFF),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 1.5,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D2F3037),
+                                  offset: Offset(0, 24),
+                                  blurRadius: 34,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0A222A35),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 3,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 0.5,
+                                ),
+                              ],
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -112,9 +134,31 @@ class WorkInformation extends StatelessWidget {
                                       6.5, 6.5, 7.5, 7.5),
                                   margin:
                                       const EdgeInsets.fromLTRB(9, 0, 8.4, 0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(11.5),
-                                    color: const Color(0xFFFFFFFF),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFFFFFFF),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0x0A000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 1.5,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0D2F3037),
+                                        offset: Offset(0, 24),
+                                        blurRadius: 34,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0A222A35),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 3,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0D000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 0.5,
+                                      ),
+                                    ],
                                   ),
                                   child: const SizedBox(
                                     width: 9,
@@ -175,12 +219,33 @@ class WorkInformation extends StatelessWidget {
                                     height: 25,
                                     padding: const EdgeInsets.fromLTRB(
                                         6.5, 6.5, 7.5, 7.5),
-                                    margin: const EdgeInsets.fromLTRB(
-                                        9, 0, 8.4, 0),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(11.5),
-                                      color: const Color(0xFFFFFFFF),
+                                    margin:
+                                        const EdgeInsets.fromLTRB(9, 0, 8.4, 0),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFFFFFFF),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0x0A000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 1.5,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D2F3037),
+                                          offset: Offset(0, 24),
+                                          blurRadius: 34,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0A222A35),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 3,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 0.5,
+                                        ),
+                                      ],
                                     ),
                                     child: const SizedBox(
                                       width: 9,
@@ -239,16 +304,47 @@ class WorkInformation extends StatelessWidget {
                                   Modals.showBottomSheetModal(context,
                                       isDissmissible: true,
                                       heightFactor: 0.67,
-                                      // isScrollControlled: onboard.scrollable,
                                       isScrollControlled: true,
                                       page: BioWidget(contex: context));
                                 },
-                                child: const Padding(
-                                  padding: EdgeInsets.only(top: 18.0),
-                                  child: SizedBox(
-                                    width: 15,
-                                    height: 15,
-                                    child: ImageView.svg(AppImages.edit),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 18.0),
+                                  child: Container(
+                                    width: 31.5,
+                                    height: 31.5,
+                                    padding: const EdgeInsets.fromLTRB(
+                                        6.5, 6.5, 7.5, 7.5),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFFFFFFF),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0x0A000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 1.5,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D2F3037),
+                                          offset: Offset(0, 24),
+                                          blurRadius: 34,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0A222A35),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 3,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 0.5,
+                                        ),
+                                      ],
+                                    ),
+                                    child: const SizedBox(
+                                      width: 7,
+                                      height: 7,
+                                      child: ImageView.svg(AppImages.edit),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -269,24 +365,22 @@ class WorkInformation extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                           child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
+                             Padding(
                                     padding: EdgeInsets.only(
-                                        top: (onboard.schedule.isEmpty) ? 2 : 20),
+                                        top: (onboard.schedule.isEmpty)
+                                            ? 2
+                                            : 20),
                                     child: const ImageView.svg(AppImages.clock),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  SizedBox(
-                                      width: 300,
-                                      child: (onboard.schedule.isEmpty)
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                flex: 8,
+                                child: (onboard.schedule.isEmpty)
                                           ? Text(
                                               'Working hours or availabiilty',
                                               overflow: TextOverflow.ellipsis,
@@ -300,8 +394,8 @@ class WorkInformation extends StatelessWidget {
                                               ),
                                             )
                                           : Consumer<OnboardViewModel>(
-                                              builder: (context, scheduleProvider,
-                                                  child) {
+                                              builder: (context,
+                                                  scheduleProvider, child) {
                                                 final schedule =
                                                     scheduleProvider.schedule;
                                                 return ListView.builder(
@@ -309,10 +403,11 @@ class WorkInformation extends StatelessWidget {
                                                   shrinkWrap: true,
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
-                                                  itemBuilder: (context, index) {
+                                                  itemBuilder:
+                                                      (context, index) {
                                                     final daySchedule =
                                                         schedule[index];
-                                    
+
                                                     return ListTile(
                                                       title: Text(
                                                         daySchedule.day,
@@ -345,12 +440,14 @@ class WorkInformation extends StatelessWidget {
                                                                     slot[
                                                                         'start']!;
                                                                 final end =
-                                                                    slot['end']!;
+                                                                    slot[
+                                                                        'end']!;
                                                                 return Text(
                                                                   '${start.format(context)} - ${end.format(context)}',
                                                                   style:
                                                                       const TextStyle(
-                                                                    fontSize: 13,
+                                                                    fontSize:
+                                                                        13,
                                                                     color: Color(
                                                                         0xFF0A0D14),
                                                                     fontWeight:
@@ -376,32 +473,61 @@ class WorkInformation extends StatelessWidget {
                                                 );
                                               },
                                             )),
-                                 
-                                ],
-                              ),
-                               GestureDetector(
-                                    onTap: () {
-                                      AppNavigator.pushAndStackPage(context,
-                                          page: ScheduleWidget());
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          right: 8.0,
-                                          top: (onboard.schedule.isEmpty)
-                                              ? 2
-                                              : 20),
-                                      child: const SizedBox(
-                                        width: 15,
-                                        height: 15,
-                                        child: ImageView.svg(AppImages.edit),
+                              
+                              GestureDetector(
+                                onTap: () {
+                        AppNavigator.pushAndStackPage(context,
+                            page: ScheduleWidget());
+                      },
+                                child: Container(
+                                  width: 31.5,
+                                  height: 31.5,
+                                  padding: const EdgeInsets.fromLTRB(
+                                      6.5, 6.5, 7.5, 7.5),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFFFFFFF),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0x0A000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 1.5,
                                       ),
-                                    ),
+                                      BoxShadow(
+                                        color: Color(0x0D2F3037),
+                                        offset: Offset(0, 24),
+                                        blurRadius: 34,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0A222A35),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 3,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0D000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 0.5,
+                                      ),
+                                    ],
                                   ),
+                                  child: const SizedBox(
+                                    width: 7,
+                                    height: 7,
+                                    child: ImageView.svg(AppImages.edit),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              )
                             ],
                           ),
                         ),
                       ),
                     ),
+                    
+                     
+                    
                     SizedBox(
                       width: double.infinity,
                       child: Container(
@@ -442,9 +568,8 @@ class WorkInformation extends StatelessWidget {
                                                           .length -
                                                       1;
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        right: 8.0),
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
                                                 child: Text(
                                                   '$language${isLast ? '' : ', '}',
                                                   overflow:
@@ -462,13 +587,45 @@ class WorkInformation extends StatelessWidget {
                                 AppNavigator.pushAndStackPage(context,
                                     page: LanguageSelector());
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: SizedBox(
-                                  width: 15,
-                                  height: 15,
-                                  child: ImageView.svg(AppImages.edit),
-                                ),
+                              child:   Padding(
+                                padding:const EdgeInsets.only(right: 8.0),
+                                child:Container(
+                                    width: 31.5,
+                                    height: 31.5,
+                                    padding: const EdgeInsets.fromLTRB(
+                                        6.5, 6.5, 7.5, 7.5),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFFFFFFF),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0x0A000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 1.5,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D2F3037),
+                                          offset: Offset(0, 24),
+                                          blurRadius: 34,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0A222A35),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 3,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 0.5,
+                                        ),
+                                      ],
+                                    ),
+                                    child: const SizedBox(
+                                      width: 7,
+                                      height: 7,
+                                      child: ImageView.svg(AppImages.edit),
+                                    ),
+                                  ),
                               ),
                             ),
                           ],
@@ -486,8 +643,7 @@ class WorkInformation extends StatelessWidget {
                             Container(
                               margin:
                                   const EdgeInsets.fromLTRB(0, 2.5, 12.2, 0),
-                              child:
-                                  const ImageView.svg(AppImages.specialties),
+                              child: const ImageView.svg(AppImages.specialties),
                             ),
                             Expanded(
                               child: (onboard.selectedSpecialties.isEmpty)
@@ -507,8 +663,7 @@ class WorkInformation extends StatelessWidget {
                                       builder: (context, provider, child) {
                                         return Wrap(
                                           children: List<Widget>.generate(
-                                            provider
-                                                .selectedSpecialties.length,
+                                            provider.selectedSpecialties.length,
                                             (index) {
                                               final specialties = provider
                                                   .selectedSpecialties[index];
@@ -517,9 +672,8 @@ class WorkInformation extends StatelessWidget {
                                                           .length -
                                                       1;
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        right: 8.0),
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
                                                 child: Text(
                                                   '$specialties${isLast ? '' : ', '}',
                                                   overflow:
@@ -537,13 +691,45 @@ class WorkInformation extends StatelessWidget {
                                 AppNavigator.pushAndStackPage(context,
                                     page: SpecialtyListPage());
                               },
-                              child: const Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: SizedBox(
-                                  width: 15,
-                                  height: 15,
-                                  child: ImageView.svg(AppImages.edit),
-                                ),
+                              child:  Padding(
+                                padding:const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                    width: 31.5,
+                                    height: 31.5,
+                                    padding: const EdgeInsets.fromLTRB(
+                                        6.5, 6.5, 7.5, 7.5),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFFFFFFF),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0x0A000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 1.5,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D2F3037),
+                                          offset: Offset(0, 24),
+                                          blurRadius: 34,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0A222A35),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 3,
+                                        ),
+                                        BoxShadow(
+                                          color: Color(0x0D000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 0.5,
+                                        ),
+                                      ],
+                                    ),
+                                    child: const SizedBox(
+                                      width: 7,
+                                      height: 7,
+                                      child: ImageView.svg(AppImages.edit),
+                                    ),
+                                  ),
                               ),
                             ),
                           ],
@@ -563,10 +749,10 @@ class WorkInformation extends StatelessWidget {
                           onPressed: () {
                             ToastService().showToast(
                               context,
-                              leadingIcon:
-                                  const ImageView.svg(AppImages.tick),
+                              leadingIcon: const ImageView.svg(AppImages.tick),
                               title: 'Info',
-                              subtitle: 'This is a custom toast message This is a custom toast messageThis is a custom toast message.',
+                              subtitle:
+                                  'This is a custom toast message This is a custom toast messageThis is a custom toast message.',
                             );
                           },
                           borderRadius: 100,
@@ -594,8 +780,8 @@ class WorkInformation extends StatelessWidget {
                                   100,
                                 ),
                                 color: AppColors.lightPrimary,
-                                border: Border.all(
-                                    color: Colors.grey, width: 0.5)),
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.5)),
                             child: const Center(
                               child: Text(
                                 'Skip to dashboard',

@@ -43,11 +43,11 @@ class _DashboardState extends State<Dashboard> {
     Widget _buildPage(int index) {
     switch (index) {
       case 0:
-        return   HomePage();
+        return   const HomePage();
       case 1:
         return   PatientPage();
       case 2:
-        return   AppointmentTabView();
+        return   const AppointmentTabView();
       case 3:
         return   MedicationPage();
       default:

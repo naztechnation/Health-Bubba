@@ -86,6 +86,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 6,),
                 ImageView.svg(
                     bottomMenuList[0].icon,
                   height: 20,

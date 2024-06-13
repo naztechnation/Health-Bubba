@@ -178,7 +178,8 @@ class DeleteAccount extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              CustomCheckbox(),
+                                                                                                CustomCheckbox(isChecked: true,),
+
                                               const SizedBox(
                                                 width: 10,
                                               ),

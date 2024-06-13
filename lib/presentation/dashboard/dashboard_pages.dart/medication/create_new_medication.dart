@@ -88,14 +88,28 @@ class CreateNewMedication extends StatelessWidget {
                                   vertical: 0, horizontal: 0),
                               child: TextEditView(
                                 controller: TextEditingController(),
-                                prefixIcon: const Padding(
-                                  padding: EdgeInsets.all(12.0),
-                                  child: ImageView.svg(
-                                    AppImages.searchIcon,
-                                    height: 12,
-                                  ),
-                                ),
+                                prefixIcon:SizedBox(
+                  width: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(width: 0,),
+                      const ImageView.svg(AppImages.searchIcon, height: 19,),
+                      Container(
+                    height: 20,
+                    width: 1,
+                     
+                    decoration: BoxDecoration(
+                        color: const Color(0xFF000000),
+                        borderRadius: BorderRadius.circular(11)),
+                  ),
+                  const SizedBox(width: 0,),
+                    ],
+                  ),
+                ),
                                 hintText: 'Search Medications',
+                                
                               ),
                             ),
                             const SizedBox(
@@ -516,7 +530,7 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                  CustomCheckbox(isChecked: true,),
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -547,7 +561,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                   CustomCheckbox(isChecked: true,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -578,7 +593,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                    CustomCheckbox(isChecked: false,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -609,7 +625,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                    CustomCheckbox(isChecked: false,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -640,7 +657,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                    CustomCheckbox(isChecked: false,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -671,7 +689,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                    CustomCheckbox(isChecked: true,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),
@@ -702,7 +721,8 @@ class CreateNewMedication extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  CustomCheckbox(),
+                                                                                                    CustomCheckbox(isChecked: true,),
+
                                                   const SizedBox(
                                                     width: 12,
                                                   ),

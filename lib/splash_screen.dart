@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:healthbubba/presentation/profile/profile_setup.dart';
 
 import '../../res/app_images.dart';
 import '../res/app_routes.dart';
@@ -48,11 +49,10 @@ class _SplashScreenState extends State<SplashScreen>
     } else if (userLoggedIn == '') {
        
 
-      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
     } else  {
-      AppNavigator.pushAndStackPage(context, page: OnboardScreen());
-
-                       //   AppNavigator.pushAndStackPage(context, page: const Dashboard());
+     
+                           AppNavigator.pushAndStackPage(context, page: const Dashboard());
       
     }
 

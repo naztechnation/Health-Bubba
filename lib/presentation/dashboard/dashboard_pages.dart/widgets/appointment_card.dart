@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../../../widgets/choice_widget.dart';
+
 appointmentCard(){
   return Container(
                     decoration: const BoxDecoration(
@@ -56,7 +58,7 @@ appointmentCard(){
                                           color: const Color(0xFF0A0D14),
                                         ),
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width: 73.6,
                                         height: 20,
                                         child: Positioned(
@@ -145,7 +147,7 @@ appointmentCard(){
                                                                 ),
                                                               ],
                                                             ),
-                                                            child: Container(
+                                                            child: const SizedBox(
                                                               width: 17.9,
                                                               height: 17.9,
                                                             ),
@@ -170,7 +172,7 @@ appointmentCard(){
                                                                   ),
                                                                 ],
                                                               ),
-                                                              child: Container(
+                                                              child: const SizedBox(
                                                                 width: 45.4,
                                                                 height: 45.4,
                                                               ),
@@ -411,8 +413,25 @@ appointmentCard(){
                   );
 }
 
-analyticsData(){
-  return Container(
+class AnalyticsData extends StatefulWidget {
+  const AnalyticsData({super.key});
+
+  @override
+  State<AnalyticsData> createState() => _AnalyticsDataState();
+}
+
+class _AnalyticsDataState extends State<AnalyticsData> {
+
+  String _selectedDay = "1 Day";
+
+  void _handleDaySelected(String selectedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
                     decoration:const BoxDecoration(
                       color:  Color(0xFFFFFFFF),
                       border: Border(
@@ -447,273 +466,35 @@ analyticsData(){
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                               ChoiceSelector(
+                                      days: const ["1 Day", "7 Days", "30 Days"],
+                                      onSelected: _handleDaySelected,
+                                    ),
+                                const SizedBox(height: 15,),   
                               Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(8, 4, 7.9, 4),
-                                          child: Text(
-                                            '1 day',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(9999),
-                                          color: const Color(0xFFFAFAFB),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x1A2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(8, 4, 7.7, 4),
-                                          child: Text(
-                                            '7days',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF5E5F6E),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(9999),
-                                          color: const Color(0xFF2F3037),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x4D2F3037),
-                                              offset: Offset(0, 2),
-                                              blurRadius: 2,
-                                            ),
-                                            BoxShadow(
-                                              color: Color(0xFF2F3037),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(8, 4, 8.9, 4),
-                                          child: Text(
-                                            '30days',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFFFFFFFF),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(0xFFE2E4E9)),
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: const Color(0xFFF6F8FA),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x3DE4E5E7),
+                                      offset: Offset(0, 1),
+                                      blurRadius: 1,
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Container(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xFFE2E4E9)),
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFF6F8FA),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3DE4E5E7),
-                                        offset: Offset(0, 1),
-                                        blurRadius: 1,
-                                      ),
-                                    ],
-                                  ),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: Container(
-                                      padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      color: const Color(0xFFFFFFFF),
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                          color: Color(0x0A000000),
-                                                          offset: Offset(0, 1),
-                                                          blurRadius: 1.5,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0D2F3037),
-                                                          offset: Offset(0, 24),
-                                                          blurRadius: 34,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0A222A35),
-                                                          offset: Offset(0, 4),
-                                                          blurRadius: 3,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0D000000),
-                                                          offset: Offset(0, 1),
-                                                          blurRadius: 0.5,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Container(
-                                                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                                            child: Align(
-                                                              alignment: Alignment.topLeft,
-                                                              child: Text(
-                                                                'Total Consultations',
-                                                                style: GoogleFonts.getFont(
-                                                                  'Inter',
-                                                                  fontWeight: FontWeight.w400,
-                                                                  fontSize: 12,
-                                                                  height: 1.6,
-                                                                  color: const Color(0xFF6B7280),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment.topLeft,
-                                                            child: Container(
-                                                              child: Text(
-                                                                '50',
-                                                                style: GoogleFonts.getFont(
-                                                                  'Inter',
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 16,
-                                                                  height: 1.5,
-                                                                  letterSpacing: -0.2,
-                                                                  color: const Color(0xFF0A0D14),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      color: const Color(0xFFFFFFFF),
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                          color: Color(0x0A000000),
-                                                          offset: Offset(0, 1),
-                                                          blurRadius: 1.5,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0D2F3037),
-                                                          offset: Offset(0, 24),
-                                                          blurRadius: 34,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0A222A35),
-                                                          offset: Offset(0, 4),
-                                                          blurRadius: 3,
-                                                        ),
-                                                        BoxShadow(
-                                                          color: Color(0x0D000000),
-                                                          offset: Offset(0, 1),
-                                                          blurRadius: 0.5,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(8, 8, 17.1, 8),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Container(
-                                                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                                            child: Text(
-                                                              'Total Prescriptions Issued',
-                                                              style: GoogleFonts.getFont(
-                                                                'Inter',
-                                                                fontWeight: FontWeight.w400,
-                                                                fontSize: 12,
-                                                                height: 1.6,
-                                                                color: const Color(0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Align(
-                                                            alignment: Alignment.topLeft,
-                                                            child: Container(
-                                                              child: Text(
-                                                                '456',
-                                                                style: GoogleFonts.getFont(
-                                                                  'Inter',
-                                                                  fontWeight: FontWeight.w500,
-                                                                  fontSize: 16,
-                                                                  height: 1.5,
-                                                                  letterSpacing: -0.2,
-                                                                  color: const Color(0xFF0A0D14),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Row(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Container(
+                                    padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                          child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -757,7 +538,7 @@ analyticsData(){
                                                           child: Align(
                                                             alignment: Alignment.topLeft,
                                                             child: Text(
-                                                              'Total Revenue',
+                                                              'Total Consultations',
                                                               style: GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight: FontWeight.w400,
@@ -772,7 +553,7 @@ analyticsData(){
                                                           alignment: Alignment.topLeft,
                                                           child: Container(
                                                             child: Text(
-                                                              '₦ 556,789',
+                                                              '50',
                                                               style: GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight: FontWeight.w500,
@@ -818,24 +599,21 @@ analyticsData(){
                                                     ],
                                                   ),
                                                   child: Container(
-                                                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                                                    padding: const EdgeInsets.fromLTRB(8, 8, 17.1, 8),
                                                     child: Column(
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
                                                           margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                                          child: Align(
-                                                            alignment: Alignment.topLeft,
-                                                            child: Text(
-                                                              'Patient Demographic',
-                                                              style: GoogleFonts.getFont(
-                                                                'Inter',
-                                                                fontWeight: FontWeight.w400,
-                                                                fontSize: 12,
-                                                                height: 1.6,
-                                                                color: const Color(0xFF6B7280),
-                                                              ),
+                                                          child: Text(
+                                                            'Total Prescriptions Issued',
+                                                            style: GoogleFonts.getFont(
+                                                              'Inter',
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: 12,
+                                                              height: 1.6,
+                                                              color: const Color(0xFF6B7280),
                                                             ),
                                                           ),
                                                         ),
@@ -843,7 +621,7 @@ analyticsData(){
                                                           alignment: Alignment.topLeft,
                                                           child: Container(
                                                             child: Text(
-                                                              'M/F - 60/63',
+                                                              '456',
                                                               style: GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight: FontWeight.w500,
@@ -862,8 +640,157 @@ analyticsData(){
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  color: const Color(0xFFFFFFFF),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Color(0x0A000000),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 1.5,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0D2F3037),
+                                                      offset: Offset(0, 24),
+                                                      blurRadius: 34,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0A222A35),
+                                                      offset: Offset(0, 4),
+                                                      blurRadius: 3,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0D000000),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 0.5,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Container(
+                                                  padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                                        child: Align(
+                                                          alignment: Alignment.topLeft,
+                                                          child: Text(
+                                                            'Total Revenue',
+                                                            style: GoogleFonts.getFont(
+                                                              'Inter',
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: 12,
+                                                              height: 1.6,
+                                                              color: const Color(0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Container(
+                                                          child: Text(
+                                                            '₦ 556,789',
+                                                            style: GoogleFonts.getFont(
+                                                              'Inter',
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 16,
+                                                              height: 1.5,
+                                                              letterSpacing: -0.2,
+                                                              color: const Color(0xFF0A0D14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(12),
+                                                  color: const Color(0xFFFFFFFF),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Color(0x0A000000),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 1.5,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0D2F3037),
+                                                      offset: Offset(0, 24),
+                                                      blurRadius: 34,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0A222A35),
+                                                      offset: Offset(0, 4),
+                                                      blurRadius: 3,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x0D000000),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 0.5,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Container(
+                                                  padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                                        child: Align(
+                                                          alignment: Alignment.topLeft,
+                                                          child: Text(
+                                                            'Patient Demographic',
+                                                            style: GoogleFonts.getFont(
+                                                              'Inter',
+                                                              fontWeight: FontWeight.w400,
+                                                              fontSize: 12,
+                                                              height: 1.6,
+                                                              color: const Color(0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Container(
+                                                          child: Text(
+                                                            'M/F - 60/63',
+                                                            style: GoogleFonts.getFont(
+                                                              'Inter',
+                                                              fontWeight: FontWeight.w500,
+                                                              fontSize: 16,
+                                                              height: 1.5,
+                                                              letterSpacing: -0.2,
+                                                              color: const Color(0xFF0A0D14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -874,4 +801,7 @@ analyticsData(){
                       ),
                     ),
                   );
+  }
 }
+
+ 
