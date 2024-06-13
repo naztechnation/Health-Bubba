@@ -34,7 +34,7 @@ class OnboardingTwo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.6,
+                  height: MediaQuery.sizeOf(context).height * 0.5,
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     decoration: BoxDecoration(
@@ -43,7 +43,7 @@ class OnboardingTwo extends StatelessWidget {
                       ),
                     child: Container(
                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height * 0.6,
+                        height: MediaQuery.sizeOf(context).height * 0.5,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         image: const DecorationImage(
@@ -60,7 +60,7 @@ class OnboardingTwo extends StatelessWidget {
                const SizedBox(height: 30,),
 
                 Container(
-                  margin: const EdgeInsets.fromLTRB(1, 0, 0, 6),
+                  margin: const EdgeInsets.fromLTRB(1, 30, 0, 6),
                   child: SizedBox(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

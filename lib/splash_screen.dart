@@ -50,7 +50,9 @@ class _SplashScreenState extends State<SplashScreen>
 
       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
     } else  {
-                          AppNavigator.pushAndStackPage(context, page: const Dashboard());
+      AppNavigator.pushAndStackPage(context, page: OnboardScreen());
+
+                       //   AppNavigator.pushAndStackPage(context, page: const Dashboard());
       
     }
 
