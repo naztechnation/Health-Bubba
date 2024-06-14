@@ -47,13 +47,9 @@ class _SplashScreenState extends State<SplashScreen>
     if (isonBoarding == '') {
       AppNavigator.pushAndStackPage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
-       
-
-       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
-    } else  {
-     
-                           AppNavigator.pushAndStackPage(context, page: const Dashboard());
-      
+      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+    } else {
+      AppNavigator.pushAndStackPage(context, page: const Dashboard());
     }
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -84,16 +80,13 @@ class _SplashScreenState extends State<SplashScreen>
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-         
-
           Align(
-            child: ImageView.svg(AppImages.appLogo1,
-                      fit: BoxFit.fitWidth,
-                      height: 44.63,
-                      ),
+            child: ImageView.svg(
+              AppImages.appLogo1,
+              fit: BoxFit.fitWidth,
+              height: 44.63,
+            ),
           ),
-          
-          
         ],
       ),
     );

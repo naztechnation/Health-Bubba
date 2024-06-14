@@ -1,26 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/patient_details.dart';
-import 'package:healthbubba/utils/navigator/page_navigator.dart';
+import 'package:flutter/material.dart'; 
 import 'package:healthbubba/widgets/text_edit_view.dart';
 
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
-import '../widgets/patient_card.dart';
 import 'appointment_patient_card.dart';
 
 class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+      body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.03,
-              ),
+             
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

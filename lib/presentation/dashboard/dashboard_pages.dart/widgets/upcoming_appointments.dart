@@ -74,20 +74,17 @@ class UpcomingPage extends StatelessWidget {
                                   children: [
                                     SizedBox(
                                       height: 20,
-                                      child: Positioned(
-                                        bottom: 0,
-                                        child: SizedBox(
-                                          height: 20,
-                                          child: Text(
-                                            'Nov 19, 2023 - 1:30pm',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color:
-                                                  const Color(0xFF0A0D14),
-                                            ),
+                                      child: SizedBox(
+                                        height: 20,
+                                        child: Text(
+                                          'Nov 19, 2023 - 1:30pm',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color:
+                                                const Color(0xFF0A0D14),
                                           ),
                                         ),
                                       ),
@@ -146,131 +143,122 @@ class UpcomingPage extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        width: 208.9,
-                                        child: Container(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(
-                                                  0, 2.5, 0, 2.5),
-                                          child: Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        50),
-                                                child: const SizedBox(
-                                                  width: 53.8,
-                                                  height: 55,
-                                                  child: ImageView.asset(
-                                                    AppImages.onboardingTwo,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                      Container(
+                                        padding:
+                                            const EdgeInsets.fromLTRB(
+                                                0, 2.5, 0, 2.5),
+                                        child: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      50),
+                                              child: const SizedBox(
+                                                width: 53.8,
+                                                height: 55,
+                                                child: ImageView.asset(
+                                                  AppImages.onboardingTwo,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              Positioned(
-                                                right: 0,
-                                                bottom: 0,
-                                                child: SizedBox(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                            ),
+                                            const SizedBox(width: 12,),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment
+                                                      .topLeft,
+                                                  child: Text(
+                                                    'Video Consultation',
+                                                    style: GoogleFonts
+                                                        .getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                      fontSize: 12,
+                                                      height: 1.7,
+                                                      color: const Color(
+                                                          0xFF6B7280),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment
+                                                      .topLeft,
+                                                  child: Text(
+                                                    'Ayoola Feranmi',
+                                                    style: GoogleFonts
+                                                        .getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF0A0D14),
+                                                    ),
+                                                  ),
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    style: GoogleFonts
+                                                        .getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .w400,
+                                                      fontSize: 12,
+                                                      height: 1.7,
+                                                      color: const Color(
+                                                          0xFF6B7280),
+                                                    ),
                                                     children: [
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .topLeft,
-                                                        child: Text(
-                                                          'Video Consultation',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                            fontSize: 12,
-                                                            height: 1.7,
-                                                            color: const Color(
-                                                                0xFF6B7280),
-                                                          ),
+                                                      TextSpan(
+                                                        text:
+                                                            'Today, 2:30pm',
+                                                        style: GoogleFonts
+                                                            .getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                          fontSize:
+                                                              12,
+                                                          height: 1.3,
+                                                          color: const Color(
+                                                              0xFF6C7079),
                                                         ),
                                                       ),
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .topLeft,
-                                                        child: Text(
-                                                          'Ayoola Feranmi',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500,
-                                                            fontSize: 14,
-                                                            height: 1.4,
-                                                            color: const Color(
-                                                                0xFF0A0D14),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      RichText(
-                                                        text: TextSpan(
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400,
-                                                            fontSize: 12,
-                                                            height: 1.7,
-                                                            color: const Color(
-                                                                0xFF6B7280),
-                                                          ),
-                                                          children: [
-                                                            TextSpan(
-                                                              text:
-                                                                  'Today, 2:30pm',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize:
-                                                                    12,
-                                                                height: 1.3,
-                                                                color: const Color(
-                                                                    0xFF6C7079),
-                                                              ),
-                                                            ),
-                                                            TextSpan(
-                                                              text:
-                                                                  ' (30mins)',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize:
-                                                                    12,
-                                                                height: 1.7,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                      TextSpan(
+                                                        text:
+                                                            ' (30mins)',
+                                                        style: GoogleFonts
+                                                            .getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                          fontSize:
+                                                              12,
+                                                          height: 1.7,
+                                                          color: const Color(
+                                                              0xFF6B7280),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       Container(

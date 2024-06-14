@@ -29,6 +29,7 @@ class _ChoiceSelectorState extends State<ChoiceSelector> {
   Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
+      padding: const EdgeInsets.only(top: 0),
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,  
