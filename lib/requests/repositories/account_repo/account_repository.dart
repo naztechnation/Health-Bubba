@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/languages.dart';
 
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
@@ -49,4 +50,6 @@ abstract class AccountRepository {
      
 
   });
+
+  Future<Languages> getLanguages();
 }

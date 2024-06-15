@@ -2,6 +2,7 @@ import 'dart:io';
 
  
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/languages.dart';
 
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
@@ -69,5 +70,10 @@ class AccountRepositoryImpl implements AccountRepository {
        
     });
     return RegisterUser.fromJson(map);
+  }
+
+  @override
+  Future<Languages> getLanguages() async{ final map = await Requests().get(AppStrings.languagesUrl, );
+    return Languages.fromJson(map);
   }
 }

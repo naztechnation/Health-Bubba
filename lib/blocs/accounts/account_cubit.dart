@@ -184,5 +184,31 @@ Future<void> verifyOtp({
     }
   }
   
+  Future<void> loadLanguages( ) async {
+    try {
+      emit(LanguagesLoading());
+
+      final user = await accountRepository.getLanguages(
+        
+         
+        
+      );
+
+      emit(LanguagesLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   }
 

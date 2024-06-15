@@ -29,14 +29,14 @@ class RequestHandler{
 
       case 403:
       case 404:
-                throw NetworkException('Address not found');
+                throw NetworkException("${response.statusCode}");
 
       case 422:
         // throw AlreadyRegisteredException(handleApiError(map).first.msg);
       case 500:
-        throw NetworkException('Internal server error');
+        throw NetworkException("${response.statusCode}");
       default:
-        throw NetworkException('Network error');
+        throw NetworkException("${response.statusCode}");
     }
   }
 
@@ -56,18 +56,18 @@ class RequestHandler{
       case 200:
         return res.join('');
       case 400:
-     // throw BadRequestException(handleApiError(map).first.msg);
+     throw NetworkException("${response.statusCode}");
       case 401:
       case 403:
-     // throw UnauthorisedException(handleApiError(map).first.msg);
+     throw NetworkException("${response.statusCode}");
       case 404:
-     //throw FileNotFoundException(handleApiError(map).first.msg);
+     throw NetworkException("${response.statusCode}");
       case 422:
-     // throw AlreadyRegisteredException(handleApiError(map).first.msg);
+     throw NetworkException("${response.statusCode}");
       case 500:
-        throw NetworkException(response.reasonPhrase ?? 'Network error');
+        throw NetworkException("${response.statusCode}");
       default:
-        throw NetworkException('Network error');
+        throw NetworkException("${response.statusCode}");
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:healthbubba/presentation/profile/language_spoken.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:healthbubba/widgets/loading_screen.dart';
 import 'package:healthbubba/widgets/modals.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
+import 'complete_setup.dart';
 import 'widget/work_bio_textfield.dart';
 import 'working_hours.dart';
 
@@ -747,13 +749,11 @@ class WorkInformation extends StatelessWidget {
                     children: [
                       ButtonView(
                           onPressed: () {
-                            ToastService().showToast(
-                              context,
-                              leadingIcon: const ImageView.svg(AppImages.tick),
-                              title: 'Info',
-                              subtitle:
-                                  'This is a custom toast message This is a custom toast messageThis is a custom toast message.',
-                            );
+                           AppNavigator.pushAndStackPage(context,
+                            page: const CompleteSetUpScreen());
+
+                            //  AppNavigator.pushAndStackPage(context,
+                            // page:     LoadingPage( length: MediaQuery.sizeOf(context).height.toInt(),));
                           },
                           borderRadius: 100,
                           color: AppColors.lightSecondary,

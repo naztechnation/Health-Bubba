@@ -1,3 +1,4 @@
+
 class AppImages {
   
   
@@ -70,6 +71,10 @@ class AppImages {
   static const bg = '${_baseUrl}bg.svg';
   static const gallery = '${_baseUrl}gallery.svg';
   static const photo = '${_baseUrl}photo.svg';
+  static const internalError = '${_baseUrl}internal_error.svg';
+  static const maintenace = '${_baseUrl}maintenance.svg';
+  static const noInternet = '${_baseUrl}no_internet.svg';
+  static const notFound = '${_baseUrl}not_found.svg';
  
 
 

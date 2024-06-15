@@ -9,6 +9,7 @@ import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../blocs/accounts/account.dart';
+import '../../handlers/secure_handler.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
@@ -57,6 +58,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     listener: (context, state) {
                       if (state is AccountLoaded) {
                         if (state.userData.ok ?? false) {
+                      
+
                           ToastService().showToast(
                             context,
                             leadingIcon: const ImageView.svg(AppImages.tick),

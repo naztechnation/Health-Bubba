@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/auth_model/login.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/languages.dart';
 
 import '../../model/auth_model/register.dart';
  
@@ -57,7 +58,17 @@ class VerifyOtpLoaded extends AccountStates {
   List<Object> get props => [verifyOtp];
 }
 
+class LanguagesLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
 
+class LanguagesLoaded extends AccountStates {
+  final Languages languages;
+  const LanguagesLoaded(this.languages);
+  @override
+  List<Object> get props => [languages];
+}
 
 
 

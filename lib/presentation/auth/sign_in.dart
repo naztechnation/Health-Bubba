@@ -64,6 +64,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 listener: (context, state) {
                   if (state is LoginLoaded) {
                     if (state.loginData.ok!) {
+
+                       StorageHandler.saveUserToken(state.loginData.data?.token ?? '');
                       ToastService().showToast(
                         context,
                         leadingIcon: const ImageView.svg(AppImages.tick),
