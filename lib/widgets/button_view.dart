@@ -83,7 +83,7 @@ class ButtonView extends StatelessWidget {
       if (expanded) {
         return SizedBox(
           width: double.maxFinite,
-          height: 42,
+           
           child: ElevatedButton(
             onPressed: disabled ? null : onPressed,
             style: ElevatedButton.styleFrom(

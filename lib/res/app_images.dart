@@ -75,6 +75,9 @@ class AppImages {
   static const maintenace = '${_baseUrl}maintenance.svg';
   static const noInternet = '${_baseUrl}no_internet.svg';
   static const notFound = '${_baseUrl}not_found.svg';
+  static const supportIcon = '${_baseUrl}support.svg';
+  static const refreshIcon = '${_baseUrl}refresh.svg';
+  static const warningErrorIcon = '${_baseUrl}warning_error.svg';
  
 
 

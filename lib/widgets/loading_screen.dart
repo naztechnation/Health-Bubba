@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class LoadingPage extends StatelessWidget {
+class LoadersPage extends StatelessWidget {
   final int length;
-  const LoadingPage({this.length = 5, Key? key}) : super(key: key);
+  const LoadersPage({this.length = 5, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

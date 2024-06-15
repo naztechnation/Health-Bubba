@@ -12,13 +12,8 @@ class StorageHandler {
     if (username != null) await storage.write(key: 'EMAIL', value: username);
   }
 
-  static Future<void> saveUserPetState([String? petState]) async {
-    if (petState != null) await storage.write(key: 'PETSTATE', value: petState);
-  }
-
-  static Future<void> saveFireBaseToken([String? token]) async {
-    if (token != null) await storage.write(key: 'FIREBASETOKEN', value: token);
-  }
+   
+ 
 
   static Future<void> saveUserPicture([String? picture]) async {
     if (picture != null) await storage.write(key: 'DP', value: picture);
@@ -32,9 +27,7 @@ class StorageHandler {
     if (userId != null) await storage.write(key: 'ID', value: userId);
   }
 
-   static Future<void> saveAgentId([String? username]) async {
-    if (username != null) await storage.write(key: 'AGENTID', value: username);
-  }
+   
 
   static Future<void> saveUserPassword([String? password]) async {
     if (password != null) await storage.write(key: 'PASSWORD', value: password);
@@ -49,10 +42,7 @@ class StorageHandler {
       await storage.write(key: 'LOGGEDIN', value: isLoggedIn);
   }
 
-  static Future<void> saveIsUserType([String? isUserType]) async {
-    if (isUserType != null)
-      await storage.write(key: 'USERTYPE', value: isUserType);
-  }
+   
 
 
 
