@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/user/languages.dart';
@@ -141,11 +139,11 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
     }, builder: (context, state) {
       if (state is AccountApiErr) {
         return ErrorPage(statusCode: state.message ?? '', onTap: () {
-          Modals.showToast(state.message ?? '');
+           
         });
       } else if (state is AccountNetworkErr) {
         return ErrorPage(statusCode: state.message ?? '', onTap: () {
-          Modals.showToast(state.message ?? '');
+         _accountCubit.loadLanguages();
 
         });
       }

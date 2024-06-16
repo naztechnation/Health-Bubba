@@ -210,5 +210,58 @@ Future<void> verifyOtp({
     }
   }
 
+  Future<void> loadQualifications( ) async {
+    try {
+      emit(QualificationsLoading());
+
+      final user = await accountRepository.getQualifications(
+        
+         
+        
+      );
+
+      emit(QualificationsLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+Future<void> selectQualifications({required List<String> qualificationsId
+} ) async {
+    try {
+      emit(SelectQualificationsLoading());
+
+      final user = await accountRepository.selectQualifications(
+        qualificationsId: qualificationsId
+         
+        
+      );
+
+      emit(SelectQualificationsLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   }
 

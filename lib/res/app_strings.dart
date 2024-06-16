@@ -23,6 +23,8 @@ class AppStrings {
   static const String resetPasswordUrl = "${_baseUrl}reset-password";
   static const String languagesUrl = "${_baseUrl}languages";
   static const String initiatePasswordResetUrl = "${_baseUrl}initiate-password-reset";
+  static const String qualificationsUrl = "${_baseUrl}qualifications";
+  static const String selectQualificationsUrl = "${_baseUrl}select-qualifications";
 
   
 

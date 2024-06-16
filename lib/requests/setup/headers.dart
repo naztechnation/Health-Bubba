@@ -14,6 +14,7 @@ Future<Map<String, String>> formDataHeader([String? token]) async {
 
   return {
     'Accept': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOCwiaWF0IjoxNzE4NDc3MTg5LCJleHAiOjE4NzYxNTcxODl9.XOyfQzyxRq4SJzOYd3iBLBV4968qbDnJq4htOIL01z4',
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $accessToken',
   };
 }

@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/auth_model/login.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
 import 'package:healthbubba/model/user/languages.dart';
+import 'package:healthbubba/model/user/qualification.dart';
+import 'package:healthbubba/model/user/select_qualifications.dart';
 
 import '../../model/auth_model/register.dart';
  
@@ -68,6 +70,30 @@ class LanguagesLoaded extends AccountStates {
   const LanguagesLoaded(this.languages);
   @override
   List<Object> get props => [languages];
+}
+
+class QualificationsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class QualificationsLoaded extends AccountStates {
+  final Qualification qualification;
+  const QualificationsLoaded(this.qualification);
+  @override
+  List<Object> get props => [qualification];
+}
+
+class SelectQualificationsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectQualificationsLoaded extends AccountStates {
+  final SelectQualification qualification;
+  const SelectQualificationsLoaded(this.qualification);
+  @override
+  List<Object> get props => [qualification];
 }
 
 

@@ -5,51 +5,38 @@ import 'package:healthbubba/model/user/languages.dart';
 
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/user/qualification.dart';
+import '../../../model/user/select_qualifications.dart';
 
- 
 abstract class AccountRepository {
-
   Future<RegisterUser> registerUser({
-    
     required String email,
     required String password,
-     
-
   });
 
   Future<RegisterUser> initiateResetPassword({
-    
     required String email,
-     
-
   });
 
   Future<VerifyOtp> verifyOtp({
-    
     required String email,
     required String otp,
     required String url,
-     
-
   });
 
   Future<LoginData> loginUser({
-    
     required String email,
     required String password,
-     
-
   });
-   
 
   Future<RegisterUser> resetPassword({
-    
     required String email,
     required String otp,
     required String newPassword,
-     
-
   });
 
   Future<Languages> getLanguages();
+  Future<Qualification> getQualifications();
+  Future<SelectQualification> selectQualifications(
+      {required List<String> qualificationsId});
 }

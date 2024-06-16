@@ -28,12 +28,16 @@ class OnboardViewModel extends BaseViewModel {
   List<String> _selectedLanguages = [];
 
   List<String> _selectedSpecialties = [];
+  List<String> _selectedSpecialtiesId = [];
 
-  void toggleSpecialty(String specialty) {
+  void toggleSpecialty({required String specialty,required String specialtiesId}) {
     if (_selectedSpecialties.contains(specialty)) {
       _selectedSpecialties.remove(specialty);
+      _selectedSpecialtiesId.remove(specialtiesId);
     } else {
       _selectedSpecialties.add(specialty);
+      _selectedSpecialtiesId.add(specialtiesId);
+
     }
     setViewState(ViewState.success);
   }
@@ -263,6 +267,7 @@ class OnboardViewModel extends BaseViewModel {
   bool get showConfirmPasswordStatus => _showConfirmPassword1;
   bool get scrollable => _isScrollable;
   List<String> get selectedSpecialties => _selectedSpecialties;
+  List<String> get selectedSpecialtiesId => _selectedSpecialtiesId;
 
   List<DaySchedule> get schedule => _schedule;
   List<String> get selectedLanguages => _selectedLanguages;
