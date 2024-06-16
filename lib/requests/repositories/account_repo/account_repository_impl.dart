@@ -4,7 +4,11 @@ import 'dart:io';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
+import 'package:healthbubba/model/user/select_language.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
+import 'package:healthbubba/model/user/selected_docs_availability.dart';
+import 'package:healthbubba/model/user/selected_languages.dart';
+import 'package:healthbubba/model/user/selected_qualifications.dart';
 
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
@@ -94,14 +98,59 @@ class AccountRepositoryImpl implements AccountRepository {
   };
 
   print(body.toString());
+  String requestBody = json.encode(body);
     final map = await Requests().post(
       AppStrings.selectQualificationsUrl,
-      body: {
-        "qualification_id": "3",
-         
-      },
+      body: requestBody,
        
     );
     return SelectQualification.fromJson(map);
   }
+
+  @override
+  Future<SelectLanguage> addLanguage({required List<String> languages})  async {
+     const String key = "language_name";
+     Map<String, dynamic> body = {
+    for (var i = 0; i < languages.length; i++) key: languages[i]
+  };
+
+  
+    final map = await Requests().post(
+      AppStrings.addLanguagesUrl,
+      body: {
+        "language_name": languages[0],
+         
+      },
+       
+    );
+    return SelectLanguage.fromJson(map);
+  }
+
+  @override
+  Future<SelectedLanguages> selectedLanguages() async {
+    final map = await Requests().get(
+      AppStrings.selectedLanguagesUrl,
+    );
+    return SelectedLanguages.fromJson(map);
+
+  }
+
+  @override
+  Future<GetSelectedQualificationsData> getSelectedQualifications() async {
+    final map = await Requests().get(
+      AppStrings.selectedQualificationsUrl,
+    );
+    return GetSelectedQualificationsData.fromJson(map);
+
+  }
+
+  @override
+  Future<GetSelectedAvailability> getSelectedAvailability() async {
+    final map = await Requests().get(
+      AppStrings.selectedDocAvailabilityUrl,
+    );
+    return GetSelectedAvailability.fromJson(map);
+
+  }
+
 }

@@ -6,6 +6,10 @@ import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
 
 import '../../model/auth_model/register.dart';
+import '../../model/user/select_language.dart';
+import '../../model/user/selected_docs_availability.dart';
+import '../../model/user/selected_languages.dart';
+import '../../model/user/selected_qualifications.dart';
  
  
 
@@ -94,6 +98,53 @@ class SelectQualificationsLoaded extends AccountStates {
   const SelectQualificationsLoaded(this.qualification);
   @override
   List<Object> get props => [qualification];
+}
+
+class SelectLanguageLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectLanguagesLoaded extends AccountStates {
+  final SelectLanguage language;
+  const SelectLanguagesLoaded(this.language);
+  @override
+  List<Object> get props => [language];
+}
+
+class SelectedLanguageLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectedLanguagesLoaded extends AccountStates {
+  final SelectedLanguages language;
+  const SelectedLanguagesLoaded(this.language);
+  @override
+  List<Object> get props => [language];
+}
+class SelectedQualificationsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectedQualificationsLoaded extends AccountStates {
+  final GetSelectedQualificationsData qualificationsData;
+  const SelectedQualificationsLoaded(this.qualificationsData);
+  @override
+  List<Object> get props => [qualificationsData];
+}
+
+class SelectedAvailabilitysLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectedAvailabilitysLoaded extends AccountStates {
+  final GetSelectedAvailability availability;
+  const SelectedAvailabilitysLoaded(this.availability);
+  @override
+  List<Object> get props => [availability];
 }
 
 

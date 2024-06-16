@@ -14,7 +14,6 @@ Future<Map<String, String>> formDataHeader([String? token]) async {
 
   return {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
     'Authorization': 'Bearer $accessToken',
   };
 }

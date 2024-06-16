@@ -66,7 +66,7 @@ class Requests {
         final client = RetryClient(http.Client());
         await client
             .post(Uri.parse(route),
-                body: json.encode(body),
+                body: body,
                 headers: headers ?? await formDataHeader(),
                 )
             .then((response) {

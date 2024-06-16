@@ -12,6 +12,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../../widgets/custom_toast.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/error_page.dart';
 import '../../widgets/image_view.dart';
@@ -135,20 +136,27 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
           languages = state.languages.message?.data ?? [];
           setState(() {});
         } else {}
+      } else if (state is SelectLanguagesLoaded) {
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.success),
+            title: 'Success!!!',
+            subtitle: state.language.message?.message ?? '');
+
+        AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
+        context.read<OnboardViewModel>().saveLanguages();
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {
-        return ErrorPage(statusCode: state.message ?? '', onTap: () {
-           
-        });
+        return ErrorPage(statusCode: state.message ?? '', onTap: () {});
       } else if (state is AccountNetworkErr) {
-        return ErrorPage(statusCode: state.message ?? '', onTap: () {
-         _accountCubit.loadLanguages();
-
-        });
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+              _accountCubit.loadLanguages();
+            });
       }
 
-      return (state is LanguagesLoading)
+      return (state is LanguagesLoading || state is SelectLanguageLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -205,9 +213,21 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                 actions: [
                   GestureDetector(
                       onTap: () {
-                        AppNavigator.pushAndReplacePage(context,
-                            page: const WorkInformation());
-                        context.read<OnboardViewModel>().saveLanguages();
+                        if (context
+                            .read<OnboardViewModel>()
+                            .selectedLanguages
+                            .isNotEmpty) {
+                          _accountCubit.selectLanguages(
+                              languages: context
+                                  .read<OnboardViewModel>()
+                                  .selectedLanguages);
+                        } else {
+                          ToastService().showToast(context,
+                              leadingIcon: const ImageView.svg(AppImages.error),
+                              title: 'Error',
+                              subtitle:
+                                  'Select atleast a language to continue');
+                        }
                       },
                       child: const Padding(
                         padding: EdgeInsets.only(right: 12.0),

@@ -83,7 +83,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
   String _formatTime(TimeOfDay time) {
     final now = DateTime.now();
     final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    final format = DateFormat.jm();  // 'jm' stands for hour and minute with AM/PM
+    final format = DateFormat.jm();   
     return format.format(dt);
   }
 

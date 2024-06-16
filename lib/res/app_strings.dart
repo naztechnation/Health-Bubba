@@ -25,6 +25,10 @@ class AppStrings {
   static const String initiatePasswordResetUrl = "${_baseUrl}initiate-password-reset";
   static const String qualificationsUrl = "${_baseUrl}qualifications";
   static const String selectQualificationsUrl = "${_baseUrl}select-qualifications";
+  static const String addLanguagesUrl = "${_baseUrl}add-language";
+  static const String selectedLanguagesUrl = "${_baseUrl}get-user-language";
+  static const String selectedQualificationsUrl = "${_baseUrl}get-user-qualification";
+  static const String selectedDocAvailabilityUrl = "${_baseUrl}doctor/availability";
 
   
 
