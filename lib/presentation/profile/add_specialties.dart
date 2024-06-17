@@ -64,13 +64,13 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
         if (state.qualification.ok ?? false) {
           specialties = state.qualification.message?.data ?? [];
           setState(() {});
-        } else {
-
-        }
-      }else if(state is SelectQualificationsLoaded){
-      ToastService().showToast(context, leadingIcon: const ImageView.svg(AppImages.success), title: 'Success!!!', subtitle: state.qualification.message?.message ?? '');
-      AppNavigator.pushAndReplacePage(context,
-                          page: const WorkInformation());
+        } else {}
+      } else if (state is SelectQualificationsLoaded) {
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.success),
+            title: 'Success!!!',
+            subtitle: state.qualification.message?.message ?? '');
+        AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {
@@ -87,7 +87,8 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
             });
       }
 
-      return (state is QualificationsLoading || state is SelectQualificationsLoading)
+      return (state is QualificationsLoading ||
+              state is SelectQualificationsLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -143,10 +144,10 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                 actions: [
                   GestureDetector(
                     onTap: () {
-                      uploadQualifications(qualificationsId: context
-                        .read<OnboardViewModel>()
-                        .selectedSpecialtiesId);
-                      
+                      uploadQualifications(
+                          qualificationsId: context
+                              .read<OnboardViewModel>()
+                              .selectedSpecialtiesId);
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 12.0),
@@ -179,7 +180,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                       itemBuilder: (context, index) {
                         final specialty =
                             specialties[index].qualificationName ?? '';
-                            String specialtiesId =
+                        String specialtiesId =
                             specialties[index].qualificationId.toString() ?? '';
                         return Consumer<OnboardViewModel>(
                           builder: (context, provider, child) {
@@ -198,7 +199,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                                   ? Colors.lightGreen.withOpacity(0.12)
                                   : null,
                               onTap: () {
-                                provider.toggleSpecialty(specialty: specialty,  specialtiesId: specialtiesId);
+                                provider.toggleSpecialty(
+                                    specialty: specialty,
+                                    specialtiesId: specialtiesId);
                               },
                             );
                           },
@@ -213,15 +216,14 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
     });
   }
 
-  uploadQualifications({required List<String> qualificationsId}){
-
-    if(qualificationsId.isNotEmpty){
-      _accountCubit.selectQualifications(qualificationsId: qualificationsId
-                
-              );
-    }else{
-      ToastService().showToast(context, leadingIcon: const ImageView.svg(AppImages.error), title: 'Error', subtitle: 'Select atleast one specialty to continue');
+  uploadQualifications({required List<String> qualificationsId}) {
+    if (qualificationsId.isNotEmpty) {
+      _accountCubit.selectQualifications(qualificationsId: qualificationsId);
+    } else {
+      ToastService().showToast(context,
+          leadingIcon: const ImageView.svg(AppImages.error),
+          title: 'Error',
+          subtitle: 'Select atleast one specialty to continue');
     }
-    
   }
 }

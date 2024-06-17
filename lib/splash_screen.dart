@@ -48,10 +48,11 @@ class _SplashScreenState extends State<SplashScreen>
     if (isonBoarding == '') {
       AppNavigator.pushAndStackPage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
-      AppNavigator.pushAndStackPage(context, page: const WorkInformation());
+      //AppNavigator.pushAndStackPage(context, page: const WorkInformation());
 
-      // AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
     } else {
+      //AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
 
       AppNavigator.pushAndStackPage(context, page: const WorkInformation());
 

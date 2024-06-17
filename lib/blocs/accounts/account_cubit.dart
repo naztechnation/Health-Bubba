@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthbubba/blocs/accounts/account.dart';
 
 import '../../model/view_model/account_view_model.dart';
+import '../../model/working_hours.dart';
 import '../../requests/repositories/account_repo/account_repository.dart';
 import '../../utils/exceptions.dart';
 
@@ -225,7 +227,7 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> selectLanguages({required List<String> languages}) async {
+  Future<void> selectLanguages({required String languages}) async {
     try {
       emit(SelectLanguageLoading());
 
@@ -297,6 +299,72 @@ class AccountCubit extends Cubit<AccountStates> {
       final user = await accountRepository.getSelectedAvailability( );
 
       emit(SelectedAvailabilitysLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> updateAvailability({required List<DaySchedule> schedule, required BuildContext context}) async {
+    try {
+      emit(UpdateAvailabilitysLoading());
+
+      final user = await accountRepository.updateAvalaibility(schedule: schedule, context: context,  );
+
+      emit(UpdateAvailabilitysLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+    Future<void> updateBio({required String bio}) async {
+    try {
+      emit(UpdateBioLoading());
+
+      final user = await accountRepository.updateBio(bio: bio,    );
+
+      emit(UpdateBioLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> userData() async {
+    try {
+      emit(UserDataLoading());
+
+      final user = await accountRepository.getUserInfo(    );
+
+      emit(UserDataLoaded(user));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {

@@ -4,12 +4,14 @@ import 'package:healthbubba/model/auth_model/verify_otp.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
+import 'package:healthbubba/model/user/user_data.dart';
 
 import '../../model/auth_model/register.dart';
 import '../../model/user/select_language.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
 import '../../model/user/selected_qualifications.dart';
+import '../../model/user/update_user.dart';
  
  
 
@@ -129,7 +131,7 @@ class SelectedQualificationsLoading extends AccountStates {
 }
 
 class SelectedQualificationsLoaded extends AccountStates {
-  final GetSelectedQualificationsData qualificationsData;
+  final GetSelectedQualifications qualificationsData;
   const SelectedQualificationsLoaded(this.qualificationsData);
   @override
   List<Object> get props => [qualificationsData];
@@ -145,6 +147,42 @@ class SelectedAvailabilitysLoaded extends AccountStates {
   const SelectedAvailabilitysLoaded(this.availability);
   @override
   List<Object> get props => [availability];
+}
+
+class UpdateAvailabilitysLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UpdateAvailabilitysLoaded extends AccountStates {
+  final LoginData availability;
+  const UpdateAvailabilitysLoaded(this.availability);
+  @override
+  List<Object> get props => [availability];
+}
+
+class UpdateBioLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UpdateBioLoaded extends AccountStates {
+  final UpdateUser bio;
+  const UpdateBioLoaded(this.bio);
+  @override
+  List<Object> get props => [bio];
+}
+
+class UserDataLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UserDataLoaded extends AccountStates {
+  final UserData userData;
+  const UserDataLoaded(this.userData);
+  @override
+  List<Object> get props => [userData];
 }
 
 

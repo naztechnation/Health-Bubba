@@ -10,9 +10,10 @@ import '../../../model/view_model/onboard_view_model.dart';
  
 
 class BioWidget extends StatelessWidget {
+  final Function(String bio) onTap;
 
   final BuildContext contex;
-  BioWidget({super.key, required this.contex});
+  BioWidget({super.key, required this.contex, required this.onTap});
 
   var bioController = TextEditingController();
 
@@ -58,7 +59,7 @@ class BioWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                           onboard.updateScroll(false);
+                          
                       },
                       child: const Text('Cancel', style: TextStyle( fontSize: 14, fontWeight: FontWeight.w500))),
                    const SizedBox(
@@ -69,11 +70,13 @@ class BioWidget extends StatelessWidget {
                       if (bioController.text.isNotEmpty) {
                         Navigator.pop(context);
             
-                        onboard.saveBio(bioController.text);
-                          onboard.updateScroll(false);
+                       
+                          
+
+                        onTap(bioController.text) ; 
                       } else {
                         Modals.showToast('bio required');
-                          onboard.updateScroll(false);
+                           
             
                       }
                     },

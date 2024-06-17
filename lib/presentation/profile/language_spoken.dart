@@ -218,9 +218,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             .selectedLanguages
                             .isNotEmpty) {
                           _accountCubit.selectLanguages(
-                              languages: context
-                                  .read<OnboardViewModel>()
-                                  .selectedLanguages);
+                              languages: '');
                         } else {
                           ToastService().showToast(context,
                               leadingIcon: const ImageView.svg(AppImages.error),

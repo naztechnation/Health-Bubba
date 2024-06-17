@@ -50,13 +50,19 @@ class GetSelectedQualificationsData {
   int? userQualificationId;
   int? qualificationId;
   int? userId;
+  String? qualificationName;
 
-  GetSelectedQualificationsData({this.userQualificationId, this.qualificationId, this.userId});
+  GetSelectedQualificationsData(
+      {this.userQualificationId,
+      this.qualificationId,
+      this.userId,
+      this.qualificationName});
 
   GetSelectedQualificationsData.fromJson(Map<String, dynamic> json) {
     userQualificationId = json['user_qualification_id'];
     qualificationId = json['qualification_id'];
     userId = json['user_id'];
+    qualificationName = json['qualification_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +70,7 @@ class GetSelectedQualificationsData {
     data['user_qualification_id'] = userQualificationId;
     data['qualification_id'] = qualificationId;
     data['user_id'] = userId;
+    data['qualification_name'] = qualificationName;
     return data;
   }
 }

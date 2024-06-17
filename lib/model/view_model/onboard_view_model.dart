@@ -47,7 +47,7 @@ class OnboardViewModel extends BaseViewModel {
       _selectedLanguages.add(language);
       setViewState(ViewState.success);
     } else {
-      debugPrint('$language is already in the list.');
+      
     }
   }
 

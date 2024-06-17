@@ -1,23 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../blocs/accounts/account.dart';
+import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../model/working_hours.dart';
+import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_images.dart';
+import '../../res/app_strings.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../../widgets/custom_toast.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/image_view.dart';
+import '../../widgets/loading_screen.dart';
 import '../../widgets/modals.dart';
 import 'work_information.dart';
 
-class ScheduleWidget extends StatefulWidget {
+class ScheduleWidget extends StatelessWidget {
+  const ScheduleWidget({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  _ScheduleWidgetState createState() => _ScheduleWidgetState();
+  Widget build(BuildContext context) {
+    return BlocProvider<AccountCubit>(
+      create: (BuildContext context) => AccountCubit(
+          accountRepository: AccountRepositoryImpl(),
+          viewModel: Provider.of<AccountViewModel>(context, listen: false)),
+      child: ScheduleWidgetPage(),
+    );
+  }
 }
 
-class _ScheduleWidgetState extends State<ScheduleWidget> {
+class ScheduleWidgetPage extends StatefulWidget {
+  @override
+  _ScheduleWidgetPageState createState() => _ScheduleWidgetPageState();
+}
+
+class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
+  late AccountCubit _accountCubit;
+
+  getAvailability() async {
+    _accountCubit = context.read<AccountCubit>();
+  }
+
+  @override
+  void initState() {
+    getAvailability();
+    super.initState();
+  }
+
   final Map<String, bool> _daySwitchState = {
     'Monday': false,
     'Tuesday': false,
@@ -40,7 +75,7 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
 
   void _addTimeSlot(String day) {
     TimeOfDay now = TimeOfDay.now();
-    TimeOfDay end = TimeOfDay(hour: (now.hour + 8) % 24, minute: now.minute);
+    TimeOfDay end = TimeOfDay(hour: (now.hour + 4) % 24, minute: now.minute);
 
     setState(() {
       _dayTimeSlots[day]?.add({
@@ -81,11 +116,11 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
   }
 
   String _formatTime(TimeOfDay time) {
-    final now = DateTime.now();
-    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    final format = DateFormat.jm();   
-    return format.format(dt);
-  }
+  final now = DateTime.now();
+  final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  final format = DateFormat.Hm(); 
+  return format.format(dt);
+}
 
   List<DaySchedule> newSchedule = [];
 
@@ -120,138 +155,187 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Add Working Hours / Availability',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-        centerTitle: false,
-        leading: GestureDetector(
-          onTap: () {
-            if (_hasTimeSlots()) {
-              Modals.showDialogModal(
-                context,
-                page: destructiveActions(
-                  context: context,
-                  message:
-                      'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
-                  primaryText: 'Discard',
-                  secondaryText: 'Save',
-                  primaryAction: () {
-                    _clearSchedule();
-                    AppNavigator.pushAndReplacePage(context,
-                        page: const WorkInformation());
-                  },
-                  primaryBgColor: const Color(0xFFF70000),
-                  secondaryAction: () {
-                    _saveSchedule();
-                    AppNavigator.pushAndReplacePage(context,
-                        page: const WorkInformation());
-                  },
-                ),
-              );
-            } else {
-              AppNavigator.pushAndReplacePage(context,
-                  page: const WorkInformation());
-            }
-          },
-          child: const Padding(
-            padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
-            child: SizedBox(
-              width: 15,
-              height: 15,
-              child: ImageView.svg(
-                AppImages.backBtn,
-                height: 15,
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          GestureDetector(
-              onTap: () {
-                _saveSchedule();
+    return BlocConsumer<AccountCubit, AccountStates>(
+          listener: (context, state) {
+            if (state is UpdateAvailabilitysLoaded) {
+              if (state.availability.ok!) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.tick),
+                  title: AppStrings.successTitle,
+                  subtitle: state.availability.message ?? '',
+                );
+        
                 AppNavigator.pushAndReplacePage(context,
                     page: const WorkInformation());
+              } else {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.availability.message ?? '',
+                );
+              }
+            } else if (state is AccountApiErr) {
+              ToastService().showToast(
+                context,
+                leadingIcon: const ImageView.svg(AppImages.error),
+                title: AppStrings.errorTitle,
+                subtitle: state.message ?? '',
+              );
+            } else if (state is AccountNetworkErr) {
+              if (state.message != null) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.message ?? '',
+                );
+              }
+            }
+          },
+          builder: (context, state) => (state is UpdateAvailabilitysLoading)
+              ? LoadersPage(
+                  length: MediaQuery.sizeOf(context).height.toInt(),
+                )
+              :  Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Add Working Hours / Availability',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            centerTitle: false,
+            leading: GestureDetector(
+              onTap: () {
+                if (_hasTimeSlots()) {
+                  Modals.showDialogModal(
+                    context,
+                    page: destructiveActions(
+                      context: context,
+                      message:
+                          'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+                      primaryText: 'Discard',
+                      secondaryText: 'Save',
+                      primaryAction: () {
+                        _clearSchedule();
+                        AppNavigator.pushAndReplacePage(context,
+                            page: const WorkInformation());
+                      },
+                      primaryBgColor: const Color(0xFFF70000),
+                      secondaryAction: () {
+                        _saveSchedule();
+                        AppNavigator.pushAndReplacePage(context,
+                            page: const WorkInformation());
+                      },
+                    ),
+                  );
+                } else {
+                  AppNavigator.pushAndReplacePage(context,
+                      page: const WorkInformation());
+                }
               },
               child: const Padding(
-                padding: EdgeInsets.only(right: 12.0),
-                child: Text(
-                  'Save',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                child: SizedBox(
+                  width: 15,
+                  height: 15,
+                  child: ImageView.svg(
+                    AppImages.backBtn,
+                    height: 15,
+                  ),
                 ),
-              )),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
-        child: Column(
-          children: [
-            const Divider(
-              color: Color(
-                0xFF40B93C,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: _daySwitchState.keys.map((day) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(day,
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF0A0D14),
-                                    fontWeight: FontWeight.w500)),
-                            Transform.scale(
-                              transformHitTests: false,
-                              scale: .7,
-                              child: CupertinoSwitch(
-                                value: _daySwitchState[day]!,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    _daySwitchState[day] = value;
-                                    if (!value) {
-                                      _dayTimeSlots[day]?.clear();
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
+            actions: [
+              GestureDetector(
+                  onTap: () {
+                    _saveSchedule();
+                    _accountCubit.updateAvailability(
+                        context: context,
+                        schedule:
+                            Provider.of<OnboardViewModel>(context, listen: false)
+                                .schedule);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 12.0),
+                    child: Text(
+                      'Save',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                  )),
+            ],
+          ),
+          body: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Column(
+                      children: [
+                        const Divider(
+                          color: Color(
+                            0xFF40B93C,
+                          ),
                         ),
-                      ),
-                      _daySwitchState[day]!
-                          ? _buildOpenDayContent(day)
-                          : _buildClosedDayContent(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Divider(
-                        color: Colors.grey.shade300,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Expanded(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: _daySwitchState.keys.map((day) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(day,
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF0A0D14),
+                                                fontWeight: FontWeight.w500)),
+                                        Transform.scale(
+                                          transformHitTests: false,
+                                          scale: .7,
+                                          child: CupertinoSwitch(
+                                            value: _daySwitchState[day]!,
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                _daySwitchState[day] = value;
+                                                if (!value) {
+                                                  _dayTimeSlots[day]?.clear();
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  _daySwitchState[day]!
+                                      ? _buildOpenDayContent(day)
+                                      : _buildClosedDayContent(),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Divider(
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
     );
   }
 
@@ -351,4 +435,6 @@ class _ScheduleWidgetState extends State<ScheduleWidget> {
       ),
     );
   }
+
+   
 }

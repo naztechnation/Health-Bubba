@@ -29,6 +29,10 @@ class AppStrings {
   static const String selectedLanguagesUrl = "${_baseUrl}get-user-language";
   static const String selectedQualificationsUrl = "${_baseUrl}get-user-qualification";
   static const String selectedDocAvailabilityUrl = "${_baseUrl}doctor/availability";
+  static const String addAvailabilityUrl = "${_baseUrl}doctor/availability";
+  static const String updateBioUrl = "${_baseUrl}doctor/update_profile";
+  static const String getUserDataUrl = "${_baseUrl}user/get";
+
 
   
 
