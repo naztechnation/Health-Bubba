@@ -13,7 +13,7 @@ Future<Map<String, String>> formDataHeader([String? token]) async {
   final accessToken = await StorageHandler.getUserToken() ?? '';
 
   return {
-   'Accept': 'application/json',
+  // 'Accept': 'application/json',
   //'Content-Type': 'application/json',
     'Authorization': 'Bearer $accessToken',
   };

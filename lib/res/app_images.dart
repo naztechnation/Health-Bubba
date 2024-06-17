@@ -19,6 +19,7 @@ class AppImages {
   static const createPrescriptionn = '${_baseUrl}create_prescription.png';
   static const pdf = '${_baseUrl}pdf.png';
   static const settingsBg = '${_baseUrl}settings_bg.png';
+  static const avatarIcon = '${_baseUrl}avatar.png';
 
   
 

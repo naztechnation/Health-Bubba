@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/auth_model/login.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/get_specialties.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
@@ -12,6 +13,7 @@ import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
 import '../../model/user/selected_qualifications.dart';
 import '../../model/user/update_user.dart';
+import '../../model/user/upload_image.dart';
  
  
 
@@ -125,6 +127,18 @@ class SelectedLanguagesLoaded extends AccountStates {
   @override
   List<Object> get props => [language];
 }
+
+class ChooseLanguageLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class ChooseLanguagesLoaded extends AccountStates {
+  final SelectedLanguages language;
+  const ChooseLanguagesLoaded(this.language);
+  @override
+  List<Object> get props => [language];
+}
 class SelectedQualificationsLoading extends AccountStates {
   @override
   List<Object> get props => [];
@@ -183,6 +197,30 @@ class UserDataLoaded extends AccountStates {
   const UserDataLoaded(this.userData);
   @override
   List<Object> get props => [userData];
+}
+
+class GetSpecialtiesLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class GetSpecialtiesLoaded extends AccountStates {
+  final GetSpecialties specialties;
+  const GetSpecialtiesLoaded(this.specialties);
+  @override
+  List<Object> get props => [specialties];
+}
+
+class UploadImageLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UploadImageLoaded extends AccountStates {
+  final UploadImage uploadImage;
+  const UploadImageLoaded(this.uploadImage);
+  @override
+  List<Object> get props => [uploadImage];
 }
 
 

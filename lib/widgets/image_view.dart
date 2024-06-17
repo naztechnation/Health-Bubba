@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../res/app_images.dart';
 import '../../res/enum.dart';
@@ -94,14 +95,19 @@ class ImageView extends StatelessWidget {
         width: width,
         fadeInDuration: const Duration(seconds: 5),
         fadeInCurve: Curves.easeInCirc,
-        placeholder: placeholder ?? AppImages.appLogo1,
+        placeholder: placeholder ?? AppImages.avatarIcon,
         image: url!,
         imageErrorBuilder: imageErrorBuilder ??
-            (context, error, stackTrace) => Container(
-              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-              height: 40,
-              padding: const EdgeInsets.all(8),
-              child: Image.asset(placeholder ?? AppImages.appLogo, fit: BoxFit.contain,height: 25,)),
+            (context, error, stackTrace) => Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          enabled: true,
+              child: Container(
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                height: 40,
+                padding: const EdgeInsets.all(8),
+                 ),
+            ),
       );
     } else if (type == ImageType.asset) {
       return Image.asset(

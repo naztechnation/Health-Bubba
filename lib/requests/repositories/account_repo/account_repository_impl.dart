@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/get_specialties.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/model/user/select_language.dart';
@@ -10,6 +11,7 @@ import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/selected_docs_availability.dart';
 import 'package:healthbubba/model/user/selected_languages.dart';
 import 'package:healthbubba/model/user/selected_qualifications.dart';
+import 'package:healthbubba/model/user/upload_image.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 import 'package:healthbubba/model/working_hours.dart';
 
@@ -123,7 +125,7 @@ class AccountRepositoryImpl implements AccountRepository {
     final map = await Requests().post(
       AppStrings.addLanguagesUrl,
       body: {
-        "language_name": languages[0],
+        "language_name": languages,
       },
     );
     return SelectLanguage.fromJson(map);
@@ -211,4 +213,59 @@ class AccountRepositoryImpl implements AccountRepository {
     );
     return UserData.fromJson(map);
   }
+
+  @override
+  Future<GetSpecialties> getSpecialties()async {
+    final map = await Requests().get(
+      AppStrings.getSpecialtiesUrl,
+    );
+    return GetSpecialties.fromJson(map);
+  }
+
+  @override
+  Future<UploadImage> uploadImage({required File image}) async {
+    final map = await Requests().post(AppStrings.uploadimageUrl, 
+
+    files: {
+      "picture": image
+    },
+    
+    );
+ 
+
+    return UploadImage.fromJson(map);
+  }
+  
+  @override
+  Future<SelectedLanguages> chooseLanguages({required List<int> languageId}) async {
+    var body = {};
+    final accessToken = await StorageHandler.getUserToken() ?? '';
+
+    var languageList = [];
+
+    for (var lang in languageId) {
+      
+        languageList.add({
+          "language_id": lang,
+           
+        });
+      
+    }
+
+    body = languageList.asMap();
+
+    
+
+    final map = await Requests().post(
+      AppStrings.addAvailabilityUrl,
+      body: jsonEncode(body),
+      headers: {
+    'Content-Type': 'application/json',
+    'Authorization': accessToken,
+  }
+    );
+    return SelectedLanguages.fromJson(map);
+  }
+
+
 }

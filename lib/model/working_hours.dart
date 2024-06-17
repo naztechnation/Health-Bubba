@@ -11,3 +11,5 @@ class DaySchedule {
     required this.timeSlots,
   });
 }
+
+

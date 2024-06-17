@@ -5,6 +5,7 @@ import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:provider/provider.dart';
 
 import '../../blocs/accounts/account.dart';
+import '../../model/user/get_specialties.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
@@ -42,17 +43,17 @@ class SpecialtyListPageScreen extends StatefulWidget {
 class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
   late AccountCubit _accountCubit;
 
-  List<QualificationData> specialties = [];
+  List<GetSpecialtiesData> specialties = [];
 
-  getQualifications() async {
+  getSpecialties() async {
     _accountCubit = context.read<AccountCubit>();
 
-    _accountCubit.loadQualifications();
+    _accountCubit.getSpecialties();
   }
 
   @override
   void initState() {
-    getQualifications();
+    getSpecialties();
     super.initState();
   }
 
@@ -60,9 +61,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
-      if (state is QualificationsLoaded) {
-        if (state.qualification.ok ?? false) {
-          specialties = state.qualification.message?.data ?? [];
+      if (state is GetSpecialtiesLoaded) {
+        if (state.specialties.ok ?? false) {
+          specialties = state.specialties.message?.data ?? [];
           setState(() {});
         } else {}
       } else if (state is SelectQualificationsLoaded) {
@@ -87,7 +88,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
             });
       }
 
-      return (state is QualificationsLoading ||
+      return (state is GetSpecialtiesLoading ||
               state is SelectQualificationsLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
@@ -179,9 +180,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                           Divider(color: Colors.grey.shade200, height: 0.9),
                       itemBuilder: (context, index) {
                         final specialty =
-                            specialties[index].qualificationName ?? '';
+                            specialties[index].specialtyName ?? '';
                         String specialtiesId =
-                            specialties[index].qualificationId.toString() ?? '';
+                            specialties[index].specialtyId.toString() ?? '';
                         return Consumer<OnboardViewModel>(
                           builder: (context, provider, child) {
                             final isSelected = provider.selectedSpecialties

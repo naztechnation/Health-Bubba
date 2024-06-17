@@ -6,6 +6,7 @@ import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/presentation/profile/add_specialties.dart';
 import 'package:healthbubba/presentation/profile/language_spoken.dart';
 import 'package:healthbubba/res/app_images.dart';
+import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:healthbubba/widgets/modals.dart';
@@ -53,6 +54,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
   late AccountCubit _accountCubit;
 
   String bioData = '';
+  String imageUrl = '';
 
   List<SelectedLanguagesData> languages = [];
   List<GetSelectedQualificationsData> qualification = [];
@@ -85,8 +87,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final onboard = Provider.of<OnboardViewModel>(context, listen: true);
+  Widget build(BuildContext context) { 
 
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
@@ -95,7 +96,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           languages = state.language.message?.data ?? [];
 
           for (var lang in languages) {
-            onboard.addLanguage(lang.languageName ?? '');
+            Provider.of<OnboardViewModel>(context, listen: false).addLanguage(lang.languageName ?? '',lang.languageId ?? 0);
           }
         } else {
           ToastService().showToast(context,
@@ -104,39 +105,81 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               subtitle: state.language.message?.message ?? '');
         }
       } else if (state is SelectedQualificationsLoaded) {
-        qualification = state.qualificationsData.message?.data ?? [];
-        for (var qualification in qualification) {
-          onboard.toggleSpecialty(
-            specialty: qualification.qualificationName ?? '',
-            specialtiesId: qualification.qualificationId.toString(),
-          );
+        if (state.qualificationsData.ok ?? false) {
+          qualification = state.qualificationsData.message?.data ?? [];
+          for (var qualification in qualification) {
+            Provider.of<OnboardViewModel>(context, listen: false).toggleSpecialty(
+              specialty: qualification.qualificationName ?? '',
+              specialtiesId: qualification.qualificationId.toString(),
+            );
+          }
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: 'Error!!!',
+              subtitle: state.qualificationsData.message?.message ?? '');
         }
       } else if (state is UpdateBioLoaded) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.success),
-            title: 'Success!!!',
-            subtitle: state.bio.message ?? '');
+        if (state.bio.ok ?? false) {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.success),
+              title: 'Success!!!',
+              subtitle: state.bio.message ?? '');
 
-        onboard.saveBio(bioData);
-      } else if (state is UserDataLoaded) {
-        onboard.saveBio(state.userData.data?.bio ?? "");
-      } else if (state is SelectedAvailabilitysLoaded) {
-        List<GetSelectedAvailabilityData> data = state.availability.data ?? [];
-
-        for (var entry in data) {
-          String day = entry.dayOfWeek ?? '';
-          String startTime = entry.startTime ?? '';
-          String endTime = entry.endTime ?? '';
-
-          if (!availabilities.containsKey(day)) {
-            availabilities[day] = [];
-          }
-          availabilities[day]!
-              .add({'start_time': startTime, 'end_time': endTime});
+          Provider.of<OnboardViewModel>(context, listen: false).saveBio(bioData);
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: 'Error!!!',
+              subtitle: state.bio.message ?? '');
         }
-      }
-    }, builder: (context, state) {
-      if (state is AccountApiErr) {
+      } else if (state is UserDataLoaded) {
+        if (state.userData.ok ?? false) {
+          Provider.of<OnboardViewModel>(context, listen: false).saveBio(state.userData.data?.bio ?? "");
+
+          imageUrl = state.userData.data?.picture ?? "";
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: 'Error!!!',
+              subtitle: state.userData.message ?? '');
+        }
+      } else if (state is UploadImageLoaded) {
+        if (state.uploadImage.ok ?? false) {
+          imageUrl = state.uploadImage.data?.picture ?? "";
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.success),
+              title: 'Success!!!',
+              subtitle: state.uploadImage.message ?? '');
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: 'Error!!!',
+              subtitle: state.uploadImage.message ?? '');
+        }
+      } else if (state is SelectedAvailabilitysLoaded) {
+        if (state.availability.ok ?? false) {
+          List<GetSelectedAvailabilityData> data =
+              state.availability.data ?? [];
+
+          for (var entry in data) {
+            String day = entry.dayOfWeek ?? '';
+            String startTime = entry.startTime ?? '';
+            String endTime = entry.endTime ?? '';
+
+            if (!availabilities.containsKey(day)) {
+              availabilities[day] = [];
+            }
+            availabilities[day]!
+                .add({'start_time': startTime, 'end_time': endTime});
+          }
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: 'Error!!!',
+              subtitle: state.availability.message ?? '');
+        }
+      }else if (state is AccountApiErr) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.error),
             title: 'Error!!!',
@@ -147,8 +190,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             title: 'Error!!!',
             subtitle: "Network Error");
       }
+    }, builder: (context, state) {
+      
 
-      return (state is UpdateBioLoading)
+      return (state is UpdateBioLoading || state is UploadImageLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -212,14 +257,21 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                   AppImages.profileBg,
                                   height: 94,
                                 )),
-                            if (onboard.imageURl == null) ...[
+                            if (imageUrl == null ||
+                                imageUrl == '' ||
+                                imageUrl.isEmpty ||
+                                imageUrl == 'null') ...[
                               Positioned(
                                 top: 43.5,
                                 left: 8,
                                 right: 8,
                                 child: GestureDetector(
                                   onTap: () {
-                                    onboard.loadImage(context);
+                                    Provider.of<OnboardViewModel>(context, listen: false).loadImage(context, () {
+                                      
+                                      _accountCubit.uploadImage(
+                                          image: Provider.of<OnboardViewModel>(context, listen: false).imageURl!);
+                                    });
                                   },
                                   child: Container(
                                     width: 91,
@@ -320,7 +372,12 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                 right: 8,
                                 child: GestureDetector(
                                   onTap: () {
-                                    onboard.loadImage(context);
+                                    Provider.of<OnboardViewModel>(context, listen: false).loadImage(context, () {
+                                      Modals.showToast(
+                                          Provider.of<OnboardViewModel>(context, listen: false).imageURl?.path ?? '');
+                                      _accountCubit.uploadImage(
+                                          image: Provider.of<OnboardViewModel>(context, listen: false).imageURl!);
+                                    });
                                   },
                                   child: Align(
                                     child: Stack(
@@ -337,8 +394,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(50),
-                                              child: ImageView.file(
-                                                onboard.imageURl,
+                                              child: ImageView.network(
+                                                "${AppStrings.imageBaseUrl}$imageUrl",
                                                 fit: BoxFit.cover,
                                                 width: 91,
                                                 height: 91,
@@ -422,9 +479,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                       Expanded(
                                         flex: 8,
                                         child: Text(
-                                          (onboard.workBio == '')
+                                          (Provider.of<OnboardViewModel>(context, listen: false).workBio == '')
                                               ? 'Add a Bio ( Summary of your professional background and experience).'
-                                              : onboard.workBio,
+                                              : Provider.of<OnboardViewModel>(context, listen: false).workBio,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 200,
                                           style: GoogleFonts.getFont(
@@ -520,7 +577,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            top: (onboard.schedule.isEmpty)
+                                            top: (Provider.of<OnboardViewModel>(context, listen: false).schedule.isEmpty)
                                                 ? 2
                                                 : 20),
                                         child: const ImageView.svg(
@@ -553,6 +610,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                       itemCount:
                                                           daysOfWeek.length,
                                                       shrinkWrap: true,
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 0),
                                                       physics:
                                                           const NeverScrollableScrollPhysics(),
                                                       itemBuilder:
@@ -690,7 +750,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           AppImages.language),
                                     ),
                                     Expanded(
-                                      child: (onboard.selectedLanguages.isEmpty)
+                                      child: (Provider.of<OnboardViewModel>(context, listen: false).selectedLanguages.isEmpty)
                                           ? Text(
                                               'Languages spoken',
                                               overflow: TextOverflow.ellipsis,
@@ -805,7 +865,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           AppImages.specialties),
                                     ),
                                     Expanded(
-                                      child: (onboard
+                                      child: (Provider.of<OnboardViewModel>(context, listen: false)
                                               .selectedSpecialties.isEmpty)
                                           ? Text(
                                               'Specialties or areas of focus',

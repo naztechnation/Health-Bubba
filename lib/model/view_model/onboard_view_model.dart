@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,42 +20,48 @@ class OnboardViewModel extends BaseViewModel {
   bool _isScrollable = true;
   File? _imageURl;
 
+  ImageSourceType imageType = ImageSourceType.none;
+
   ImagePicker picker = ImagePicker();
 
   String _workBio = '';
 
   final PageController _pageController = PageController();
 
-  List<String> _selectedLanguages = [];
+  List<SelectedLangs> _selectedLanguages = [];
+  List<int> _selectedLanguagesId = [];
+
 
   List<String> _selectedSpecialties = [];
   List<String> _selectedSpecialtiesId = [];
 
-  void toggleSpecialty({required String specialty,required String specialtiesId}) {
+  void toggleSpecialty(
+      {required String specialty, required String specialtiesId}) {
     if (_selectedSpecialties.contains(specialty)) {
       _selectedSpecialties.remove(specialty);
       _selectedSpecialtiesId.remove(specialtiesId);
     } else {
       _selectedSpecialties.add(specialty);
       _selectedSpecialtiesId.add(specialtiesId);
-
     }
     setViewState(ViewState.success);
   }
 
-  void addLanguage(String language) {
-    if (!_selectedLanguages.contains(language)) {
-      _selectedLanguages.add(language);
+  void addLanguage(String language, int languageId) {
+    if (!_selectedLanguages.any((selectedLang) => selectedLang.language == language)) {
+      _selectedLanguages.add(SelectedLangs(language: language, languageId: languageId));
+      _selectedLanguagesId.add(languageId);
       setViewState(ViewState.success);
-    } else {
-      
-    }
+    } else {}
   }
 
-  void removeLanguage(String language) {
-    _selectedLanguages.remove(language);
-    setViewState(ViewState.success);
-  }
+  void removeLanguage(String language, int languageId) {
+  _selectedLanguages.removeWhere((selectedLang) => selectedLang.language == language);
+
+  _selectedLanguagesId.remove(languageId);
+
+  setViewState(ViewState.success);
+}
 
   void clearLanguage() {
     _selectedLanguages.clear();
@@ -109,147 +116,274 @@ class OnboardViewModel extends BaseViewModel {
     setViewState(ViewState.success);
   }
 
-  loadImage(BuildContext context) async {
+  
+  
+  
+  
+  loadImage(BuildContext context, Function() onTap) async {
     await showModalBottomSheet<dynamic>(
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16.0))),
         builder: (BuildContext bc) {
+          return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
           return Container(
-            width: MediaQuery.sizeOf(context).width,
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                
-                Text(
-                  'Choose from Gallery',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.getFont(
-                    'Inter',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    height: 1.4,
-                    color: const Color(0xFF0A0D14),
-                  ),
-                ),
-                const SizedBox(height: 10),
-
-                GestureDetector(
-                  onTap: () async {
-                    Navigator.pop(context);
-            
-                    final image = await ImagePicker().pickImage(
-                        source: ImageSource.gallery,
-                        imageQuality: 30,
-                        maxHeight: 500,
-                        maxWidth: 500);
-                    _imageURl = File(image!.path);
-                    setViewState(ViewState.success);
-                  },
-                  child: Container(
-                      height: 69,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300, width: 2),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x0A000000),
-                            offset: Offset(0, 1),
-                            blurRadius: 1.5,
+                width: MediaQuery.sizeOf(context).width,
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                   if(_imageURl != null) GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        onTap();
+                      },
+                      child: const Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                          BoxShadow(
-                            color: Color(0x0D2F3037),
-                            offset: Offset(0, 24),
-                            blurRadius: 34,
-                          ),
-                          BoxShadow(
-                            color: Color(0x0A222A35),
-                            offset: Offset(0, 4),
-                            blurRadius: 3,
-                          ),
-                          BoxShadow(
-                            color: Color(0x0D000000),
-                            offset: Offset(0, 1),
-                            blurRadius: 0.5,
-                          ),
-                        ],
+                        ),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: ImageView.svg(AppImages.gallery),
-                      )),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  'Take photo',
-                  textAlign: TextAlign.left,
-                  style: GoogleFonts.getFont(
-                    'Inter',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    height: 1.4,
-                    color: const Color(0xFF0A0D14),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () async {
-                    Navigator.pop(context);
-            
-                     
-                    final image = await ImagePicker().pickImage(
-                        source: ImageSource.camera,
-                        imageQuality: 30,
-                        maxHeight: 500,
-                        maxWidth: 500);
-                    _imageURl = File(image!.path);
-                    setViewState(ViewState.success);
-                  },
-                  child: Container(
-                      height: 69,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300, width: 2),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x0A000000),
-                            offset: Offset(0, 1),
-                            blurRadius: 1.5,
-                          ),
-                          BoxShadow(
-                            color: Color(0x0D2F3037),
-                            offset: Offset(0, 24),
-                            blurRadius: 34,
-                          ),
-                          BoxShadow(
-                            color: Color(0x0A222A35),
-                            offset: Offset(0, 4),
-                            blurRadius: 3,
-                          ),
-                          BoxShadow(
-                            color: Color(0x0D000000),
-                            offset: Offset(0, 1),
-                            blurRadius: 0.5,
-                          ),
-                        ],
+                    ),
+                    Text(
+                      'Choose from Gallery',
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.4,
+                        color: const Color(0xFF0A0D14),
                       ),
-                      child: const SizedBox(
-                         height: 20, width: 20,
-                        child: Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: ImageView.svg(AppImages.photo,),
-                        ))),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        if (imageType == ImageSourceType.gallery &&
+                            _imageURl != null)
+                          Container(
+                              height: 69,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x0A000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 1.5,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D2F3037),
+                                    offset: Offset(0, 24),
+                                    blurRadius: 34,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0A222A35),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 3,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 0.5,
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: ImageView.file(
+                                  _imageURl,
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                        if (imageType == ImageSourceType.gallery &&
+                            _imageURl != null)
+                          const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () async {
+                            // Navigator.pop(context);
+              
+                            final image = await ImagePicker().pickImage(
+                                source: ImageSource.gallery,
+                                imageQuality: 30,
+                                maxHeight: 500,
+                                maxWidth: 500);
+                            _imageURl = File(image!.path);
+                            setState(() {
+                              
+                            },);
+                            imageType = ImageSourceType.gallery;
+                            setViewState(ViewState.success);
+                          },
+                          child: Container(
+                              height: 69,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x0A000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 1.5,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D2F3037),
+                                    offset: Offset(0, 24),
+                                    blurRadius: 34,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0A222A35),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 3,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 0.5,
+                                  ),
+                                ],
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: ImageView.svg(AppImages.gallery),
+                              )),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Take photo',
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.4,
+                        color: const Color(0xFF0A0D14),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        if (imageType == ImageSourceType.camera &&
+                            _imageURl != null)
+                          Container(
+                              height: 69,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.grey.shade300, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x0A000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 1.5,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D2F3037),
+                                    offset: Offset(0, 24),
+                                    blurRadius: 34,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0A222A35),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 3,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 0.5,
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: ImageView.file(
+                                  _imageURl,
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                        if (imageType == ImageSourceType.camera &&
+                            _imageURl != null)
+                          const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () async {
+                            
+                        
+                            final image = await ImagePicker().pickImage(
+                                source: ImageSource.camera,
+                                imageQuality: 30,
+                                maxHeight: 500,
+                                maxWidth: 500);
+                            _imageURl = File(image!.path);
+                            imageType = ImageSourceType.camera;
+                        setState(() {
+                              
+                            },);
+                            setViewState(ViewState.success);
+                          },
+                          child: Container(
+                              height: 69,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.grey.shade300, width: 2),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x0A000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 1.5,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D2F3037),
+                                    offset: Offset(0, 24),
+                                    blurRadius: 34,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0A222A35),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 3,
+                                  ),
+                                  BoxShadow(
+                                    color: Color(0x0D000000),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 0.5,
+                                  ),
+                                ],
+                              ),
+                              child: const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(15.0),
+                                    child: ImageView.svg(
+                                      AppImages.photo,
+                                    ),
+                                  ))),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                 
-              ],
-            ),
+              );
+            }
           );
         });
   }
@@ -270,8 +404,26 @@ class OnboardViewModel extends BaseViewModel {
   List<String> get selectedSpecialtiesId => _selectedSpecialtiesId;
 
   List<DaySchedule> get schedule => _schedule;
-  List<String> get selectedLanguages => _selectedLanguages;
+  List<SelectedLangs> get selectedLanguages => _selectedLanguages;
+  List<int> get selectedLanguagesId => _selectedLanguagesId;
 
   String get workBio => _workBio;
   File? get imageURl => _imageURl;
+}
+
+class SelectedLangs {
+  final String language;
+  final int languageId;
+
+  SelectedLangs({required this.language, required this.languageId});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SelectedLangs &&
+          runtimeType == other.runtimeType &&
+          language == other.language;
+
+  @override
+  int get hashCode => language.hashCode;
 }

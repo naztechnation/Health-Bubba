@@ -23,7 +23,7 @@ enum sessionMedium { chat, call, video }
 enum requestsType { services, vets, products }
 enum OngoingServicesType { services, vets, }
 
-enum UserType {none, user, serviceProvider}
+enum ImageSourceType {none, camera, gallery}
 enum OrderType {none, services, shop, vet}
 
 enum Service {

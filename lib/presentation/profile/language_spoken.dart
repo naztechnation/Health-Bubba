@@ -103,9 +103,11 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               GestureDetector(
                 onTap: () {
                   if (languageController.text.isNotEmpty) {
-                    context
-                        .read<OnboardViewModel>()
-                        .addLanguage(languageController.text);
+                    
+                       _accountCubit.selectLanguages(
+                              languages: languageController.text);
+
+
                     Navigator.pop(context);
                   } else {
                     Modals.showToast('Field cannot be empty');
@@ -143,11 +145,13 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
             subtitle: state.language.message?.message ?? '');
 
         AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-        context.read<OnboardViewModel>().saveLanguages();
+        
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {
-        return ErrorPage(statusCode: state.message ?? '', onTap: () {});
+        return ErrorPage(statusCode: state.message ?? '', onTap: () {
+          _accountCubit.loadLanguages();
+        });
       } else if (state is AccountNetworkErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
@@ -217,8 +221,10 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             .read<OnboardViewModel>()
                             .selectedLanguages
                             .isNotEmpty) {
-                          _accountCubit.selectLanguages(
-                              languages: '');
+                          _accountCubit.chooseLanguage(
+                              language: context
+                            .read<OnboardViewModel>()
+                            .selectedLanguagesId);
                         } else {
                           ToastService().showToast(context,
                               leadingIcon: const ImageView.svg(AppImages.error),
@@ -269,13 +275,13 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(language),
+                                    Text(language.language),
                                     const SizedBox(
                                       width: 10,
                                     ),
                                     GestureDetector(
                                         onTap: () {
-                                          provider.removeLanguage(language);
+                                          provider.removeLanguage(language.language,language.languageId);
                                         },
                                         child: Icon(
                                           Icons.close,
@@ -305,7 +311,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                         onTap: () {
                           context
                               .read<OnboardViewModel>()
-                              .addLanguage(languages[index].languageName ?? '');
+                              .addLanguage(languages[index].languageName ?? '', languages[index].languageId ?? 0);
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(

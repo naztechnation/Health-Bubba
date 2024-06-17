@@ -8,6 +8,7 @@ class AppStrings {
    
   ///base url
   static const String _baseUrl = 'https://healthbubba.com/api/';
+  static const String imageBaseUrl = "http://healthbubba.com//uploads/profile_pics/";
 
  
 
@@ -32,6 +33,10 @@ class AppStrings {
   static const String addAvailabilityUrl = "${_baseUrl}doctor/availability";
   static const String updateBioUrl = "${_baseUrl}doctor/update_profile";
   static const String getUserDataUrl = "${_baseUrl}user/get";
+  static const String getSpecialtiesUrl = "${_baseUrl}specialties";
+  static const String uploadimageUrl = "${_baseUrl}user/update_profile_pic";
+  static const String selectLanguageUrl = "${_baseUrl}select-language";
+  
 
 
   
