@@ -24,6 +24,7 @@ import '../../widgets/checkbox.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
 import '../dashboard/dashboard.dart';
+import '../profile/profile_setup.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -76,7 +77,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       if(state.loginData.message!.trim() == 'Operation successful. An OTP code was sent to your email address'){
                       
                           AppNavigator.pushAndStackPage(context, page: VerifyCodeScreen(email: _emailController.text.trim(), isForgetPassword: false,));
-                      }else{
+                      }else if(state.loginData.data?.user?.firstName == '' || state.loginData.data?.user?.firstName == null ){
+                          AppNavigator.pushAndStackPage(context, page: const ProfileSetup());
+                        
+                      } else{
                           AppNavigator.pushAndStackPage(context, page: const Dashboard());
 
                       }

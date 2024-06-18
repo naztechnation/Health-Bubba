@@ -203,13 +203,37 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
+  Future<void> selectSpecialties(
+      {required List<int> specialties}) async {
+    try {
+      emit(SelectQualificationsLoading());
+
+      final user = await accountRepository.selectSpecialties(
+          specialties: specialties);
+
+      emit(SelectQualificationsLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
   Future<void> selectQualifications(
-      {required List<String> qualificationsId}) async {
+      {required List<int> qualificationIds}) async {
     try {
       emit(SelectQualificationsLoading());
 
       final user = await accountRepository.selectQualifications(
-          qualificationsId: qualificationsId);
+          qualificationIds: qualificationIds);
 
       emit(SelectQualificationsLoaded(user));
     } on ApiException catch (e) {
@@ -343,6 +367,35 @@ class AccountCubit extends Cubit<AccountStates> {
       final user = await accountRepository.updateBio(bio: bio,    );
 
       emit(UpdateBioLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> updateUserData({required String title,
+  required String firstname,
+  required String lastname,
+  required String licenceNumber, 
+  required int experience,
+  required String hospitalAffliated,
+  required String phone,
+     String? location,}) async {
+    try {
+      emit(UpdateUserLoading());
+
+      final user = await accountRepository.updateUserData(title: title, firstname: firstname, lastname: lastname, licenceNumber: licenceNumber, experience: experience, hospitalAffliated: hospitalAffliated, phone: phone     );
+
+      emit(UpdateUserLoaded(user));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {

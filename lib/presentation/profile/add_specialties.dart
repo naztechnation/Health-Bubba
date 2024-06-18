@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:provider/provider.dart';
 
@@ -78,13 +77,13 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
         return ErrorPage(
             statusCode: state.message ?? '',
             onTap: () {
-              _accountCubit.loadQualifications();
+              _accountCubit.getSpecialties();
             });
       } else if (state is AccountNetworkErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
             onTap: () {
-              _accountCubit.loadQualifications();
+              _accountCubit.getSpecialties();
             });
       }
 
@@ -106,7 +105,6 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                         .read<OnboardViewModel>()
                         .selectedSpecialties
                         .isNotEmpty) {
-                      context.read<OnboardViewModel>().clearSpecialties();
                       Modals.showDialogModal(
                         context,
                         page: destructiveActions(
@@ -116,13 +114,17 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                             primaryText: 'Discard',
                             secondaryText: 'Save',
                             primaryAction: () {
+                      context.read<OnboardViewModel>().clearSpecialties();
+
                               AppNavigator.pushAndReplacePage(context,
                                   page: const WorkInformation());
                             },
                             primaryBgColor: const Color(0xFFF70000),
                             secondaryAction: () {
-                              AppNavigator.pushAndReplacePage(context,
-                                  page: const WorkInformation());
+                               uploadQualifications(
+                          selectSpecialtiesId: context
+                              .read<OnboardViewModel>()
+                              .selectedSpecialtiesId);
                             }),
                       );
                     } else {
@@ -146,7 +148,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                   GestureDetector(
                     onTap: () {
                       uploadQualifications(
-                          qualificationsId: context
+                          selectSpecialtiesId: context
                               .read<OnboardViewModel>()
                               .selectedSpecialtiesId);
                     },
@@ -181,8 +183,8 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                       itemBuilder: (context, index) {
                         final specialty =
                             specialties[index].specialtyName ?? '';
-                        String specialtiesId =
-                            specialties[index].specialtyId.toString() ?? '';
+                        int specialtiesId =
+                            specialties[index].specialtyId ?? 0;
                         return Consumer<OnboardViewModel>(
                           builder: (context, provider, child) {
                             final isSelected = provider.selectedSpecialties
@@ -217,9 +219,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
     });
   }
 
-  uploadQualifications({required List<String> qualificationsId}) {
-    if (qualificationsId.isNotEmpty) {
-      _accountCubit.selectQualifications(qualificationsId: qualificationsId);
+  uploadQualifications({required List<int> selectSpecialtiesId}) {
+    if (selectSpecialtiesId.isNotEmpty) {
+      _accountCubit.selectSpecialties(specialties: selectSpecialtiesId);
     } else {
       ToastService().showToast(context,
           leadingIcon: const ImageView.svg(AppImages.error),

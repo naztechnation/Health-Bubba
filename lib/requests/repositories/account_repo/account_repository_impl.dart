@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/get_specialties.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
@@ -21,7 +22,6 @@ import '../../../model/auth_model/register.dart';
 import '../../../model/user/update_user.dart';
 import '../../../res/app_strings.dart';
 
- 
 import '../../setup/requests.dart';
 import 'account_repository.dart';
 
@@ -98,30 +98,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<SelectQualification> selectQualifications(
-      {required List<String> qualificationsId}) async {
-    const String key = "qualification_id";
-
-    Map<String, dynamic> map = {};
-    for (var i = 0; i < qualificationsId.length; i++) {
-      Map<String, dynamic> body = {key: qualificationsId[i]};
-
-      print(body.toString());
-      String requestBody = json.encode(body);
-      map = await Requests().post(
-        AppStrings.selectQualificationsUrl,
-        body: requestBody,
-      );
-    }
-
-    return SelectQualification.fromJson(map);
-  }
-
-  @override
   Future<SelectLanguage> addLanguage({required String languages}) async {
-     
-     
-
     final map = await Requests().post(
       AppStrings.addLanguagesUrl,
       body: {
@@ -179,28 +156,48 @@ class AccountRepositoryImpl implements AccountRepository {
 
     body["availabilities"] = availabilityList;
 
-    
-
-    final map = await Requests().post(
-      AppStrings.addAvailabilityUrl,
-      body: jsonEncode(body),
-      headers: {
-    'Content-Type': 'application/json',
-    'Authorization': accessToken,
-  }
-    );
+    final map = await Requests()
+        .post(AppStrings.addAvailabilityUrl, body: jsonEncode(body), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': accessToken,
+    });
     return LoginData.fromJson(map);
   }
-  
+
   @override
   Future<UpdateUser> updateBio({required String bio}) async {
-     
-     
-
     final map = await Requests().post(
       AppStrings.updateBioUrl,
       body: {
         "bio": bio,
+      },
+    );
+    return UpdateUser.fromJson(map);
+  }
+
+   @override
+  Future<UpdateUser> updateUserData({required String title,
+  required String firstname,
+  required String lastname,
+  required String licenceNumber, 
+  required int experience,
+  required String hospitalAffliated,
+  required String phone,
+     String? location,}) async {
+
+       
+      
+    final map = await Requests().post(
+      AppStrings.updateBioUrl,
+      body: {
+        "years_of_experience": experience.toString(),
+        "title": title,
+        "first_name": firstname,
+        "last_name": lastname,
+        "phone": phone,
+       if(location != null) "address": location,
+        "licence_number": licenceNumber,
+        "clinic_affiliation": hospitalAffliated,
       },
     );
     return UpdateUser.fromJson(map);
@@ -215,7 +212,7 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<GetSpecialties> getSpecialties()async {
+  Future<GetSpecialties> getSpecialties() async {
     final map = await Requests().get(
       AppStrings.getSpecialtiesUrl,
     );
@@ -224,48 +221,69 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<UploadImage> uploadImage({required File image}) async {
-    final map = await Requests().post(AppStrings.uploadimageUrl, 
-
-    files: {
-      "picture": image
-    },
-    
+    final map = await Requests().post(
+      AppStrings.uploadimageUrl,
+      files: {"picture": image},
     );
- 
 
     return UploadImage.fromJson(map);
   }
-  
+
   @override
-  Future<SelectedLanguages> chooseLanguages({required List<int> languageId}) async {
-    var body = {};
+  Future<SelectedLanguages> chooseLanguages(
+      {required List<int> languageId}) async {
     final accessToken = await StorageHandler.getUserToken() ?? '';
 
-    var languageList = [];
+    final body = jsonEncode({'language_id': languageId});
 
-    for (var lang in languageId) {
-      
-        languageList.add({
-          "language_id": lang,
-           
-        });
-      
-    }
-
-    body = languageList.asMap();
-
-    
-
-    final map = await Requests().post(
-      AppStrings.addAvailabilityUrl,
-      body: jsonEncode(body),
-      headers: {
-    'Content-Type': 'application/json',
-    'Authorization': accessToken,
-  }
-    );
+    print(body.toString());
+    final map = await Requests()
+        .post(AppStrings.selectLanguageUrl, body: body, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': accessToken,
+    });
     return SelectedLanguages.fromJson(map);
   }
 
+  @override
+  Future<SelectQualification> selectSpecialties(
+      {required List<int> specialties}) async {
+    final accessToken = await StorageHandler.getUserToken() ?? '';
 
+    final body = jsonEncode({'specialty_id': specialties});
+
+    print(body.toString());
+    final map = await Requests()
+        .post(AppStrings.selectSpecialtiesUrl, body: body, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': accessToken,
+    });
+    return SelectQualification.fromJson(map);
+  }
+  
+  @override
+  Future<SelectQualification> selectQualifications({required List<int> qualificationIds}) async {
+    final accessToken = await StorageHandler.getUserToken() ?? '';
+
+    final body = jsonEncode({'qualification_id': qualificationIds});
+
+    print(body.toString());
+    final map = await Requests()
+        .post(AppStrings.selectQualificationsUrl, body: body, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': accessToken,
+    });
+    return SelectQualification.fromJson(map);
+  }
+
+  @override
+  Future<Banks> getBanks() async {
+    final map = await Requests().get(
+      AppStrings.banksUrl,
+    );
+    return Banks.fromJson(map);
+  }
 }

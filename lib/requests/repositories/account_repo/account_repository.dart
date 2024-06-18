@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/selected_docs_availability.dart';
 import 'package:healthbubba/model/user/upload_image.dart';
@@ -49,11 +50,12 @@ abstract class AccountRepository {
   Future<SelectedLanguages> selectedLanguages();
   Future<SelectedLanguages> chooseLanguages({required List<int> languageId});
   Future<Qualification> getQualifications();
+  Future<SelectQualification> selectQualifications({required List<int> qualificationIds});
   Future<LoginData> updateAvalaibility({required List<DaySchedule> schedule, required BuildContext context});
   Future<GetSelectedQualifications> getSelectedQualifications();
   Future<GetSelectedAvailability> getSelectedAvailability();
-  Future<SelectQualification> selectQualifications(
-      {required List<String> qualificationsId});
+  Future<SelectQualification> selectSpecialties(
+      {required List<int> specialties});
 
       Future<SelectLanguage> addLanguage(
       {required String languages});
@@ -67,7 +69,14 @@ abstract class AccountRepository {
       Future<GetSpecialties> getSpecialties(
      );
 
+     Future<Banks> getBanks(
+     );
+
      Future<UploadImage> uploadImage(
       {required File image}
+     );
+
+     Future<UpdateUser> updateUserData(
+      {required String title,required String firstname,required String lastname,required String licenceNumber, required int experience,required String hospitalAffliated,required String phone,   String? location,}
      );
 }

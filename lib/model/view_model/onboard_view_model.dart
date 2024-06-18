@@ -33,10 +33,10 @@ class OnboardViewModel extends BaseViewModel {
 
 
   List<String> _selectedSpecialties = [];
-  List<String> _selectedSpecialtiesId = [];
+  List<int> _selectedSpecialtiesId = [];
 
   void toggleSpecialty(
-      {required String specialty, required String specialtiesId}) {
+      {required String specialty, required int specialtiesId}) {
     if (_selectedSpecialties.contains(specialty)) {
       _selectedSpecialties.remove(specialty);
       _selectedSpecialtiesId.remove(specialtiesId);
@@ -63,10 +63,15 @@ class OnboardViewModel extends BaseViewModel {
   setViewState(ViewState.success);
 }
 
-  void clearLanguage() {
-    _selectedLanguages.clear();
-    setViewState(ViewState.success);
-  }
+void clearLanguage() {
+  _selectedLanguages.clear();
+
+  _selectedLanguagesId.clear();
+
+  setViewState(ViewState.success);
+}
+
+   
 
   void clearSpecialties() {
     _selectedSpecialties.clear();
@@ -401,7 +406,7 @@ class OnboardViewModel extends BaseViewModel {
   bool get showConfirmPasswordStatus => _showConfirmPassword1;
   bool get scrollable => _isScrollable;
   List<String> get selectedSpecialties => _selectedSpecialties;
-  List<String> get selectedSpecialtiesId => _selectedSpecialtiesId;
+  List<int> get selectedSpecialtiesId => _selectedSpecialtiesId;
 
   List<DaySchedule> get schedule => _schedule;
   List<SelectedLangs> get selectedLanguages => _selectedLanguages;

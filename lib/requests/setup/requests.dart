@@ -38,63 +38,55 @@ class Requests {
   }
 
   Future<dynamic> post(String route,
-    {Map<String, String>? headers,
-    dynamic body,
-    Map<String, File>? files,
-    Encoding? encoding,
-    RetryOptions? retryOption}) async {
-  late dynamic map;
-  debugPrint(route);
-  final retryOptions = retryOption ?? const RetryOptions(maxAttempts: 3);
+      {Map<String, String>? headers,
+      dynamic body,
+      Map<String, File>? files,
+      Encoding? encoding,
+      RetryOptions? retryOption}) async {
+    late dynamic map;
+    debugPrint(route);
+    try {
+      if (files != null) {
+        final request = http.MultipartRequest('POST', Uri.parse(route));
+        request.headers.addAll(headers ?? await formDataHeader());
+          request.fields.addAll(body as Map<String, String>);
+        files.forEach((key, value) async {
+          request.files.add(await http.MultipartFile.fromPath(key, value.path,));
+        });
 
-  try {
-    if (files != null && files.isNotEmpty) {
-      final request = http.MultipartRequest('POST', Uri.parse(route));
-      request.headers.addAll(headers ?? await formDataHeader());
-
-      if (body != null) {
-        if (body is Map<String, String>) {
-          request.fields.addAll(body);
-        } else if (body is Map<String, dynamic>) {
-          request.fields.addAll(body.map((key, value) => MapEntry(key, value.toString())));
-        } else {
-          throw const FormatException("Body format not supported");
-        }
+        final response = retryOption != null
+            ? await retryOption.retry(() => request.send())
+            : await retry(
+                () => request.send(),
+                retryIf: (e) => e is SocketException || e is TimeoutException,
+              );
+        map = json
+            .decode(await RequestHandler.handleStreamedServerError(response));
+      } else {
+        final client = RetryClient(http.Client());
+        await client
+            .post(Uri.parse(route),
+                body: body,
+                headers: headers ?? await formDataHeader(),
+                )
+            .then((response) {
+          map = json.decode(RequestHandler.handleServerError(response));
+          client.close();
+        });
       }
 
-      for (var entry in files.entries) {
-        var file = entry.value;
-        var fileStream = http.ByteStream(Stream.castFrom(file.openRead()));
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(entry.key, fileStream, 
-        length, filename: basename(file.path));
-        request.files.add(multipartFile);
-      }
+     
 
-      final response = await retryOptions.retry(() => request.send(), retryIf: (e) => e is SocketException || e is TimeoutException);
-
-      map = json.decode(await RequestHandler.handleStreamedServerError(response));
-    } else {
-      final client = RetryClient(http.Client(), retries: 3);
-      final response = await client.post(
-        Uri.parse(route),
-        headers: headers ?? await formDataHeader(),
-        body: body != null ? json.encode(body) : null,
-        encoding: encoding,
-      );
-      map = json.decode(RequestHandler.handleServerError(response));
-      client.close();
+    } on SocketException {
+      throw NetworkException(AppStrings.networkErrorMessage);
+    } on HandshakeException {
+      throw NetworkException(AppStrings.networkErrorMessage);
+    } on FormatException catch (e) {
+      throw NetworkException(e.toString());
     }
-  } on SocketException {
-    throw NetworkException(AppStrings.networkErrorMessage);
-  } on HandshakeException {
-    throw NetworkException(AppStrings.networkErrorMessage);
-  } on FormatException catch (e) {
-    throw NetworkException(e.message);
-  }
 
-  return map;
-}
+    return map;
+  }
 
   Future<dynamic> put(String route,
       {Map<String, String>? headers,

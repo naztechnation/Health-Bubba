@@ -187,6 +187,18 @@ class UpdateBioLoaded extends AccountStates {
   List<Object> get props => [bio];
 }
 
+class UpdateUserLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UpdateUserLoaded extends AccountStates {
+  final UpdateUser updateUser;
+  const UpdateUserLoaded(this.updateUser);
+  @override
+  List<Object> get props => [updateUser];
+}
+
 class UserDataLoading extends AccountStates {
   @override
   List<Object> get props => [];

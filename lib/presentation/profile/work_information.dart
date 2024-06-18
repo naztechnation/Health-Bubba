@@ -22,6 +22,7 @@ import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
+import '../../widgets/decision_widgets.dart';
 import '../../widgets/loading_screen.dart';
 import 'complete_setup.dart';
 import 'widget/work_bio_textfield.dart';
@@ -87,8 +88,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
   }
 
   @override
-  Widget build(BuildContext context) { 
-
+  Widget build(BuildContext context) {
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
       if (state is SelectedLanguagesLoaded) {
@@ -96,7 +96,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           languages = state.language.message?.data ?? [];
 
           for (var lang in languages) {
-            Provider.of<OnboardViewModel>(context, listen: false).addLanguage(lang.languageName ?? '',lang.languageId ?? 0);
+            Provider.of<OnboardViewModel>(context, listen: false)
+                .addLanguage(lang.languageName ?? '', lang.languageId ?? 0);
           }
         } else {
           ToastService().showToast(context,
@@ -108,9 +109,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
         if (state.qualificationsData.ok ?? false) {
           qualification = state.qualificationsData.message?.data ?? [];
           for (var qualification in qualification) {
-            Provider.of<OnboardViewModel>(context, listen: false).toggleSpecialty(
+            Provider.of<OnboardViewModel>(context, listen: false)
+                .toggleSpecialty(
               specialty: qualification.qualificationName ?? '',
-              specialtiesId: qualification.qualificationId.toString(),
+              specialtiesId: qualification.qualificationId ?? 0,
             );
           }
         } else {
@@ -126,7 +128,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               title: 'Success!!!',
               subtitle: state.bio.message ?? '');
 
-          Provider.of<OnboardViewModel>(context, listen: false).saveBio(bioData);
+          Provider.of<OnboardViewModel>(context, listen: false)
+              .saveBio(bioData);
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -135,7 +138,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
         }
       } else if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
-          Provider.of<OnboardViewModel>(context, listen: false).saveBio(state.userData.data?.bio ?? "");
+          Provider.of<OnboardViewModel>(context, listen: false)
+              .saveBio(state.userData.data?.bio ?? "");
 
           imageUrl = state.userData.data?.picture ?? "";
         } else {
@@ -179,7 +183,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               title: 'Error!!!',
               subtitle: state.availability.message ?? '');
         }
-      }else if (state is AccountApiErr) {
+      } else if (state is AccountApiErr) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.error),
             title: 'Error!!!',
@@ -191,8 +195,6 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             subtitle: "Network Error");
       }
     }, builder: (context, state) {
-      
-
       return (state is UpdateBioLoading || state is UploadImageLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
@@ -267,10 +269,14 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                 right: 8,
                                 child: GestureDetector(
                                   onTap: () {
-                                    Provider.of<OnboardViewModel>(context, listen: false).loadImage(context, () {
-                                      
+                                    Provider.of<OnboardViewModel>(context,
+                                            listen: false)
+                                        .loadImage(context, () {
                                       _accountCubit.uploadImage(
-                                          image: Provider.of<OnboardViewModel>(context, listen: false).imageURl!);
+                                          image: Provider.of<OnboardViewModel>(
+                                                  context,
+                                                  listen: false)
+                                              .imageURl!);
                                     });
                                   },
                                   child: Container(
@@ -372,11 +378,20 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                 right: 8,
                                 child: GestureDetector(
                                   onTap: () {
-                                    Provider.of<OnboardViewModel>(context, listen: false).loadImage(context, () {
+                                    Provider.of<OnboardViewModel>(context,
+                                            listen: false)
+                                        .loadImage(context, () {
                                       Modals.showToast(
-                                          Provider.of<OnboardViewModel>(context, listen: false).imageURl?.path ?? '');
+                                          Provider.of<OnboardViewModel>(context,
+                                                      listen: false)
+                                                  .imageURl
+                                                  ?.path ??
+                                              '');
                                       _accountCubit.uploadImage(
-                                          image: Provider.of<OnboardViewModel>(context, listen: false).imageURl!);
+                                          image: Provider.of<OnboardViewModel>(
+                                                  context,
+                                                  listen: false)
+                                              .imageURl!);
                                     });
                                   },
                                   child: Align(
@@ -479,9 +494,16 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                       Expanded(
                                         flex: 8,
                                         child: Text(
-                                          (Provider.of<OnboardViewModel>(context, listen: false).workBio == '')
+                                          (Provider.of<OnboardViewModel>(
+                                                          context,
+                                                          listen: false)
+                                                      .workBio ==
+                                                  '')
                                               ? 'Add a Bio ( Summary of your professional background and experience).'
-                                              : Provider.of<OnboardViewModel>(context, listen: false).workBio,
+                                              : Provider.of<OnboardViewModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .workBio,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 200,
                                           style: GoogleFonts.getFont(
@@ -577,7 +599,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            top: (Provider.of<OnboardViewModel>(context, listen: false).schedule.isEmpty)
+                                            top: (Provider.of<OnboardViewModel>(
+                                                        context,
+                                                        listen: false)
+                                                    .schedule
+                                                    .isEmpty)
                                                 ? 2
                                                 : 20),
                                         child: const ImageView.svg(
@@ -750,7 +776,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           AppImages.language),
                                     ),
                                     Expanded(
-                                      child: (Provider.of<OnboardViewModel>(context, listen: false).selectedLanguages.isEmpty)
+                                      child: (Provider.of<OnboardViewModel>(
+                                                  context,
+                                                  listen: false)
+                                              .selectedLanguages
+                                              .isEmpty)
                                           ? Text(
                                               'Languages spoken',
                                               overflow: TextOverflow.ellipsis,
@@ -785,7 +815,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                 .only(
                                                                 right: 8.0),
                                                         child: Text(
-                                                          '$language${isLast ? '' : ', '}',
+                                                          '${language.language}${isLast ? '' : ', '}',
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
@@ -865,8 +895,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           AppImages.specialties),
                                     ),
                                     Expanded(
-                                      child: (Provider.of<OnboardViewModel>(context, listen: false)
-                                              .selectedSpecialties.isEmpty)
+                                      child: (Provider.of<OnboardViewModel>(
+                                                  context,
+                                                  listen: false)
+                                              .selectedSpecialties
+                                              .isEmpty)
                                           ? Text(
                                               'Specialties or areas of focus',
                                               overflow: TextOverflow.ellipsis,
@@ -975,10 +1008,26 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                             children: [
                               ButtonView(
                                   onPressed: () {
-                                    AppNavigator.pushAndStackPage(context,
-                                        page: const CompleteSetUpScreen());
-                                    // AppNavigator.pushAndStackPage(context,
-                                    // page:     ErrorPage(statusCode: '503', onTap: () {  },));
+                                    Modals.showDialogModal(
+                                      context,
+                                      page: destructiveActions(
+                                          context: context,
+                                          message:
+                                              'Are you sure you want to continue with this action?',
+                                          primaryText: 'Cancel',
+                                          secondaryText: 'Continue',
+                                          primaryAction: () {
+                                            Navigator.pop(context);
+                                          },
+                                          primaryBgColor:
+                                              const Color(0xFFF70000),
+                                          secondaryAction: () {
+                                            AppNavigator.pushAndStackPage(
+                                                context,
+                                                page:
+                                                    const CompleteSetUpScreen());
+                                          }),
+                                    );
                                   },
                                   borderRadius: 100,
                                   color: AppColors.lightSecondary,
@@ -994,8 +1043,24 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  AppNavigator.pushAndReplacePage(context,
-                                      page: const Dashboard());
+                                  Modals.showDialogModal(
+                                    context,
+                                    page: destructiveActions(
+                                        context: context,
+                                        message:
+                                            'Are you sure you want to continue with this action?',
+                                        primaryText: 'Cancel',
+                                        secondaryText: 'Continue',
+                                        primaryAction: () {
+                                          Navigator.pop(context);
+                                        },
+                                        primaryBgColor: const Color(0xFFF70000),
+                                        secondaryAction: () {
+                                          AppNavigator.pushAndReplacePage(
+                                              context,
+                                              page: const Dashboard());
+                                        }),
+                                  );
                                 },
                                 child: Container(
                                     width: MediaQuery.sizeOf(context).width,

@@ -105,7 +105,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                   if (languageController.text.isNotEmpty) {
                     
                        _accountCubit.selectLanguages(
-                              languages: languageController.text);
+                              languages: languageController.text.trim());
 
 
                     Navigator.pop(context);
@@ -136,9 +136,19 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
       if (state is LanguagesLoaded) {
         if (state.languages.ok ?? false) {
           languages = state.languages.message?.data ?? [];
+
+             context.read<OnboardViewModel>().clearLanguage();
           setState(() {});
         } else {}
       } else if (state is SelectLanguagesLoaded) {
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.success),
+            title: 'Success!!!',
+            subtitle: state.language.message?.message ?? '');
+
+        AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
+        
+      }else if (state is ChooseLanguagesLoaded) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.success),
             title: 'Success!!!',
@@ -160,7 +170,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
             });
       }
 
-      return (state is LanguagesLoading || state is SelectLanguageLoading)
+      return (state is LanguagesLoading || state is SelectLanguageLoading || state is ChooseLanguageLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -177,7 +187,6 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                         .read<OnboardViewModel>()
                         .selectedLanguages
                         .isNotEmpty) {
-                      context.read<OnboardViewModel>().clearLanguage();
                       Modals.showDialogModal(
                         context,
                         page: destructiveActions(
@@ -187,19 +196,31 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             primaryText: 'Discard',
                             secondaryText: 'Save',
                             primaryAction: () {
+                              context.read<OnboardViewModel>().clearLanguage();
+                        
                               AppNavigator.pushAndReplacePage(context,
                                   page: const WorkInformation());
                             },
                             primaryBgColor: const Color(0xFFF70000),
                             secondaryAction: () {
-                              AppNavigator.pushAndReplacePage(context,
-                                  page: const WorkInformation());
-                              context.read<OnboardViewModel>().saveLanguages();
+                                if (context
+                            .read<OnboardViewModel>()
+                            .selectedLanguages
+                            .isNotEmpty) {
+                          _accountCubit.chooseLanguage(
+                              language: context
+                            .read<OnboardViewModel>()
+                            .selectedLanguagesId);
+                        } else {
+                          Navigator.pop(context);
+                          ToastService().showToast(context,
+                              leadingIcon: const ImageView.svg(AppImages.error),
+                              title: 'Error',
+                              subtitle:
+                                  'Select atleast a language to continue');
+                        }
                             }),
                       );
-                    } else {
-                      AppNavigator.pushAndReplacePage(context,
-                          page: const WorkInformation());
                     }
                   },
                   child: const Padding(
@@ -245,123 +266,125 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                       )),
                 ],
               ),
-              body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Divider(
-                    color: Color(
-                      0xFF40B93C,
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Divider(
+                      color: Color(
+                        0xFF40B93C,
+                      ),
+                      height: 0.5,
+                      thickness: 1,
                     ),
-                    height: 0.5,
-                    thickness: 1,
-                  ),
-                  Consumer<OnboardViewModel>(
-                    builder: (context, provider, child) {
-                      return Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children:
-                                provider.selectedLanguages.map((language) {
-                              return Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 12),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade200,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(language.language),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          provider.removeLanguage(language.language,language.languageId);
-                                        },
-                                        child: Icon(
-                                          Icons.close,
-                                          size: 15,
-                                          color: Colors.grey.shade400,
-                                        )),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Divider(
-                    color: Colors.grey.shade300,
-                  ),
-                  ListView.separated(
-                    itemCount: languages.length,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => Divider(
-                      color: Colors.grey.shade300,
-                    ),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          context
-                              .read<OnboardViewModel>()
-                              .addLanguage(languages[index].languageName ?? '', languages[index].languageId ?? 0);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 8),
-                          child: Text(languages[index].languageName ?? ''),
-                        ),
-                      );
-                    },
-                  ),
-                  Divider(
-                    color: Colors.grey.shade300,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Modals.showBottomSheetModal(context,
-                            isDissmissible: true,
-                            isScrollControlled: true,
-                            heightFactor: 0.6,
-                            page: _showAddLanguageSheet(context));
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: Color(
-                              0xFF40B93C,
+                    Consumer<OnboardViewModel>(
+                      builder: (context, provider, child) {
+                        return Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children:
+                                  provider.selectedLanguages.map((language) {
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 4.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 12),
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade200,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(language.language),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            provider.removeLanguage(language.language,language.languageId);
+                                          },
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 15,
+                                            color: Colors.grey.shade400,
+                                          )),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
-                          SizedBox(width: 8.0),
-                          Text('Add Language',
-                              style: TextStyle(
-                                  color: Color(
-                                    0xFF40B93C,
-                                  ),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500)),
-                        ],
+                        );
+                      },
+                    ),
+                    Divider(
+                      color: Colors.grey.shade300,
+                    ),
+                    ListView.separated(
+                      itemCount: languages.length,
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) => Divider(
+                        color: Colors.grey.shade300,
+                      ),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            context
+                                .read<OnboardViewModel>()
+                                .addLanguage(languages[index].languageName ?? '', languages[index].languageId ?? 0);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8),
+                            child: Text(languages[index].languageName ?? ''),
+                          ),
+                        );
+                      },
+                    ),
+                    Divider(
+                      color: Colors.grey.shade300,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Modals.showBottomSheetModal(context,
+                              isDissmissible: true,
+                              isScrollControlled: true,
+                              heightFactor: 0.6,
+                              page: _showAddLanguageSheet(context));
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: Color(
+                                0xFF40B93C,
+                              ),
+                            ),
+                            SizedBox(width: 8.0),
+                            Text('Add Language',
+                                style: TextStyle(
+                                    color: Color(
+                                      0xFF40B93C,
+                                    ),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 60,
-                  )
-                ],
+                    const SizedBox(
+                      height: 60,
+                    )
+                  ],
+                ),
               ),
             );
     });

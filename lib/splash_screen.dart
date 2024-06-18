@@ -2,18 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthbubba/presentation/profile/profile_setup.dart';
-import 'package:healthbubba/presentation/profile/work_information.dart';
 
 import '../../res/app_images.dart';
 import '../res/app_routes.dart';
 import '../utils/navigator/page_navigator.dart';
 import 'handlers/secure_handler.dart';
-import 'presentation/dashboard/dashboard.dart';
 import 'presentation/onboarding/onboard.dart';
-import 'presentation/onboarding/onboarding_one.dart';
-import 'res/app_colors.dart';
-import 'res/app_constants.dart';
-import 'res/app_strings.dart';
+import 'presentation/profile/work_information.dart';
+import 'res/app_colors.dart'; 
 import 'widgets/image_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -54,7 +50,8 @@ class _SplashScreenState extends State<SplashScreen>
     } else {
       //AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
 
-      AppNavigator.pushAndStackPage(context, page: const WorkInformation());
+       AppNavigator.pushAndStackPage(context, page: const WorkInformation());
+      //AppNavigator.pushAndStackPage(context, page:   ProfileSetup());
 
      // AppNavigator.pushAndStackPage(context, page: const Dashboard());
     }

@@ -28,7 +28,7 @@ class AppStrings {
   static const String selectQualificationsUrl = "${_baseUrl}select-qualifications";
   static const String addLanguagesUrl = "${_baseUrl}add-language";
   static const String selectedLanguagesUrl = "${_baseUrl}get-user-language";
-  static const String selectedQualificationsUrl = "${_baseUrl}get-user-qualification";
+  static const String selectedQualificationsUrl = "${_baseUrl}get_user_specialties";
   static const String selectedDocAvailabilityUrl = "${_baseUrl}doctor/availability";
   static const String addAvailabilityUrl = "${_baseUrl}doctor/availability";
   static const String updateBioUrl = "${_baseUrl}doctor/update_profile";
@@ -36,6 +36,8 @@ class AppStrings {
   static const String getSpecialtiesUrl = "${_baseUrl}specialties";
   static const String uploadimageUrl = "${_baseUrl}user/update_profile_pic";
   static const String selectLanguageUrl = "${_baseUrl}select-language";
+  static const String selectSpecialtiesUrl = "${_baseUrl}select_specialties";
+  static const String banksUrl = "${_baseUrl}select_specialties";
   
 
 
