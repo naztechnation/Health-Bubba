@@ -142,6 +142,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         }
       } else if (state is UpdateUserLoaded) {
         if (state.updateUser.ok ?? false) {
+          
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.success),
               title: AppStrings.successTitle,

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/auth_model/login.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/user/bank_details.dart';
 import 'package:healthbubba/model/user/get_specialties.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/qualification.dart';
@@ -8,6 +9,7 @@ import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 
 import '../../model/auth_model/register.dart';
+import '../../model/user/banks.dart';
 import '../../model/user/select_language.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
@@ -265,9 +267,30 @@ class OTPResent extends AccountStates {
   @override
   List<Object> get props => [userData];
 }
- 
 
- 
+class BanksDataLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class BanksDataLoaded extends AccountStates {
+  final Banks banks;
+  const BanksDataLoaded(this.banks);
+  @override
+  List<Object> get props => [banks];
+}
+
+class AddBanksDataLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AddBanksDataLoaded extends AccountStates {
+  final BankDetails bankDetails;
+  const AddBanksDataLoaded(this.bankDetails);
+  @override
+  List<Object> get props => [bankDetails];
+}
 
 class AccountNetworkErr extends AccountStates {
   final String? message;

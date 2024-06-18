@@ -173,6 +173,7 @@ class TextEditView extends StatelessWidget {
                         helperStyle: const TextStyle(fontSize: 10),
                         prefixText: prefixText,
                         prefixIcon: prefixIcon,
+                        counterText: '',
                         iconColor: iconColor,
                         prefixIconColor: iconColor,
                         suffixIcon: suffixIcon,

@@ -7,6 +7,7 @@ import '../../res/app_images.dart';
 import '../res/app_routes.dart';
 import '../utils/navigator/page_navigator.dart';
 import 'handlers/secure_handler.dart';
+import 'presentation/dashboard/dashboard.dart';
 import 'presentation/onboarding/onboard.dart';
 import 'presentation/profile/work_information.dart';
 import 'res/app_colors.dart'; 
@@ -48,12 +49,12 @@ class _SplashScreenState extends State<SplashScreen>
 
       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
     } else {
-      //AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
 
-       AppNavigator.pushAndStackPage(context, page: const WorkInformation());
+      //  AppNavigator.pushAndStackPage(context, page: const WorkInformation());
       //AppNavigator.pushAndStackPage(context, page:   ProfileSetup());
 
-     // AppNavigator.pushAndStackPage(context, page: const Dashboard());
+      AppNavigator.pushAndStackPage(context, page: const Dashboard());
     }
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

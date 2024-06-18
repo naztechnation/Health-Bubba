@@ -8,6 +8,14 @@ class StorageHandler {
     if (username != null) await storage.write(key: 'USER', value: username);
   }
 
+  static Future<void> saveUserFirstName([String? name]) async {
+    if (name != null) await storage.write(key: 'FIRSTNAME', value: name);
+  }
+
+  static Future<void> saveUserTitle([String? title]) async {
+    if (title != null) await storage.write(key: 'TITLE', value: title);
+  }
+
   static Future<void> saveEmail([String? username]) async {
     if (username != null) await storage.write(key: 'EMAIL', value: username);
   }
@@ -38,8 +46,9 @@ class StorageHandler {
   }
 
   static Future<void> saveIsLoggedIn([String? isLoggedIn]) async {
-    if (isLoggedIn != null)
+    if (isLoggedIn != null) {
       await storage.write(key: 'LOGGEDIN', value: isLoggedIn);
+    }
   }
 
    
@@ -62,6 +71,18 @@ class StorageHandler {
     return username;
   }
 
+  static Future<String> getUserTitle() async {
+    String? value = await storage.read(key: 'TITLE');
+    String? title;
+    String? data = value;
+    if (data != null) {
+      title = data;
+    } else {
+      title = '';
+    }
+    return title;
+  }
+
    static Future<String> getUserToken() async {
     String? value = await storage.read(key: 'TOKEN');
     String? token;
@@ -74,16 +95,16 @@ class StorageHandler {
     return token;
   }
 
-   static Future<String> getAgentId() async {
-    String? value = await storage.read(key: 'AGENTID');
-    String? agentId;
+   static Future<String> getFirstName() async {
+    String? value = await storage.read(key: 'FIRSTNAME');
+    String? name;
     String? data = value;
     if (data != null) {
-      agentId = data;
+      name = data;
     } else {
-      agentId = '';
+      name = '';
     }
-    return agentId;
+    return name;
   }
 
     static Future<String> getFirebaseToken() async {

@@ -21,8 +21,9 @@ class RequestHandler {
         return response.body;
 
       case 401:
+      return response.body;
       case 409:
-        throw NetworkException("${response.statusCode}");
+        return response.body;
 
       case 403:
         throw NetworkException("${response.statusCode}");
@@ -55,8 +56,12 @@ class RequestHandler {
       case 200:
         return res.join('');
       case 400:
-        throw NetworkException("${response.statusCode}");
+         return res.join('');
+         case 409:
+        return res.join('');
       case 401:
+        return res.join('');
+
       case 403:
         throw NetworkException("${response.statusCode}");
       case 404:

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
+import 'package:healthbubba/model/patients/patients_list.dart';
+import 'package:healthbubba/model/user/bank_details.dart';
 import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/get_specialties.dart';
 import 'package:healthbubba/model/user/languages.dart';
@@ -286,4 +288,20 @@ class AccountRepositoryImpl implements AccountRepository {
     );
     return Banks.fromJson(map);
   }
+
+  @override
+  Future<BankDetails> addBankDetails({required String bankCode, 
+  required String accountNumber, required String accountName, required String url}) async {
+    final map = await Requests().post(
+      url,
+      body: {
+        "bank_id": bankCode,
+        "account_number": accountNumber,
+        "account_name": accountName,
+      },
+    );
+    return BankDetails.fromJson(map);
+  }
+
+ 
 }

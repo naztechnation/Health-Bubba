@@ -37,7 +37,10 @@ class AppStrings {
   static const String uploadimageUrl = "${_baseUrl}user/update_profile_pic";
   static const String selectLanguageUrl = "${_baseUrl}select-language";
   static const String selectSpecialtiesUrl = "${_baseUrl}select_specialties";
-  static const String banksUrl = "${_baseUrl}select_specialties";
+  static const String banksUrl = "${_baseUrl}banks";
+  static const String addBanksUrl = "${_baseUrl}add_banking_details";
+  static const String editBanksUrl = "${_baseUrl}edit_banking_details";
+  static   String patientsListsUrl({required String  page, required String  limit}) => "${_baseUrl}patients?page=$page&limit=$limit";
   
 
 

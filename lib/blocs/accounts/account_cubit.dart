@@ -498,4 +498,54 @@ class AccountCubit extends Cubit<AccountStates> {
       }
     }
   }
+
+  Future<void> getBanks() async {
+    try {
+      emit(BanksDataLoading());
+
+      final user = await accountRepository.getBanks();
+
+      emit(BanksDataLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> addBankDetails(
+    {required String bankCode, 
+  required String accountNumber, required String accountName, required String url}
+  ) async {
+    try {
+      emit(AddBanksDataLoading());
+
+      final user = await accountRepository.addBankDetails(bankCode: bankCode,
+      accountNumber: accountNumber, accountName: accountName, url: url
+
+      );
+
+      emit(AddBanksDataLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

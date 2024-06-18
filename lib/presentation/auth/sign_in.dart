@@ -67,6 +67,9 @@ class _SignInScreenState extends State<SignInScreen> {
                     if (state.loginData.ok!) {
 
                        StorageHandler.saveUserToken(state.loginData.data?.token ?? '');
+                       StorageHandler.saveUserTitle(state.loginData.data?.user?.title ?? '');
+                       StorageHandler.saveUserFirstName(state.loginData.data?.user?.firstName ?? '');
+                       StorageHandler.saveUserPicture("${AppStrings.imageBaseUrl}${state.loginData.data?.user?.picture ?? ''}");
                       ToastService().showToast(
                         context,
                         leadingIcon: const ImageView.svg(AppImages.tick),
