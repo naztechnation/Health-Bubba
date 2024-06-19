@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../model/patients/patients_list.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 
-patientCard({required BuildContext context}) {
+patientCard({required BuildContext context,required Patients patients}) {
   return Container(
     width: MediaQuery.sizeOf(context).width,
     margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
@@ -46,13 +47,31 @@ patientCard({required BuildContext context}) {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child: const SizedBox(
+                  child:   SizedBox(
                     width: 42.1,
                     height: 43,
-                    child: ImageView.asset(
-                      AppImages.onboardingThree,
-                      fit: BoxFit.cover,
-                    ),
+                    child:
+                    
+                    Image.network(
+                                                    fit: BoxFit.cover,
+                                                    patients.picture ?? '',
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return const ImageView
+                                                          .asset(
+                                                          AppImages.avatarIcon);
+                                                    },
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) return child;
+                                                      return const ImageView
+                                                          .asset(
+                                                          AppImages.avatarIcon);
+                                                    },
+                                                  )
+                      
                   ),
                 ),
                 const SizedBox(
@@ -63,7 +82,7 @@ patientCard({required BuildContext context}) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Akeem Adewale',
+                      patients.firstName ?? '',
                       style: GoogleFonts.getFont(
                         'Inter',
                         fontWeight: FontWeight.w500,

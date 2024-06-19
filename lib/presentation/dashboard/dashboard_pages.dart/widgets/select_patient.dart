@@ -111,14 +111,14 @@ class SelectPatient extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               
-                          ListView.builder(
-                            itemCount: 20,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index){
-                            return patientCard(context:context
-                            );
-                          }, )
+                          // ListView.builder(
+                          //   itemCount: 20,
+                          //   shrinkWrap: true,
+                          //   physics: const NeverScrollableScrollPhysics(),
+                          //   itemBuilder: (context, index){
+                          //   return patientCard(context:context, patients: null
+                          //   );
+                          // }, )
                             ],
                           ),
                         ),

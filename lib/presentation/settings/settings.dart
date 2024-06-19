@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'dart:ui';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/sign_in.dart';
@@ -21,6 +19,9 @@ import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
 
 class SettingsPage extends StatelessWidget {
+  final String profileUrl;
+
+  const SettingsPage({super.key, required this.profileUrl});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,23 +61,40 @@ class SettingsPage extends StatelessWidget {
                         top: 100,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(60),
-                          child: const SizedBox(
+                          child: SizedBox(
                             width: 91,
                             height: 91,
-                            child: ImageView.asset(
-                              AppImages.onboardingTwo,
-                              fit: BoxFit.cover,
+                            child: Hero(
+                              tag: 'profilePicture',
+                              child: Image.network(
+                                profileUrl,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                              ),
                             ),
                           ),
                         ),
                       ),
-                       const Positioned(
-                          top: 50,
-                          left: 25,
+                      const Positioned(
+                        top: 50,
+                        left: 25,
                         child: ImageView.svg(
-                                AppImages.bg,
-                                fit: BoxFit.cover,
-                              ),
+                          AppImages.bg,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       Positioned(
                           top: 58,

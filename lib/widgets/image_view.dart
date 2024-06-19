@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../res/app_images.dart';
 import '../../res/enum.dart';
@@ -88,27 +87,20 @@ class ImageView extends StatelessWidget {
         fit: fit ?? BoxFit.contain,
       );
     } else if (type == ImageType.network) {
-      return FadeInImage.assetNetwork(
-        placeholderScale: scale,
-        fit: fit,
-        height: height,
-        width: width,
-        fadeInDuration: const Duration(seconds: 5),
-        fadeInCurve: Curves.easeInCirc,
-        placeholder: placeholder ?? AppImages.avatarIcon,
-        image: url!,
-        imageErrorBuilder: imageErrorBuilder ??
-            (context, error, stackTrace) => Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          enabled: true,
-              child: Container(
-                decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                height: 40,
-                padding: const EdgeInsets.all(8),
-                 ),
-            ),
-      );
+      return SizedBox(
+          height: height,
+          width: width,
+          child: Image.network(
+            fit: BoxFit.cover,
+            url ?? '',
+            errorBuilder: (context, error, stackTrace) {
+              return const ImageView.asset(AppImages.avatarIcon);
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return const ImageView.asset(AppImages.avatarIcon);
+            },
+          ));
     } else if (type == ImageType.asset) {
       return Image.asset(
         url!,

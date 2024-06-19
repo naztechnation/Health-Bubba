@@ -15,9 +15,8 @@ import '../../../requests/repositories/account_repo/account_repository_impl.dart
 import '../../../res/app_strings.dart';
 import '../../../widgets/choice_widget.dart';
 import '../../../widgets/custom_toast.dart';
-import '../../../widgets/loading_screen.dart';
+import '../../../widgets/error_page.dart';
 import 'widgets/appointment_card.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -52,16 +51,13 @@ class _HomeState extends State<Home> {
   getUserData() async {
     _accountCubit = context.read<AccountCubit>();
 
-_accountCubit.userData();
+    _accountCubit.userData();
     imageUrl = await StorageHandler.getUserPicture();
     name = await StorageHandler.getFirstName();
     title = await StorageHandler.getUserTitle();
-
-   
-    
   }
 
-   @override
+  @override
   void initState() {
     getUserData();
     super.initState();
@@ -79,27 +75,28 @@ _accountCubit.userData();
   Widget build(BuildContext context) {
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
-        if (state is UserDataLoaded) {
+      if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
           Provider.of<OnboardViewModel>(context, listen: false)
               .saveBio(state.userData.data?.bio ?? "");
 
-          imageUrl = "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ""}";
+          imageUrl =
+              "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ""}";
           name = state.userData.data?.firstName ?? '';
-          setState(() {
-            
-          });
- 
-                      //  StorageHandler.saveUserTitle(state.userData.data?. ?? '');
-                       StorageHandler.saveUserFirstName(state.userData.data?.firstName ?? '');
-                       StorageHandler.saveUserPicture("${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ''}");
+          setState(() {});
+
+          // StorageHandler.saveUserTitle(state.userData.data?.t ?? '');
+          StorageHandler.saveUserFirstName(
+              state.userData.data?.firstName ?? '');
+          StorageHandler.saveUserPicture(
+              "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ''}");
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
               title: 'Error!!!',
               subtitle: state.userData.message ?? '');
         }
-      }     else if (state is AccountApiErr) {
+      } else if (state is AccountApiErr) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.error),
             title: 'Error!!!',
@@ -111,13 +108,26 @@ _accountCubit.userData();
             subtitle: "Network Error");
       }
     }, builder: (context, state) {
-      return 
-      // (state is UpdateBioLoading || state is UploadImageLoading)
-      //     ? LoadersPage(
-      //         length: MediaQuery.sizeOf(context).height.toInt(),
-      //       )
-      //     :
-           Scaffold(
+      if (state is AccountApiErr) {
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+              _accountCubit.userData();
+            });
+      } else if (state is AccountNetworkErr) {
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+              _accountCubit.userData();
+            });
+      }
+      return
+          // (state is UpdateBioLoading || state is UploadImageLoading)
+          //     ? LoadersPage(
+          //         length: MediaQuery.sizeOf(context).height.toInt(),
+          //       )
+          //     :
+          Scaffold(
         body: Container(
           decoration: BoxDecoration(
             color: const Color(0xFFFFFFFF),
@@ -155,7 +165,9 @@ _accountCubit.userData();
                                   child: Align(
                                     alignment: Alignment.topLeft,
                                     child: Text(
-                                   (name != null  || name != '') ?  'Hi, $title $name' : 'Hi',
+                                      (name != null || name != '')
+                                          ? 'Hi, $title $name'
+                                          : 'Hi',
                                       style: GoogleFonts.getFont(
                                         'Inter',
                                         fontWeight: FontWeight.w500,
@@ -194,7 +206,8 @@ _accountCubit.userData();
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                               color: const Color(0xFFE5E7EB)),
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           color: const Color(0xFFFFFFFF),
                                         ),
                                         child: Container(
@@ -211,8 +224,9 @@ _accountCubit.userData();
                                             child: Container(
                                               width: 24,
                                               height: 24,
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  2, 2, 2, 2),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      2, 2, 2, 2),
                                               child: const SizedBox(
                                                 width: 20,
                                                 height: 20,
@@ -227,26 +241,48 @@ _accountCubit.userData();
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: SettingsPage());
+                                            page:   SettingsPage(profileUrl: imageUrl,));
                                       },
-                                      child: (imageUrl != null  || imageUrl != '') ? SizedBox(
-                                        width: 40,
-                                        height: 40,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child:   Image.network(
-                                              fit: BoxFit.cover,
-                                                imageUrl)),
-                                      ): SizedBox(
-                                        width: 40,
-                                        height: 40,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: const ImageView.asset(
-                                                AppImages.avatarIcon)),
-                                      ),
+                                      child: (imageUrl != null ||
+                                              imageUrl != '')
+                                          ? SizedBox(
+                                              width: 40,
+                                              height: 40,
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  child: Hero(
+                                                    tag: 'profilePicture',
+                                                    child: Image.network(
+                                                      fit: BoxFit.cover,
+                                                      imageUrl,
+                                                      errorBuilder: (context,
+                                                          error, stackTrace) {
+                                                        return const ImageView
+                                                            .asset(
+                                                            AppImages.avatarIcon);
+                                                      },
+                                                      loadingBuilder: (context,
+                                                          child,
+                                                          loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) return child;
+                                                        return const ImageView
+                                                            .asset(
+                                                            AppImages.avatarIcon);
+                                                      },
+                                                    ),
+                                                  )),
+                                            )
+                                          : SizedBox(
+                                              width: 40,
+                                              height: 40,
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  child: const ImageView.asset(
+                                                      AppImages.avatarIcon)),
+                                            ),
                                     ),
                                   ],
                                 ),
@@ -309,12 +345,13 @@ _accountCubit.userData();
                                                         const Color(0xFFFFFFFF),
                                                   ),
                                                   child: Container(
-                                                    padding:
-                                                        const EdgeInsets.fromLTRB(
-                                                            7.4, 0, 7.4, 0),
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        7.4, 0, 7.4, 0),
                                                     child: Text(
                                                       '1/4 completed',
-                                                      style: GoogleFonts.getFont(
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -331,8 +368,8 @@ _accountCubit.userData();
                                             Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
-                                                    color:
-                                                        const Color(0xFFE2E4E9)),
+                                                    color: const Color(
+                                                        0xFFE2E4E9)),
                                                 borderRadius:
                                                     BorderRadius.circular(16),
                                                 color: const Color(0xFFF6F8FA),
@@ -354,12 +391,15 @@ _accountCubit.userData();
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Container(
                                                         margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 8),
-                                                        decoration: BoxDecoration(
+                                                            .fromLTRB(
+                                                            0, 0, 0, 8),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
@@ -399,8 +439,8 @@ _accountCubit.userData();
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  12, 10, 22, 10),
+                                                                  .fromLTRB(12,
+                                                                  10, 22, 10),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -433,8 +473,8 @@ _accountCubit.userData();
                                                                           0xFFFFFFFF),
                                                                       boxShadow: const [
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               2),
@@ -442,8 +482,8 @@ _accountCubit.userData();
                                                                               2,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x0A123769),
+                                                                          color:
+                                                                              Color(0x0A123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               1),
@@ -451,8 +491,8 @@ _accountCubit.userData();
                                                                               0.5,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               0),
@@ -464,22 +504,22 @@ _accountCubit.userData();
                                                                     child:
                                                                         Container(
                                                                       width: 20,
-                                                                      height: 20,
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .fromLTRB(
-                                                                              5,
-                                                                              5,
-                                                                              5,
-                                                                              5),
+                                                                      height:
+                                                                          20,
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          5,
+                                                                          5,
+                                                                          5,
+                                                                          5),
                                                                       child:
                                                                           const SizedBox(
-                                                                        width: 10,
+                                                                        width:
+                                                                            10,
                                                                         height:
                                                                             10,
                                                                         child: ImageView.svg(
-                                                                            AppImages
-                                                                                .check),
+                                                                            AppImages.check),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -496,18 +536,15 @@ _accountCubit.userData();
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             14,
                                                                         decoration:
-                                                                            TextDecoration
-                                                                                .lineThrough,
+                                                                            TextDecoration.lineThrough,
                                                                         color: const Color(
                                                                             0xFF15141D),
                                                                         decorationColor:
-                                                                            const Color(
-                                                                                0xFF15141D),
+                                                                            const Color(0xFF15141D),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -523,7 +560,8 @@ _accountCubit.userData();
                                                                         5),
                                                                 width: 4,
                                                                 height: 10,
-                                                                child: const Icon(
+                                                                child:
+                                                                    const Icon(
                                                                   Icons
                                                                       .arrow_forward_ios,
                                                                   size: 16,
@@ -535,8 +573,10 @@ _accountCubit.userData();
                                                       ),
                                                       Container(
                                                         margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 8),
-                                                        decoration: BoxDecoration(
+                                                            .fromLTRB(
+                                                            0, 0, 0, 8),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
@@ -576,8 +616,8 @@ _accountCubit.userData();
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  12, 10, 22, 10),
+                                                                  .fromLTRB(12,
+                                                                  10, 22, 10),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -610,8 +650,8 @@ _accountCubit.userData();
                                                                           0xFFFFFFFF),
                                                                       boxShadow: const [
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               2),
@@ -619,8 +659,8 @@ _accountCubit.userData();
                                                                               2,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x0A123769),
+                                                                          color:
+                                                                              Color(0x0A123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               1),
@@ -628,8 +668,8 @@ _accountCubit.userData();
                                                                               0.5,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               0),
@@ -641,17 +681,18 @@ _accountCubit.userData();
                                                                     child:
                                                                         Container(
                                                                       width: 20,
-                                                                      height: 20,
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .fromLTRB(
-                                                                              5,
-                                                                              5,
-                                                                              5,
-                                                                              5),
+                                                                      height:
+                                                                          20,
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          5,
+                                                                          5,
+                                                                          5,
+                                                                          5),
                                                                       child:
                                                                           SizedBox(
-                                                                        width: 10,
+                                                                        width:
+                                                                            10,
                                                                         height:
                                                                             10,
                                                                         child: ImageView
@@ -678,8 +719,7 @@ _accountCubit.userData();
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             14,
                                                                         color: const Color(
@@ -716,8 +756,10 @@ _accountCubit.userData();
                                                       ),
                                                       Container(
                                                         margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 8),
-                                                        decoration: BoxDecoration(
+                                                            .fromLTRB(
+                                                            0, 0, 0, 8),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
@@ -757,8 +799,8 @@ _accountCubit.userData();
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  12, 10, 22, 10),
+                                                                  .fromLTRB(12,
+                                                                  10, 22, 10),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -791,8 +833,8 @@ _accountCubit.userData();
                                                                           0xFFFFFFFF),
                                                                       boxShadow: const [
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               2),
@@ -800,8 +842,8 @@ _accountCubit.userData();
                                                                               2,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x0A123769),
+                                                                          color:
+                                                                              Color(0x0A123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               1),
@@ -809,8 +851,8 @@ _accountCubit.userData();
                                                                               0.5,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               0),
@@ -822,17 +864,18 @@ _accountCubit.userData();
                                                                     child:
                                                                         Container(
                                                                       width: 20,
-                                                                      height: 20,
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .fromLTRB(
-                                                                              5,
-                                                                              5,
-                                                                              5,
-                                                                              5),
+                                                                      height:
+                                                                          20,
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          5,
+                                                                          5,
+                                                                          5,
+                                                                          5),
                                                                       child:
                                                                           SizedBox(
-                                                                        width: 10,
+                                                                        width:
+                                                                            10,
                                                                         height:
                                                                             10,
                                                                         child: ImageView
@@ -853,8 +896,7 @@ _accountCubit.userData();
                                                                         1.5,
                                                                         0,
                                                                         1.5),
-                                                                    width: MediaQuery.sizeOf(
-                                                                                context)
+                                                                    width: MediaQuery.sizeOf(context)
                                                                             .width *
                                                                         0.7,
                                                                     child: Text(
@@ -862,13 +904,13 @@ _accountCubit.userData();
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
-                                                                      maxLines: 1,
+                                                                      maxLines:
+                                                                          1,
                                                                       style: GoogleFonts
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             14,
                                                                         color: const Color(
@@ -905,8 +947,10 @@ _accountCubit.userData();
                                                       ),
                                                       Container(
                                                         margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 8),
-                                                        decoration: BoxDecoration(
+                                                            .fromLTRB(
+                                                            0, 0, 0, 8),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
@@ -946,8 +990,8 @@ _accountCubit.userData();
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  12, 10, 22, 10),
+                                                                  .fromLTRB(12,
+                                                                  10, 22, 10),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -980,8 +1024,8 @@ _accountCubit.userData();
                                                                           0xFFFFFFFF),
                                                                       boxShadow: const [
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               2),
@@ -989,8 +1033,8 @@ _accountCubit.userData();
                                                                               2,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x0A123769),
+                                                                          color:
+                                                                              Color(0x0A123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               1),
@@ -998,8 +1042,8 @@ _accountCubit.userData();
                                                                               0.5,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               0),
@@ -1011,17 +1055,18 @@ _accountCubit.userData();
                                                                     child:
                                                                         Container(
                                                                       width: 20,
-                                                                      height: 20,
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .fromLTRB(
-                                                                              5,
-                                                                              5,
-                                                                              5,
-                                                                              5),
+                                                                      height:
+                                                                          20,
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          5,
+                                                                          5,
+                                                                          5,
+                                                                          5),
                                                                       child:
                                                                           SizedBox(
-                                                                        width: 10,
+                                                                        width:
+                                                                            10,
                                                                         height:
                                                                             10,
                                                                         child: ImageView
@@ -1048,8 +1093,7 @@ _accountCubit.userData();
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             14,
                                                                         color: const Color(
@@ -1085,7 +1129,8 @@ _accountCubit.userData();
                                                         ),
                                                       ),
                                                       Container(
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
@@ -1125,8 +1170,8 @@ _accountCubit.userData();
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  12, 10, 22, 10),
+                                                                  .fromLTRB(12,
+                                                                  10, 22, 10),
                                                           child: Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
@@ -1159,8 +1204,8 @@ _accountCubit.userData();
                                                                           0xFFFFFFFF),
                                                                       boxShadow: const [
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               2),
@@ -1168,8 +1213,8 @@ _accountCubit.userData();
                                                                               2,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x0A123769),
+                                                                          color:
+                                                                              Color(0x0A123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               1),
@@ -1177,8 +1222,8 @@ _accountCubit.userData();
                                                                               0.5,
                                                                         ),
                                                                         BoxShadow(
-                                                                          color: Color(
-                                                                              0x14123769),
+                                                                          color:
+                                                                              Color(0x14123769),
                                                                           offset: Offset(
                                                                               0,
                                                                               0),
@@ -1190,17 +1235,18 @@ _accountCubit.userData();
                                                                     child:
                                                                         Container(
                                                                       width: 20,
-                                                                      height: 20,
-                                                                      padding:
-                                                                          const EdgeInsets
-                                                                              .fromLTRB(
-                                                                              5,
-                                                                              5,
-                                                                              5,
-                                                                              5),
+                                                                      height:
+                                                                          20,
+                                                                      padding: const EdgeInsets
+                                                                          .fromLTRB(
+                                                                          5,
+                                                                          5,
+                                                                          5,
+                                                                          5),
                                                                       child:
                                                                           SizedBox(
-                                                                        width: 10,
+                                                                        width:
+                                                                            10,
                                                                         height:
                                                                             10,
                                                                         child: ImageView
@@ -1227,8 +1273,7 @@ _accountCubit.userData();
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             14,
                                                                         color: const Color(
@@ -1299,8 +1344,9 @@ _accountCubit.userData();
                                               CrossAxisAlignment.center,
                                           children: [
                                             Container(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  0, 1, 0, 1),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 1, 0, 1),
                                               child: Row(
                                                 children: [
                                                   const SizedBox(
@@ -1317,15 +1363,16 @@ _accountCubit.userData();
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Align(
                                                         alignment:
                                                             Alignment.topLeft,
                                                         child: Text(
                                                           'Schedule Appointment',
-                                                          style:
-                                                              GoogleFonts.getFont(
+                                                          style: GoogleFonts
+                                                              .getFont(
                                                             'Inter',
                                                             fontWeight:
                                                                 FontWeight.w500,
@@ -1340,8 +1387,8 @@ _accountCubit.userData();
                                                         height: 20,
                                                         child: Text(
                                                           'Book appointment on behalf of a patient',
-                                                          style:
-                                                              GoogleFonts.getFont(
+                                                          style: GoogleFonts
+                                                              .getFont(
                                                             'Inter',
                                                             fontWeight:
                                                                 FontWeight.w400,
@@ -1395,8 +1442,9 @@ _accountCubit.userData();
                                               CrossAxisAlignment.center,
                                           children: [
                                             Container(
-                                              padding: const EdgeInsets.fromLTRB(
-                                                  0, 1, 0, 1),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 1, 0, 1),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -1415,7 +1463,8 @@ _accountCubit.userData();
                                                     height: 48,
                                                     child: Column(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
@@ -1429,8 +1478,9 @@ _accountCubit.userData();
                                                               height: 20,
                                                               child: Text(
                                                                 'Create a New Prescription',
-                                                                style: GoogleFonts
-                                                                    .getFont(
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .getFont(
                                                                   'Inter',
                                                                   fontWeight:
                                                                       FontWeight
@@ -1452,7 +1502,8 @@ _accountCubit.userData();
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight.w400,
+                                                                  FontWeight
+                                                                      .w400,
                                                               fontSize: 12,
                                                               height: 1.7,
                                                               color: const Color(
@@ -1526,10 +1577,11 @@ _accountCubit.userData();
                                                         width: 12,
                                                       ),
                                                       SizedBox(
-                                                        width: MediaQuery.sizeOf(
-                                                                    context)
-                                                                .width *
-                                                            0.6,
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.6,
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -1539,12 +1591,14 @@ _accountCubit.userData();
                                                                   .start,
                                                           children: [
                                                             Align(
-                                                              alignment: Alignment
-                                                                  .topLeft,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
                                                               child: Text(
                                                                 'View Patient Profiles',
-                                                                style: GoogleFonts
-                                                                    .getFont(
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .getFont(
                                                                   'Inter',
                                                                   fontWeight:
                                                                       FontWeight
@@ -1612,7 +1666,8 @@ _accountCubit.userData();
                               ),
                             ),
                             child: Container(
-                              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 16, 16, 24),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1635,18 +1690,26 @@ _accountCubit.userData();
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       ChoiceSelector(
-                                        days: const ["1 Day", "7 Days", "30 Days"],
+                                        days: const [
+                                          "1 Day",
+                                          "7 Days",
+                                          "30 Days"
+                                        ],
                                         onSelected: _handleDaySelected,
                                       ),
-                                      const SizedBox(height: 20,),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                               color: const Color(0xFFE2E4E9)),
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                           color: const Color(0xFFF6F8FA),
                                           boxShadow: const [
                                             BoxShadow(
@@ -1698,7 +1761,8 @@ _accountCubit.userData();
                                                   children: [
                                                     Column(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .center,
@@ -1706,20 +1770,22 @@ _accountCubit.userData();
                                                         const SizedBox(
                                                             height: 80,
                                                             width: 80,
-                                                            child: ImageView.svg(
-                                                                AppImages
+                                                            child: ImageView
+                                                                .svg(AppImages
                                                                     .noData)),
                                                         Container(
-                                                          margin: const EdgeInsets
-                                                              .fromLTRB(
-                                                              0, 0, 0, 15),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  0, 0, 0, 15),
                                                           child: Text(
                                                             'No Data Available Yet. ',
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight.w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                               fontSize: 14,
                                                               height: 1.7,
                                                               color: const Color(
@@ -1731,8 +1797,8 @@ _accountCubit.userData();
                                                           'Once you start using the app for consultations and prescriptions, your analytics will be displayed here',
                                                           textAlign:
                                                               TextAlign.center,
-                                                          style:
-                                                              GoogleFonts.getFont(
+                                                          style: GoogleFonts
+                                                              .getFont(
                                                             'Inter',
                                                             fontWeight:
                                                                 FontWeight.w400,
@@ -1771,6 +1837,6 @@ _accountCubit.userData();
           ),
         ),
       );
-  });
+    });
   }
 }

@@ -1,6 +1,4 @@
-
-
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math' as math;
 import 'package:healthbubba/res/app_colors.dart';
@@ -14,13 +12,9 @@ class LoadersPage extends StatefulWidget {
 }
 
 class _LoadersPageState extends State<LoadersPage> {
-
-   
-
-  
-   @override
+  @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -31,25 +25,25 @@ class _LoadersPageState extends State<LoadersPage> {
               child: CustomCircularProgressIndicator(
                 progressColor: AppColors.lightSecondary,
                 backgroundColor: AppColors.lightSecondary.withOpacity(0.5),
-                strokeWidth: 9,
+                strokeWidth: 8,
                 size: 40,
               ),
             ),
           ),
-          const SizedBox(height: 9,),
+          const SizedBox(
+            height: 9,
+          ),
           Text(
-                                                  'Please wait...',
-                                                  
-                                                  style: GoogleFonts.getFont(
-                                                    fontStyle: FontStyle.italic,
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
+            'Please wait...',
+            style: GoogleFonts.getFont(
+              fontStyle: FontStyle.italic,
+              'Inter',
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              height: 1.4,
+              color: const Color(0xFF131316),
+            ),
+          ),
         ],
       ),
     );
@@ -144,7 +138,7 @@ class _CircularProgressPainter extends CustomPainter {
 
     final double radius = (size.width / 2) - (strokeWidth / 2);
     final Offset center = Offset(size.width / 2, size.height / 2);
-    final double startAngle = - math.pi / 2;
+    final double startAngle = -math.pi / 2;
     final double sweepAngle = 2 * math.pi * progress;
 
     // Draw the background circle
