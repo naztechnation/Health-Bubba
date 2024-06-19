@@ -154,7 +154,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
         }
       } else if (state is UploadImageLoaded) {
         if (state.uploadImage.ok ?? false) {
-          imageUrl = state.uploadImage.data?.picture ?? "";
+              _accountCubit.userData();
+
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.success),
               title: 'Success!!!',
@@ -408,12 +409,27 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(50),
-                                              child: ImageView.network(
-                                                "${AppStrings.imageBaseUrl}$imageUrl",
-                                                fit: BoxFit.cover,
-                                                width: 91,
-                                                height: 91,
-                                              )),
+                                              child: 
+                                              Image.network(
+                                "${AppStrings.imageBaseUrl}$imageUrl",
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                              ),
+                                              
+                                              ),
                                         ),
                                         Positioned(
                                           top: 35,
