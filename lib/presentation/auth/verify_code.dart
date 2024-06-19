@@ -90,7 +90,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                       }else{
                         Future.delayed(const Duration(seconds: 2), () {
                          AppNavigator.pushAndReplacePage(context,
-                          page: ProfileSetup());
+                          page: const ProfileSetup(isEdit: false,));
                       });
                       }
                     } else {

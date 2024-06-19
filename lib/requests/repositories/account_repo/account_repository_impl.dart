@@ -21,6 +21,7 @@ import 'package:healthbubba/model/working_hours.dart';
 import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/user/select_specialties.dart';
 import '../../../model/user/update_user.dart';
 import '../../../res/app_strings.dart';
 
@@ -161,7 +162,7 @@ class AccountRepositoryImpl implements AccountRepository {
     final map = await Requests()
         .post(AppStrings.addAvailabilityUrl, body: jsonEncode(body), headers: {
       'Content-Type': 'application/json',
-      'Authorization': accessToken,
+      'Authorization': "Bearer $accessToken",
     });
     return LoginData.fromJson(map);
   }
@@ -177,18 +178,17 @@ class AccountRepositoryImpl implements AccountRepository {
     return UpdateUser.fromJson(map);
   }
 
-   @override
-  Future<UpdateUser> updateUserData({required String title,
-  required String firstname,
-  required String lastname,
-  required String licenceNumber, 
-  required int experience,
-  required String hospitalAffliated,
-  required String phone,
-     String? location,}) async {
-
-       
-      
+  @override
+  Future<UpdateUser> updateUserData({
+    required String title,
+    required String firstname,
+    required String lastname,
+    required String licenceNumber,
+    required int experience,
+    required String hospitalAffliated,
+    required String phone,
+    String? location,
+  }) async {
     final map = await Requests().post(
       AppStrings.updateBioUrl,
       body: {
@@ -197,7 +197,7 @@ class AccountRepositoryImpl implements AccountRepository {
         "first_name": firstname,
         "last_name": lastname,
         "phone": phone,
-       if(location != null) "address": location,
+        if (location != null) "address": location,
         "licence_number": licenceNumber,
         "clinic_affiliation": hospitalAffliated,
       },
@@ -238,45 +238,44 @@ class AccountRepositoryImpl implements AccountRepository {
 
     final body = jsonEncode({'language_id': languageId});
 
-    print(body.toString());
     final map = await Requests()
         .post(AppStrings.selectLanguageUrl, body: body, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': accessToken,
+      'Authorization': "Bearer $accessToken",
     });
     return SelectedLanguages.fromJson(map);
   }
 
   @override
-  Future<SelectQualification> selectSpecialties(
+  Future<SelectSpecialties> selectSpecialties(
       {required List<int> specialties}) async {
     final accessToken = await StorageHandler.getUserToken() ?? '';
 
-    final body = jsonEncode({'specialty_id': specialties});
+    final body = jsonEncode({"specialty_id": specialties});
 
-    print(body.toString());
     final map = await Requests()
         .post(AppStrings.selectSpecialtiesUrl, body: body, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': accessToken,
+            'Authorization': "Bearer $accessToken",
+
     });
-    return SelectQualification.fromJson(map);
+    return SelectSpecialties.fromJson(map);
   }
-  
+
   @override
-  Future<SelectQualification> selectQualifications({required List<int> qualificationIds}) async {
+  Future<SelectQualification> selectQualifications(
+      {required List<int> qualificationIds}) async {
     final accessToken = await StorageHandler.getUserToken() ?? '';
 
     final body = jsonEncode({'qualification_id': qualificationIds});
 
-    print(body.toString());
     final map = await Requests()
         .post(AppStrings.selectQualificationsUrl, body: body, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': accessToken,
+      'Authorization': "Bearer $accessToken",
     });
     return SelectQualification.fromJson(map);
   }
@@ -290,8 +289,11 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<BankDetails> addBankDetails({required String bankCode, 
-  required String accountNumber, required String accountName, required String url}) async {
+  Future<BankDetails> addBankDetails(
+      {required String bankCode,
+      required String accountNumber,
+      required String accountName,
+      required String url}) async {
     final map = await Requests().post(
       url,
       body: {
@@ -302,6 +304,4 @@ class AccountRepositoryImpl implements AccountRepository {
     );
     return BankDetails.fromJson(map);
   }
-
- 
 }

@@ -1,13 +1,18 @@
 class SelectLanguage {
   bool? ok;
-  Message? message;
+  dynamic message;
 
   SelectLanguage({this.ok, this.message});
 
   SelectLanguage.fromJson(Map<String, dynamic> json) {
     ok = json['ok'];
-    message =
-        json['message'] != null ? Message.fromJson(json['message']) : null;
+    if (json['message'] != null) {
+      if (json['message'] is String) {
+        message = json['message'];
+      } else {
+        message = Message.fromJson(json['message']);
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {

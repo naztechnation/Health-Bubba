@@ -14,7 +14,7 @@ import 'package:healthbubba/widgets/image_view.dart';
 import '../../handlers/secure_handler.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
-import 'settings_pages/bank_account_update.dart';
+import '../profile/profile_setup.dart'; 
 import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
 
@@ -39,6 +39,7 @@ class SettingsPage extends StatelessWidget {
               children: [
                 SizedBox(
                   child: Stack(
+                    clipBehavior: Clip.none,
                     alignment: Alignment.bottomCenter,
                     children: [
                       Column(
@@ -59,13 +60,13 @@ class SettingsPage extends StatelessWidget {
                       ),
                       Positioned(
                         top: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(60),
-                          child: SizedBox(
-                            width: 91,
-                            height: 91,
-                            child: Hero(
-                              tag: 'profilePicture',
+                        child: SizedBox(
+                          width: 91,
+                          height: 91,
+                          child: Hero(
+                            tag: 'profilePicture',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(45.5),
                               child: Image.network(
                                 profileUrl,
                                 fit: BoxFit.cover,
@@ -176,8 +177,7 @@ class SettingsPage extends StatelessWidget {
                                         title: 'Profile Details',
                                         icon: AppImages.profileDetails,
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: PaymentDetails());
+                                         AppNavigator.pushAndStackPage(context, page:   const ProfileSetup(isEdit: true,));
                                         }),
                                     settingsDetails(
                                         title: 'Work Information',
@@ -190,8 +190,9 @@ class SettingsPage extends StatelessWidget {
                                         title: 'Payment Settings',
                                         icon: AppImages.paymentSettings,
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: BankAccountUpdate());
+                                           AppNavigator.pushAndStackPage(context,
+                                              page: PaymentDetails());
+                                          
                                         }),
                                   ],
                                 ),

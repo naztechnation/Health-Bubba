@@ -1,10 +1,10 @@
-class SelectedLanguages {
+class SelectSpecialties {
   bool? ok;
-  dynamic message;
+  dynamic message; 
 
-  SelectedLanguages({this.ok, this.message});
+  SelectSpecialties({this.ok, this.message});
 
-  SelectedLanguages.fromJson(Map<String, dynamic> json) {
+  SelectSpecialties.fromJson(Map<String, dynamic> json) {
     ok = json['ok'];
     if (json['message'] != null) {
       if (json['message'] is String) {
@@ -19,7 +19,11 @@ class SelectedLanguages {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ok'] = ok;
     if (message != null) {
-      data['message'] = message!.toJson();
+      if (message is String) {
+        data['message'] = message;
+      } else if (message is Message) {
+        data['message'] = (message as Message).toJson();
+      }
     }
     return data;
   }
@@ -27,16 +31,16 @@ class SelectedLanguages {
 
 class Message {
   String? message;
-  List<SelectedLanguagesData>? data;
+  List<SelectSpecialtiesData>? data;
 
   Message({this.message, this.data});
 
   Message.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['data'] != null) {
-      data = <SelectedLanguagesData>[];
+      data = <SelectSpecialtiesData>[];
       json['data'].forEach((v) {
-        data!.add(SelectedLanguagesData.fromJson(v));
+        data!.add(SelectSpecialtiesData.fromJson(v));
       });
     }
   }
@@ -51,35 +55,24 @@ class Message {
   }
 }
 
-class SelectedLanguagesData {
-  int? userLanguageId;
-  int? languageId;
+class SelectSpecialtiesData {
+  int? userSpecialtyId;
+  int? specialtyId;
   int? userId;
-  String? username;
-  String? languageName;
 
-  SelectedLanguagesData(
-      {this.userLanguageId,
-      this.languageId,
-      this.userId,
-      this.username,
-      this.languageName});
+  SelectSpecialtiesData({this.userSpecialtyId, this.specialtyId, this.userId});
 
-  SelectedLanguagesData.fromJson(Map<String, dynamic> json) {
-    userLanguageId = json['user_language_id'];
-    languageId = json['language_id'];
+  SelectSpecialtiesData.fromJson(Map<String, dynamic> json) {
+    userSpecialtyId = json['user_specialty_id'];
+    specialtyId = json['specialty_id'];
     userId = json['user_id'];
-    username = json['username'];
-    languageName = json['language_name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['user_language_id'] = userLanguageId;
-    data['language_id'] = languageId;
+    data['user_specialty_id'] = userSpecialtyId;
+    data['specialty_id'] = specialtyId;
     data['user_id'] = userId;
-    data['username'] = username;
-    data['language_name'] = languageName;
     return data;
   }
 }

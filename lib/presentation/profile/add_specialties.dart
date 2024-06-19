@@ -65,12 +65,25 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
           specialties = state.specialties.message?.data ?? [];
           setState(() {});
         } else {}
-      } else if (state is SelectQualificationsLoaded) {
+      } else if (state is SelectSpecialtiesLoaded) {
+
+         if (state.selectSpecialties.ok ?? false) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.success),
             title: 'Success!!!',
-            subtitle: state.qualification.message?.message ?? '');
+            subtitle: state.selectSpecialties.message?.message ?? '');
         AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
+      }else{
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.error),
+            title: 'Error!!!',
+            subtitle: state.selectSpecialties.message ?? '');
+
+            context
+                                .read<OnboardViewModel>()
+                                .clearSpecialties();
+      }
+      
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {
@@ -88,7 +101,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
       }
 
       return (state is GetSpecialtiesLoading ||
-              state is SelectQualificationsLoading)
+              state is SelectSpecialtiesLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )

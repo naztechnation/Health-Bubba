@@ -49,10 +49,10 @@ class _SplashScreenState extends State<SplashScreen>
 
       AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
     } else {
-      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+      //AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
 
       //  AppNavigator.pushAndStackPage(context, page: const WorkInformation());
-      //AppNavigator.pushAndStackPage(context, page:   ProfileSetup());
+      
 
       AppNavigator.pushAndStackPage(context, page: const Dashboard());
     }

@@ -11,6 +11,7 @@ import 'package:healthbubba/model/user/user_data.dart';
 import '../../model/auth_model/register.dart';
 import '../../model/user/banks.dart';
 import '../../model/user/select_language.dart';
+import '../../model/user/select_specialties.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
 import '../../model/user/selected_qualifications.dart';
@@ -92,6 +93,18 @@ class QualificationsLoaded extends AccountStates {
   const QualificationsLoaded(this.qualification);
   @override
   List<Object> get props => [qualification];
+}
+
+class SelectSpecialtiesLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SelectSpecialtiesLoaded extends AccountStates {
+  final SelectSpecialties selectSpecialties;
+  const SelectSpecialtiesLoaded(this.selectSpecialties);
+  @override
+  List<Object> get props => [selectSpecialties];
 }
 
 class SelectQualificationsLoading extends AccountStates {

@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:retry/retry.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
+ import 'package:http_parser/http_parser.dart';
 
 import '../../handlers/request_handler.dart';
 import '../../res/app_strings.dart';
@@ -47,11 +49,17 @@ class Requests {
     debugPrint(route);
     try {
       if (files != null) {
-        final request = http.MultipartRequest('POST', Uri.parse(route));
+        final request = http.MultipartRequest('POST', Uri.parse(route)
+        
+        );
         request.headers.addAll(headers ?? await formDataHeader());
-          request.fields.addAll(body as Map<String, String>);
+         if(body != null) request.fields.addAll(body as Map<String, String>);
         files.forEach((key, value) async {
-          request.files.add(await http.MultipartFile.fromPath(key, value.path,));
+          request.files.add(await http.MultipartFile.fromPath(key, value.path,
+    contentType: MediaType('image', path.extension(value.path).substring(1)),
+          
+          ),
+          );
         });
 
         final response = retryOption != null
@@ -103,7 +111,7 @@ class Requests {
         if (body != null) request.fields.addAll(body as Map<String, String>);
         files.forEach((key, value) async {
           request.files.add(await http.MultipartFile.fromPath(key, value.path,
-              filename: basename(value.path)));
+              filename: path.basename(value.path)));
         });
 
         final response = retryOption != null

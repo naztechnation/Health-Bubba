@@ -1,6 +1,7 @@
 class UploadImage {
   bool? ok;
   String? message;
+  String? error;
   UploadImageData? data;
 
   UploadImage({this.ok, this.message, this.data});
@@ -8,6 +9,7 @@ class UploadImage {
   UploadImage.fromJson(Map<String, dynamic> json) {
     ok = json['ok'];
     message = json['message'];
+    error = json['error'];
     data = json['data'] != null ? UploadImageData.fromJson(json['data']) : null;
   }
 

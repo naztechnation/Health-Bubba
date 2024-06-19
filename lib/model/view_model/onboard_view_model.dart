@@ -1,13 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart';
+ import 'package:http_parser/http_parser.dart';
+import 'package:http/http.dart' as http;
+ 
+import 'package:flutter/material.dart'; 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../handlers/secure_handler.dart';
 import '../../res/app_colors.dart';
 import '../../res/enum.dart';
 
@@ -71,6 +76,8 @@ void clearLanguage() {
   setViewState(ViewState.success);
 }
 
+
+   
    
 
   void clearSpecialties() {
@@ -144,7 +151,8 @@ void clearLanguage() {
                    if(_imageURl != null) GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        onTap();
+                       // upload(_imageURl!);
+                         onTap();
                       },
                       child: const Align(
                         alignment: Alignment.topRight,

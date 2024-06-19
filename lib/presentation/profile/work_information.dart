@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
@@ -100,10 +104,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                 .addLanguage(lang.languageName ?? '', lang.languageId ?? 0);
           }
         } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.language.message?.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.error),
+          //     title: 'Error!!!',
+          //     subtitle: state.language.message?.message ?? '');
         }
       } else if (state is SelectedQualificationsLoaded) {
         if (state.qualificationsData.ok ?? false) {
@@ -116,10 +120,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             );
           }
         } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.qualificationsData.message?.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.error),
+          //     title: 'Error!!!',
+          //     subtitle: state.qualificationsData.message?.message ?? '');
         }
       } else if (state is UpdateBioLoaded) {
         if (state.bio.ok ?? false) {
@@ -131,10 +135,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           Provider.of<OnboardViewModel>(context, listen: false)
               .saveBio(bioData);
         } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.bio.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.error),
+          //     title: 'Error!!!',
+          //     subtitle: state.bio.message ?? '');
         }
       } else if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
@@ -143,10 +147,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
           imageUrl = state.userData.data?.picture ?? "";
         } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.userData.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.error),
+          //     title: 'Error!!!',
+          //     subtitle: state.userData.message ?? '');
         }
       } else if (state is UploadImageLoaded) {
         if (state.uploadImage.ok ?? false) {
@@ -159,7 +163,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
               title: 'Error!!!',
-              subtitle: state.uploadImage.message ?? '');
+              subtitle: state.uploadImage.error ?? '');
         }
       } else if (state is SelectedAvailabilitysLoaded) {
         if (state.availability.ok ?? false) {
@@ -178,21 +182,21 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                 .add({'start_time': startTime, 'end_time': endTime});
           }
         } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.availability.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.error),
+          //     title: 'Error!!!',
+          //     subtitle: state.availability.message ?? '');
         }
       } else if (state is AccountApiErr) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
+        // ToastService().showToast(context,
+        //     leadingIcon: const ImageView.svg(AppImages.error),
+        //     title: 'Error!!!',
+        //     subtitle: "Network Error");
       } else if (state is AccountNetworkErr) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
+        // ToastService().showToast(context,
+        //     leadingIcon: const ImageView.svg(AppImages.error),
+        //     title: 'Error!!!',
+        //     subtitle: "Network Error");
       }
     }, builder: (context, state) {
       return (state is UpdateBioLoading || state is UploadImageLoading)
@@ -381,12 +385,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     Provider.of<OnboardViewModel>(context,
                                             listen: false)
                                         .loadImage(context, () {
-                                      Modals.showToast(
-                                          Provider.of<OnboardViewModel>(context,
-                                                      listen: false)
-                                                  .imageURl
-                                                  ?.path ??
-                                              '');
+                                       
                                       _accountCubit.uploadImage(
                                           image: Provider.of<OnboardViewModel>(
                                                   context,
@@ -999,8 +998,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.1,
+                        const SizedBox(
+                          height:60,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -1093,4 +1092,5 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               ));
     });
   }
+
 }

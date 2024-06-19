@@ -206,12 +206,12 @@ class AccountCubit extends Cubit<AccountStates> {
   Future<void> selectSpecialties(
       {required List<int> specialties}) async {
     try {
-      emit(SelectQualificationsLoading());
+      emit(SelectSpecialtiesLoading());
 
       final user = await accountRepository.selectSpecialties(
           specialties: specialties);
 
-      emit(SelectQualificationsLoaded(user));
+      emit(SelectSpecialtiesLoaded(user));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {

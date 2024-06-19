@@ -38,15 +38,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-
   bool _checkboxState = false;
 
   void _handleCheckboxChanged(bool newValue) {
     setState(() {
       _checkboxState = newValue;
     });
-     
-     
   }
 
   @override
@@ -65,11 +62,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 listener: (context, state) {
                   if (state is LoginLoaded) {
                     if (state.loginData.ok!) {
-
-                       StorageHandler.saveUserToken(state.loginData.data?.token ?? '');
-                       StorageHandler.saveUserTitle(state.loginData.data?.user?.title ?? '');
-                       StorageHandler.saveUserFirstName(state.loginData.data?.user?.firstName ?? '');
-                       StorageHandler.saveUserPicture("${AppStrings.imageBaseUrl}${state.loginData.data?.user?.picture ?? ''}");
                       ToastService().showToast(
                         context,
                         leadingIcon: const ImageView.svg(AppImages.tick),
@@ -77,19 +69,30 @@ class _SignInScreenState extends State<SignInScreen> {
                         subtitle: state.loginData.message ?? '',
                       );
 
-                      if(state.loginData.message!.trim() == 'Operation successful. An OTP code was sent to your email address'){
-                      
-                          AppNavigator.pushAndStackPage(context, page: VerifyCodeScreen(email: _emailController.text.trim(), isForgetPassword: false,));
-                      }else if(state.loginData.data?.user?.firstName == '' || state.loginData.data?.user?.firstName == null ){
-                          AppNavigator.pushAndStackPage(context, page: const ProfileSetup());
-                        
-                      } else{
-                          AppNavigator.pushAndStackPage(context, page: const Dashboard());
-
+                      if (state.loginData.message!.toLowerCase().trim() ==
+                          'Operation successful. An OTP code was sent to your email address.'.toLowerCase()) {
+                        AppNavigator.pushAndStackPage(context,
+                            page: VerifyCodeScreen(
+                              email: _emailController.text.trim(),
+                              isForgetPassword: false,
+                            ));
+                      } else {
+                        StorageHandler.saveUserToken(
+                            state.loginData.data?.token ?? '');
+                        StorageHandler.saveUserTitle(
+                            state.loginData.data?.user?.title ?? '');
+                        StorageHandler.saveUserFirstName(
+                            state.loginData.data?.user?.firstName ?? '');
+                        StorageHandler.saveUserPicture(
+                            "${AppStrings.imageBaseUrl}${state.loginData.data?.user?.picture ?? ''}");
+                        if (_checkboxState) {
+                          StorageHandler.saveIsLoggedIn('true');
+                        } else {
+                          StorageHandler.saveIsLoggedIn('');
+                        }
+                        AppNavigator.pushAndStackPage(context,
+                            page: const Dashboard());
                       }
-
-                      
-                      
                     } else {
                       ToastService().showToast(
                         context,
@@ -348,16 +351,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                                                   .start,
                                                           children: [
                                                             CustomCheckbox(
-                                                              isChecked: _checkboxState,
-                                                              onChanged: (value){
-                                                              _handleCheckboxChanged(value);
-
-                                                            if (_checkboxState) {
-                                                               StorageHandler.saveIsLoggedIn('true');
-                                                            } else {
-                                                               StorageHandler.saveIsLoggedIn('');
-                                                            }
-                                                            } ,),
+                                                              isChecked:
+                                                                  _checkboxState,
+                                                              onChanged:
+                                                                  (value) {
+                                                                _handleCheckboxChanged(
+                                                                    value);
+                                                              },
+                                                            ),
                                                             const SizedBox(
                                                               width: 10,
                                                             ),
@@ -413,7 +414,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                               ),
                                             ),
                                             ButtonView(
-                                              processing: state is AccountLoading,
+                                                processing:
+                                                    state is AccountLoading,
                                                 onPressed: () {
                                                   _loginUser(context);
                                                 },
@@ -499,6 +501,5 @@ class _SignInScreenState extends State<SignInScreen> {
     }
 
     FocusScope.of(context).unfocus();
-
   }
 }

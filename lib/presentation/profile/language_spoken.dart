@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/user/languages.dart';
+import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/widgets/modals.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
@@ -141,21 +142,37 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
           setState(() {});
         } else {}
       } else if (state is SelectLanguagesLoaded) {
+         if (state.language.ok ?? false) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.success),
             title: 'Success!!!',
             subtitle: state.language.message?.message ?? '');
 
         AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-        
+         }else{
+          ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.error),
+            title: AppStrings.errorTitle,
+            subtitle: state.language.message ?? '');
+         }
       }else if (state is ChooseLanguagesLoaded) {
+       if (state.language.ok ?? false) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.success),
             title: 'Success!!!',
             subtitle: state.language.message?.message ?? '');
 
         AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-        
+         }else{
+          ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.error),
+            title: AppStrings.errorTitle,
+            subtitle: state.language.message ?? '');
+
+            context
+                                .read<OnboardViewModel>()
+                                .clearLanguage();
+         }
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {

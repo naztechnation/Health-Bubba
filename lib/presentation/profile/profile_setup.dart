@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
@@ -23,8 +24,10 @@ import '../../widgets/text_edit_view.dart';
 import 'work_information.dart';
 
 class ProfileSetup extends StatelessWidget {
+  final bool isEdit;
   const ProfileSetup({
     Key? key,
+    required this.isEdit,
   }) : super(key: key);
 
   @override
@@ -33,12 +36,18 @@ class ProfileSetup extends StatelessWidget {
       create: (BuildContext context) => AccountCubit(
           accountRepository: AccountRepositoryImpl(),
           viewModel: Provider.of<AccountViewModel>(context, listen: false)),
-      child: ProfileSetupPage(),
+      child: ProfileSetupPage(
+        isEdit: isEdit,
+      ),
     );
   }
 }
 
 class ProfileSetupPage extends StatefulWidget {
+  final bool isEdit;
+
+  const ProfileSetupPage({super.key, required this.isEdit});
+
   @override
   State<ProfileSetupPage> createState() => _ProfileSetupPageState();
 }
@@ -138,17 +147,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
               title: AppStrings.errorTitle,
-              subtitle: state.qualification.message?.message ?? '');
+              subtitle: state.qualification.message ?? '');
         }
       } else if (state is UpdateUserLoaded) {
         if (state.updateUser.ok ?? false) {
-          
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.success),
               title: AppStrings.successTitle,
               subtitle: state.updateUser.message ?? '');
-          AppNavigator.pushAndReplacePage(context,
-              page: const WorkInformation());
+          if (widget.isEdit) {
+            AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+          } else {
+            AppNavigator.pushAndReplacePage(context,
+                page: const WorkInformation());
+          }
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -177,483 +189,512 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
           : Scaffold(
-              body: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.circular(16),
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                title: Container(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 1.4, 8),
+                  child: Text(
+                    (widget.isEdit) ? 'Edit Profile' : 'Setup your Profile',
+                    style: GoogleFonts.getFont(
+                      'Inter',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      height: 1.5,
+                      color: const Color(0xFF0A0D14),
+                    ),
+                  ),
                 ),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.07,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(8, 12, 8, 11),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 1.4, 8),
-                                child: Text(
-                                  'Setup your Profile',
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    height: 1.5,
-                                    color: const Color(0xFF0A0D14),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                'Provide all the essential details below',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  height: 1.7,
-                                  color: const Color(0xFF6B7280),
-                                ),
-                              ),
-                            ],
+                centerTitle: true,
+                leading: (widget.isEdit)
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.only(left: 12.0, top: 17, bottom: 19),
+                          child: SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: ImageView.svg(
+                              AppImages.backBtn,
+                              height: 15,
+                            ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 63),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFCFCFC),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              body: SafeArea(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 11),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Provide all the essential details below',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    height: 1.7,
+                                    color: const Color(0xFF6B7280),
+                                  ),
                                 ),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Container(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        16, 15, 16, 16),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Title',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _titleController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: 'Select',
-                                          readOnly: true,
-                                          suffixIcon: const Padding(
-                                            padding: EdgeInsets.all(17.0),
-                                            child: ImageView.svg(
-                                              AppImages.dropDown,
-                                              scale: 0.8,
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFCFCFC),
+                                  ),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    child: Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 15, 16, 16),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Title',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
                                             ),
                                           ),
-                                           
-                                          onTap: () {
-                                            Modals.showDialogModal(context,
-                                                page:
-                                                    titleModalContent(context));
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'First name',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
+                                          const SizedBox(
+                                            height: 8,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _firstnameController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'First name');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Last name',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _lastnameController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Last name');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Medical Qualification',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _qualificationController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: 'MBBS, MCPS, MD',
-                                          suffixIcon: const Padding(
-                                            padding: EdgeInsets.all(17.0),
-                                            child: ImageView.svg(
-                                              AppImages.dropDown,
-                                              scale: 0.8,
+                                          TextEditView(
+                                            controller: _titleController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: 'Select',
+                                            readOnly: true,
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(17.0),
+                                              child: ImageView.svg(
+                                                AppImages.dropDown,
+                                                scale: 0.8,
+                                              ),
                                             ),
-                                          ),
-                                          readOnly: true,
-                                          onTap: () {
-                                            if (qualifications.isNotEmpty) {
-                                              _selectedItems.clear();
-                                              _qualificationController.clear();
+                                            onTap: () {
                                               Modals.showDialogModal(context,
-                                                  page:
-                                                      qualificationModalContent(
-                                                          context));
-                                            } else {
-                                              _accountCubit
-                                                  .loadQualifications();
-                                            }
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Medical License Number',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
+                                                  page: titleModalContent(
+                                                      context));
+                                            },
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _licenceNumberController,
-                                          borderColor: Colors.grey.shade200,
-                                          keyboardType: TextInputType.number,
-                                          borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'License Number');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Years of Experience',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
+                                          const SizedBox(
+                                            height: 15,
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _yearsOfExpController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: '',
-                                           keyboardType: TextInputType.number,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Years of Experience');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Clinic/ Hospital Affiliation',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller:
-                                              _hospitalAffliateController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: '',
-                                          validator: (value) {
-                                            return Validator.validate(value,
-                                                'Clinic/ Hospital Affiliation');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Phone Number',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _phoneController,
-                                          borderColor: Colors.grey.shade200,
-                                          keyboardType: TextInputType.number,
-                                          borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Phone Number');
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        Text(
-                                          'Location (Optional)',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        TextEditView(
-                                          controller: _locationController,
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: 'Ikeja, Lagos, Nigeria',
-                                          prefixIcon: const Padding(
-                                            padding: EdgeInsets.all(7.0),
-                                            child: ImageView.svg(
-                                              AppImages.location,
+                                          Text(
+                                            'First name',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                      ],
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller: _firstnameController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'First name');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Last name',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller: _lastnameController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'Last name');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Medical Qualification',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller:
+                                                _qualificationController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: 'MBBS, MCPS, MD',
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(17.0),
+                                              child: ImageView.svg(
+                                                AppImages.dropDown,
+                                                scale: 0.8,
+                                              ),
+                                            ),
+                                            readOnly: true,
+                                            onTap: () {
+                                              if (qualifications.isNotEmpty) {
+                                                _selectedItems.clear();
+                                                _qualificationController
+                                                    .clear();
+                                                Modals.showDialogModal(context,
+                                                    page:
+                                                        qualificationModalContent(
+                                                            context));
+                                              } else {
+                                                _accountCubit
+                                                    .loadQualifications();
+                                              }
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Medical License Number',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller:
+                                                _licenceNumberController,
+                                            borderColor: Colors.grey.shade200,
+                                            keyboardType: TextInputType.number,
+                                            borderWidth: 0.5,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'License Number');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Years of Experience',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller: _yearsOfExpController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: '',
+                                            keyboardType: TextInputType.number,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'Years of Experience');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Clinic/ Hospital Affiliation',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller:
+                                                _hospitalAffliateController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: '',
+                                            validator: (value) {
+                                              return Validator.validate(value,
+                                                  'Clinic/ Hospital Affiliation');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Phone Number',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                              
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller: _phoneController,
+                                            borderColor: Colors.grey.shade200,
+                                            keyboardType: TextInputType.number,
+                                            borderWidth: 0.5,
+                                            maxLength: 11,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'Phone Number');
+                                            },
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            'Location (Optional)',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          TextEditView(
+                                            controller: _locationController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: 'Ikeja, Lagos, Nigeria',
+                                            prefixIcon: const Padding(
+                                              padding: EdgeInsets.all(7.0),
+                                              child: ImageView.svg(
+                                                AppImages.location,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 15,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Row(
-                                  children: [
-                                    CustomCheckbox(
-                                      isChecked: isAgreed,
-                                      onChanged: (value) {
-                                        isAgreed = value;
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: 'I agree to HealthBubba’s ',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: Row(
+                                    children: [
+                                      CustomCheckbox(
+                                        isChecked: isAgreed,
+                                        onChanged: (value) {
+                                          isAgreed = value;
+                                        },
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: 'I agree to HealthBubba’s ',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'Terms and Conditions',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.3,
+                                                  color:
+                                                      const Color(0xFF40B93C),
+                                                ),
+                                              ),
+                                              const TextSpan(
+                                                text: ' and ',
+                                              ),
+                                              TextSpan(
+                                                text: 'Privacy Policy',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.3,
+                                                  color:
+                                                      const Color(0xFF40B93C),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          children: [
-                                            TextSpan(
-                                              text: 'Terms and Conditions',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                height: 1.3,
-                                                color: const Color(0xFF40B93C),
-                                              ),
-                                            ),
-                                            const TextSpan(
-                                              text: ' and ',
-                                            ),
-                                            TextSpan(
-                                              text: 'Privacy Policy',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                height: 1.3,
-                                                color: const Color(0xFF40B93C),
-                                              ),
-                                            ),
-                                          ],
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: ButtonView(
+                              processing: state is UpdateUserLoading,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  if (_titleController.text.trim().isNotEmpty) {
+                                    if (isAgreed) {
+                                      _accountCubit.updateUserData(
+                                          title: _titleController.text.trim(),
+                                          firstname:
+                                              _firstnameController.text.trim(),
+                                          lastname:
+                                              _lastnameController.text.trim(),
+                                          licenceNumber:
+                                              _licenceNumberController.text
+                                                  .trim(),
+                                          experience: int.tryParse(
+                                                  _yearsOfExpController.text
+                                                      .trim()) ??
+                                              0,
+                                          hospitalAffliated:
+                                              _hospitalAffliateController.text
+                                                  .trim(),
+                                          phone: _phoneController.text.trim());
+                                    } else {
+                                      ToastService().showToast(context,
+                                          leadingIcon: const ImageView.svg(
+                                              AppImages.error),
+                                          title: AppStrings.errorTitle,
+                                          subtitle:
+                                              'Agree to our terms and conditions to continue');
+                                    }
+                                  } else {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Select title please');
+                                  }
+                                }
+                              },
+                              borderRadius: 100,
+                              color: AppColors.lightSecondary,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Next - ',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.6,
+                                    color: const Color(0xFFFFFFFF),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Work information',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 1.3,
+                                        color: const Color(0xCCFFFFFF),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: ButtonView(
-                            processing: state is UpdateUserLoading,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                if (_titleController.text.trim().isNotEmpty) {
-                                  if (isAgreed) {
-                                  _accountCubit.updateUserData(
-                                      title: _titleController.text.trim(),
-                                      firstname:
-                                          _firstnameController.text.trim(),
-                                      lastname: _lastnameController.text.trim(),
-                                      licenceNumber:
-                                          _licenceNumberController.text.trim(),
-                                      experience: int.tryParse(
-                                              _yearsOfExpController.text
-                                                  .trim()) ??
-                                          0,
-                                      hospitalAffliated:
-                                          _hospitalAffliateController.text
-                                              .trim(),
-                                      phone: _phoneController.text.trim());
-                                } else {
-                                  ToastService().showToast(context,
-                                      leadingIcon: const ImageView.svg(
-                                          AppImages.error),
-                                      title: AppStrings.errorTitle,
-                                      subtitle:
-                                          'Agree to our terms and conditions to continue');
-                                }
-                                } else {
-                                  ToastService().showToast(context,
-                                      leadingIcon: const ImageView.svg(
-                                          AppImages.error),
-                                      title: AppStrings.errorTitle,
-                                      subtitle:
-                                          'Select title please');
-                                }
-
-
-                                
-                              }
-                            },
-                            borderRadius: 100,
-                            color: AppColors.lightSecondary,
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'Next - ',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 1.6,
-                                  color: const Color(0xFFFFFFFF),
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: 'Work information',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.3,
-                                      color: const Color(0xCCFFFFFF),
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

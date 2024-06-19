@@ -16,6 +16,7 @@ import '../../../model/user/get_specialties.dart';
 import '../../../model/user/qualification.dart';
 import '../../../model/user/select_language.dart';
 import '../../../model/user/select_qualifications.dart';
+import '../../../model/user/select_specialties.dart';
 import '../../../model/user/selected_languages.dart';
 import '../../../model/user/selected_qualifications.dart';
 import '../../../model/user/update_user.dart';
@@ -52,43 +53,42 @@ abstract class AccountRepository {
   Future<SelectedLanguages> selectedLanguages();
   Future<SelectedLanguages> chooseLanguages({required List<int> languageId});
   Future<Qualification> getQualifications();
-  Future<SelectQualification> selectQualifications({required List<int> qualificationIds});
-  Future<LoginData> updateAvalaibility({required List<DaySchedule> schedule, required BuildContext context});
+  Future<SelectQualification> selectQualifications(
+      {required List<int> qualificationIds});
+  Future<LoginData> updateAvalaibility(
+      {required List<DaySchedule> schedule, required BuildContext context});
   Future<GetSelectedQualifications> getSelectedQualifications();
   Future<GetSelectedAvailability> getSelectedAvailability();
-  Future<SelectQualification> selectSpecialties(
+  Future<SelectSpecialties> selectSpecialties(
       {required List<int> specialties});
 
-      Future<SelectLanguage> addLanguage(
-      {required String languages});
+  Future<SelectLanguage> addLanguage({required String languages});
 
-      Future<UpdateUser> updateBio(
-      {required String bio});
+  Future<UpdateUser> updateBio({required String bio});
 
-      Future<UserData> getUserInfo(
-     );
+  Future<UserData> getUserInfo();
 
-      Future<GetSpecialties> getSpecialties(
-     );
+  Future<GetSpecialties> getSpecialties();
 
-     Future<Banks> getBanks(
-     );
+  Future<Banks> getBanks();
 
-     Future<BankDetails> addBankDetails({
-      required String bankCode,
-      required String accountNumber,
-      required String accountName,
-      required String url,
-     }
-     );
+  Future<BankDetails> addBankDetails({
+    required String bankCode,
+    required String accountNumber,
+    required String accountName,
+    required String url,
+  });
 
-     
+  Future<UploadImage> uploadImage({required File image});
 
-     Future<UploadImage> uploadImage(
-      {required File image}
-     );
-
-     Future<UpdateUser> updateUserData(
-      {required String title,required String firstname,required String lastname,required String licenceNumber, required int experience,required String hospitalAffliated,required String phone,   String? location,}
-     );
+  Future<UpdateUser> updateUserData({
+    required String title,
+    required String firstname,
+    required String lastname,
+    required String licenceNumber,
+    required int experience,
+    required String hospitalAffliated,
+    required String phone,
+    String? location,
+  });
 }
