@@ -25,6 +25,7 @@ class UserData {
 class MyData {
   int? id;
   String? username;
+  String? title;
   String? picture;
   String? email;
   int? emailVerified;
@@ -48,6 +49,7 @@ class MyData {
   MyData(
       {this.id,
       this.username,
+      this.title,
       this.picture,
       this.email,
       this.emailVerified,
@@ -71,6 +73,7 @@ class MyData {
   MyData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
+    title = json['title'];
     picture = json['picture'];
     email = json['email'];
     emailVerified = json['email_verified'];
@@ -96,6 +99,7 @@ class MyData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['username'] = username;
+    data['title'] = title;
     data['picture'] = picture;
     data['email'] = email;
     data['email_verified'] = emailVerified;

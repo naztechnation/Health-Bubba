@@ -47,15 +47,31 @@ class _PatientsScreenState extends State<PatientsScreen> {
   int limit = 10;
   int total = 1;
 
+  late TextEditingController _searchController;
+List<Patients> filteredPatientsLists = [];
+
+
   @override
   void initState() {
     super.initState();
     _userCubit = context.read<UserCubit>();
+     _searchController = TextEditingController();
+  _searchController.addListener(_filterPatients);
     getPatientsLists();
   }
 
+  void _filterPatients() {
+  setState(() {
+    String query = _searchController.text.toLowerCase();
+    filteredPatientsLists = patientsLists.where((patient) {
+      return patient.firstName.toString().toLowerCase().contains(query);
+    }).toList();
+  });
+}
+
   getPatientsLists() async {
-    _userCubit.getPatientsLists(page: currentPage.toString(), limit: limit.toString());
+    _userCubit.getPatientsLists(
+        page: currentPage.toString(), limit: limit.toString());
   }
 
   void incrementPageAndValue() {
@@ -63,9 +79,16 @@ class _PatientsScreenState extends State<PatientsScreen> {
       setState(() {
         currentPage += 1;
       });
-      _userCubit.getPatientsLists(page: currentPage.toString(), limit: limit.toString());
+      _userCubit.getPatientsLists(
+          page: currentPage.toString(), limit: limit.toString());
     }
   }
+
+  @override
+void dispose() {
+  _searchController.dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +109,10 @@ class _PatientsScreenState extends State<PatientsScreen> {
             if (state.patientsLists.ok ?? false) {
               setState(() {
                 patientsLists.addAll(state.patientsLists.data?.patients ?? []);
+                filteredPatientsLists = List.from(patientsLists);
                 pages = state.patientsLists.data?.pagination?.pages ?? 0;
-                currentPage = state.patientsLists.data?.pagination?.currentPage ?? 1;
+                currentPage =
+                    state.patientsLists.data?.pagination?.currentPage ?? 1;
               });
             } else {
               ToastService().showToast(context,
@@ -104,20 +129,20 @@ class _PatientsScreenState extends State<PatientsScreen> {
         },
         builder: (context, state) {
           if (state is UserApiErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-                   _userCubit.getPatientsLists(page: currentPage.toString(), limit: limit.toString());
-
-            });
-      } else if (state is UserNetworkErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-                   _userCubit.getPatientsLists(page: currentPage.toString(), limit: limit.toString());
-
-            });
-      }
+            return ErrorPage(
+                statusCode: state.message ?? '',
+                onTap: () {
+                  _userCubit.getPatientsLists(
+                      page: currentPage.toString(), limit: limit.toString());
+                });
+          } else if (state is UserNetworkErr) {
+            return ErrorPage(
+                statusCode: state.message ?? '',
+                onTap: () {
+                  _userCubit.getPatientsLists(
+                      page: currentPage.toString(), limit: limit.toString());
+                });
+          }
           return (state is PatientsListLoading)
               ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
               : Container(
@@ -136,7 +161,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0, horizontal: 15),
                             child: TextEditView(
-                              controller: TextEditingController(),
+                              controller: _searchController,
                               prefixIcon: SizedBox(
                                 width: 50,
                                 child: Row(
@@ -154,7 +179,8 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                       width: 1,
                                       decoration: BoxDecoration(
                                           color: const Color(0xFF000000),
-                                          borderRadius: BorderRadius.circular(11)),
+                                          borderRadius:
+                                              BorderRadius.circular(11)),
                                     ),
                                     const SizedBox(width: 0),
                                   ],
@@ -167,15 +193,19 @@ class _PatientsScreenState extends State<PatientsScreen> {
                             decoration: const BoxDecoration(
                               color: Color(0xFFFFFFFF),
                               border: Border(
-                                top: BorderSide(color: Color(0xFFE5E7EB), width: 1),
-                                bottom: BorderSide(color: Color(0xFFE5E7EB), width: 1),
+                                top: BorderSide(
+                                    color: Color(0xFFE5E7EB), width: 1),
+                                bottom: BorderSide(
+                                    color: Color(0xFFE5E7EB), width: 1),
                               ),
                             ),
                             child: Container(
-                              padding: const EdgeInsets.fromLTRB(16, 15, 16, 15),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 15, 16, 15),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: const Color(0xFFE2E4E9)),
+                                  border: Border.all(
+                                      color: const Color(0xFFE2E4E9)),
                                   borderRadius: BorderRadius.circular(16),
                                   color: const Color(0xFFF6F8FA),
                                   boxShadow: const [
@@ -189,26 +219,30 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Container(
-                                    padding: const EdgeInsets.fromLTRB(3, 7, 3, 3),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(3, 7, 3, 3),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         ListView.builder(
-                                          itemCount: patientsLists.length,
+                                          itemCount: filteredPatientsLists.length,
                                           shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
                                                 AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page:   PatientDetails(),
+                                                  page: PatientDetails(),
                                                 );
                                               },
                                               child: patientCard(
                                                 context: context,
-                                                patients: patientsLists[index],
+                                                patients: filteredPatientsLists[index],
                                               ),
                                             );
                                           },

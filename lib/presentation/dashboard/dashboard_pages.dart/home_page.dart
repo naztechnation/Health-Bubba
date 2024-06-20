@@ -83,9 +83,10 @@ class _HomeState extends State<Home> {
           imageUrl =
               "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ""}";
           name = state.userData.data?.firstName ?? '';
+          title = state.userData.data?.title ?? '';
           setState(() {});
 
-          // StorageHandler.saveUserTitle(state.userData.data?.t ?? '');
+           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveUserFirstName(
               state.userData.data?.firstName ?? '');
           StorageHandler.saveUserPicture(

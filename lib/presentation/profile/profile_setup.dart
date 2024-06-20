@@ -58,6 +58,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
 
   List<int> _selectedQualificationsIds = [];
 
+  bool validated = false;
+
   void _saveSelectedQualificationsIds() {
     _selectedQualificationsIds =
         _selectedItems.map((item) => item.qualificationId ?? 0).toList();
@@ -143,6 +145,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
               leadingIcon: const ImageView.svg(AppImages.success),
               title: AppStrings.successTitle,
               subtitle: state.qualification.message?.message ?? '');
+          setState(() {});
+
+              _firstnameController.clear();
+              _lastnameController.clear();
+              _licenceNumberController.clear();
+              _yearsOfExpController.clear();
+              _hospitalAffliateController.clear();
+              _phoneController.clear();
+              _locationController.clear();
+
+              validated =true;
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -385,11 +398,24 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
                                             hintText: 'MBBS, MCPS, MD',
-                                            suffixIcon: const Padding(
-                                              padding: EdgeInsets.all(17.0),
-                                              child: ImageView.svg(
-                                                AppImages.dropDown,
-                                                scale: 0.8,
+                                            suffixIcon:   SizedBox(
+                                              width: 60,
+                                              child: Row(
+                                                children: [
+                                                if(validated)...[
+                                                  const ImageView.svg(AppImages.successIcon, color: Colors.green,)
+                                                ]else ...[
+                                                  const ImageView.svg(AppImages.closeIcon, color: Colors.red,fit: BoxFit.cover,)
+                                            
+                                                ],  
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(left:8.0, right: 12),
+                                                    child: ImageView.svg(
+                                                      AppImages.dropDown,
+                                                      scale: 0.8,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             readOnly: true,
