@@ -5,6 +5,9 @@ import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../presentation/dashboard/dashboard.dart';
+import '../res/app_routes.dart';
+import '../utils/navigator/page_navigator.dart';
 import 'button_view.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -33,19 +36,24 @@ class ErrorPage extends StatelessWidget {
                 const Spacer(),
                 if (statusCode == "404") ...[
                   const SizedBox(
-                     height: 199.34,
+                      height: 199.34,
                       width: 229.5,
-                    child: ImageView.svg(AppImages.notFound)),
+                      child: ImageView.svg(AppImages.notFound)),
                 ] else if (statusCode == "500") ...[
                   const SizedBox(
-                     height: 199.34,
+                      height: 199.34,
                       width: 229.5,
-                    child: ImageView.svg(AppImages.internalError)),
+                      child: ImageView.svg(AppImages.internalError)),
                 ] else if (statusCode == "503") ...[
                   const SizedBox(
-                     height: 199.34,
+                      height: 199.34,
                       width: 229.5,
-                    child: ImageView.svg(AppImages.maintenace)),
+                      child: ImageView.svg(AppImages.maintenace)),
+                ] else if (statusCode == "401") ...[
+                  const SizedBox(
+                      height: 199.34,
+                      width: 229.5,
+                      child: ImageView.svg(AppImages.noInternet)),
                 ] else ...[
                   const SizedBox(
                       height: 199.34,
@@ -64,7 +72,9 @@ class ErrorPage extends StatelessWidget {
                             ? 'Internal Error'
                             : (statusCode == "503")
                                 ? 'Maintenance'
-                                : 'Opps an Error occur',
+                                : (statusCode == "401")
+                                    ? 'Session Expired'
+                                    : 'Opps an Error occur',
                     style: GoogleFonts.getFont(
                       'Inter',
                       fontWeight: FontWeight.w600,
@@ -76,16 +86,17 @@ class ErrorPage extends StatelessWidget {
                 ),
                 Text(
                   (statusCode == "404")
-                      ? 'Whoops! this page is not available'
+                      ? 'Whoops! this page is not available.'
                       : (statusCode == "500")
-                          ? 'Whoops! There seems to be a problem with our server'
+                          ? 'Whoops! There seems to be a problem with our server.'
                           : (statusCode == "503")
-                              ? 'We’re undergoing maintenance'
-                              : 'It seems you don’t have active internet',
-                              textAlign: TextAlign.center,
+                              ? 'We’re undergoing maintenance.'
+                              : (statusCode == "401")
+                                  ? 'Your corrent session has expired please login again.'
+                                  : 'It seems you don’t have active internet.',
+                  textAlign: TextAlign.center,
                   style: GoogleFonts.getFont(
                     'Inter',
-                    
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
                     height: 1.5,
@@ -113,6 +124,8 @@ class ErrorPage extends StatelessWidget {
                         const ImageView.svg(AppImages.supportIcon),
                       ] else if (statusCode == "503") ...[
                         const ImageView.svg(AppImages.supportIcon),
+                      ] else if (statusCode == "401") ...[
+                        const ImageView.svg(AppImages.closeIcon),
                       ] else ...[
                         const ImageView.svg(AppImages.refreshIcon),
                       ],
@@ -127,7 +140,9 @@ class ErrorPage extends StatelessWidget {
                                   ? 'Contact support'
                                   : (statusCode == "503")
                                       ? 'Come back in 8hrs 24min'
-                                      : 'Please refresh or try again',
+                                      : (statusCode == "401")
+                                          ? 'Please Login Again'
+                                          : 'Please refresh or try again',
                           style: GoogleFonts.getFont(
                             'Inter',
                             fontWeight: FontWeight.w400,
@@ -148,8 +163,25 @@ class ErrorPage extends StatelessWidget {
                   child: ButtonView(
                     //processing: state is AccountLoading,
                     onPressed: () {
-                      print('tapped');
-                      onTap();
+                      switch (statusCode) {
+                        case '404':
+                          AppNavigator.pushAndReplacePage(context,
+                              page: const Dashboard());
+                          break;
+                        case '401':
+                          AppNavigator.pushAndReplaceName(context,
+                              name: AppRoutes.signInScreen);
+
+                          break;
+                        case '503':
+                          AppNavigator.pushAndReplaceName(context,
+                              name: AppRoutes.signInScreen);
+
+                          break;
+
+                        default:
+                          onTap();
+                      }
                     },
                     borderRadius: 100,
                     color: AppColors.lightSecondary,
@@ -160,7 +192,9 @@ class ErrorPage extends StatelessWidget {
                               ? 'Contact Support'
                               : (statusCode == "503")
                                   ? 'Okay'
-                                  : 'Refresh',
+                                  : (statusCode == "401")
+                                      ? 'Log Out'
+                                      : 'Refresh',
                       style: GoogleFonts.getFont(
                         'Inter',
                         fontWeight: FontWeight.w500,
@@ -171,7 +205,7 @@ class ErrorPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                   SizedBox(
+                SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.12,
                 ),
               ],

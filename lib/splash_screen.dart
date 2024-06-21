@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> changeScreen() async {
     if (isonBoarding == '') {
-      AppNavigator.pushAndStackPage(context, page: OnboardScreen());
+      AppNavigator.pushAndReplacePage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
       //AppNavigator.pushAndStackPage(context, page: const WorkInformation());
 
@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
       //  AppNavigator.pushAndStackPage(context, page: const WorkInformation());
       
 
-      AppNavigator.pushAndStackPage(context, page: const Dashboard());
+      AppNavigator.pushAndReplacePage(context, page: const Dashboard());
     }
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

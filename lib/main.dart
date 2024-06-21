@@ -4,9 +4,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/view_model/account_view_model.dart';
 import 'package:healthbubba/model/view_model/book_appointment_viewmodel.dart';
 import 'package:healthbubba/model/view_model/user_view_model.dart';
+import 'package:healthbubba/res/app_theme.dart';
 import 'package:provider/provider.dart';
 
 import 'model/view_model/onboard_view_model.dart';
@@ -54,10 +56,23 @@ class HealthBubba extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,
       themeMode: ThemeMode.light,
-       
+       theme: themeData(AppTheme.lightTheme),
       routes: AppRoutes.routes,
       initialRoute: AppRoutes.splashScreen,
       onGenerateRoute: AppRoutes.generateRoute,
     );
+  }
+
+  ThemeData themeData(ThemeData theme) {
+    return theme.copyWith(
+        textTheme: GoogleFonts.interTextTheme(
+          theme.textTheme,
+        ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ));
   }
 }

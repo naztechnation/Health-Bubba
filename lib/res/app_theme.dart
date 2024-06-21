@@ -18,7 +18,7 @@ class AppTheme {
       visualDensity: VisualDensity.adaptivePlatformDensity,
       colorScheme: const ColorScheme.light(
         secondary: AppColors.lightSecondaryAccent,
-        primary: AppColors.lightPrimaryAccent,
+        primary: AppColors.lightSecondary,
       ),
       appBarTheme: AppBarTheme(
           elevation: 0.0,

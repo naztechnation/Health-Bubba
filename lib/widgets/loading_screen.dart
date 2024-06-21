@@ -25,7 +25,7 @@ class _LoadersPageState extends State<LoadersPage> {
               child: CustomCircularProgressIndicator(
                 progressColor: AppColors.lightSecondary,
                 backgroundColor: AppColors.lightSecondary.withOpacity(0.5),
-                strokeWidth: 8,
+                strokeWidth: 6,
                 size: 40,
               ),
             ),
