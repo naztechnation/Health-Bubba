@@ -1,6 +1,8 @@
 
 
 import '../../../model/patients/patients_list.dart';
+import '../../../model/user/consultation_data.dart';
+import '../../../model/user/user_data.dart';
 
 abstract class UserRepository {
 
@@ -9,6 +11,20 @@ abstract class UserRepository {
       required String limit,
       
      }
+     );
+
+     Future<ConsultationData> addConsultationFee({
+      required String rate,
+      required String duration,
+      required String url,
+      
+     }
+     );
+
+      Future<UserData> getUserInfo();
+
+     Future<PatientsLists> getConsultaionStatus( 
+      {required String url}
      );
 
 }

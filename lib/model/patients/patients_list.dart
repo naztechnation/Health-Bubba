@@ -1,7 +1,7 @@
 class PatientsLists {
   bool? ok;
   String? message;
-  PatientsListsData? data;
+  dynamic data;
 
   PatientsLists({this.ok, this.message, this.data});
 

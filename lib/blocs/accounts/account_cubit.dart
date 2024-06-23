@@ -203,13 +203,12 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> selectSpecialties(
-      {required List<int> specialties}) async {
+  Future<void> selectSpecialties({required List<int> specialties}) async {
     try {
       emit(SelectSpecialtiesLoading());
 
-      final user = await accountRepository.selectSpecialties(
-          specialties: specialties);
+      final user =
+          await accountRepository.selectSpecialties(specialties: specialties);
 
       emit(SelectSpecialtiesLoaded(user));
     } on ApiException catch (e) {
@@ -277,7 +276,7 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(SelectedLanguageLoading());
 
-      final user = await accountRepository.selectedLanguages( );
+      final user = await accountRepository.selectedLanguages();
 
       emit(SelectedLanguagesLoaded(user));
     } on ApiException catch (e) {
@@ -294,11 +293,12 @@ class AccountCubit extends Cubit<AccountStates> {
       }
     }
   }
+
   Future<void> selectedQualification() async {
     try {
       emit(SelectedQualificationsLoading());
 
-      final user = await accountRepository.getSelectedQualifications( );
+      final user = await accountRepository.getSelectedQualifications();
 
       emit(SelectedQualificationsLoaded(user));
     } on ApiException catch (e) {
@@ -320,7 +320,7 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(SelectedAvailabilitysLoading());
 
-      final user = await accountRepository.getSelectedAvailability( );
+      final user = await accountRepository.getSelectedAvailability();
 
       emit(SelectedAvailabilitysLoaded(user));
     } on ApiException catch (e) {
@@ -338,11 +338,16 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> updateAvailability({required List<DaySchedule> schedule, required BuildContext context}) async {
+  Future<void> updateAvailability(
+      {required List<DaySchedule> schedule,
+      required BuildContext context}) async {
     try {
       emit(UpdateAvailabilitysLoading());
 
-      final user = await accountRepository.updateAvalaibility(schedule: schedule, context: context,  );
+      final user = await accountRepository.updateAvalaibility(
+        schedule: schedule,
+        context: context,
+      );
 
       emit(UpdateAvailabilitysLoaded(user));
     } on ApiException catch (e) {
@@ -360,11 +365,13 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-    Future<void> updateBio({required String bio}) async {
+  Future<void> updateBio({required String bio}) async {
     try {
       emit(UpdateBioLoading());
 
-      final user = await accountRepository.updateBio(bio: bio,    );
+      final user = await accountRepository.updateBio(
+        bio: bio,
+      );
 
       emit(UpdateBioLoaded(user));
     } on ApiException catch (e) {
@@ -382,18 +389,27 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> updateUserData({required String title,
-  required String firstname,
-  required String lastname,
-  required String licenceNumber, 
-  required int experience,
-  required String hospitalAffliated,
-  required String phone,
-     String? location,}) async {
+  Future<void> updateUserData({
+    required String title,
+    required String firstname,
+    required String lastname,
+    required String licenceNumber,
+    required int experience,
+    required String hospitalAffliated,
+    required String phone,
+    String? location,
+  }) async {
     try {
       emit(UpdateUserLoading());
 
-      final user = await accountRepository.updateUserData(title: title, firstname: firstname, lastname: lastname, licenceNumber: licenceNumber, experience: experience, hospitalAffliated: hospitalAffliated, phone: phone     );
+      final user = await accountRepository.updateUserData(
+          title: title,
+          firstname: firstname,
+          lastname: lastname,
+          licenceNumber: licenceNumber,
+          experience: experience,
+          hospitalAffliated: hospitalAffliated,
+          phone: phone);
 
       emit(UpdateUserLoaded(user));
     } on ApiException catch (e) {
@@ -415,7 +431,7 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(UserDataLoading());
 
-      final user = await accountRepository.getUserInfo(    );
+      final user = await accountRepository.getUserInfo();
 
       emit(UserDataLoaded(user));
     } on ApiException catch (e) {
@@ -437,7 +453,7 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(GetSpecialtiesLoading());
 
-      final user = await accountRepository.getSpecialties( );
+      final user = await accountRepository.getSpecialties();
 
       emit(GetSpecialtiesLoaded(user));
     } on ApiException catch (e) {
@@ -459,7 +475,7 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(UploadImageLoading());
 
-      final user = await accountRepository.uploadImage(image: image );
+      final user = await accountRepository.uploadImage(image: image);
 
       emit(UploadImageLoaded(user));
     } on ApiException catch (e) {
@@ -481,7 +497,8 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(ChooseLanguageLoading());
 
-      final user = await accountRepository.chooseLanguages(languageId: language );
+      final user =
+          await accountRepository.chooseLanguages(languageId: language);
 
       emit(ChooseLanguagesLoaded(user));
     } on ApiException catch (e) {
@@ -522,16 +539,18 @@ class AccountCubit extends Cubit<AccountStates> {
   }
 
   Future<void> addBankDetails(
-    {required String bankCode, 
-  required String accountNumber, required String accountName, required String url}
-  ) async {
+      {required String bankCode,
+      required String accountNumber,
+      required String accountName,
+      required String url}) async {
     try {
       emit(AddBanksDataLoading());
 
-      final user = await accountRepository.addBankDetails(bankCode: bankCode,
-      accountNumber: accountNumber, accountName: accountName, url: url
-
-      );
+      final user = await accountRepository.addBankDetails(
+          bankCode: bankCode,
+          accountNumber: accountNumber,
+          accountName: accountName,
+          url: url);
 
       emit(AddBanksDataLoaded(user));
     } on ApiException catch (e) {

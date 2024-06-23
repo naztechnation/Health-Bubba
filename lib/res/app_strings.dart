@@ -40,6 +40,15 @@ class AppStrings {
   static const String banksUrl = "${_baseUrl}banks";
   static const String addBanksUrl = "${_baseUrl}add_banking_details";
   static const String editBanksUrl = "${_baseUrl}edit_banking_details";
+  static    String consultationFeeUrl({required String url}) => "$_baseUrl$url";
+  static const String checkConsultationStatusUrl = "status/consultation_fee";
+  static const String addConsultationUrl = "add_consultation_fee";
+  static const String editConsultationUrl = "edite_consultation_fee";
+  static const String availabilityStatus = "status/availability";
+  static const String specialtyStatus = "status/specialty";
+  static const String languageStatus = "status/language";
+   
+  static   String profileStatusUrl({required String  url,}) => "$_baseUrl$url";
   static   String patientsListsUrl({required String  page, required String  limit}) => "${_baseUrl}patients?page=$page&limit=$limit";
   
 

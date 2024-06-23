@@ -20,7 +20,7 @@ appointmentCard(){
                       ),
                     ),
                     child: Container(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: const Color(0xFFE2E4E9)),

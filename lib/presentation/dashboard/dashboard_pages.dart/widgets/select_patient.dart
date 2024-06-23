@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/text_edit_view.dart';
-import 'patient_card.dart';
+  
 
 class SelectPatient extends StatelessWidget {
   @override
@@ -106,7 +106,7 @@ class SelectPatient extends StatelessWidget {
                         width: double.infinity,
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(3, 7, 3, 3),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

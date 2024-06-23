@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/sign_up.dart';
@@ -24,7 +22,6 @@ import '../../widgets/checkbox.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
 import '../dashboard/dashboard.dart';
-import '../profile/profile_setup.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -251,6 +248,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                                           borderColor: Colors
                                                               .grey.shade200,
                                                           borderWidth: 0.5,
+                                                           validator: (value) {
+                                                            return Validator
+                                                                .validate(value,
+                                                                    'Email');
+                                                          },
                                                         )
                                                       ],
                                                     ),
