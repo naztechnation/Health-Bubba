@@ -2,6 +2,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/patients/patients_list.dart';
 
+import '../../model/patients/medication_category.dart';
+import '../../model/patients/medication_sub_category.dart';
 import '../../model/user/consultation_data.dart';
 import '../../model/user/user_data.dart';
 
@@ -109,6 +111,30 @@ class CreateMedicationLoaded extends UserStates {
   const CreateMedicationLoaded(this.createNewMedication);
   @override
   List<Object> get props => [createNewMedication];
+}
+
+class MedicationCategoryLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class MedicationCategoryLoaded extends UserStates {
+  final MedicationCategory medicationCategory;
+  const MedicationCategoryLoaded(this.medicationCategory);
+  @override
+  List<Object> get props => [medicationCategory];
+}
+
+class MedicationSubCategoryLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class MedicationSubCategoryLoaded extends UserStates {
+  final MedicationSubCategory medicationSubCategory;
+  const MedicationSubCategoryLoaded(this.medicationSubCategory);
+  @override
+  List<Object> get props => [medicationSubCategory];
 }
 
 class UserNetworkErr extends UserStates {

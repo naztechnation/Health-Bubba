@@ -210,4 +210,49 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+     Future<void> getMedicationCategory() async {
+    try {
+      emit(MedicationCategoryLoading());
+
+      final user = await userRepository.getMedicationCategories();
+
+      emit(MedicationCategoryLoaded(user));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> getMedicationSubCategory({required String categoryId}) async {
+    try {
+      emit(MedicationSubCategoryLoading());
+
+      final user = await userRepository.getMedicationSubCategories(categoryId: categoryId);
+
+      emit(MedicationSubCategoryLoaded(user));
+      
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

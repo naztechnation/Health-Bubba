@@ -1,5 +1,7 @@
 
 
+import '../../../model/patients/medication_category.dart';
+import '../../../model/patients/medication_sub_category.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/user_data.dart';
@@ -45,5 +47,8 @@ abstract class UserRepository {
       required List<String> times,
       }
      );
+
+      Future<MedicationCategory> getMedicationCategories();
+      Future<MedicationSubCategory> getMedicationSubCategories({required String categoryId});
 
 }

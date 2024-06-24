@@ -250,7 +250,6 @@ void dispose() {
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
-                                                print(filteredPatientsLists[index].id.toString());
                                                 AppNavigator.pushAndStackPage(
                                                   context,
                                                   page: CreateNewMedication(patientId: filteredPatientsLists[index].id.toString(),patientImage: filteredPatientsLists[index].picture, patientName: filteredPatientsLists[index].firstName,),
