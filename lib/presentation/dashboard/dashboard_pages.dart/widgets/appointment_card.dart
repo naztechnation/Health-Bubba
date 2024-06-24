@@ -263,7 +263,7 @@ class _AnalyticsDataState extends State<AnalyticsData> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                                ChoiceSelector(
-                                      days: const ["1 Day", "7 Days", "30 Days"],
+                                      items: const ["1 Day", "7 Days", "30 Days"],
                                       onSelected: _handleDaySelected,
                                     ),
                                 const SizedBox(height: 15,),   

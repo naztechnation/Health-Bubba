@@ -1,30 +1,63 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../blocs/users/users.dart';
+import '../../../../model/view_model/user_view_model.dart';
+import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
+import '../../../../res/app_strings.dart';
 import '../../../../utils/validator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/checkbox.dart';
+import '../../../../widgets/choice_widget.dart';
+import '../../../../widgets/custom_toast.dart';
+import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
+import '../../../../widgets/loading_screen.dart';
 import '../../../../widgets/modals.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../widgets/select_patient.dart';
 
-class CreateNewMedication extends StatefulWidget {
+class CreateNewMedication extends StatelessWidget {
+  final String? patientName;
+  final String? patientImage;
+  final String? patientId;
+  const CreateNewMedication(
+      {super.key, this.patientName, this.patientImage, this.patientId});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<UserCubit>(
+      create: (BuildContext context) => UserCubit(
+          userRepository: UserRepositoryImpl(),
+          viewModel: Provider.of<UserViewModel>(context, listen: false)),
+      child: CreateNewMedicationScreen( patientId: patientId,patientImage: patientImage,patientName: patientName,),
+    );
+  }
+}
+
+class CreateNewMedicationScreen extends StatefulWidget {
   final String? patientName;
   final String? patientImage;
   final String? patientId;
 
-  CreateNewMedication(
+  CreateNewMedicationScreen(
       {super.key, this.patientName, this.patientImage, this.patientId});
 
   @override
-  State<CreateNewMedication> createState() => _CreateNewMedicationState();
+  State<CreateNewMedicationScreen> createState() =>
+      _CreateNewMedicationScreenState();
 }
 
-class _CreateNewMedicationState extends State<CreateNewMedication> {
+class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
+  late UserCubit _userCubit;
+
   var medicationNameController = TextEditingController();
 
   var medicationCategoryController = TextEditingController();
@@ -38,6 +71,51 @@ class _CreateNewMedicationState extends State<CreateNewMedication> {
   var medicationNoteController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  DateTime? startDate;
+  DateTime? endDate;
+
+  String  realPatientId = '';
+
+  void _selectDate(
+      BuildContext context, bool isStartDate, StateSetter state) async {
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (selectedDate != null) {
+      state(() {
+        setState(() {
+          if (isStartDate) {
+            startDate = selectedDate;
+          } else {
+            endDate = selectedDate;
+          }
+          _updateDateField();
+        });
+      });
+    }
+  }
+
+  void _updateDateField() {
+    String formattedStartDate = _formatDate(startDate);
+    String formattedEndDate = _formatDate(endDate);
+    medicationDurationController.text =
+        '$formattedStartDate - $formattedEndDate';
+  }
+
+  String _formatDate(
+    DateTime? date,
+  ) {
+    if (date == null) {
+      return '--';
+    } else {
+      return DateFormat('MMMM d').format(date);
+    }
+  }
 
   List<String> medCategories = [
     'Analgesics',
@@ -60,8 +138,78 @@ class _CreateNewMedicationState extends State<CreateNewMedication> {
     'Transdermal',
     'Sublingual/Buccal',
     'Inhalation',
-    
   ];
+
+  List<String> days = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+
+  List<String> timeOfDay = [
+    "Morning",
+    "Noon",
+    "Evening",
+    "Night",
+  ];
+
+  String? selectedDay;
+
+  void _onCheckboxChanged(bool isChecked, String item) {
+    setState(() {
+      if (isChecked) {
+        selectedDay = item;
+      } else {
+        selectedDay = null;
+      }
+    });
+  }
+
+  String? selectedTimeDay;
+
+  void _onCheckboxTimeDayChanged(bool isChecked, String item) {
+    setState(() {
+      if (isChecked) {
+        selectedTimeDay = item;
+      } else {
+        selectedTimeDay = null;
+      }
+    });
+  }
+
+  String _frequency = "Everyday";
+  String _whenTaken = "After Food";
+
+  void _handleFrequencySelected(String frequency) {
+    setState(() {
+      _frequency = frequency;
+    });
+  }
+
+  
+
+  void _handleWhenTakenSelected(String whenTaken) {
+    setState(() {
+      _whenTaken = whenTaken;
+    });
+  }
+
+  getUserData() async {
+    _userCubit = context.read<UserCubit>();
+    
+    }
+
+@override
+  void initState() {
+   getUserData();
+
+   realPatientId = widget.patientId ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,1135 +237,670 @@ class _CreateNewMedicationState extends State<CreateNewMedication> {
           ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Divider(
-                          color: Colors.grey.shade300,
-                        ),
-                        const SizedBox(
-                          height: 0,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Medication name',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: const Color(0xFF131316),
+      body: BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
+       if (state is CreateMedicationLoaded) {
+         ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.successIcon),
+            title: AppStrings.successTitle,
+            subtitle: state.createNewMedication.message ?? '');
+      } else if (state is UserApiErr) {
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.error),
+            title: 'Error!!!',
+            subtitle: "Network Error");
+      } else if (state is UserNetworkErr) {
+        ToastService().showToast(context,
+            leadingIcon: const ImageView.svg(AppImages.error),
+            title: 'Error!!!',
+            subtitle: "Network Error");
+      }
+    }, builder: (context, state) {
+      if (state is UserApiErr) {
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+             getUserData();
+            });
+      } else if (state is UserNetworkErr) {
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+              getUserData();
+            });
+      }
+      return
+          (state is CreateMedicationLoading)
+              ? LoadersPage(
+                  length: MediaQuery.sizeOf(context).height.toInt(),
+                )
+              : Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFFFFF),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Divider(
+                            color: Colors.grey.shade300,
+                          ),
+                          const SizedBox(
+                            height: 0,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Medication name',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 1.4,
+                                        color: const Color(0xFF131316),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 0),
-                                child: TextEditView(
-                                  controller: medicationNameController,
-                                  validator: (value) {
-                                    return Validator.validate(
-                                        value, 'Medication name');
-                                  },
-                                  prefixIcon: SizedBox(
-                                    width: 50,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const SizedBox(
-                                          width: 0,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  child: TextEditView(
+                                    controller: medicationNameController,
+                                    validator: (value) {
+                                      return Validator.validate(
+                                          value, 'Medication name');
+                                    },
+                                    prefixIcon: SizedBox(
+                                      width: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(
+                                            width: 0,
+                                          ),
+                                          const ImageView.svg(
+                                            AppImages.searchIcon,
+                                            height: 19,
+                                          ),
+                                          Container(
+                                            height: 20,
+                                            width: 1,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFF000000),
+                                                borderRadius:
+                                                    BorderRadius.circular(11)),
+                                          ),
+                                          const SizedBox(
+                                            width: 0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    hintText: 'Search Medications',
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Divider(
+                                  color: Colors.grey.shade300,
+                                  height: 0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Medication For',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 1.4,
+                                        color: const Color(0xFF131316),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                if (realPatientId == null || realPatientId == '') ...[
+                                  TextEditView(
+                                    controller: TextEditingController(),
+                                    borderColor: Colors.grey.shade200,
+                                    borderWidth: 0.5,
+                                    hintText: 'Select Patient',
+                                    readOnly: true,
+                                    onTap: () {
+                                      AppNavigator.pushAndStackPage(context,
+                                          page: const SelectPatient());
+                                    },
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(right: 1.0),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16,
+                                        color: Colors.black.withOpacity(0.8),
+                                      ),
+                                    ),
+                                  ),
+                                ] else ...[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFFFFFFF),
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color(0x0A000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 1.5,
                                         ),
-                                        const ImageView.svg(
-                                          AppImages.searchIcon,
-                                          height: 19,
+                                        BoxShadow(
+                                          color: Color(0x0D2F3037),
+                                          offset: Offset(0, 24),
+                                          blurRadius: 34,
                                         ),
-                                        Container(
-                                          height: 20,
-                                          width: 1,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFF000000),
-                                              borderRadius:
-                                                  BorderRadius.circular(11)),
+                                        BoxShadow(
+                                          color: Color(0x0A222A35),
+                                          offset: Offset(0, 4),
+                                          blurRadius: 3,
                                         ),
-                                        const SizedBox(
-                                          width: 0,
+                                        BoxShadow(
+                                          color: Color(0x0D000000),
+                                          offset: Offset(0, 1),
+                                          blurRadius: 0.5,
                                         ),
                                       ],
                                     ),
+                                    child: Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(12, 4, 14, 4),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                child: SizedBox(
+                                                  width: 42.1,
+                                                  height: 43,
+                                                  child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      child: Image.network(
+                                                        fit: BoxFit.cover,
+                                                        widget.patientImage ?? '',
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return const ImageView
+                                                              .asset(AppImages
+                                                                  .avatarIcon);
+                                                        },
+                                                        loadingBuilder: (context,
+                                                            child,
+                                                            loadingProgress) {
+                                                          if (loadingProgress ==
+                                                              null) return child;
+                                                          return const ImageView
+                                                              .asset(AppImages
+                                                                  .avatarIcon);
+                                                        },
+                                                      )),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 12,
+                                              ),
+                                              Text(
+                                                widget.patientName ?? '',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color: const Color(0xFF0A0D14),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                realPatientId = '';
+                                              });
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 12, 0, 0),
+                                              width: 20,
+                                              height: 20,
+                                              child: const SizedBox(
+                                                width: 20,
+                                                height: 20,
+                                                child: ImageView.svg(
+                                                  AppImages.remove,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  hintText: 'Search Medications',
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Divider(
-                                color: Colors.grey.shade300,
-                                height: 0,
-                              ),
-                            ],
+                                ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Medication For',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: const Color(0xFF131316),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              if (widget.patientId == null) ...[
-                                TextEditView(
-                                  controller: TextEditingController(),
-                                  borderColor: Colors.grey.shade200,
-                                  borderWidth: 0.5,
-                                  hintText: 'Select Patient',
-                                  readOnly: true,
-                                  onTap: () {
-                                    AppNavigator.pushAndStackPage(context,
-                                        page: SelectPatient());
-                                  },
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(right: 1.0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 16,
-                                      color: Colors.black.withOpacity(0.8),
-                                    ),
-                                  ),
-                                ),
-                              ] else ...[
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: const Color(0xFFFFFFFF),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x0A000000),
-                                        offset: Offset(0, 1),
-                                        blurRadius: 1.5,
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Category',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      BoxShadow(
-                                        color: Color(0x0D2F3037),
-                                        offset: Offset(0, 24),
-                                        blurRadius: 34,
-                                      ),
-                                      BoxShadow(
-                                        color: Color(0x0A222A35),
-                                        offset: Offset(0, 4),
-                                        blurRadius: 3,
-                                      ),
-                                      BoxShadow(
-                                        color: Color(0x0D000000),
-                                        offset: Offset(0, 1),
-                                        blurRadius: 0.5,
+                                      TextEditView(
+                                        controller: medicationCategoryController,
+                                        borderColor: Colors.grey.shade200,
+                                        borderWidth: 0.5,
+                                        readOnly: true,
+                                        hintText: 'Select',
+                                        onTap: () {
+                                          Modals.showDialogModal(context,
+                                              page: categoryModalContent(
+                                                  context: context,
+                                                  controller:
+                                                      medicationCategoryController,
+                                                  item: medCategories));
+                                        },
+                                        suffixIcon: const Padding(
+                                          padding: EdgeInsets.all(17.0),
+                                          child: ImageView.svg(
+                                            AppImages.dropDown,
+                                            scale: 0.8,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(12, 4, 14, 4),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Route of Administration',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TextEditView(
+                                        controller: administrationRouteController,
+                                        borderColor: Colors.grey.shade200,
+                                        borderWidth: 0.5,
+                                        hintText: 'Select',
+                                        readOnly: true,
+                                        suffixIcon: const Padding(
+                                          padding: EdgeInsets.all(17.0),
+                                          child: ImageView.svg(
+                                            AppImages.dropDown,
+                                            scale: 0.8,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Modals.showDialogModal(context,
+                                              page: categoryModalContent(
+                                                  context: context,
+                                                  controller:
+                                                      administrationRouteController,
+                                                  item: routeAdim));
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Dosage',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      TextEditView(
+                                        controller: medicationDosageController,
+                                        borderColor: Colors.grey.shade200,
+                                        borderWidth: 0.5,
+                                        hintText: 'e.g, 1 Tablet',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 7, 16),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.fromLTRB(
+                                                    0, 0, 0, 8),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    'Frequency',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color:
+                                                          const Color(0xFF131316),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              ChoiceSelector(
+                                                items: const [
+                                                  "Everyday",
+                                                  "Specific days",
+                                                ],
+                                                onSelected:
+                                                    _handleFrequencySelected,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      if (_frequency.toLowerCase() ==
+                                          'Specific days'.toLowerCase())
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: const Color(0xFF40B93C),
+                                            ),
+                                            color: const Color(0xFFFFFFFF),
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                color: Color(0xFF40B93C),
+                                                offset: Offset(0, 0),
+                                                blurRadius: 0,
+                                              ),
+                                              BoxShadow(
+                                                color: Color(0x409F9E9E),
+                                                offset: Offset(0, 1),
+                                                blurRadius: 1,
+                                              ),
+                                            ],
+                                          ),
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 20, 0, 0),
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                17.7, 8, 0, 16),
+                                            child: choiceContent(
+                                              context,
+                                              days,
+                                            ),
+                                          ),
+                                        )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              child: SizedBox(
-                                                width: 42.1,
-                                                height: 43,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50),
-                                                    child: Image.network(
-                                                      fit: BoxFit.cover,
-                                                      widget.patientImage ?? '',
-                                                      errorBuilder: (context,
-                                                          error, stackTrace) {
-                                                        return const ImageView
-                                                            .asset(AppImages
-                                                                .avatarIcon);
-                                                      },
-                                                      loadingBuilder: (context,
-                                                          child,
-                                                          loadingProgress) {
-                                                        if (loadingProgress ==
-                                                            null) return child;
-                                                        return const ImageView
-                                                            .asset(AppImages
-                                                                .avatarIcon);
-                                                      },
-                                                    )),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 12,
-                                            ),
-                                            Text(
-                                              widget.patientName ?? '',
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 8),
+                                          child: Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              'Time of the day',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14,
                                                 height: 1.4,
-                                                color: const Color(0xFF0A0D14),
+                                                color: const Color(0xFF131316),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 12, 0, 0),
-                                          width: 20,
-                                          height: 20,
-                                          child: const SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: ImageView.svg(
-                                              AppImages.remove,
-                                            ),
                                           ),
+                                        ),
+                                        timeDayContent(
+                                          context,
+                                          timeOfDay,
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 8),
+                                          child: Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
+                                              'To be Taken',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                                color: const Color(0xFF131316),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ChoiceSelector(
+                                          items: const [
+                                            "After Food",
+                                            "Before Food",
+                                          ],
+                                          onSelected: _handleWhenTakenSelected,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin:
+                                          const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                      child: Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                          'Duration',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color: const Color(0xFF131316),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    TextEditView(
+                                      controller: medicationDurationController,
+                                      borderColor: Colors.grey.shade200,
+                                      borderWidth: 0.5,
+                                      hintText: 'July 5-July 8',
+                                      readOnly: true,
+                                      onTap: () {
+                                        Modals.showDialogModal(context,
+                                            page: dateSelectionWidget());
+                                      },
+                                      suffixIcon: const Padding(
+                                        padding: EdgeInsets.all(17.0),
+                                        child: ImageView.svg(
+                                          AppImages.dropDown,
+                                          scale: 0.8,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
-                            ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin:
-                                          const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          'Category',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TextEditView(
-                                      controller: medicationCategoryController,
-                                      borderColor: Colors.grey.shade200,
-                                      borderWidth: 0.5,
-                                      readOnly: true,
-
-                                      hintText: 'Select',
-                                      onTap: () {
-                                        Modals.showDialogModal(context,
-                                                  page: categoryModalContent(
-                                                      context: context, 
-                                                      controller: medicationCategoryController,
-                                                       item: medCategories));
-                                      },
-                                      suffixIcon: const Padding(
-                                        padding: EdgeInsets.all(17.0),
-                                        child: ImageView.svg(
-                                          AppImages.dropDown,
-                                          scale: 0.8,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin:
-                                          const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          'Route of Administration',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TextEditView(
-                                      controller: administrationRouteController,
-                                      borderColor: Colors.grey.shade200,
-                                      borderWidth: 0.5,
-                                      hintText: 'Select',
-                                      readOnly: true,
-                                      suffixIcon: const Padding(
-                                        padding: EdgeInsets.all(17.0),
-                                        child: ImageView.svg(
-                                          AppImages.dropDown,
-                                          scale: 0.8,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        Modals.showDialogModal(context,
-                                                  page: categoryModalContent(
-                                                      context: context, 
-                                                      controller: administrationRouteController,
-                                                       item: routeAdim));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin:
-                                          const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          'Dosage',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF131316),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    TextEditView(
-                                      controller: TextEditingController(),
-                                      borderColor: Colors.grey.shade200,
-                                      borderWidth: 0.5,
-                                      hintText: 'e.g, 1 Tablet',
-                                      suffixIcon: const Padding(
-                                        padding: EdgeInsets.all(17.0),
-                                        child: ImageView.svg(
-                                          AppImages.dropDown,
-                                          scale: 0.8,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 7, 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 16),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Frequency',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 10, 0),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9999),
-                                                    color:
-                                                        const Color(0xFFFAFAFB),
-                                                    boxShadow: const [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x1A2F3037),
-                                                        offset: Offset(0, 0),
-                                                        blurRadius: 0,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(8, 4, 7.4, 4),
-                                                    child: Text(
-                                                      'Everyday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF5E5F6E),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9999),
-                                                    color:
-                                                        const Color(0xFF2F3037),
-                                                    boxShadow: const [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x4D2F3037),
-                                                        offset: Offset(0, 2),
-                                                        blurRadius: 2,
-                                                      ),
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0xFF2F3037),
-                                                        offset: Offset(0, 0),
-                                                        blurRadius: 0,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(8, 4, 8.5, 4),
-                                                    child: Text(
-                                                      'Specific days',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFFFFFFFF),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: const Color(0xFFFFFFFF),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0xFF40B93C),
-                                            offset: Offset(0, 0),
-                                            blurRadius: 0,
-                                          ),
-                                          BoxShadow(
-                                            color: Color(0x409F9E9E),
-                                            offset: Offset(0, 1),
-                                            blurRadius: 1,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            17.7, 16, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  1.3, 0, 1.3, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: true,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Monday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: true,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Tuesday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: false,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Wednesday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: false,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Thursday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  1.3, 0, 1.3, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: false,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Friday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  1.3, 0, 1.3, 16),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: true,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Saturday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  1.3, 0, 1.3, 0),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    CustomCheckbox(
-                                                      isChecked: true,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      'Sunday',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 8),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Time of the day',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFFFAFAFB),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x1A2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 8.2, 4),
-                                              child: Text(
-                                                'Morning',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF5E5F6E),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFFFAFAFB),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x1A2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 7.7, 4),
-                                              child: Text(
-                                                'Noon',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF5E5F6E),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFFFAFAFB),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x1A2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 8.2, 4),
-                                              child: Text(
-                                                'Evening',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF5E5F6E),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFF2F3037),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x4D2F3037),
-                                                  offset: Offset(0, 2),
-                                                  blurRadius: 2,
-                                                ),
-                                                BoxShadow(
-                                                  color: Color(0xFF2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 8.8, 4),
-                                              child: Text(
-                                                'Night',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFFFFFFFF),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 8),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'To be Taken',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 10, 0),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFFFAFAFB),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x1A2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 7.8, 4),
-                                              child: Text(
-                                                'After Food ',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF5E5F6E),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9999),
-                                              color: const Color(0xFF2F3037),
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                  color: Color(0x4D2F3037),
-                                                  offset: Offset(0, 2),
-                                                  blurRadius: 2,
-                                                ),
-                                                BoxShadow(
-                                                  color: Color(0xFF2F3037),
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 0,
-                                                ),
-                                              ],
-                                            ),
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      8, 4, 8, 4),
-                                              child: Text(
-                                                'Before Food',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFFFFFFFF),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        'Duration',
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          height: 1.4,
-                                          color: const Color(0xFF131316),
-                                        ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Add Notes for Patient (Optional)',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                        height: 1.4,
+                                        color: const Color(0xFF131316),
                                       ),
                                     ),
                                   ),
-                                  TextEditView(
-                                    controller: TextEditingController(),
-                                    borderColor: Colors.grey.shade200,
-                                    borderWidth: 0.5,
-                                    hintText: 'July 5-July 8',
-                                    suffixIcon: const Padding(
-                                      padding: EdgeInsets.all(17.0),
-                                      child: ImageView.svg(
-                                        AppImages.dropDown,
-                                        scale: 0.8,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                TextEditView(
+                                  controller: medicationNoteController,
+                                  borderColor: Colors.grey.shade200,
+                                  borderWidth: 0.5,
+                                  hintText: '',
+                                  maxLines: 4,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Add Notes for Patient (Optional)',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: const Color(0xFF131316),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              TextEditView(
-                                controller: TextEditingController(),
-                                borderColor: Colors.grey.shade200,
-                                borderWidth: 0.5,
-                                hintText: '',
-                                maxLines: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+  }),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Color(0xFFFFFFFF),
@@ -1276,7 +959,10 @@ class _CreateNewMedicationState extends State<CreateNewMedication> {
     );
   }
 
-  categoryModalContent({required BuildContext context, var controller,required List<String> item} ) {
+  categoryModalContent(
+      {required BuildContext context,
+      var controller,
+      required List<String> item}) {
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.6,
       decoration: BoxDecoration(
@@ -1350,5 +1036,188 @@ class _CreateNewMedicationState extends State<CreateNewMedication> {
         },
       ),
     );
+  }
+
+  choiceContent(
+    BuildContext context,
+    List<String> items,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: items.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            String item = items[index];
+            bool isChecked = selectedDay == item;
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 1),
+              child: Row(
+                children: [
+                  CustomCheckbox(
+                    bgColor: const Color(0xFF40B93C),
+                    isChecked: isChecked,
+                    onChanged: (checked) {
+                      _onCheckboxChanged(checked, item);
+                    },
+                  ),
+                  const SizedBox(
+                    width: 13,
+                  ),
+                  Expanded(
+                    child: Text(
+                      item,
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                        height: 1.5,
+                        color: const Color(0xFF030712),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  timeDayContent(
+    BuildContext context,
+    List<String> items,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Wrap(
+        spacing: 8.0,
+        runSpacing: 8.0,
+        children: items.map((item) {
+          bool isChecked = selectedTimeDay == item;
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomCheckbox(
+                bgColor: const Color(0xFF40B93C),
+                isChecked: isChecked,
+                onChanged: (checked) {
+                  _onCheckboxTimeDayChanged(checked, item);
+                },
+              ),
+              const SizedBox(
+                width: 13,
+              ),
+              GestureDetector(
+                onTap: () {
+                  _onCheckboxChanged(!isChecked, item);
+                },
+                child: Text(
+                  item,
+                  style: GoogleFonts.getFont(
+                    'Inter',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    height: 1.5,
+                    color: const Color(0xFF030712),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  dateSelectionWidget() {
+    return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                state(() {
+                  _selectDate(context, true, state);
+                });
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Start Date',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                        _formatDate(startDate),
+                        style: TextStyle(
+                          fontSize: startDate == null ? 22 : 14,
+                          color:
+                              startDate == null ? Colors.black : Colors.black,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(17.0),
+                        child: ImageView.svg(
+                          AppImages.dropDown,
+                          scale: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () => _selectDate(context, false, state),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'End Date',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                        _formatDate(endDate),
+                        style: TextStyle(
+                          fontSize: endDate == null ? 22 : 14,
+                          color: endDate == null ? Colors.black : Colors.black,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(17.0),
+                        child: ImageView.svg(
+                          AppImages.dropDown,
+                          scale: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

@@ -1,5 +1,8 @@
 
 
+import 'dart:convert';
+
+import '../../../handlers/secure_handler.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/user_data.dart';
@@ -45,6 +48,51 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.getUserDataUrl,
     );
     return UserData.fromJson(map);
+  }
+  
+  @override
+  Future<PatientsLists> createNewMedication({
+    required String patientId,
+      
+      required String medicationName,
+      required String medicationId,
+      required String category,
+      required String administrationRouteId,
+      required String dosage,
+      required String notes,
+      required String durationStart,
+      required String durationEnd,
+      required String frequency,
+      required String toBeTaken,
+
+      required List<String> days,
+      required List<String> times,
+      }) async {
+        final accessToken = await StorageHandler.getUserToken() ?? '';
+
+        var payload = {
+  "patient_id": patientId,
+  "medication_name": medicationName,
+  "medication_id": medicationId,
+  "category": category,
+  "administration_route_id": administrationRouteId,
+  "dosage": dosage,
+  "notes": notes,
+  "duration_start_time": durationStart,
+  "duration_end_time": durationEnd,
+  "to_be_taken": toBeTaken,
+  "frequency": frequency,
+  "days": days,
+  "times": times
+}
+;
+    final map = await Requests().post(
+      AppStrings.createNewMedicationUrl, body: jsonEncode(payload), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer $accessToken",
+    }
+    );
+    return PatientsLists.fromJson(map);
   }
   
 }

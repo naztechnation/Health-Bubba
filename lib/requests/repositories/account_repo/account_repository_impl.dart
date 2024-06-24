@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:healthbubba/model/auth_model/verify_otp.dart';
-import 'package:healthbubba/model/patients/patients_list.dart';
+import 'package:healthbubba/model/auth_model/verify_otp.dart'; 
 import 'package:healthbubba/model/user/bank_details.dart';
 import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/get_specialties.dart';

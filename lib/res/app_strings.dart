@@ -7,8 +7,8 @@ class AppStrings {
 
    
   ///base url
-  static const String _baseUrl = 'https://healthbubba.com/api/';
-  static const String imageBaseUrl = "http://healthbubba.com//uploads/profile_pics/";
+  static const String _baseUrl = 'https://api.healthbubba.com/api/';
+  static const String imageBaseUrl = "http://api.healthbubba.com//uploads/profile_pics/";
 
  
 
@@ -47,6 +47,7 @@ class AppStrings {
   static const String availabilityStatus = "status/availability";
   static const String specialtyStatus = "status/specialty";
   static const String languageStatus = "status/language";
+  static const String createNewMedicationUrl = "${_baseUrl}medication/create";
    
   static   String profileStatusUrl({required String  url,}) => "$_baseUrl$url";
   static   String patientsListsUrl({required String  page, required String  limit}) => "${_baseUrl}patients?page=$page&limit=$limit";

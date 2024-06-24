@@ -26,5 +26,24 @@ abstract class UserRepository {
      Future<PatientsLists> getConsultaionStatus( 
       {required String url}
      );
+     
+
+     Future<PatientsLists> createNewMedication( 
+      {required String patientId,
+      
+      required String medicationName,
+      required String medicationId,
+      required String category,
+      required String administrationRouteId,
+      required String dosage,
+      required String notes,
+      required String durationStart,
+      required String durationEnd,
+      required String frequency,
+      required String toBeTaken,
+      required List<String> days,
+      required List<String> times,
+      }
+     );
 
 }

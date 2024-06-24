@@ -186,13 +186,13 @@ class _HomeState extends State<Home> {
         return ErrorPage(
             statusCode: state.message ?? '',
             onTap: () {
-              _userCubit.userData();
+             getUserData();
             });
       } else if (state is UserNetworkErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
             onTap: () {
-              _userCubit.userData();
+              getUserData();
             });
       }
       return
@@ -1851,7 +1851,7 @@ class _HomeState extends State<Home> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       ChoiceSelector(
-                                        days: const [
+                                        items: const [
                                           "1 Day",
                                           "7 Days",
                                           "30 Days"

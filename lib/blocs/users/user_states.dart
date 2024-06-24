@@ -99,6 +99,18 @@ class UserDataLoaded extends UserStates {
   List<Object> get props => [userData];
 }
 
+class CreateMedicationLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class CreateMedicationLoaded extends UserStates {
+  final PatientsLists createNewMedication;
+  const CreateMedicationLoaded(this.createNewMedication);
+  @override
+  List<Object> get props => [createNewMedication];
+}
+
 class UserNetworkErr extends UserStates {
   final String? message;
   const UserNetworkErr(this.message);

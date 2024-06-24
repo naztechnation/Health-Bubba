@@ -174,4 +174,40 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+   Future<void> createNewMedication({required String patientId,
+      
+      required String medicationName,
+      required String medicationId,
+      required String category,
+      required String administrationRouteId,
+      required String dosage,
+      required String notes,
+      required String durationStart,
+      required String durationEnd,
+      required String frequency,
+      required String toBeTaken,
+
+      required List<String> days,
+      required List<String> times,}) async {
+    try {
+      emit(CheckLanguageStatusLoading());
+
+      final user = await userRepository.createNewMedication(patientId: patientId, medicationName: medicationName, medicationId: medicationId, category: category, administrationRouteId: administrationRouteId, dosage: dosage, notes: notes, durationStart: durationStart, durationEnd: durationEnd, frequency: frequency, toBeTaken: toBeTaken, days: days, times: times);
+
+      emit(CheckLanguageStatusLoaded(user));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }
