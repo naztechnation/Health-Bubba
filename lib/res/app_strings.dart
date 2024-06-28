@@ -49,6 +49,9 @@ class AppStrings {
   static const String languageStatus = "status/language";
   static const String createNewMedicationUrl = "${_baseUrl}medication/create";
   static const String medicationCategoriesUrl = "${_baseUrl}medication/categories";
+  static const String medicationsUrl = "${_baseUrl}doctor/medications";
+  static const String getProfileStatusUrl = "${_baseUrl}status/profile_settings";
+  static const String getAdministeredRouteUrl = "${_baseUrl}administration_routes";
    
   static   String profileStatusUrl({required String  url,}) => "$_baseUrl$url";
   static   String medicationSubCategoryUrl({required String  categoryId}) => "${_baseUrl}medication/category/$categoryId";

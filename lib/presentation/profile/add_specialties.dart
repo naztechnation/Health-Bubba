@@ -123,7 +123,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                         page: destructiveActions(
                             context: context,
                             message:
-                                'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+                                'if you leave this page changes made would not be saved!!!',
                             primaryText: 'Discard',
                             secondaryText: 'Save',
                             primaryAction: () {

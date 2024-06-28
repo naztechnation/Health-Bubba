@@ -15,9 +15,10 @@ import '../../../../widgets/image_view.dart';
 import '../../../../widgets/loading_screen.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../medication/create_new_medication.dart';
-import '../widgets/patient_card.dart'; 
+import '../widgets/patient_card.dart';
+
 class SelectPatient extends StatelessWidget {
-  const SelectPatient  ({Key? key}) : super(key: key);
+  const SelectPatient({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,26 +48,25 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
   int total = 1;
 
   late TextEditingController _searchController;
-List<Patients> filteredPatientsLists = [];
-
+  List<Patients> filteredPatientsLists = [];
 
   @override
   void initState() {
     super.initState();
     _userCubit = context.read<UserCubit>();
-     _searchController = TextEditingController();
-  _searchController.addListener(_filterPatients);
+    _searchController = TextEditingController();
+    _searchController.addListener(_filterPatients);
     getPatientsLists();
   }
 
   void _filterPatients() {
-  setState(() {
-    String query = _searchController.text.toLowerCase();
-    filteredPatientsLists = patientsLists.where((patient) {
-      return patient.firstName.toString().toLowerCase().contains(query);
-    }).toList();
-  });
-}
+    setState(() {
+      String query = _searchController.text.toLowerCase();
+      filteredPatientsLists = patientsLists.where((patient) {
+        return patient.firstName.toString().toLowerCase().contains(query);
+      }).toList();
+    });
+  }
 
   getPatientsLists() async {
     _userCubit.getPatientsLists(
@@ -84,10 +84,10 @@ List<Patients> filteredPatientsLists = [];
   }
 
   @override
-void dispose() {
-  _searchController.dispose();
-  super.dispose();
-}
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,21 +243,33 @@ void dispose() {
                                           CrossAxisAlignment.start,
                                       children: [
                                         ListView.builder(
-                                          itemCount: filteredPatientsLists.length,
+                                          itemCount:
+                                              filteredPatientsLists.length,
                                           shrinkWrap: true,
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
-                                                AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: CreateNewMedication(patientId: filteredPatientsLists[index].id.toString(),patientImage: filteredPatientsLists[index].picture, patientName: filteredPatientsLists[index].firstName,),
-                                                );
+                                                Navigator.pop(context, {
+                                                  'patientId': filteredPatientsLists[
+                                                                index]
+                                                            .id
+                                                            .toString(),
+                                                  'patientImage': filteredPatientsLists[
+                                                                index]
+                                                            .picture,
+                                                  'patientName': filteredPatientsLists[
+                                                                index]
+                                                            .firstName,
+                                                });
+                                                
+                                                
                                               },
                                               child: patientCard(
                                                 context: context,
-                                                patients: filteredPatientsLists[index],
+                                                patients: filteredPatientsLists[
+                                                    index],
                                               ),
                                             );
                                           },

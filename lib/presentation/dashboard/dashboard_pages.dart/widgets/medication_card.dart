@@ -2,14 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/utils/app_utils.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 
+import '../../../../model/patients/get_medications.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 import '../medication/medication_details.dart';
 
 class MedicationCard extends StatelessWidget {
-  const MedicationCard({super.key});
+
+  final GetMedicationsData medications;
+  const MedicationCard({super.key, required this.medications});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +98,7 @@ class MedicationCard extends StatelessWidget {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Medical Prescription - Paracetamol 500Mg',
+                                                    medications.medicationName ?? '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight: FontWeight.w500,
@@ -106,7 +110,7 @@ class MedicationCard extends StatelessWidget {
                                                   Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      'Ayoola Feranmi',
+                                                      medications.patientFirstName  ?? '',
                                                       style: GoogleFonts.getFont(
                                                         'Inter',
                                                         fontWeight: FontWeight.w500,
@@ -119,7 +123,7 @@ class MedicationCard extends StatelessWidget {
                                                   Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      'July 5 - Aug 8',
+                                                      '${AppUtils.formatComplexDateOnly(dateTime: medications.durationStartTime ?? '')}  -  ${AppUtils.formatComplexDateOnly(dateTime: medications.durationEndTime ?? '')}',
                                                       style: GoogleFonts.getFont(
                                                         'Inter',
                                                         fontWeight: FontWeight.w500,

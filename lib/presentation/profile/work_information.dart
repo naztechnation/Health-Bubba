@@ -183,21 +183,12 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                 .add({'start_time': startTime, 'end_time': endTime});
           }
         } else {
-          // ToastService().showToast(context,
-          //     leadingIcon: const ImageView.svg(AppImages.error),
-          //     title: 'Error!!!',
-          //     subtitle: state.availability.message ?? '');
+           
         }
       } else if (state is AccountApiErr) {
-        // ToastService().showToast(context,
-        //     leadingIcon: const ImageView.svg(AppImages.error),
-        //     title: 'Error!!!',
-        //     subtitle: "Network Error");
+         
       } else if (state is AccountNetworkErr) {
-        // ToastService().showToast(context,
-        //     leadingIcon: const ImageView.svg(AppImages.error),
-        //     title: 'Error!!!',
-        //     subtitle: "Network Error");
+         
       }
     }, builder: (context, state) {
       return (state is UpdateBioLoading || state is UploadImageLoading)

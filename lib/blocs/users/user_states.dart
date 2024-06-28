@@ -1,7 +1,10 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/patients_list.dart';
 
+import '../../model/patients/administered_route.dart';
+import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
 import '../../model/user/consultation_data.dart';
@@ -135,6 +138,42 @@ class MedicationSubCategoryLoaded extends UserStates {
   const MedicationSubCategoryLoaded(this.medicationSubCategory);
   @override
   List<Object> get props => [medicationSubCategory];
+}
+
+class MedicationsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class MedicationsLoaded extends UserStates {
+  final GetMedications medications;
+  const MedicationsLoaded(this.medications);
+  @override
+  List<Object> get props => [medications];
+}
+
+class AdministeredRouteLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AdministeredRouteLoaded extends UserStates {
+  final AdministeredRoute route;
+  const AdministeredRouteLoaded(this.route);
+  @override
+  List<Object> get props => [route];
+}
+
+class ProfileStatusLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class ProfileStatusLoaded extends UserStates {
+  final GetProfileStatus status;
+  const ProfileStatusLoaded(this.status);
+  @override
+  List<Object> get props => [status];
 }
 
 class UserNetworkErr extends UserStates {

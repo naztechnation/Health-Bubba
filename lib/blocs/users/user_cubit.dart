@@ -191,11 +191,11 @@ class UserCubit extends Cubit<UserStates> {
       required List<String> days,
       required List<String> times,}) async {
     try {
-      emit(CheckLanguageStatusLoading());
+      emit(CreateMedicationLoading());
 
       final user = await userRepository.createNewMedication(patientId: patientId, medicationName: medicationName, medicationId: medicationId, category: category, administrationRouteId: administrationRouteId, dosage: dosage, notes: notes, durationStart: durationStart, durationEnd: durationEnd, frequency: frequency, toBeTaken: toBeTaken, days: days, times: times);
 
-      emit(CheckLanguageStatusLoaded(user));
+      emit(CreateMedicationLoaded(user));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {
@@ -240,6 +240,74 @@ class UserCubit extends Cubit<UserStates> {
       final user = await userRepository.getMedicationSubCategories(categoryId: categoryId);
 
       emit(MedicationSubCategoryLoaded(user));
+      
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> getMedications( ) async {
+    try {
+      emit(MedicationsLoading());
+
+      final user = await userRepository.getMedications( );
+
+      emit(MedicationsLoaded(user));
+      
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> getProfileStatus( ) async {
+    try {
+      emit(ProfileStatusLoading());
+
+      final user = await userRepository.getProfileStatus( );
+
+      emit(ProfileStatusLoaded(user));
+      
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<void> getAdministeredRoute() async {
+    try {
+      emit(AdministeredRouteLoading());
+
+      final user = await userRepository.getAdministeredRoute( );
+
+      emit(AdministeredRouteLoaded(user));
       
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));

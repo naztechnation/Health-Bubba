@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/handlers/secure_handler.dart';
+import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings.dart';
 import 'package:healthbubba/res/app_images.dart';
@@ -57,12 +58,13 @@ class _HomeState extends State<Home> {
     name = await StorageHandler.getFirstName();
     title = await StorageHandler.getUserTitle();
     await _userCubit.userData();
-    await _userCubit.checkConsultationStatus(
-        url: AppStrings.checkConsultationStatusUrl);
-    await _userCubit.checkAvailabilityStatus(
-        url: AppStrings.availabilityStatus);
-    await _userCubit.checkLanguageStatus(url: AppStrings.languageStatus);
-    await _userCubit.checkSpecialtyStatus(url: AppStrings.specialtyStatus);
+    await _userCubit.getProfileStatus();
+    // await _userCubit.checkConsultationStatus(
+    //     url: AppStrings.checkConsultationStatusUrl);
+    // await _userCubit.checkAvailabilityStatus(
+    //     url: AppStrings.availabilityStatus);
+    // await _userCubit.checkLanguageStatus(url: AppStrings.languageStatus);
+    // await _userCubit.checkSpecialtyStatus(url: AppStrings.specialtyStatus);
   }
 
   @override
@@ -108,14 +110,7 @@ class _HomeState extends State<Home> {
           name = state.userData.data?.firstName ?? '';
           title = state.userData.data?.title ?? '';
           String bio = state.userData.data?.bio ?? "";
-          setState(() {
-            if (bio.isNotEmpty) {
-              bioStatus = true;
-            } else {
-              bioStatus = false;
-              
-            }
-          });
+           
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveUserFirstName(
@@ -130,16 +125,55 @@ class _HomeState extends State<Home> {
 
           
         }
-      } else if (state is CheckAvalaibilityStatusLoaded) {
-        if (state.availability.ok ?? false) {
-          setState(() {
+      } else if (state is ProfileStatusLoaded) {
+        if (state.status.ok ?? false) {
+
+          if (state.status.data?.availability ?? false) {
             availabilityStatus = true;
-          });
+            
+          } else {
+            availabilityStatus = false;
+            
+          }
+          if (state.status.data?.language ?? false) {
+            languageStatus = true;
+            
+          } else {
+            languageStatus = false;
+            
+          }if (state.status.data?.specialty ?? false) {
+            specialtiesStatus = true;
+            
+          } else {
+            specialtiesStatus = false;
+            
+          }if (state.status.data?.bio ?? false) {
+            bioStatus = true;
+            
+          } else {
+            bioStatus = false;
+            
+          }if (state.status.data?.consultationFee ?? false) {
+            consultationStatus = true;
+            
+          } else {
+            consultationStatus = false;
+            
+          }
+           
         } else {
           setState(() {
             availabilityStatus = false;
+            consultationStatus = false;
+            specialtiesStatus = false;
+            languageStatus = false;
+            bioStatus = false;
+
+
+
           });
         }
+        
       }else if (state is CheckConsultaionStatusLoaded) {
         if (state.fee.ok ?? false) {
           setState(() {
@@ -196,7 +230,7 @@ class _HomeState extends State<Home> {
             });
       }
       return
-          (state is UserDataLoading || state is CheckAvailabilityStatusLoading || state is CheckSpecialtyStatusLoading || state is CheckConsultaionStatusLoading || state is CheckLanguageStatusLoading)
+          (state is UserDataLoading || state is ProfileStatusLoading  )
               ? LoadersPage(
                   length: MediaQuery.sizeOf(context).height.toInt(),
                 )

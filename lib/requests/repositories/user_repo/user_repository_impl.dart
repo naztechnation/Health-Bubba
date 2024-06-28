@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:healthbubba/model/patients/administered_route.dart';
+import 'package:healthbubba/model/patients/get_medications.dart';
+import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/medication_category.dart';
 import 'package:healthbubba/model/patients/medication_sub_category.dart';
 
@@ -107,5 +110,29 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.medicationSubCategoryUrl(categoryId: categoryId),
     );
     return MedicationSubCategory.fromJson(map);
+  }
+
+  @override
+  Future<GetMedications> getMedications() async {
+    final map = await Requests().get(
+      AppStrings.medicationsUrl,
+    );
+    return GetMedications.fromJson(map);
+  }
+
+  @override
+  Future<GetProfileStatus> getProfileStatus() async {
+    final map = await Requests().post(
+      AppStrings.getProfileStatusUrl,
+    );
+    return GetProfileStatus.fromJson(map);
+  }
+
+  @override
+  Future<AdministeredRoute> getAdministeredRoute() async {
+    final map = await Requests().get(
+      AppStrings.getAdministeredRouteUrl,
+    );
+    return AdministeredRoute.fromJson(map);
   }
 }

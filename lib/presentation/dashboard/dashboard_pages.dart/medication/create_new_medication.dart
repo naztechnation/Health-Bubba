@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../blocs/users/users.dart';
+import '../../../../model/patients/administered_route.dart';
 import '../../../../model/patients/medication_category.dart';
 import '../../../../model/patients/medication_sub_category.dart';
 import '../../../../model/view_model/user_view_model.dart';
@@ -19,6 +21,7 @@ import '../../../../widgets/button_view.dart';
 import '../../../../widgets/checkbox.dart';
 import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/custom_toast.dart';
+import '../../../../widgets/decision_widgets.dart';
 import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/loading_screen.dart';
@@ -27,11 +30,9 @@ import '../../../../widgets/text_edit_view.dart';
 import '../widgets/select_patient.dart';
 
 class CreateNewMedication extends StatelessWidget {
-  final String? patientName;
-  final String? patientImage;
-  final String? patientId;
-  const CreateNewMedication(
-      {super.key, this.patientName, this.patientImage, this.patientId});
+  const CreateNewMedication({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,23 +40,12 @@ class CreateNewMedication extends StatelessWidget {
       create: (BuildContext context) => UserCubit(
           userRepository: UserRepositoryImpl(),
           viewModel: Provider.of<UserViewModel>(context, listen: false)),
-      child: CreateNewMedicationScreen(
-        patientId: patientId,
-        patientImage: patientImage,
-        patientName: patientName,
-      ),
+      child: CreateNewMedicationScreen(),
     );
   }
 }
 
 class CreateNewMedicationScreen extends StatefulWidget {
-  final String? patientName;
-  final String? patientImage;
-  final String? patientId;
-
-  CreateNewMedicationScreen(
-      {super.key, this.patientName, this.patientImage, this.patientId});
-
   @override
   State<CreateNewMedicationScreen> createState() =>
       _CreateNewMedicationScreenState();
@@ -80,6 +70,10 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  String patientName = '';
+  String patientImage = '';
+  String patientId = '';
+
   DateTime? startDate;
   DateTime? endDate;
   String formattedStartDate = '';
@@ -87,26 +81,21 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
 
   String categoryId = '';
   String medicationId = '';
+  String adminRouteId = '';
 
   String realPatientId = '';
   String _frequency = "Everyday";
   String _whenTaken = "After Food";
   String? selectedTimeDay;
 
+  bool istimeDayChecked = false;
+
   List<MedicationCategoryData> medCategories = [];
   List<Medications> filteredMedicationLists = [];
 
   List<Medications> medications = [];
 
-  List<String> routeAdim = [
-    'Oral',
-    'Topical',
-    'Injection',
-    'Rectal',
-    'Transdermal',
-    'Sublingual/Buccal',
-    'Inhalation',
-  ];
+  List<AdministeredRouteData> routeAdim = [];
 
   List<String> days = [
     'Monday',
@@ -126,6 +115,9 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   ];
 
   String? selectedDay;
+
+  List<String> selectedDays = [];
+  List<String> selectedTimeOfDays = [];
 
   void _selectDate(
       BuildContext context, bool isStartDate, StateSetter state) async {
@@ -177,9 +169,9 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   void _onCheckboxChanged(bool isChecked, String item) {
     setState(() {
       if (isChecked) {
-        selectedDay = item;
+        selectedDays.add(item);
       } else {
-        selectedDay = null;
+        selectedDays.remove(item);
       }
     });
   }
@@ -187,9 +179,9 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   void _onCheckboxTimeDayChanged(bool isChecked, String item) {
     setState(() {
       if (isChecked) {
-        selectedTimeDay = item;
+        selectedTimeOfDays.add(item);
       } else {
-        selectedTimeDay = null;
+        selectedTimeOfDays.remove(item);
       }
     });
   }
@@ -210,14 +202,12 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     _userCubit = context.read<UserCubit>();
 
     _userCubit.getMedicationCategory();
+    _userCubit.getAdministeredRoute();
   }
 
   @override
   void initState() {
     getUserData();
-
-    realPatientId = widget.patientId ?? '';
-    
 
     super.initState();
   }
@@ -245,8 +235,47 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
             leadingIcon: const ImageView.svg(AppImages.successIcon),
             title: AppStrings.successTitle,
             subtitle: state.createNewMedication.message ?? '');
+        Modals.showDialogModal(
+          context,
+          page: destructiveActions(
+              context: context,
+              message: 'Do you wish to create a new medication???.',
+              primaryText: 'No, Back to Home',
+              secondaryText: 'Create again',
+              primaryAction: () {
+                AppNavigator.pushAndReplacePage(context,
+                    page: const Dashboard());
+              },
+              primaryBgColor: const Color(0xFFF70000),
+              secondaryAction: () {
+                setState(() {
+                  medicationCategoryController.clear();
+                  medicationDosageController.clear();
+                  medicationDurationController.clear();
+                  medicationNameController.clear();
+                  medicationNoteController.clear();
+                  administrationRouteController.clear();
+                  _frequency = 'Everyday';
+                  selectedDays.clear();
+                  selectedTimeOfDays.clear();
+                  _whenTaken = "After Food";
+                  medicationId = '';
+                  adminRouteId = '';
+                  patientId = '';
+                  _handleFrequencySelected('Everyday');
+                  _handleWhenTakenSelected('After Food');
+
+                  for (String day in selectedTimeOfDays) {
+      istimeDayChecked  = false;
+    }
+                });
+                Navigator.pop(context);
+              }),
+        );
       } else if (state is MedicationCategoryLoaded) {
         medCategories = state.medicationCategory.data ?? [];
+      } else if (state is AdministeredRouteLoaded) {
+        routeAdim = state.route.data ?? [];
       } else if (state is MedicationSubCategoryLoaded) {
         medications = state.medicationSubCategory.data?.medications ?? [];
 
@@ -276,9 +305,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
               getUserData();
             });
       }
-      return (state is CreateMedicationLoading ||
-              state is MedicationCategoryLoading ||
-              state is MedicationSubCategoryLoading)
+      return (state is MedicationCategoryLoading ||
+              state is AdministeredRouteLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -440,10 +468,6 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                     item: medications));
                                           }
                                         },
-                                        validator: (value) {
-                                          return Validator.validate(
-                                              value, 'Medication name');
-                                        },
                                         hintText: 'Select Medications',
                                         suffixIcon: const Padding(
                                           padding: EdgeInsets.all(17.0),
@@ -488,18 +512,31 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                           ),
                                         ),
                                       ),
-                                      if (realPatientId == null ||
-                                          realPatientId == '') ...[
+                                      if (patientId == null ||
+                                          patientId == '') ...[
                                         TextEditView(
                                           controller: TextEditingController(),
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
                                           hintText: 'Select Patient',
                                           readOnly: true,
-                                          onTap: () {
-                                            AppNavigator.pushAndStackPage(
-                                                context,
-                                                page: const SelectPatient());
+                                          onTap: () async {
+                                            final result = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SelectPatient()),
+                                            );
+
+                                            if (result != null) {
+                                              setState(() {
+                                                patientId = result['patientId'];
+                                                patientImage =
+                                                    result['patientImage'];
+                                                patientName =
+                                                    result['patientName'];
+                                              });
+                                            }
                                           },
                                           suffixIcon: Padding(
                                             padding: const EdgeInsets.only(
@@ -568,7 +605,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                             child:
                                                                 Image.network(
                                                               fit: BoxFit.cover,
-                                                              widget.patientImage ??
+                                                              patientImage ??
                                                                   '',
                                                               errorBuilder:
                                                                   (context,
@@ -598,7 +635,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                       width: 12,
                                                     ),
                                                     Text(
-                                                      widget.patientName ?? '',
+                                                      patientName ?? '',
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -615,7 +652,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     setState(() {
-                                                      realPatientId = '';
+                                                      patientId = '';
                                                     });
                                                   },
                                                   child: Container(
@@ -690,12 +727,18 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                 ),
                                               ),
                                               onTap: () {
-                                                Modals.showDialogModal(context,
-                                                    page: adminModeModalContent(
-                                                        context: context,
-                                                        controller:
-                                                            administrationRouteController,
-                                                        item: routeAdim));
+                                                if (routeAdim.isNotEmpty) {
+                                                  Modals.showDialogModal(
+                                                      context,
+                                                      page: adminModeModalContent(
+                                                          context: context,
+                                                          controller:
+                                                              administrationRouteController,
+                                                          item: routeAdim));
+                                                } else {
+                                                  _userCubit
+                                                      .getAdministeredRoute();
+                                                }
                                               },
                                             ),
                                           ],
@@ -1046,47 +1089,58 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                         ),
                       ],
                     ),
-                    child: ButtonView(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            if (realPatientId.isNotEmpty &&
-                                medicationCategoryController.text.isNotEmpty &&
-                                administrationRouteController.text.isNotEmpty &&
-                                days.isNotEmpty &&
-                                formattedStartDate.isNotEmpty &&
-                                formattedEndDate.isNotEmpty && medicationId.isEmpty) {
-                              _userCubit.createNewMedication(
-                                  patientId: realPatientId,
-                                  medicationName: medicationNameController.text,
-                                  medicationId: medicationId,
-                                  category: medicationCategoryController.text,
-                                  administrationRouteId: '',
-                                  dosage: medicationDosageController.text,
-                                  notes: medicationNoteController.text,
-                                  durationStart: formattedStartDate,
-                                  durationEnd: formattedEndDate,
-                                  frequency: _frequency,
-                                  toBeTaken: _whenTaken,
-                                  days: days,
-                                  times: timeOfDay);
-                            } else {
-                              ToastService().showToast(context,
+                    child: SizedBox(
+                      height: 45,
+                      child: ButtonView(
+                          processing: state is CreateMedicationLoading,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (patientId.isNotEmpty &&
+                                  adminRouteId.isNotEmpty &&
+                                  medicationCategoryController
+                                      .text.isNotEmpty &&
+                                  administrationRouteController
+                                      .text.isNotEmpty &&
+                                  selectedTimeOfDays.isNotEmpty &&
+                                  formattedStartDate.isNotEmpty &&
+                                  formattedEndDate.isNotEmpty &&
+                                  medicationId.isNotEmpty) {
+                                _userCubit.createNewMedication(
+                                    patientId: patientId,
+                                    medicationName:
+                                        medicationNameController.text,
+                                    medicationId: medicationId,
+                                    category: medicationCategoryController.text,
+                                    administrationRouteId: adminRouteId,
+                                    dosage: medicationDosageController.text,
+                                    notes: medicationNoteController.text,
+                                    durationStart: formattedStartDate,
+                                    durationEnd: formattedEndDate,
+                                    frequency: _frequency,
+                                    toBeTaken: _whenTaken,
+                                    days: selectedDays,
+                                    times: selectedTimeOfDays);
+                              } else {
+                                ToastService().showToast(
+                                  context,
                                   leadingIcon:
                                       const ImageView.svg(AppImages.error),
                                   title: 'Error!!!',
-                                  subtitle: "Must Select All Required Field");
+                                  subtitle: 'Select all fields',
+                                );
+                              }
                             }
-                          }
-                        },
-                        borderRadius: 100,
-                        color: AppColors.lightSecondary,
-                        child: const Text(
-                          'Create New Medication',
-                          style: TextStyle(
-                              color: AppColors.lightPrimary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        )),
+                          },
+                          borderRadius: 100,
+                          color: AppColors.lightSecondary,
+                          child: const Text(
+                            'Create New Medication',
+                            style: TextStyle(
+                                color: AppColors.lightPrimary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -1181,134 +1235,134 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
       {required BuildContext context,
       var controller,
       required List<Medications> item}) {
-    return StatefulBuilder(
-          builder: (BuildContext context, StateSetter state) {
-        return Container(
-          width: MediaQuery.sizeOf(context).width * 0.6,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
-            border: Border.all(color: Colors.grey.shade300, width: 2),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x0A000000),
-                offset: Offset(0, 1),
-                blurRadius: 1.5,
-              ),
-              BoxShadow(
-                color: Color(0x0D2F3037),
-                offset: Offset(0, 24),
-                blurRadius: 34,
-              ),
-              BoxShadow(
-                color: Color(0x0A222A35),
-                offset: Offset(0, 4),
-                blurRadius: 3,
-              ),
-              BoxShadow(
-                color: Color(0x0D000000),
-                offset: Offset(0, 1),
-                blurRadius: 0.5,
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
-                child: TextEditView(
-                  controller: _searchController,
-                  onChanged: (value) {
-                    _filterMedications(state);
-                  },
-                  prefixIcon: SizedBox(
-                    width: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(width: 0),
-                        const ImageView.svg(
-                          AppImages.searchIcon,
-                          height: 19,
-                        ),
-                        Container(
-                          height: 20,
-                          width: 1,
-                          decoration: BoxDecoration(
-                              color: const Color(0xFF000000),
-                              borderRadius: BorderRadius.circular(11)),
-                        ),
-                        const SizedBox(width: 0),
-                      ],
-                    ),
-                  ),
-                  hintText: 'Search Medication name ',
-                ),
-              ),
-              Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: filteredMedicationLists.length,
-                  separatorBuilder: (context, index) => (index == 0)
-                      ? Divider(
-                          color: Colors.grey.shade300,
-                          height: 0,
-                        )
-                      : const SizedBox.shrink(),
-                  itemBuilder: (context, index) {
-                    String title =
-                        filteredMedicationLists[index].medicationName ?? '';
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          controller.text = title;
-        
-                          medicationId = filteredMedicationLists[index]
-                                  .medicationCategoryId
-                                  .toString() ??
-                              '';
-                        });
-        
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all((index == 0) ? 8 : 0),
+    return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
+      return Container(
+        width: MediaQuery.sizeOf(context).width * 0.6,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300, width: 2),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0A000000),
+              offset: Offset(0, 1),
+              blurRadius: 1.5,
+            ),
+            BoxShadow(
+              color: Color(0x0D2F3037),
+              offset: Offset(0, 24),
+              blurRadius: 34,
+            ),
+            BoxShadow(
+              color: Color(0x0A222A35),
+              offset: Offset(0, 4),
+              blurRadius: 3,
+            ),
+            BoxShadow(
+              color: Color(0x0D000000),
+              offset: Offset(0, 1),
+              blurRadius: 0.5,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
+              child: TextEditView(
+                controller: _searchController,
+                onChanged: (value) {
+                  _filterMedications(state);
+                },
+                prefixIcon: SizedBox(
+                  width: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(width: 0),
+                      const ImageView.svg(
+                        AppImages.searchIcon,
+                        height: 19,
+                      ),
+                      Container(
+                        height: 20,
+                        width: 1,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color:
-                              (index == 0) ? const Color(0xFFF9FAFB) : Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 13.0, horizontal: 15),
-                          child: Text(
-                            title,
-                            style: GoogleFonts.getFont(
-                              'Inter',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13,
-                              height: 1.5,
-                              color: const Color(0xFF030712),
-                            ),
+                            color: const Color(0xFF000000),
+                            borderRadius: BorderRadius.circular(11)),
+                      ),
+                      const SizedBox(width: 0),
+                    ],
+                  ),
+                ),
+                hintText: 'Search Medication name ',
+              ),
+            ),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: filteredMedicationLists.length,
+                separatorBuilder: (context, index) => (index == 0)
+                    ? Divider(
+                        color: Colors.grey.shade300,
+                        height: 0,
+                      )
+                    : const SizedBox.shrink(),
+                itemBuilder: (context, index) {
+                  String title =
+                      filteredMedicationLists[index].medicationName ?? '';
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        controller.text = title;
+
+                        medicationId = filteredMedicationLists[index]
+                                .medicationCategoryId
+                                .toString() ??
+                            '';
+                      });
+
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all((index == 0) ? 8 : 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: (index == 0)
+                            ? const Color(0xFFF9FAFB)
+                            : Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 13.0, horizontal: 15),
+                        child: Text(
+                          title,
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                            height: 1.5,
+                            color: const Color(0xFF030712),
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
-        );
-      }
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   adminModeModalContent(
       {required BuildContext context,
       var controller,
-      required List<String> item}) {
+      required List<AdministeredRouteData> item}) {
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.6,
       decoration: BoxDecoration(
@@ -1348,7 +1402,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
               )
             : const SizedBox.shrink(),
         itemBuilder: (context, index) {
-          String title = item[index] ?? '';
+          String title = item[index].name ?? '';
+          adminRouteId = item[index].id.toString() ?? '';
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -1397,7 +1452,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             String item = items[index];
-            bool isChecked = selectedDay == item;
+            bool isChecked = selectedDays.contains(item);
             return Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 1),
@@ -1444,13 +1499,14 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
         spacing: 8.0,
         runSpacing: 8.0,
         children: items.map((item) {
-          bool isChecked = selectedTimeDay == item;
+            istimeDayChecked = selectedTimeOfDays.contains(item);
+
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomCheckbox(
                 bgColor: const Color(0xFF40B93C),
-                isChecked: isChecked,
+                isChecked: istimeDayChecked,
                 onChanged: (checked) {
                   _onCheckboxTimeDayChanged(checked, item);
                 },
@@ -1460,7 +1516,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  _onCheckboxChanged(!isChecked, item);
+                  //_onCheckboxTimeDayChanged(isChecked, item);
                 },
                 child: Text(
                   item,
@@ -1484,82 +1540,115 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            GestureDetector(
-              onTap: () {
-                state(() {
-                  _selectDate(context, true, state);
-                });
-              },
-              child: Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Start Date',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () {
+                      state(() {
+                        _selectDate(context, true, state);
+                      });
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Start Date',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Text(
+                              _formatDate(startDate),
+                              style: TextStyle(
+                                fontSize: startDate == null ? 22 : 14,
+                                color: startDate == null
+                                    ? Colors.black
+                                    : Colors.black,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: ImageView.svg(
+                                AppImages.dropDown,
+                                scale: 0.8,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        _formatDate(startDate),
-                        style: TextStyle(
-                          fontSize: startDate == null ? 22 : 14,
-                          color:
-                              startDate == null ? Colors.black : Colors.black,
+                  GestureDetector(
+                    onTap: () => _selectDate(context, false, state),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'End Date',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(17.0),
-                        child: ImageView.svg(
-                          AppImages.dropDown,
-                          scale: 0.8,
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Text(
+                              _formatDate(endDate),
+                              style: TextStyle(
+                                fontSize: endDate == null ? 22 : 14,
+                                color: endDate == null
+                                    ? Colors.black
+                                    : Colors.black,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: ImageView.svg(
+                                AppImages.dropDown,
+                                scale: 0.8,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () => _selectDate(context, false, state),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'End Date',
+            const SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: ButtonView(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  borderRadius: 100,
+                  color: AppColors.lightSecondary,
+                  child: const Text(
+                    'Ok',
                     style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        _formatDate(endDate),
-                        style: TextStyle(
-                          fontSize: endDate == null ? 22 : 14,
-                          color: endDate == null ? Colors.black : Colors.black,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(17.0),
-                        child: ImageView.svg(
-                          AppImages.dropDown,
-                          scale: 0.8,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                        color: AppColors.lightPrimary,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  )),
             ),
           ],
         ),
