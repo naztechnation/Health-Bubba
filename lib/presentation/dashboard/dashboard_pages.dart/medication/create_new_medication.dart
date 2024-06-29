@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
@@ -257,23 +258,22 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                   administrationRouteController.clear();
                   _frequency = 'Everyday';
                   selectedDays.clear();
-                  selectedTimeOfDays.clear();
+
                   _whenTaken = "After Food";
                   medicationId = '';
                   adminRouteId = '';
                   patientId = '';
                   _handleFrequencySelected('Everyday');
                   _handleWhenTakenSelected('After Food');
-
-                  for (String day in selectedTimeOfDays) {
-      istimeDayChecked  = false;
-    }
+                  startDate = null;
+                  endDate = null;
                 });
                 Navigator.pop(context);
               }),
         );
       } else if (state is MedicationCategoryLoaded) {
         medCategories = state.medicationCategory.data ?? [];
+        medicationNameController.clear();
       } else if (state is AdministeredRouteLoaded) {
         routeAdim = state.route.data ?? [];
       } else if (state is MedicationSubCategoryLoaded) {
@@ -306,6 +306,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
             });
       }
       return (state is MedicationCategoryLoading ||
+              state is MedicationSubCategoryLoading ||
               state is AdministeredRouteLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
@@ -1499,7 +1500,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
         spacing: 8.0,
         runSpacing: 8.0,
         children: items.map((item) {
-            istimeDayChecked = selectedTimeOfDays.contains(item);
+          istimeDayChecked = selectedTimeOfDays.contains(item);
 
           return Row(
             mainAxisSize: MainAxisSize.min,
@@ -1579,11 +1580,18 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                     : Colors.black,
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(17.0),
-                              child: ImageView.svg(
-                                AppImages.dropDown,
-                                scale: 0.8,
+                            GestureDetector(
+                              onTap: () {
+                                state(() {
+                                  _selectDate(context, true, state);
+                                });
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(17.0),
+                                child: ImageView.svg(
+                                  AppImages.dropDown,
+                                  scale: 0.8,
+                                ),
                               ),
                             ),
                           ],
@@ -1616,11 +1624,18 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                     : Colors.black,
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(17.0),
-                              child: ImageView.svg(
-                                AppImages.dropDown,
-                                scale: 0.8,
+                            GestureDetector(
+                              onTap: () {
+                                state(() {
+                                  _selectDate(context, false, state);
+                                });
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(17.0),
+                                child: ImageView.svg(
+                                  AppImages.dropDown,
+                                  scale: 0.8,
+                                ),
                               ),
                             ),
                           ],

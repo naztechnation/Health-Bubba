@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
       case 2:
         return   const AppointmentTabView();
       case 3:
-        return   MedicationPage();
+        return   const MedicationPage();
       default:
         return DefaultWidge();
     }
