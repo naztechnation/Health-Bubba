@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:healthbubba/model/patients/appointment_lists.dart';
+
 import '../../../model/patients/administered_route.dart';
+import '../../../model/patients/create_appointment.dart';
 import '../../../model/patients/get_medications.dart';
 import '../../../model/patients/get_profile_status.dart';
 import '../../../model/patients/medication_category.dart';
@@ -11,6 +16,11 @@ abstract class UserRepository {
   Future<PatientsLists> getPatientsLists({
     required String page,
     required String limit,
+  });
+
+  Future<PatientsLists> getPatientsDetails({
+    required String patientsId,
+      
   });
 
   Future<ConsultationData> addConsultationFee({
@@ -46,5 +56,15 @@ abstract class UserRepository {
   Future<GetMedications> getMedications();
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();
+  Future<AppointmentLists> getAppointmentList();
+
+   Future<CreateAppointment> createAppointment({
+    required String date,
+    required String time,
+    required String complaint,
+    required   List<File> images, 
+    required String patientsId,
+  });
+
 
 }

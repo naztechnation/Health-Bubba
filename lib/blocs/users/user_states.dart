@@ -1,5 +1,7 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:healthbubba/model/patients/appointment_lists.dart';
+import 'package:healthbubba/model/patients/create_appointment.dart';
 import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/patients_list.dart';
 
@@ -174,6 +176,41 @@ class ProfileStatusLoaded extends UserStates {
   const ProfileStatusLoaded(this.status);
   @override
   List<Object> get props => [status];
+}
+class PatientDetailsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class PatientDetailsLoaded extends UserStates {
+  final PatientsLists patientsLists;
+  const PatientDetailsLoaded(this.patientsLists);
+  @override
+  List<Object> get props => [patientsLists];
+}
+
+class CreateAppointmentLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class CreateAppointmentLoaded extends UserStates {
+  final CreateAppointment createAppointment;
+  const CreateAppointmentLoaded(this.createAppointment);
+  @override
+  List<Object> get props => [createAppointment];
+}
+
+class AppointmentListLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AppointmentListLoaded extends UserStates {
+  final AppointmentLists appointmentLists;
+  const AppointmentListLoaded(this.appointmentLists);
+  @override
+  List<Object> get props => [appointmentLists];
 }
 
 class UserNetworkErr extends UserStates {

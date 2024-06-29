@@ -1267,6 +1267,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
           ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding:

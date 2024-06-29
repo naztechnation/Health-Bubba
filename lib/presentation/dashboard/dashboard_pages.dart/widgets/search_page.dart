@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart'; 
 import 'package:healthbubba/widgets/text_edit_view.dart';
 
+import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_images.dart';
+import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/image_view.dart';
 import 'appointment_patient_card.dart';
+import 'cancel_appointment.dart';
+import 'reschedule.dart';
 
 class SearchPage extends StatelessWidget {
+
+  final  List<AppointmentListsData>  appointment;
+
+  const SearchPage({super.key, required this.appointment});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +74,28 @@ class SearchPage extends StatelessWidget {
               ],
             ),
            
-                      AppointmentPatientCard(isScheduled: true, isReBook: false,actionText: 'Reschedule', onCancel: (){}, onAccept: (){},),
+                    Expanded(
+                      child: ListView.builder(
+                                      itemCount: appointment.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: ( (context, index) {
+                                      return AppointmentPatientCard(
+                                        isScheduled: false,
+                                        isReBook: false,
+                                        actionText: 'Reschedule',
+                                        onCancel: () {
+                      AppNavigator.pushAndStackPage(context,
+                          page: CancelAppointment());
+                                        },
+                                        onAccept: () {
+                      AppNavigator.pushAndStackPage(context,
+                          page:   ReschedulePage(
+                            isSchedule: true, appointment: appointment[index],
+                          ));
+                                        }, upcomingAppointment: appointment[index],
+                                      );
+                                     })),
+                    )
           ],
         ),
       ),

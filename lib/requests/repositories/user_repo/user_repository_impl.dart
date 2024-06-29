@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:healthbubba/model/patients/administered_route.dart';
+import 'package:healthbubba/model/patients/appointment_lists.dart';
+import 'package:healthbubba/model/patients/create_appointment.dart';
 import 'package:healthbubba/model/patients/get_medications.dart';
 import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/medication_category.dart';
@@ -134,5 +137,39 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.getAdministeredRouteUrl,
     );
     return AdministeredRoute.fromJson(map);
+  }
+
+  @override
+  Future<PatientsLists> getPatientsDetails({required String patientsId}) async {
+    final map = await Requests().get(
+      AppStrings.getPatientsDetailsUrl(patientId: patientsId),
+    );
+    return PatientsLists.fromJson(map);
+  }
+
+  @override
+  Future<CreateAppointment> createAppointment(
+      {required String patientsId,
+      required String date,
+      required String time,
+      required String complaint,
+      required List<File> images}) async {
+    final map = await Requests().post(AppStrings.createAppointmentUrl, files: {
+      'files': images,
+    }, body: {
+      'patient_id': patientsId,
+      'date': date,
+      'time': time,
+      'complain': complaint,
+    });
+    return CreateAppointment.fromJson(map);
+  }
+
+  @override
+  Future<AppointmentLists> getAppointmentList() async {
+    final map = await Requests().get(
+      AppStrings.appointmentListUrl,
+    );
+    return AppointmentLists.fromJson(map);
   }
 }

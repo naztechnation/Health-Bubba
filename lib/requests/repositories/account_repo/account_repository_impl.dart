@@ -222,9 +222,13 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<UploadImage> uploadImage({required File image}) async {
+
+    List<File> profilePic = [];
+profilePic.add(image);
+
     final map = await Requests().post(
       AppStrings.uploadimageUrl,
-      files: {"picture": image},
+      files: {"picture": profilePic},
     );
 
     return UploadImage.fromJson(map);

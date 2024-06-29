@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
+ 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+ 
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
-class DocumentLists extends StatelessWidget {
-  const DocumentLists({super.key});
+class PatientImages extends StatelessWidget {
+  final List<String> patientImages;
+  const PatientImages({super.key, required this.patientImages});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class DocumentLists extends StatelessWidget {
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
                 ),
-                itemCount: 4,
+                itemCount: patientImages.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
@@ -62,23 +63,44 @@ class DocumentLists extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ImageDetailScreen(
-                      imageUrl: AppImages.onboardingThree,
+                      imageUrl: patientImages[index],
                       tag: 'image$index',
                     ),
                   ),
                 );
                     },
+                    // height: 60,
+                    //         width: 70,
                     child: Hero(
                       tag: 'image$index',
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: const ImageView.asset(
-                            AppImages.onboardingThree,
-                            height: 60,
-                            width: 70,
-                            fit: BoxFit.cover,
-                          )),
-                    ),
+                          child:  
+                          Image.network(
+                                      fit: BoxFit.cover,
+                                      patientImages[index] ?? '',
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, );
+                                      },
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                         return const ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, );
+                                        }
+                                        return const ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, );
+                                      },
+                                    ),
+                          
+                          
+                           
+                   ) ),
                   );
                 },
               ),
@@ -86,28 +108,28 @@ class DocumentLists extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                ),
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  return ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: const ImageView.asset(
-                        AppImages.pdf,
-                        height: 60,
-                        width: 70,
-                        fit: BoxFit.cover,
-                      ));
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: GridView.builder(
+            //     shrinkWrap: true,
+            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount: 4,
+            //       crossAxisSpacing: 8.0,
+            //       mainAxisSpacing: 8.0,
+            //     ),
+            //     itemCount: 1,
+            //     itemBuilder: (context, index) {
+            //       return ClipRRect(
+            //           borderRadius: BorderRadius.circular(10),
+            //           child: const ImageView.asset(
+            //             AppImages.pdf,
+            //             height: 60,
+            //             width: 70,
+            //             fit: BoxFit.cover,
+            //           ));
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

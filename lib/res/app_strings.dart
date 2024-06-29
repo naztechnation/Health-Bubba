@@ -2,7 +2,7 @@ import 'dart:io';
 
 
 class AppStrings {
-  static const String appName = 'HEALTH BUBBA';
+  static const String appName = 'HEALTH BUBBA PARTNER';
  
 
    
@@ -52,6 +52,9 @@ class AppStrings {
   static const String medicationsUrl = "${_baseUrl}doctor/medications";
   static const String getProfileStatusUrl = "${_baseUrl}status/profile_settings";
   static const String getAdministeredRouteUrl = "${_baseUrl}administration_routes";
+  static const String createAppointmentUrl = "${_baseUrl}doctor/create_appointment";
+  static const String appointmentListUrl = "${_baseUrl}doctor/appointments";
+  static   String getPatientsDetailsUrl({required String patientId}) => "${_baseUrl}patients/$patientId";
    
   static   String profileStatusUrl({required String  url,}) => "$_baseUrl$url";
   static   String medicationSubCategoryUrl({required String  categoryId}) => "${_baseUrl}medication/category/$categoryId";

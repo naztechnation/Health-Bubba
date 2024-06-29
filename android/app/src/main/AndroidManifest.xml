@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     
     <application
-        android:label="Health Bubba"
+        android:label="Health Bubba Partner"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/book_appointment.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/widgets/cancel_appointment.dart';
@@ -8,21 +6,25 @@ import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_colors.dart';
+import '../../../../utils/app_utils.dart';
 import '../../../../widgets/button_view.dart';
-import 'document_lists.dart';
+import 'patient_images.dart';
 
 class ReschedulePage extends StatelessWidget {
   final bool isSchedule;
+  final AppointmentListsData appointment;
 
-  const ReschedulePage({super.key, required this.isSchedule});
+  const ReschedulePage(
+      {super.key, required this.isSchedule, required this.appointment});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(
-            (isSchedule) ? 'Appointment' : 'Akeem Adewale',
+            (isSchedule) ? 'Appointment' : appointment.patientFirstName ?? '',
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
@@ -113,7 +115,7 @@ class ReschedulePage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      'Akeem Adewale',
+                                      appointment.patientFirstName ?? '',
                                       style: GoogleFonts.getFont(
                                         'Inter',
                                         fontWeight: FontWeight.w500,
@@ -129,7 +131,7 @@ class ReschedulePage extends StatelessWidget {
                                       Column(
                                         children: [
                                           Text(
-                                            'Ajohn.doe@example.com',
+                                            appointment.patientEmail ?? '',
                                             style: GoogleFonts.getFont(
                                               'Inter',
                                               fontWeight: FontWeight.w400,
@@ -372,7 +374,8 @@ class ReschedulePage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  'Nov 24, 2023',
+                                  AppUtils.formatDateOnly(
+                                      dateTime: appointment.date ?? ''),
                                   style: GoogleFonts.getFont(
                                     'Inter',
                                     fontWeight: FontWeight.w500,
@@ -400,7 +403,8 @@ class ReschedulePage extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  '8:00AM - 8:30(AM)',
+                                  AppUtils.formatTimeOnly(
+                                      dateTime: appointment.time ?? ''),
                                   style: GoogleFonts.getFont(
                                     'Inter',
                                     fontWeight: FontWeight.w500,
@@ -470,7 +474,7 @@ class ReschedulePage extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              'Hello, doctor I need help I believe I am falling sick as I am experiencing headache and body temperature.',
+                              appointment.complain ?? '',
                               style: GoogleFonts.getFont(
                                 'Inter',
                                 fontWeight: FontWeight.w500,
@@ -491,67 +495,100 @@ class ReschedulePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if(isSchedule)  GestureDetector(
-                      onTap: () {
-                        AppNavigator.pushAndStackPage(context, page: const DocumentLists());
-                      },
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                               
-                              Text(
-                                'Attachments',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: const Color(0xFF0A0D14),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: const ImageView.asset(AppImages.onboardingThree, height: 60, width: 70, fit: BoxFit.cover,)),
-                                  Container(
-                                    height: 60, width: 70,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                      if (isSchedule)
+                        GestureDetector(
+                          onTap: () {
+                            AppNavigator.pushAndStackPage(context,
+                                page: PatientImages(
+                                  patientImages: appointment.images ?? [],
+                                ));
+                          },
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Attachments',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
                                   ),
-                                 const Positioned(
-                                  top: 15,
-                                  
-                                  left: 0,
-                                  right: 0,
-                      
-                                  child:  Text('+5',
-                                  textAlign: TextAlign.center,
-                                   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500),))
-                      
-                                
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Divider(
-                                color: Colors.grey.shade300,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Stack(
+                                  children: [
+                                    
+                                    Container(
+                                      height: 60,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        fit: BoxFit.cover,
+                                        appointment.patientPicture ?? '',
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Center(
+                                            child: ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, ),
+                                          );
+                                        },
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return const Center(
+                                              child: ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, ));
+                                          }
+                                          return const Center(
+                                            child: ImageView.svg(
+                                              fit: BoxFit.cover,
+                                                AppImages.gallery, ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    ),
+                                     Positioned(
+                                        top: 15,
+                                        left: 0,
+                                        right: 0,
+                                        child: Text(
+                                          '+${appointment.images?.length}',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500),
+                                        ))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Divider(
+                                  color: Colors.grey.shade300,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                    ),
                       Container(
                         decoration: const BoxDecoration(
                           color: Color(0xFFFFFFFF),
@@ -1005,29 +1042,27 @@ class ReschedulePage extends StatelessWidget {
                                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                 child: Align(
                                   alignment: Alignment.topLeft,
-                                  child: Container(
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'Upcoming Appointments: ',
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 13,
-                                          height: 1.5,
-                                          color: const Color(0xFF131316),
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: '2',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 13,
-                                              height: 1.3,
-                                            ),
-                                          ),
-                                        ],
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'Upcoming Appointments: ',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13,
+                                        height: 1.5,
+                                        color: const Color(0xFF131316),
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text: '2',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13,
+                                            height: 1.3,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -1091,9 +1126,7 @@ class ReschedulePage extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
           child: (!isSchedule)
               ? ButtonView(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   borderRadius: 100,
                   color: AppColors.lightSecondary,
                   child: const Text(
@@ -1110,8 +1143,8 @@ class ReschedulePage extends StatelessWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                           AppNavigator.pushAndStackPage(context,
-                        page:   CancelAppointment( ));
+                          AppNavigator.pushAndStackPage(context,
+                              page: CancelAppointment());
                         },
                         child: Container(
                             width: MediaQuery.sizeOf(context).width,
@@ -1142,7 +1175,10 @@ class ReschedulePage extends StatelessWidget {
                           expanded: false,
                           onPressed: () {
                             AppNavigator.pushAndStackPage(context,
-                        page: const BookAppointentPage(isReBookAppointment: true,));
+                                page: const BookAppointentPage(
+                                  isReBookAppointment: true,
+                                  patientsId: '43',
+                                ));
                           },
                           borderRadius: 100,
                           color: AppColors.lightSecondary,
