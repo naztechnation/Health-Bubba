@@ -3,12 +3,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../../../utils/app_utils.dart';
 import '../../../../widgets/choice_widget.dart';
 
-appointmentCard(){
+appointmentCard(List<AppointmentListsData> appointmentListsData){
   return Container(
                     decoration: const BoxDecoration(
                       color: Color(0xFFFFFFFF),
@@ -57,7 +59,7 @@ appointmentCard(){
                                       ),
                                     ),
                                     Text(
-                                      'View all (6)',
+                                      'View all (${appointmentListsData.length})',
                                       style: GoogleFonts.getFont(
                                         'Inter',
                                         fontWeight: FontWeight.w400,
@@ -71,7 +73,7 @@ appointmentCard(){
                               ),
                         
                               ListView.builder(
-                                itemCount: 2,
+                                itemCount: appointmentListsData.length,
                                 shrinkWrap: true,
                                 padding: const EdgeInsets.only(top: 12),
                                 physics: const NeverScrollableScrollPhysics(),
@@ -136,7 +138,7 @@ appointmentCard(){
                                                       ),
                                                     ),
                                                     Text(
-                                                      'Adewale Abass',
+                                                      appointmentListsData[index].patientFirstName ?? '',
                                                       style: GoogleFonts.getFont(
                                                         'Inter',
                                                         fontWeight: FontWeight.w500,
@@ -156,7 +158,7 @@ appointmentCard(){
                                                         ),
                                                         children: [
                                                           TextSpan(
-                                                            text: 'Today, 2:30pm',
+                                                            text: '${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}',
                                                             style: GoogleFonts.getFont(
                                                               'Inter',
                                                               fontWeight: FontWeight.w500,
@@ -166,7 +168,7 @@ appointmentCard(){
                                                             ),
                                                           ),
                                                           TextSpan(
-                                                            text: ' (30mins)',
+                                                            text: '  (${AppUtils.getTimeDifference(appointmentListsData[index].date ?? '')})',
                                                             style: GoogleFonts.getFont(
                                                               'Inter',
                                                               fontWeight: FontWeight.w400,

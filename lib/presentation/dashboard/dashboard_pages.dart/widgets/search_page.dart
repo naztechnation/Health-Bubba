@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 
 import '../../../../model/patients/appointment_lists.dart';
@@ -9,11 +9,38 @@ import 'appointment_patient_card.dart';
 import 'cancel_appointment.dart';
 import 'reschedule.dart';
 
-class SearchPage extends StatelessWidget {
-
-  final  List<AppointmentListsData>  appointment;
+class SearchPage extends StatefulWidget {
+  final List<AppointmentListsData> appointment;
 
   const SearchPage({super.key, required this.appointment});
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  late TextEditingController _searchController;
+  List<AppointmentListsData> filteredAppointmentLists = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _searchController = TextEditingController();
+    _searchController.addListener(_filterAppointment);
+  }
+
+  void _filterAppointment() {
+    setState(() {
+      String query = _searchController.text.toLowerCase();
+      filteredAppointmentLists = widget.appointment.where((appointment) {
+        return appointment.patientFirstName
+            .toString()
+            .toLowerCase()
+            .contains(query);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +50,6 @@ class SearchPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,56 +72,63 @@ class SearchPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         vertical: 15.0, horizontal: 15),
                     child: TextEditView(
-                      controller: TextEditingController(),
-                      prefixIcon:SizedBox(
-                  width: 50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(width: 0,),
-                      const ImageView.svg(AppImages.searchIcon, height: 19,),
-                      Container(
-                    height: 20,
-                    width: 1,
-                     
-                    decoration: BoxDecoration(
-                        color: const Color(0xFF000000),
-                        borderRadius: BorderRadius.circular(11)),
-                  ),
-                  const SizedBox(width: 0,),
-                    ],
-                  ),
-                ),
+                      controller: _searchController,
+                      prefixIcon: SizedBox(
+                        width: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(
+                              width: 0,
+                            ),
+                            const ImageView.svg(
+                              AppImages.searchIcon,
+                              height: 19,
+                            ),
+                            Container(
+                              height: 20,
+                              width: 1,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFF000000),
+                                  borderRadius: BorderRadius.circular(11)),
+                            ),
+                            const SizedBox(
+                              width: 0,
+                            ),
+                          ],
+                        ),
+                      ),
                       hintText: 'Search Patient',
                     ),
                   ),
                 ),
               ],
             ),
-           
-                    Expanded(
-                      child: ListView.builder(
-                                      itemCount: appointment.length,
-                                      shrinkWrap: true,
-                                      itemBuilder: ( (context, index) {
-                                      return AppointmentPatientCard(
-                                        isScheduled: false,
-                                        isReBook: false,
-                                        actionText: 'Reschedule',
-                                        onCancel: () {
-                      AppNavigator.pushAndStackPage(context,
-                          page: CancelAppointment());
-                                        },
-                                        onAccept: () {
-                      AppNavigator.pushAndStackPage(context,
-                          page:   ReschedulePage(
-                            isSchedule: true, appointment: appointment[index],
-                          ));
-                                        }, upcomingAppointment: appointment[index],
-                                      );
-                                     })),
-                    )
+            Expanded(
+              child: ListView.builder(
+                  itemCount: filteredAppointmentLists.length,
+                  shrinkWrap: true,
+                  itemBuilder: ((context, index) {
+                    return AppointmentPatientCard(
+                      isScheduled: false,
+                      isReBook: false,
+                      actionText: 'Reschedule',
+                      onCancel: () {
+                        AppNavigator.pushAndStackPage(context,
+                            page: CancelAppointment());
+                      },
+                      onAccept: () {
+                        AppNavigator.pushAndStackPage(context,
+                            page: ReschedulePage(
+                              isSchedule: true,
+                              appointment: filteredAppointmentLists[index],
+                            ));
+                      },
+                      upcomingAppointment: filteredAppointmentLists[index],
+                    );
+                  })),
+            )
           ],
         ),
       ),
