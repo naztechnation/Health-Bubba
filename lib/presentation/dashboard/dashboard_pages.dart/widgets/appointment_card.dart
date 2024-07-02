@@ -1,14 +1,17 @@
 
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/res/app_images.dart';
+import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
 import '../../../../utils/app_utils.dart';
 import '../../../../widgets/choice_widget.dart';
+import '../../video_call/video.dart';
 
 appointmentCard(List<AppointmentListsData> appointmentListsData){
   return Container(
@@ -187,12 +190,17 @@ appointmentCard(List<AppointmentListsData> appointmentListsData){
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
-                                        child: const SizedBox(
-                                          width: 30.1,
-                                          height: 30.8,
-                                          child: ImageView.svg(AppImages.videoIcon),
+                                      GestureDetector(
+                                        onTap: () {
+                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: appointmentListsData[index].patientId ?? 0, patientName: appointmentListsData[index].patientFirstName ?? '',));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
+                                          child: const SizedBox(
+                                            width: 30.1,
+                                            height: 30.8,
+                                            child: ImageView.svg(AppImages.videoIcon),
+                                          ),
                                         ),
                                       ),
                                     ],

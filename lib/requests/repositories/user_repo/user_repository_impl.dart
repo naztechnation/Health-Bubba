@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:healthbubba/model/patients/administered_route.dart';
+import 'package:healthbubba/model/patients/appointment_details.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/model/patients/create_appointment.dart';
 import 'package:healthbubba/model/patients/get_medications.dart';
@@ -171,5 +172,13 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.appointmentListUrl,
     );
     return AppointmentLists.fromJson(map);
+  }
+
+  @override
+  Future<AppointmentDetails> getAppointmentDetails({required String appointmentId}) async {
+    final map = await Requests().get(
+      AppStrings.appointmentDetailsUrl(appointmentId: appointmentId),
+    );
+    return AppointmentDetails.fromJson(map);
   }
 }

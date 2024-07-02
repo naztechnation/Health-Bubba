@@ -76,12 +76,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       } else {
                         StorageHandler.saveUserToken(
                             state.loginData.data?.token ?? '');
+                            StorageHandler.saveUserId(
+                            state.loginData.data?.user?.id.toString() ?? '');
                         StorageHandler.saveUserTitle(
                             state.loginData.data?.user?.title ?? '');
                         StorageHandler.saveUserFirstName(
                             state.loginData.data?.user?.firstName ?? '');
                         StorageHandler.saveUserPicture(
                             "${AppStrings.imageBaseUrl}${state.loginData.data?.user?.picture ?? ''}");
+                       
                         if (_checkboxState) {
                           StorageHandler.saveIsLoggedIn('true');
                         } else {

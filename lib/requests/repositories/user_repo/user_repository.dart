@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 
 import '../../../model/patients/administered_route.dart';
+import '../../../model/patients/appointment_details.dart';
 import '../../../model/patients/create_appointment.dart';
 import '../../../model/patients/get_medications.dart';
 import '../../../model/patients/get_profile_status.dart';
@@ -57,6 +58,7 @@ abstract class UserRepository {
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();
   Future<AppointmentLists> getAppointmentList();
+  Future<AppointmentDetails> getAppointmentDetails({required String appointmentId});
 
    Future<CreateAppointment> createAppointment({
     required String date,

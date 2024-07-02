@@ -54,6 +54,7 @@ class AppStrings {
   static const String getAdministeredRouteUrl = "${_baseUrl}administration_routes";
   static const String createAppointmentUrl = "${_baseUrl}doctor/create_appointment";
   static const String appointmentListUrl = "${_baseUrl}doctor/appointments";
+  static   String appointmentDetailsUrl({required String appointmentId}) => "${_baseUrl}v1/get_user_appointments/$appointmentId";
   static   String getPatientsDetailsUrl({required String patientId}) => "${_baseUrl}patients/$patientId";
    
   static   String profileStatusUrl({required String  url,}) => "$_baseUrl$url";

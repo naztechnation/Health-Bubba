@@ -37,7 +37,7 @@ class CancelledPage extends StatelessWidget {
                   onAccept: () {
                     AppNavigator.pushAndStackPage(context,
                         page:   ReschedulePage(
-                          isSchedule: true, appointment: cancelledAppointment[index],
+                          isSchedule: true, appointment: cancelledAppointment[index],isDue: false,
                         ));
                   }, upcomingAppointment: cancelledAppointment[index],
                 );

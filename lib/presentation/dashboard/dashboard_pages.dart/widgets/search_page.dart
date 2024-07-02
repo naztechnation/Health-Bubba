@@ -11,8 +11,9 @@ import 'reschedule.dart';
 
 class SearchPage extends StatefulWidget {
   final List<AppointmentListsData> appointment;
+  final bool isSchedule; 
 
-  const SearchPage({super.key, required this.appointment});
+  const SearchPage({super.key, required this.appointment, required this.isSchedule});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -121,7 +122,8 @@ class _SearchPageState extends State<SearchPage> {
                       onAccept: () {
                         AppNavigator.pushAndStackPage(context,
                             page: ReschedulePage(
-                              isSchedule: true,
+                              isSchedule: widget.isSchedule,
+                              isDue: false,
                               appointment: filteredAppointmentLists[index],
                             ));
                       },

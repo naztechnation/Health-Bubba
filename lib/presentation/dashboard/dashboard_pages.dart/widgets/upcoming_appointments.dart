@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/res/app_images.dart';
-import 'package:healthbubba/widgets/image_view.dart';
+
 
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../utils/navigator/page_navigator.dart';
@@ -40,7 +38,7 @@ class UpcomingPage extends StatelessWidget {
            onAccept: () {
              AppNavigator.pushAndStackPage(context,
                  page:   ReschedulePage(
-                   isSchedule: true, appointment: upcomingAppointment[index],
+                   isSchedule: true, appointment: upcomingAppointment[index], isDue: false,
                  ));
            }, upcomingAppointment: upcomingAppointment[index],
          );

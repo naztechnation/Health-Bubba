@@ -22,6 +22,7 @@ import '../../../widgets/choice_widget.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
 import '../../../widgets/loading_screen.dart';
+import '../../settings/settings_pages/consultaion_fee.dart';
 import 'appointment_tabs.dart';
 import 'medication/medication_page.dart';
 import 'patient/patient_page.dart';
@@ -463,10 +464,12 @@ class _HomeState extends State<Home> {
                                                       5) ...[
                                                     const SizedBox.shrink()
                                                   ] else ...[
+                                                    const SizedBox(
+                                                      height: 14,
+                                                    ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(
-                                                          0, 0, 0, 8),
+                                                          .fromLTRB(10, 0, 0, 8),
                                                       child: Align(
                                                         alignment:
                                                             Alignment.topLeft,
@@ -492,10 +495,9 @@ class _HomeState extends State<Home> {
                                                                     7.4,
                                                                     0),
                                                             child: Text(
-                                                              '${_completedCount()}/5',
-                                                              style:
-                                                                  GoogleFonts
-                                                                      .getFont(
+                                                              '${_completedCount()}/5 completed',
+                                                              style: GoogleFonts
+                                                                  .getFont(
                                                                 'Inter',
                                                                 fontWeight:
                                                                     FontWeight
@@ -510,14 +512,18 @@ class _HomeState extends State<Home> {
                                                         ),
                                                       ),
                                                     ),
+                                                  const SizedBox(
+                                                      height: 6,
+                                                    ),
                                                   ],
                                                   if (_completedCount() ==
                                                       5) ...[
                                                     const SizedBox.shrink()
                                                   ] else ...[
                                                     Container(
-                                                      decoration:
-                                                          BoxDecoration(
+                                                       margin: const EdgeInsets
+                                                          .fromLTRB(10, 0, 10, 8),
+                                                      decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color: const Color(
                                                                 0xFFE2E4E9)),
@@ -537,8 +543,7 @@ class _HomeState extends State<Home> {
                                                         ],
                                                       ),
                                                       child: SizedBox(
-                                                        width:
-                                                            double.infinity,
+                                                        width: double.infinity,
                                                         child: Container(
                                                           padding:
                                                               const EdgeInsets
@@ -554,10 +559,11 @@ class _HomeState extends State<Home> {
                                                             children: [
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator.pushAndStackPage(
-                                                                      context,
-                                                                      page:
-                                                                          const WorkInformation());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const WorkInformation());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -576,8 +582,8 @@ class _HomeState extends State<Home> {
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A000000),
+                                                                        color: Color(
+                                                                            0x0A000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -585,8 +591,8 @@ class _HomeState extends State<Home> {
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D2F3037),
+                                                                        color: Color(
+                                                                            0x0D2F3037),
                                                                         offset: Offset(
                                                                             0,
                                                                             24),
@@ -594,8 +600,8 @@ class _HomeState extends State<Home> {
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A222A35),
+                                                                        color: Color(
+                                                                            0x0A222A35),
                                                                         offset: Offset(
                                                                             0,
                                                                             4),
@@ -603,8 +609,8 @@ class _HomeState extends State<Home> {
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D000000),
+                                                                        color: Color(
+                                                                            0x0D000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -615,18 +621,20 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   child:
                                                                       Container(
-                                                                    padding: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        12,
-                                                                        10,
-                                                                        22,
-                                                                        10),
-                                                                    child:
-                                                                        Row(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
                                                                       mainAxisAlignment:
-                                                                          MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
                                                                       crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
@@ -688,7 +696,8 @@ class _HomeState extends State<Home> {
                                                                           ],
                                                                         ),
                                                                         Container(
-                                                                          margin: const EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               5,
                                                                               0,
@@ -700,7 +709,8 @@ class _HomeState extends State<Home> {
                                                                           child:
                                                                               const Icon(
                                                                             Icons.arrow_forward_ios,
-                                                                            size: 16,
+                                                                            size:
+                                                                                16,
                                                                           ),
                                                                         ),
                                                                       ],
@@ -710,10 +720,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator.pushAndStackPage(
-                                                                      context,
-                                                                      page:
-                                                                          const WorkInformation());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const WorkInformation());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -732,8 +743,8 @@ class _HomeState extends State<Home> {
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A000000),
+                                                                        color: Color(
+                                                                            0x0A000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -741,8 +752,8 @@ class _HomeState extends State<Home> {
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D2F3037),
+                                                                        color: Color(
+                                                                            0x0D2F3037),
                                                                         offset: Offset(
                                                                             0,
                                                                             24),
@@ -750,8 +761,8 @@ class _HomeState extends State<Home> {
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A222A35),
+                                                                        color: Color(
+                                                                            0x0A222A35),
                                                                         offset: Offset(
                                                                             0,
                                                                             4),
@@ -759,8 +770,8 @@ class _HomeState extends State<Home> {
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D000000),
+                                                                        color: Color(
+                                                                            0x0D000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -771,18 +782,20 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   child:
                                                                       Container(
-                                                                    padding: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        12,
-                                                                        10,
-                                                                        22,
-                                                                        10),
-                                                                    child:
-                                                                        Row(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
                                                                       mainAxisAlignment:
-                                                                          MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
                                                                       crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
@@ -843,7 +856,8 @@ class _HomeState extends State<Home> {
                                                                           ],
                                                                         ),
                                                                         Container(
-                                                                          margin: const EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               5,
                                                                               0,
@@ -854,9 +868,12 @@ class _HomeState extends State<Home> {
                                                                               10,
                                                                           child:
                                                                               const SizedBox(
-                                                                            width: 4,
-                                                                            height: 10,
-                                                                            child: Icon(
+                                                                            width:
+                                                                                4,
+                                                                            height:
+                                                                                10,
+                                                                            child:
+                                                                                Icon(
                                                                               Icons.arrow_forward_ios,
                                                                               size: 16,
                                                                             ),
@@ -869,10 +886,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator.pushAndStackPage(
-                                                                      context,
-                                                                      page:
-                                                                          const WorkInformation());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const WorkInformation());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -891,8 +909,8 @@ class _HomeState extends State<Home> {
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A000000),
+                                                                        color: Color(
+                                                                            0x0A000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -900,8 +918,8 @@ class _HomeState extends State<Home> {
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D2F3037),
+                                                                        color: Color(
+                                                                            0x0D2F3037),
                                                                         offset: Offset(
                                                                             0,
                                                                             24),
@@ -909,8 +927,8 @@ class _HomeState extends State<Home> {
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A222A35),
+                                                                        color: Color(
+                                                                            0x0A222A35),
                                                                         offset: Offset(
                                                                             0,
                                                                             4),
@@ -918,8 +936,8 @@ class _HomeState extends State<Home> {
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D000000),
+                                                                        color: Color(
+                                                                            0x0D000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -930,18 +948,20 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   child:
                                                                       Container(
-                                                                    padding: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        12,
-                                                                        10,
-                                                                        22,
-                                                                        10),
-                                                                    child:
-                                                                        Row(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
                                                                       mainAxisAlignment:
-                                                                          MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
                                                                       crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
@@ -1005,7 +1025,8 @@ class _HomeState extends State<Home> {
                                                                           ],
                                                                         ),
                                                                         Container(
-                                                                          margin: const EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               5,
                                                                               0,
@@ -1016,9 +1037,12 @@ class _HomeState extends State<Home> {
                                                                               10,
                                                                           child:
                                                                               const SizedBox(
-                                                                            width: 4,
-                                                                            height: 10,
-                                                                            child: Icon(
+                                                                            width:
+                                                                                4,
+                                                                            height:
+                                                                                10,
+                                                                            child:
+                                                                                Icon(
                                                                               Icons.arrow_forward_ios,
                                                                               size: 16,
                                                                             ),
@@ -1031,10 +1055,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator.pushAndStackPage(
-                                                                      context,
-                                                                      page:
-                                                                          const WorkInformation());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const WorkInformation());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1053,8 +1078,8 @@ class _HomeState extends State<Home> {
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A000000),
+                                                                        color: Color(
+                                                                            0x0A000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -1062,8 +1087,8 @@ class _HomeState extends State<Home> {
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D2F3037),
+                                                                        color: Color(
+                                                                            0x0D2F3037),
                                                                         offset: Offset(
                                                                             0,
                                                                             24),
@@ -1071,8 +1096,8 @@ class _HomeState extends State<Home> {
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A222A35),
+                                                                        color: Color(
+                                                                            0x0A222A35),
                                                                         offset: Offset(
                                                                             0,
                                                                             4),
@@ -1080,8 +1105,8 @@ class _HomeState extends State<Home> {
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D000000),
+                                                                        color: Color(
+                                                                            0x0D000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -1092,18 +1117,20 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   child:
                                                                       Container(
-                                                                    padding: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        12,
-                                                                        10,
-                                                                        22,
-                                                                        10),
-                                                                    child:
-                                                                        Row(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
                                                                       mainAxisAlignment:
-                                                                          MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
                                                                       crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
@@ -1164,7 +1191,8 @@ class _HomeState extends State<Home> {
                                                                           ],
                                                                         ),
                                                                         Container(
-                                                                          margin: const EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               5,
                                                                               0,
@@ -1175,9 +1203,12 @@ class _HomeState extends State<Home> {
                                                                               10,
                                                                           child:
                                                                               const SizedBox(
-                                                                            width: 4,
-                                                                            height: 10,
-                                                                            child: Icon(
+                                                                            width:
+                                                                                4,
+                                                                            height:
+                                                                                10,
+                                                                            child:
+                                                                                Icon(
                                                                               Icons.arrow_forward_ios,
                                                                               size: 16,
                                                                             ),
@@ -1190,10 +1221,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator.pushAndStackPage(
-                                                                      context,
-                                                                      page:
-                                                                          const WorkInformation());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const ConsultationFeePage());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1206,8 +1238,8 @@ class _HomeState extends State<Home> {
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A000000),
+                                                                        color: Color(
+                                                                            0x0A000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -1215,8 +1247,8 @@ class _HomeState extends State<Home> {
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D2F3037),
+                                                                        color: Color(
+                                                                            0x0D2F3037),
                                                                         offset: Offset(
                                                                             0,
                                                                             24),
@@ -1224,8 +1256,8 @@ class _HomeState extends State<Home> {
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0A222A35),
+                                                                        color: Color(
+                                                                            0x0A222A35),
                                                                         offset: Offset(
                                                                             0,
                                                                             4),
@@ -1233,8 +1265,8 @@ class _HomeState extends State<Home> {
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
-                                                                        color:
-                                                                            Color(0x0D000000),
+                                                                        color: Color(
+                                                                            0x0D000000),
                                                                         offset: Offset(
                                                                             0,
                                                                             1),
@@ -1245,18 +1277,20 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                   child:
                                                                       Container(
-                                                                    padding: const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        12,
-                                                                        10,
-                                                                        22,
-                                                                        10),
-                                                                    child:
-                                                                        Row(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
                                                                       mainAxisAlignment:
-                                                                          MainAxisAlignment.spaceBetween,
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
                                                                       crossAxisAlignment:
-                                                                          CrossAxisAlignment.start,
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Row(
                                                                           mainAxisAlignment:
@@ -1317,7 +1351,8 @@ class _HomeState extends State<Home> {
                                                                           ],
                                                                         ),
                                                                         Container(
-                                                                          margin: const EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               5,
                                                                               0,
@@ -1328,9 +1363,12 @@ class _HomeState extends State<Home> {
                                                                               10,
                                                                           child:
                                                                               const SizedBox(
-                                                                            width: 4,
-                                                                            height: 10,
-                                                                            child: Icon(
+                                                                            width:
+                                                                                4,
+                                                                            height:
+                                                                                10,
+                                                                            child:
+                                                                                Icon(
                                                                               Icons.arrow_forward_ios,
                                                                               size: 16,
                                                                             ),

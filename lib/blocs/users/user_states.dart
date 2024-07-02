@@ -6,6 +6,7 @@ import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/patients_list.dart';
 
 import '../../model/patients/administered_route.dart';
+import '../../model/patients/appointment_details.dart';
 import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
@@ -211,6 +212,18 @@ class AppointmentListLoaded extends UserStates {
   const AppointmentListLoaded(this.appointmentLists);
   @override
   List<Object> get props => [appointmentLists];
+}
+
+class AppointmentDetailsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AppointmentDetailsLoaded extends UserStates {
+  final AppointmentDetails appointmentDetails;
+  const AppointmentDetailsLoaded(this.appointmentDetails);
+  @override
+  List<Object> get props => [appointmentDetails];
 }
 
 class UserNetworkErr extends UserStates {

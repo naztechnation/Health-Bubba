@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/app_utils.dart';
@@ -5,8 +6,11 @@ import 'package:healthbubba/utils/app_utils.dart';
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
+import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
+import '../../video_call/video.dart';
+import 'reschedule.dart';
 
 class AppointmentPatientCard extends StatelessWidget {
   final bool isScheduled;
@@ -63,45 +67,53 @@ class AppointmentPatientCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(8, 0, 8, 10),
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                '${AppUtils.formatDateOnly(dateTime: upcomingAppointment.date ?? '')} - ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  height: 1.4,
-                                  color: const Color(0xFF0A0D14),
+                      GestureDetector(
+                        onTap: () {
+                           AppNavigator.pushAndStackPage(context,
+                 page:   ReschedulePage(
+                   isSchedule: true, appointment: upcomingAppointment,isDue: true,
+                 ));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  '${AppUtils.formatDateOnly(dateTime: upcomingAppointment.date ?? '')} - ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF0A0D14),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          (!AppUtils.isPastDateTime(
-                                  upcomingAppointment.date ?? ''))
-                              ? const SizedBox.shrink()
-                              : Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                  width: 4,
-                                  height: 10,
-                                  child: SizedBox(
+                            (!AppUtils.isPastDateTime(
+                                    upcomingAppointment.date ?? ''))
+                                ? const SizedBox.shrink()
+                                : Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 20, 0),
                                     width: 4,
-                                    height: 5,
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey.shade300,
-                                      size: 17,
+                                    height: 10,
+                                    child: SizedBox(
+                                      width: 4,
+                                      height: 5,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.grey.shade300,
+                                        size: 17,
+                                      ),
                                     ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -364,12 +376,17 @@ class AppointmentPatientCard extends StatelessWidget {
             : Positioned(
                 top: 35,
                 right: 30,
-                child: Container(
-                  margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
-                  child: const SizedBox(
-                    width: 30.1,
-                    height: 30.8,
-                    child: ImageView.svg(AppImages.videoIcon),
+                child: GestureDetector(
+                   onTap: () {
+                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: upcomingAppointment.patientId ?? 0, patientName: upcomingAppointment.patientFirstName ?? '',));
+                                        },
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
+                    child: const SizedBox(
+                      width: 30.1,
+                      height: 30.8,
+                      child: ImageView.svg(AppImages.videoIcon),
+                    ),
                   ),
                 ),
               ),
