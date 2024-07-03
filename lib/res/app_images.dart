@@ -14,9 +14,9 @@ class AppImages {
   static const onboardingTwo = '${_baseUrl}onnboard2.png';
   static const profileBg = '${_baseUrl}profile_bg.png';
   static const onboardingThree = '${_baseUrl}onboard3.png';
-   static const scheduleAppointment = '${_baseUrl}schedule_appointment.png';
-  static const viewPatient = '${_baseUrl}view_patient.png';
-  static const createPrescriptionn = '${_baseUrl}create_prescription.png';
+   static const scheduleAppointment = '${_baseUrl}schedule_appointment.jpeg';
+  static const viewPatient = '${_baseUrl}view_patient.jpeg';
+  static const createPrescriptionn = '${_baseUrl}create_prescription.jpeg';
   static const pdf = '${_baseUrl}pdf.png';
   static const settingsBg = '${_baseUrl}settings_bg.png';
   static const avatarIcon = '${_baseUrl}avatar.png';

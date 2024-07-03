@@ -1,56 +1,121 @@
 import 'package:flutter/material.dart';
-import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/medication/medication_page.dart';
-import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/patient_page.dart';
-import 'package:provider/provider.dart';
+import 'package:healthbubba/res/app_colors.dart';
+import 'package:healthbubba/widgets/image_view.dart';
 
-import '../../model/view_model/user_view_model.dart';
+import '../../res/app_images.dart';
 import 'dashboard_pages.dart/appointment_tabs.dart';
 import 'dashboard_pages.dart/home_page.dart';
-import 'widget/custom_bottom_bar.dart';
+import 'dashboard_pages.dart/medication/medication_page.dart';
+import 'dashboard_pages.dart/patient/patient_page.dart';
+
+ 
+ 
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({
+    super.key,
+  });
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Dashboard> createState() =>
+      _DashboardBottomNavigationState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardBottomNavigationState extends State<Dashboard> {
+  int index = 0;
 
-   
+  List<BottomNavigationBarItem> get tabs => [
+        const BottomNavigationBarItem(
+          icon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.homeOutline)),
+          activeIcon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.home)),
+          label: 'Home',
+          tooltip: 'Home',
+        ),
+        const BottomNavigationBarItem(
+          icon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.patientOutline)),
+          activeIcon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.patient)),
+          label: 'Patient',
+          tooltip: 'Patient',
+        ),
+        const BottomNavigationBarItem(
+          icon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.appointmentOutline)),
+          activeIcon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.appointment)),
+          label: 'Appointment',
+          tooltip: 'Appointment',
+        ),
+        const BottomNavigationBarItem(
+          icon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.medicationOutline)),
+          activeIcon: NavItemWrapper(
+              icon: ImageView.svg(AppImages.medication)),
+          label: 'Medication',
+          tooltip: 'Medication',
+        )
+      ];
+
+  final pages = [
+    const HomePage(),
+    const PatientPage(),
+    const AppointmentTabView(),
+    const MedicationPage()
+  ];
+
   @override
   Widget build(BuildContext context) {
-
-    final user = Provider.of<UserViewModel>(context, listen: true);
-
-    return   Scaffold(
-
-
-      body: _buildPage(user.currentPage),
-      bottomNavigationBar: CustomBottomBar(
-
-        onChanged: (index) {
-          setState(() {
-            user.updateIndex(index);
-          });
-        },
-       selectedIndex: user.currentPage
-       ),
+    
+    return Scaffold(
+      body: pages[index],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) => selectedTab(index),
+        currentIndex: index,
+        backgroundColor: AppColors.lightPrimary,
+        elevation: 5,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: const TextStyle(
+                      color: Color(0xFF40B93C),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12
+                    ),
+        unselectedLabelStyle:const TextStyle(
+                      color: Color(0xFF6B7280),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                    ),
+        selectedItemColor: const Color(0xFF40B93C),
+        unselectedItemColor: const Color(0xFF6B7280),
+        items: tabs,
+      ),
     );
   }
 
-    Widget _buildPage(int index) {
-    switch (index) {
-      case 0:
-        return   const HomePage();
-      case 1:
-        return   const PatientPage();
-      case 2:
-        return   const AppointmentTabView();
-      case 3:
-        return   const MedicationPage();
-      default:
-        return DefaultWidge();
-    }
+  selectedTab(int index) {
+    setState(() {
+      this.index = index;
+    });
+  }
+}
+
+class NavItemWrapper extends StatelessWidget {
+  const NavItemWrapper({
+    super.key,
+    required this.icon,
+  });
+
+  final Widget icon;
+
+   
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: icon,
+    );
   }
 }

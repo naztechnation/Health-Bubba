@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:healthbubba/presentation/profile/profile_setup.dart';
 
 import '../../res/app_images.dart';
 import '../res/app_routes.dart';
 import '../utils/navigator/page_navigator.dart';
 import 'handlers/secure_handler.dart';
 import 'presentation/dashboard/dashboard.dart';
-import 'presentation/onboarding/onboard.dart';
-import 'presentation/profile/work_information.dart';
+import 'presentation/onboarding/onboard.dart'; 
 import 'res/app_colors.dart'; 
 import 'widgets/image_view.dart';
 

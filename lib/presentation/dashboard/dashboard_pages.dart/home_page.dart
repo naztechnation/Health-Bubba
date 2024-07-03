@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
   String title = "";
 
   List<AppointmentListsData> upcomingAppointment = [];
+  num doctorsId = 0;
 
   getUserData() async {
     _userCubit = context.read<UserCubit>();
@@ -66,6 +67,8 @@ class _HomeState extends State<Home> {
     imageUrl = await StorageHandler.getUserPicture();
     name = await StorageHandler.getFirstName();
     title = await StorageHandler.getUserTitle();
+    String doctors = await StorageHandler.getUserId();
+    doctorsId = int.parse(doctors);
     await _userCubit.userData();
     await _userCubit.getProfileStatus();
     await _userCubit.getAppointmentList();
@@ -356,66 +359,50 @@ class _HomeState extends State<Home> {
                                             ),
                                           ),
                                           GestureDetector(
-                                            onTap: () {
-                                              AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: SettingsPage(
-                                                    profileUrl: imageUrl,
-                                                  ));
-                                            },
-                                            child: (imageUrl != null ||
-                                                    imageUrl != '')
-                                                ? SizedBox(
-                                                    width: 40,
-                                                    height: 40,
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50),
-                                                        child: Hero(
-                                                          tag: 'profilePicture',
-                                                          child: Image.network(
-                                                            fit: BoxFit.cover,
-                                                            imageUrl,
-                                                            errorBuilder:
-                                                                (context, error,
-                                                                    stackTrace) {
-                                                              return const ImageView
-                                                                  .asset(
-                                                                  AppImages
-                                                                      .avatarIcon);
-                                                            },
-                                                            loadingBuilder:
-                                                                (context, child,
-                                                                    loadingProgress) {
-                                                              if (loadingProgress ==
-                                                                  null) {
-                                                                return const ImageView
-                                                                    .asset(
-                                                                    AppImages
-                                                                        .avatarIcon);
-                                                              }
-
-                                                              return const ImageView
-                                                                  .asset(
-                                                                  AppImages
-                                                                      .avatarIcon);
-                                                            },
-                                                          ),
-                                                        )),
-                                                  )
-                                                : SizedBox(
-                                                    width: 40,
-                                                    height: 40,
-                                                    child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50),
-                                                        child: const ImageView
-                                                            .asset(AppImages
-                                                                .avatarIcon)),
-                                                  ),
-                                          ),
+                                              onTap: () {
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page: SettingsPage(
+                                                      profileUrl: imageUrl,
+                                                    ));
+                                              },
+                                              child: SizedBox(
+                                                width: 40,
+                                                height: 40,
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            50),
+                                                    child: Hero(
+                                                      tag: 'profilePicture',
+                                                      child: Image.network(
+                                                        imageUrl,
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return const ImageView
+                                                              .asset(
+                                                              AppImages
+                                                                  .avatarIcon,
+                                                              fit:
+                                                                  BoxFit.cover);
+                                                        },
+                                                        loadingBuilder: (context,
+                                                            child,
+                                                            loadingProgress) {
+                                                          if (loadingProgress ==
+                                                              null)
+                                                            return child;
+                                                          return const ImageView
+                                                              .asset(
+                                                              AppImages
+                                                                  .avatarIcon,
+                                                              fit:
+                                                                  BoxFit.cover);
+                                                        },
+                                                      ),
+                                                    )),
+                                              )),
                                         ],
                                       ),
                                     ),
@@ -469,7 +456,8 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(10, 0, 0, 8),
+                                                          .fromLTRB(
+                                                          10, 0, 0, 8),
                                                       child: Align(
                                                         alignment:
                                                             Alignment.topLeft,
@@ -512,7 +500,7 @@ class _HomeState extends State<Home> {
                                                         ),
                                                       ),
                                                     ),
-                                                  const SizedBox(
+                                                    const SizedBox(
                                                       height: 6,
                                                     ),
                                                   ],
@@ -521,8 +509,9 @@ class _HomeState extends State<Home> {
                                                     const SizedBox.shrink()
                                                   ] else ...[
                                                     Container(
-                                                       margin: const EdgeInsets
-                                                          .fromLTRB(10, 0, 10, 8),
+                                                      margin: const EdgeInsets
+                                                          .fromLTRB(
+                                                          10, 0, 10, 8),
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color: const Color(
@@ -1397,7 +1386,8 @@ class _HomeState extends State<Home> {
                                         )
                                       ],
                                       if (upcomingAppointment.isNotEmpty) ...[
-                                        appointmentCard(upcomingAppointment)
+                                        appointmentCard(
+                                            upcomingAppointment, doctorsId),
                                       ],
                                       Column(
                                         mainAxisAlignment:
@@ -1438,13 +1428,35 @@ class _HomeState extends State<Home> {
                                                           .fromLTRB(0, 1, 0, 1),
                                                       child: Row(
                                                         children: [
-                                                          const SizedBox(
-                                                            width: 45,
-                                                            height: 46,
-                                                            child: ImageView
-                                                                .asset(AppImages
-                                                                    .scheduleAppointment),
-                                                          ),
+                                                         Container(
+                                                                width: 45,
+                                                                height: 46,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        0),
+                                                                decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                    border: Border.all(
+                                                                        color: const Color(0xffE5E7EB),
+                                                                        width:
+                                                                            1)),
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              50),
+                                                                  child:
+                                                                      const ImageView
+                                                                          .asset(
+                                                                    AppImages
+                                                                        .scheduleAppointment,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                           const SizedBox(
                                                             width: 12,
                                                           ),
@@ -1555,13 +1567,35 @@ class _HomeState extends State<Home> {
                                                             MainAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          const SizedBox(
-                                                            width: 45,
-                                                            height: 46,
-                                                            child: ImageView
-                                                                .asset(AppImages
-                                                                    .createPrescriptionn),
-                                                          ),
+                                                          Container(
+                                                                width: 45,
+                                                                height: 46,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        0),
+                                                                decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                    border: Border.all(
+                                                                        color: const Color(0xffE5E7EB),
+                                                                        width:
+                                                                            1)),
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              50),
+                                                                  child:
+                                                                      const ImageView
+                                                                          .asset(
+                                                                    AppImages
+                                                                        .createPrescriptionn,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
                                                           const SizedBox(
                                                             width: 12,
                                                           ),
@@ -1693,12 +1727,34 @@ class _HomeState extends State<Home> {
                                                                 MainAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              const SizedBox(
+                                                              Container(
                                                                 width: 45,
                                                                 height: 46,
-                                                                child: ImageView
-                                                                    .asset(AppImages
-                                                                        .viewPatient),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        0),
+                                                                decoration: BoxDecoration(
+                                                                  shape: BoxShape.circle,
+                                                                    border: Border.all(
+                                                                        color: const Color(0xffE5E7EB),
+                                                                        width:
+                                                                            1)),
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              50),
+                                                                  child:
+                                                                      const ImageView
+                                                                          .asset(
+                                                                    AppImages
+                                                                        .viewPatient,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
                                                               ),
                                                               const SizedBox(
                                                                 width: 12,

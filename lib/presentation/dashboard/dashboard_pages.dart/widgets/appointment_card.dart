@@ -13,7 +13,7 @@ import '../../../../utils/app_utils.dart';
 import '../../../../widgets/choice_widget.dart';
 import '../../video_call/video.dart';
 
-appointmentCard(List<AppointmentListsData> appointmentListsData){
+appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId){
   return Container(
                     decoration: const BoxDecoration(
                       color: Color(0xFFFFFFFF),
@@ -192,7 +192,7 @@ appointmentCard(List<AppointmentListsData> appointmentListsData){
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: appointmentListsData[index].patientId ?? 0, patientName: appointmentListsData[index].patientFirstName ?? '',));
+                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: appointmentListsData[index].patientId ?? 0, patientName: appointmentListsData[index].patientFirstName ?? '', doctorsId: doctorsId,));
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/app_utils.dart';
 
+import '../../../../handlers/secure_handler.dart';
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
@@ -20,7 +21,7 @@ class AppointmentPatientCard extends StatelessWidget {
   final Function onCancel;
 
   final AppointmentListsData upcomingAppointment;
-  const AppointmentPatientCard({
+    AppointmentPatientCard({
     super.key,
     required this.isScheduled,
     required this.isReBook,
@@ -30,8 +31,22 @@ class AppointmentPatientCard extends StatelessWidget {
     required this.upcomingAppointment,
   });
 
+  num doctorsId = 0;
+
+
+getUserDetails() async {
+   String doctors = await StorageHandler.getUserId();
+    doctorsId = int.parse(doctors);
+
+   
+
+    
+    }
+
   @override
   Widget build(BuildContext context) {
+
+    getUserDetails();
     return Stack(
       children: [
         Container(
@@ -378,7 +393,7 @@ class AppointmentPatientCard extends StatelessWidget {
                 right: 30,
                 child: GestureDetector(
                    onTap: () {
-                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: upcomingAppointment.patientId ?? 0, patientName: upcomingAppointment.patientFirstName ?? '',));
+                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: upcomingAppointment.patientId ?? 0, patientName: upcomingAppointment.patientFirstName ?? '', doctorsId: doctorsId,));
                                         },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
