@@ -436,4 +436,25 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+    Future<void> getMedicationDetails({required String medicationId}) async {
+    try {
+      emit(MedicationDetailsLoading());
+
+      final medics = await userRepository.getMedicationDetails(medicationId: medicationId);
+      emit(MedicationDetailsLoaded(medics));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

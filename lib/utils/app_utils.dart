@@ -105,12 +105,14 @@ static String getTimeDifference(String dateTimeString) {
 }
 
 static String formatTimeDuration(Duration duration) {
-  if (duration.inHours > 0) {
+  if (duration.inDays > 0) {
+    return "${duration.inDays} day${duration.inDays > 1 ? 's' : ''}";
+  } else if (duration.inHours > 0) {
     return "${duration.inHours} hour${duration.inHours > 1 ? 's' : ''}";
   } else if (duration.inMinutes > 0) {
     return "${duration.inMinutes} minute${duration.inMinutes > 1 ? 's' : ''}";
   } else {
-    return "just now";
+    return "${duration.inSeconds} second${duration.inSeconds > 1 ? 's' : ''}";
   }
 }
 

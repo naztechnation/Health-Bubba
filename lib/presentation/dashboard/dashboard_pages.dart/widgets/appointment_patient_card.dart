@@ -21,7 +21,7 @@ class AppointmentPatientCard extends StatelessWidget {
   final Function onCancel;
 
   final AppointmentListsData upcomingAppointment;
-    AppointmentPatientCard({
+  AppointmentPatientCard({
     super.key,
     required this.isScheduled,
     required this.isReBook,
@@ -33,19 +33,13 @@ class AppointmentPatientCard extends StatelessWidget {
 
   num doctorsId = 0;
 
-
-getUserDetails() async {
-   String doctors = await StorageHandler.getUserId();
+  getUserDetails() async {
+    String doctors = await StorageHandler.getUserId();
     doctorsId = int.parse(doctors);
-
-   
-
-    
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
     getUserDetails();
     return Stack(
       children: [
@@ -84,10 +78,12 @@ getUserDetails() async {
                     children: [
                       GestureDetector(
                         onTap: () {
-                           AppNavigator.pushAndStackPage(context,
-                 page:   ReschedulePage(
-                   isSchedule: true, appointment: upcomingAppointment,isDue: true,
-                 ));
+                          AppNavigator.pushAndStackPage(context,
+                              page: ReschedulePage(
+                                isSchedule: true,
+                                appointment: upcomingAppointment,
+                                isDue: true,
+                              ));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,8 +176,8 @@ getUserDetails() async {
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
                                         if (loadingProgress == null) {
-                                         return const ImageView.asset(
-                                            AppImages.avatarIcon);
+                                          return const ImageView.asset(
+                                              AppImages.avatarIcon);
                                         }
                                         return const ImageView.asset(
                                             AppImages.avatarIcon);
@@ -392,9 +388,15 @@ getUserDetails() async {
                 top: 35,
                 right: 30,
                 child: GestureDetector(
-                   onTap: () {
-                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: upcomingAppointment.patientId ?? 0, patientName: upcomingAppointment.patientFirstName ?? '', doctorsId: doctorsId,));
-                                        },
+                  onTap: () {
+                    AppNavigator.pushAndStackPage(context,
+                        page: VideoCall(
+                          patientId: upcomingAppointment.patientId ?? 0,
+                          patientName:
+                              upcomingAppointment.patientFirstName ?? '',
+                          doctorsId: doctorsId,
+                        ));
+                  },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
                     child: const SizedBox(

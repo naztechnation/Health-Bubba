@@ -47,7 +47,7 @@ class _VideoCallState extends State<VideoCall> {
   void initAgora() async {
     client = AgoraClient(
       agoraConnectionData: AgoraConnectionData(
-          appId: "31b9f04609dc4c7793ac0d2ba6ccf664",
+          appId: "164e47eb399248f5856e254d0e429047",
           channelName: channelName,
           username: widget.patientName,
           tempToken: ''),

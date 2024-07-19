@@ -11,6 +11,7 @@ import '../../../model/patients/medication_category.dart';
 import '../../../model/patients/medication_sub_category.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
+import '../../../model/user/medication_details.dart';
 import '../../../model/user/user_data.dart';
 
 abstract class UserRepository {
@@ -21,7 +22,6 @@ abstract class UserRepository {
 
   Future<PatientsLists> getPatientsDetails({
     required String patientsId,
-      
   });
 
   Future<ConsultationData> addConsultationFee({
@@ -58,15 +58,16 @@ abstract class UserRepository {
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();
   Future<AppointmentLists> getAppointmentList();
-  Future<AppointmentDetails> getAppointmentDetails({required String appointmentId});
+  Future<AppointmentDetails> getAppointmentDetails(
+      {required String appointmentId});
+  Future<MedicationDetails> getMedicationDetails(
+      {required String medicationId});
 
-   Future<CreateAppointment> createAppointment({
+  Future<CreateAppointment> createAppointment({
     required String date,
     required String time,
     required String complaint,
-    required   List<File> images, 
+    required List<File> images,
     required String patientsId,
   });
-
-
 }

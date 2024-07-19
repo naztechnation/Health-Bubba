@@ -19,7 +19,7 @@ class MedicationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppNavigator.pushAndStackPage(context, page: MedicationDetailsPage());
+        AppNavigator.pushAndStackPage(context, page: MedicationDetailsPage(medicatioId: medications.id.toString(),  ));
       },
       child: Container(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),

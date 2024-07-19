@@ -11,6 +11,7 @@ import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
 import '../../model/user/consultation_data.dart';
+import '../../model/user/medication_details.dart';
 import '../../model/user/user_data.dart';
 
 abstract class UserStates extends Equatable {
@@ -224,6 +225,18 @@ class AppointmentDetailsLoaded extends UserStates {
   const AppointmentDetailsLoaded(this.appointmentDetails);
   @override
   List<Object> get props => [appointmentDetails];
+}
+
+class MedicationDetailsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class MedicationDetailsLoaded extends UserStates {
+  final MedicationDetails medicationDetails;
+  const MedicationDetailsLoaded(this.medicationDetails);
+  @override
+  List<Object> get props => [medicationDetails];
 }
 
 class UserNetworkErr extends UserStates {
