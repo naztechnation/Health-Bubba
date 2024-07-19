@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
-import 'package:healthbubba/model/patients/patients_list.dart';
 import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/model/user/selected_docs_availability.dart';
@@ -46,6 +45,11 @@ abstract class AccountRepository {
   Future<RegisterUser> resetPassword({
     required String email,
     required String otp,
+    required String newPassword,
+  });
+
+  Future<LoginData> changePassword({
+    required String oldPassword,
     required String newPassword,
   });
 

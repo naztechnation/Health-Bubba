@@ -47,6 +47,18 @@ class LoginLoaded extends AccountStates {
   List<Object> get props => [loginData];
 }
 
+class ChangePasswordProcessing extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class ChangePasswordLoaded extends AccountStates {
+  final LoginData changePassword;
+  const ChangePasswordLoaded(this.changePassword);
+  @override
+  List<Object> get props => [changePassword];
+}
+
 class ResetPasswordLoading extends AccountStates {
   @override
   List<Object> get props => [];

@@ -4,14 +4,20 @@ import '../user/user.dart';
 class VerifyOtp {
   bool? ok;
   String? message;
-  DoctorData? data;
+  dynamic data;
 
   VerifyOtp({this.ok, this.message, this.data});
 
   VerifyOtp.fromJson(Map<String, dynamic> json) {
     ok = json['ok'];
     message = json['message'];
-    data = json['data'] != null ? DoctorData.fromJson(json['data']) : null;
+   if (json['data'] != null) {
+      if (json['data'] is String) {
+        data = json['data'];
+      } else {
+        data = DoctorData.fromJson(json['data']);
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -19,7 +25,11 @@ class VerifyOtp {
     data['ok'] = ok;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+          if (this.data is String) {
+        data['data'] = this.data;
+      } else {
+        data['data'] = (this.data as DoctorData).toJson();
+      }
     }
     return data;
   }

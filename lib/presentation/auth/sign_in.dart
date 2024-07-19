@@ -58,7 +58,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: BlocConsumer<AccountCubit, AccountStates>(
                 listener: (context, state) {
                   if (state is LoginLoaded) {
-                    if (state.loginData.ok!) {
+                    if (state.loginData.ok?? false) {
                       ToastService().showToast(
                         context,
                         leadingIcon: const ImageView.svg(AppImages.tick),

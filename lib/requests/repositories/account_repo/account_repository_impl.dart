@@ -307,4 +307,17 @@ profilePic.add(image);
     );
     return BankDetails.fromJson(map);
   }
+  
+  @override
+  Future<LoginData> changePassword({required String oldPassword, required String newPassword}) async {
+    final map = await Requests().post(
+      AppStrings.updatePasswordUrl,
+      body: {
+        "old_password": oldPassword,
+        "new_password": newPassword,
+         
+      },
+    );
+    return LoginData.fromJson(map);
+  }
 }
