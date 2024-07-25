@@ -52,7 +52,11 @@ class StorageHandler {
   }
 
    
-
+static Future<void> saveFcmToken([String? token]) async {
+    if (token != null) {
+      await storage.write(key: 'FCM', value: token);
+    }
+  }
 
 
   static Future<void> saveUserToken([String? token]) async {
@@ -81,6 +85,16 @@ class StorageHandler {
       title = '';
     }
     return title;
+  }
+
+  static Future<String?> getUserFCM() async {
+    Map<String, String> value = await storage.readAll();
+    String? user;
+    String? data = value['FCM'];
+    if (data != null) {
+      user = data;
+    }
+    return user;
   }
 
    static Future<String> getUserToken() async {

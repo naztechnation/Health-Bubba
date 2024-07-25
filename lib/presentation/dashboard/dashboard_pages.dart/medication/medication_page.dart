@@ -145,6 +145,7 @@ class _MedicationsState extends State<Medications> {
                           ),
                           Divider(
                             color: Colors.grey.shade300,
+                            height: 0,
                           ),
                           const SizedBox(
                             height: 10,

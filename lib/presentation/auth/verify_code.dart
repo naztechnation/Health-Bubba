@@ -23,7 +23,8 @@ class VerifyCodeScreen extends StatefulWidget {
   final String email;
   final bool isForgetPassword;
 
-  const VerifyCodeScreen({super.key, required this.email, required this.isForgetPassword});
+  const VerifyCodeScreen(
+      {super.key, required this.email, required this.isForgetPassword});
 
   @override
   State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
@@ -80,26 +81,28 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                         subtitle: state.verifyOtp.message ?? '',
                       );
                       if (state.verifyOtp.data is String) {
-                        
                       } else {
-                         StorageHandler.saveUserToken(state.verifyOtp.data?.token?.accessToken ?? '');
-
-                  
-                      }   
-                      if(widget.isForgetPassword){
+                        StorageHandler.saveUserToken(
+                            state.verifyOtp.data?.token?.accessToken ?? '');
+                      }
+                      if (widget.isForgetPassword) {
                         Future.delayed(const Duration(seconds: 2), () {
-                        AppNavigator.pushAndStackPage(context, page: CreateNewPasswordScreen(email: widget.email,otp: _pinController.text));
-
-                      });
-                      }else{
+                          AppNavigator.pushAndStackPage(context,
+                              page: CreateNewPasswordScreen(
+                                  email: widget.email,
+                                  otp: _pinController.text));
+                        });
+                      } else {
                         Future.delayed(const Duration(seconds: 2), () {
-                         AppNavigator.pushAndReplacePage(context,
-                          page: const ProfileSetup(isEdit: false,));
-                      });
+                          AppNavigator.pushAndReplacePage(context,
+                              page: const ProfileSetup(
+                                isEdit: false,
+                              ));
+                        });
                       }
                     } else {
-
-                      if(state.verifyOtp.message!.trim() == "Invalid or expired OTP"){
+                      if (state.verifyOtp.message!.trim() ==
+                          "Invalid or expired OTP") {
                         isVerificationFailed = true;
                       }
 
@@ -109,7 +112,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                         title: AppStrings.errorTitle,
                         subtitle: state.verifyOtp.message ?? '',
                       );
-                      
                     }
                   } else if (state is OTPResent) {
                     // Modals.showToast(state.userData.message!,
@@ -244,14 +246,14 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                                   activeState:
                                                       isVerificationFailed,
                                                   onChanged: (_) {
-                                                    isVerificationFailed = false;
+                                                    isVerificationFailed =
+                                                        false;
 
-                                                    setState(() {
-                                                      
-                                                    });
+                                                    setState(() {});
                                                   },
                                                   onCompleted: (_) {
-                                                    _formKey.currentState!.validate();
+                                                    _formKey.currentState!
+                                                        .validate();
                                                   },
                                                   validator: (value) {
                                                     return Validator.validate(
@@ -270,9 +272,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                       ButtonView(
                                           processing: state is VerifyOtpLoading,
                                           onPressed: () {
-                                              _verifyCode(context);
-
-                                            
+                                            _verifyCode(context);
                                           },
                                           borderRadius: 100,
                                           color: AppColors.lightSecondary,
@@ -340,12 +340,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     BuildContext ctx,
   ) {
     if (_formKey.currentState!.validate()) {
-      
       ctx.read<AccountCubit>().verifyOtp(
-            otp: _pinController.text.trim(),
-            email: widget.email,
-            url: widget.isForgetPassword ? AppStrings.verifyOtpPasswordResetUrl:AppStrings.verifyOtpUrl
-          );
+          otp: _pinController.text.trim(),
+          email: widget.email,
+          url: widget.isForgetPassword
+              ? AppStrings.verifyOtpPasswordResetUrl
+              : AppStrings.verifyOtpUrl);
     }
     // if (enterDigitCodeController.text.isNotEmpty) {
     //   if (widget.isForgetPassword) {

@@ -64,6 +64,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Text(
           ' ',

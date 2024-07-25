@@ -11,7 +11,7 @@ class MedicationDetails {
     if (json['data'] != null) {
       data = <MedicationDetailsData>[];
       json['data'].forEach((v) {
-        data!.add(  MedicationDetailsData.fromJson(v));
+        data!.add(MedicationDetailsData.fromJson(v));
       });
     }
   }
@@ -47,6 +47,13 @@ class MedicationDetailsData {
   String? patientLastName;
   String? patientEmail;
   String? patientPhone;
+  String? administrationRouteName;
+  int? medicationTimeId;
+  String? medicationTime;
+  int? medicationDayId;
+  String? medicationDay;
+  List<MedicationTimes>? medicationTimes;
+  List<MedicationDays>? medicationDays;
 
   MedicationDetailsData(
       {this.id,
@@ -67,7 +74,14 @@ class MedicationDetailsData {
       this.patientFirstName,
       this.patientLastName,
       this.patientEmail,
-      this.patientPhone});
+      this.patientPhone,
+      this.administrationRouteName,
+      this.medicationTimeId,
+      this.medicationTime,
+      this.medicationDayId,
+      this.medicationDay,
+      this.medicationTimes,
+      this.medicationDays});
 
   MedicationDetailsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -89,6 +103,23 @@ class MedicationDetailsData {
     patientLastName = json['patient_last_name'];
     patientEmail = json['patient_email'];
     patientPhone = json['patient_phone'];
+    administrationRouteName = json['administration_route_name'];
+    medicationTimeId = json['medication_time_id'];
+    medicationTime = json['medication_time'];
+    medicationDayId = json['medication_day_id'];
+    medicationDay = json['medication_day'];
+    if (json['medication_times'] != null) {
+      medicationTimes = <MedicationTimes>[];
+      json['medication_times'].forEach((v) {
+        medicationTimes!.add(MedicationTimes.fromJson(v));
+      });
+    }
+    if (json['medication_days'] != null) {
+      medicationDays = <MedicationDays>[];
+      json['medication_days'].forEach((v) {
+        medicationDays!.add(MedicationDays.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -112,6 +143,57 @@ class MedicationDetailsData {
     data['patient_last_name'] = patientLastName;
     data['patient_email'] = patientEmail;
     data['patient_phone'] = patientPhone;
+    data['administration_route_name'] = administrationRouteName;
+    data['medication_time_id'] = medicationTimeId;
+    data['medication_time'] = medicationTime;
+    data['medication_day_id'] = medicationDayId;
+    data['medication_day'] = medicationDay;
+    if (medicationTimes != null) {
+      data['medication_times'] =
+          medicationTimes!.map((v) => v.toJson()).toList();
+    }
+    if (medicationDays != null) {
+      data['medication_days'] =
+          medicationDays!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MedicationTimes {
+  int? id;
+  String? time;
+
+  MedicationTimes({this.id, this.time});
+
+  MedicationTimes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    time = json['time'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['time'] = time;
+    return data;
+  }
+}
+
+class MedicationDays {
+  int? id;
+  String? day;
+
+  MedicationDays({this.id, this.day});
+
+  MedicationDays.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    day = json['day'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['day'] = day;
     return data;
   }
 }

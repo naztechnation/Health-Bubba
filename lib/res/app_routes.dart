@@ -14,6 +14,8 @@ class AppRoutes {
   static const String successScreen = 'successScreen';
   static const String forgetPassword = 'forgetPassword';
   static const String resetPassword = 'resetPassword';
+  static const String message = '/message';
+
  
 
   static Map<String, Widget Function(BuildContext)> routes = {
@@ -22,6 +24,8 @@ class AppRoutes {
      forgetPassword: (context) =>   ForgotPassword(),
     // signUpScreen: (context) =>   SignUpScreen(),
      signInScreen: (context) =>   SignInScreen(),
+    message: (context) => Messages(),
+
     
   };
 

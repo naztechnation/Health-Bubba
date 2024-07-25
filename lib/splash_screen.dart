@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../res/app_images.dart';
 import '../res/app_routes.dart';
@@ -20,10 +21,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   startTimeout() {
-    return Timer(const Duration(seconds: 5), handleTimeout);
+    return Timer(const Duration(seconds: 15), handleTimeout);
   }
-
-  late AnimationController _animationController;
+ 
 
   void handleTimeout() {
     changeScreen();
@@ -62,35 +62,23 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     getUserDetails();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1700),
-    )..forward();
+     
     super.initState();
     startTimeout();
   }
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.lightPrimary,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Align(
-            child: ImageView.svg(
-              AppImages.appLogo1,
-              fit: BoxFit.fitWidth,
-              height: 44.63,
-            ),
-          ),
-        ],
+    return   Scaffold(
+      backgroundColor: const Color(0xff0b372b),
+      body: SizedBox(
+        height: MediaQuery.sizeOf(context).height,
+        child: const ImageView.asset(
+          AppImages.logoo,
+          
+        ),
       ),
     );
   }

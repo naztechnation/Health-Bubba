@@ -81,6 +81,7 @@ class AppImages {
   static const warningErrorIcon = '${_baseUrl}warning_error.svg';
   static const successIcon = '${_baseUrl}success_icon.svg';
   static const closeIcon = '${_baseUrl}close_icon.svg';
+  static const logoo = '${_baseUrl}HealthBubba.gif';
  
 
 

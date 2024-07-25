@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_colors.dart';
@@ -268,7 +270,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .fromLTRB(
-                                                                  0, 0, 10, 0),
+                                                                  0, 0, 0, 0),
                                                           child: Text(
                                                             'Medication name',
                                                             style: GoogleFonts
@@ -284,6 +286,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                             ),
                                                           ),
                                                         ),
+                                                        const Spacer(),
                                                         Expanded(
                                                           child: Text(
                                                             medicationDetails.first.medicationName ?? '',
@@ -386,7 +389,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                   Container(
                                                     margin: const EdgeInsets
                                                         .fromLTRB(
-                                                        0, 0, 3.5, 12),
+                                                        0, 0, 0, 12),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -399,7 +402,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .fromLTRB(
-                                                                  0, 0, 10, 0),
+                                                                  0, 0, 0, 0),
                                                           child: Text(
                                                             'Frequency',
                                                             style: GoogleFonts
@@ -415,26 +418,46 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                             ),
                                                           ),
                                                         ),
-                                                        Text(
-                                                          medicationDetails.first.frequency ?? '',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 14,
-                                                            height: 1.4,
-                                                            color: const Color(
-                                                                0xFF0A0D14),
+                                                        const Spacer(),
+                                                      if(medicationDetails.first.frequency.toString().toLowerCase() == 'Specific days'.toLowerCase() )...[
+                                                        Expanded(
+                                                          child: Text(
+                                                            getMedicationDaysString(medicationDetails.first.medicationDays ?? []),
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF0A0D14),
+                                                            ),
                                                           ),
                                                         ),
+                                                      ] else...[
+                                                        Text(
+                                                            medicationDetails.first.frequency ?? '',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF0A0D14),
+                                                            ),
+                                                          ),
+                                                      ] 
+                                                        
                                                       ],
                                                     ),
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
                                                         .fromLTRB(
-                                                        0, 0, 4.2, 12),
+                                                        0, 0, 0, 12),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -447,7 +470,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .fromLTRB(
-                                                                  0, 0, 10, 0),
+                                                                  0, 0,  0, 0),
                                                           child: Text(
                                                             'Time of the day',
                                                             style: GoogleFonts
@@ -463,17 +486,20 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                             ),
                                                           ),
                                                         ),
-                                                        Text(
-                                                          'Morning',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 14,
-                                                            height: 1.4,
-                                                            color: const Color(
-                                                                0xFF0A0D14),
+                                                        const Spacer(),
+                                                        Expanded(
+                                                          child: Text(
+                                                            getMedicationTimesString(medicationDetails.first.medicationTimes ?? []),
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF0A0D14),
+                                                            ),
                                                           ),
                                                         ),
                                                       ],
@@ -512,7 +538,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          'Before',
+                                                          medicationDetails.first.toBeTaken ?? '',
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -655,7 +681,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          'Oral',
+                                                          medicationDetails.first.administrationRouteName ?? '',
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -858,7 +884,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      'Amlodipine',
+                                                      medicationDetails.first.category ?? '',
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -920,4 +946,14 @@ class _MedicationDetailsState extends State<MedicationDetails> {
   return result.trim();
 }
 
+
+String getMedicationDaysString(List<MedicationDays> medicationDays) {
+  List<String> days = medicationDays.map((medicationDay) => medicationDay.day ?? '').toList();
+  return days.join(', ');
+}
+
+String getMedicationTimesString(List<MedicationTimes> medicationDays) {
+  List<String> days = medicationDays.map((medicationDay) => medicationDay.time ?? '').toList();
+  return days.join(', ');
+}
 }
