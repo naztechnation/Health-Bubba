@@ -24,7 +24,7 @@ class AppRoutes {
      forgetPassword: (context) =>   ForgotPassword(),
     // signUpScreen: (context) =>   SignUpScreen(),
      signInScreen: (context) =>   SignInScreen(),
-    message: (context) => Messages(),
+   // message: (context) => Messages(),
 
     
   };

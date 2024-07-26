@@ -1,5 +1,8 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -23,7 +26,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.healthbubba"
+    namespace "com.healthbubba.healthbubba"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -41,8 +44,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.healthbubba"
-        minSdkVersion flutter.minSdkVersion
+        applicationId "com.healthbubba.healthbubba"
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

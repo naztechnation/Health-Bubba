@@ -3,8 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
  
 
 import 'handlers/secure_handler.dart';
-import 'res/app_routes.dart';
-
+import 'notification.dart';
  
 
 
@@ -25,9 +24,9 @@ class PushNotifications {
     final token = await _firebaseMessaging.getToken();
 
     StorageHandler.saveFcmToken(token);
-    print(token);
+     
 
-     // sendPushNotification(token ??'','TellaSport','Welcome on board');
+      sendPushNotification(token ??'','Health Bubba','Welcome on board');
     
   }
 
