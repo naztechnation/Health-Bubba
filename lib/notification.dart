@@ -8,9 +8,8 @@ Future<void> sendPushNotification(
   String serverKey =
       'ya29.a0AXooCgulcjhnaGVP7jT9CH-TjbaEHgcvxLGpndvhtga8cVr8npE-XL5Vjz8P5t88CGsgrkdLnhOh3JNutZ_EvORF4ILalTzBaDd4P-szBNp3C74ML5Svz8cs_AZtbVVOaAWTBgVJD9VdtO5fBXAGGzcosWjWwAgjj1l7aCgYKAcQSARESFQHGX2Mi2cD9BZ0u1K3nDEsITJXtaQ0171';
 
-  String fcmUrl = 'https://fcm.googleapis.com/v1/healthbubba-1d206/messages:send';
+  String fcmUrl = 'https://fcm.googleapis.com/v1/projects/healthbubba-1d206/messages:send';
 
-   
 
  Map<String, dynamic> notification =  {
   "message":{

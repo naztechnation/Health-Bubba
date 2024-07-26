@@ -177,14 +177,33 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                     margin: const EdgeInsets
                                                         .fromLTRB(
                                                         0.7, 0, 0, 16),
-                                                    child: const SizedBox(
+                                                    child:   SizedBox(
                                                         width: 60,
                                                         height: 60,
-                                                        child: ImageView.asset(
-                                                          AppImages
-                                                              .onboardingOne,
-                                                          fit: BoxFit.cover,
-                                                        )),
+                                                        child: Hero(
+                            tag: 'medicsPicture',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(45.5),
+                              child: Image.network(
+                                medicationDetails.first.patientPicture ?? '',
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                              ),
+                            ),
+                          ),),
                                                   ),
                                                 ),
                                                 Text(

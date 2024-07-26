@@ -3,7 +3,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
  
 
 import 'handlers/secure_handler.dart';
+import 'main.dart';
 import 'notification.dart';
+import 'res/app_routes.dart';
  
 
 
@@ -25,14 +27,12 @@ class PushNotifications {
 
     StorageHandler.saveFcmToken(token);
      
-
-      sendPushNotification(token ??'','Health Bubba','Welcome on board');
-    
+     
   }
 
   static Future localNotiInit() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/tella');
+        AndroidInitializationSettings('@mipmap/logo2');
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       onDidReceiveLocalNotification: (id, title, body, payload) => null,
@@ -51,8 +51,8 @@ class PushNotifications {
 
   // on tap local notification in foreground
   static void onNotificationTap(NotificationResponse notificationResponse) {
-    // navigatorKey.currentState!
-    //     .pushNamed(AppRoutes.message, arguments: notificationResponse);
+    navigatorKey.currentState!
+        .pushNamed(AppRoutes.message, arguments: notificationResponse);
   }
 
  

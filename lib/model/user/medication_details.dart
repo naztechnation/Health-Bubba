@@ -39,6 +39,7 @@ class MedicationDetailsData {
   String? notes;
   String? durationStartTime;
   String? durationEndTime;
+  String? patientPicture;
   String? toBeTaken;
   String? frequency;
   int? patientMedicationId;
@@ -66,6 +67,7 @@ class MedicationDetailsData {
       this.dosage,
       this.notes,
       this.durationStartTime,
+      this.patientPicture,
       this.durationEndTime,
       this.toBeTaken,
       this.frequency,
@@ -95,6 +97,7 @@ class MedicationDetailsData {
     notes = json['notes'];
     durationStartTime = json['duration_start_time'];
     durationEndTime = json['duration_end_time'];
+     patientPicture = json['patient_picture'];
     toBeTaken = json['to_be_taken'];
     frequency = json['frequency'];
     patientMedicationId = json['patient_medication_id'];
@@ -138,6 +141,7 @@ class MedicationDetailsData {
     data['to_be_taken'] = toBeTaken;
     data['frequency'] = frequency;
     data['patient_medication_id'] = patientMedicationId;
+    data['patient_picture'] =  patientPicture;
     data['patient_username'] = patientUsername;
     data['patient_first_name'] = patientFirstName;
     data['patient_last_name'] = patientLastName;

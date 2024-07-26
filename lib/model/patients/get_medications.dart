@@ -32,6 +32,7 @@ class GetMedicationsData {
   int? doctorId;
   int? patientId;
   String? medicationName;
+  String? patientPicture;
   int? medicationId;
   String? category;
   int? administrationRouteId;
@@ -53,6 +54,7 @@ class GetMedicationsData {
       this.patientId,
       this.medicationName,
       this.medicationId,
+      this.patientPicture,
       this.category,
       this.administrationRouteId,
       this.dosage,
@@ -74,6 +76,7 @@ class GetMedicationsData {
     medicationName = json['medication_name'];
     medicationId = json['medication_id'];
     category = json['category'];
+    patientPicture = json['patient_picture'];
     administrationRouteId = json['administration_route_id'];
     dosage = json['dosage'];
     notes = json['notes'];
@@ -96,6 +99,7 @@ class GetMedicationsData {
     data['medication_name'] = medicationName;
     data['medication_id'] = medicationId;
     data['category'] = category;
+    data['patient_picture'] =  patientPicture;
     data['administration_route_id'] = administrationRouteId;
     data['dosage'] = dosage;
     data['notes'] = notes;

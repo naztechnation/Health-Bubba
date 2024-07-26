@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../message.dart';
 import '../presentation/auth/forgot_password.dart';
 import '../presentation/auth/sign_in.dart';
 import '../splash_screen.dart';
@@ -24,7 +25,7 @@ class AppRoutes {
      forgetPassword: (context) =>   ForgotPassword(),
     // signUpScreen: (context) =>   SignUpScreen(),
      signInScreen: (context) =>   SignInScreen(),
-   // message: (context) => Messages(),
+    message: (context) => Messages(),
 
     
   };

@@ -58,7 +58,7 @@ FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       await FirebaseMessaging.instance.getInitialMessage();
 
   if (message != null) {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
 
       
       navigatorKey.currentState!.pushNamed(AppRoutes.message, arguments: message);
@@ -79,9 +79,25 @@ FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
   ));
 }
 
-class HealthBubba extends StatelessWidget {
+class HealthBubba extends StatefulWidget {
   const HealthBubba({Key? key}) : super(key: key);
 
+  @override
+  State<HealthBubba> createState() => _HealthBubbaState();
+}
+
+class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver{
+   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,

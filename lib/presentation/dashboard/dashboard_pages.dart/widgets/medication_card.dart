@@ -77,14 +77,33 @@ class MedicationCard extends StatelessWidget {
                                       children: [
                                         ClipRRect(
                                               borderRadius: BorderRadius.circular(50),
-                                              child: const SizedBox(
+                                              child:   SizedBox(
                                                 width: 53.8,
                                                 height: 55,
-                                                child: SizedBox(
-                                                  width: 53.8,
-                                                  height: 55,
-                                                  child: ImageView.asset(AppImages.onboardingOne)
-                                                ),
+                                                child: Hero(
+                            tag: 'medicsPicture',
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(45.5),
+                              child: Image.network(
+                                medications.patientPicture ?? '',
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const ImageView.asset(
+                                      AppImages.avatarIcon,
+                                       fit: BoxFit.cover
+                                      );
+                                },
+                              ),
+                            ),
+                          ),
                                               ),
                                             ),
                                             const SizedBox(width: 12,),
