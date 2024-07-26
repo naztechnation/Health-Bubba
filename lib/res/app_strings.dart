@@ -63,6 +63,9 @@ class AppStrings {
       "${_baseUrl}v1/get_user_appointments/$appointmentId";
   static String medicationDetailsUrl({required String medicationId}) =>
       "${_baseUrl}doctor/medications/$medicationId";
+
+      static String patientDetailsUrl({required String patientId}) =>
+      "${_baseUrl}patients/$patientId";
   static String getPatientsDetailsUrl({required String patientId}) =>
       "${_baseUrl}patients/$patientId";
 

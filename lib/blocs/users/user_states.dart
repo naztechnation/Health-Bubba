@@ -10,6 +10,7 @@ import '../../model/patients/appointment_details.dart';
 import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
+import '../../model/patients/patients_details.dart';
 import '../../model/user/consultation_data.dart';
 import '../../model/user/medication_details.dart';
 import '../../model/user/user_data.dart';
@@ -237,6 +238,18 @@ class MedicationDetailsLoaded extends UserStates {
   const MedicationDetailsLoaded(this.medicationDetails);
   @override
   List<Object> get props => [medicationDetails];
+}
+
+class PatientsDetailsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class PatientsDetailsLoaded extends UserStates {
+  final PatientDetails patientDetails;
+  const PatientsDetailsLoaded(this.patientDetails);
+  @override
+  List<Object> get props => [patientDetails];
 }
 
 class UserNetworkErr extends UserStates {

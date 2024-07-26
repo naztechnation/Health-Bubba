@@ -9,6 +9,7 @@ import 'package:healthbubba/model/patients/get_medications.dart';
 import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/medication_category.dart';
 import 'package:healthbubba/model/patients/medication_sub_category.dart';
+import 'package:healthbubba/model/patients/patients_details.dart';
 import 'package:healthbubba/model/user/medication_details.dart';
 
 import '../../../handlers/secure_handler.dart';
@@ -189,5 +190,13 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.medicationDetailsUrl(medicationId: medicationId),
     );
     return MedicationDetails.fromJson(map);
+  }
+
+  @override
+  Future<PatientDetails> getPatientDetails({required String patientId}) async {
+    final map = await Requests().get(
+      AppStrings.patientDetailsUrl(patientId: patientId),
+    );
+    return PatientDetails.fromJson(map);
   }
 }

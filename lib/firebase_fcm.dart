@@ -23,6 +23,7 @@ class PushNotifications {
       provisional: false,
       sound: true,
     );
+    
     final token = await _firebaseMessaging.getToken();
 
     StorageHandler.saveFcmToken(token);

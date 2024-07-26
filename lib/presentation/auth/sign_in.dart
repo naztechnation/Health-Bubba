@@ -59,12 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 listener: (context, state) {
                   if (state is LoginLoaded) {
                     if (state.loginData.ok?? false) {
-                      ToastService().showToast(
-                        context,
-                        leadingIcon: const ImageView.svg(AppImages.tick),
-                        title: AppStrings.successTitle,
-                        subtitle: state.loginData.message ?? '',
-                      );
+                     
 
                       if (state.loginData.message!.toLowerCase().trim() ==
                           'Operation successful. An OTP code was sent to your email address.'.toLowerCase()) {

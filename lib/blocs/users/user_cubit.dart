@@ -336,29 +336,7 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
-
-  Future<void> getPatientsDetails({required String patientsId}) async {
-    try {
-      emit(PatientDetailsLoading());
-
-      final user =
-          await userRepository.getPatientsDetails(patientsId: patientsId);
-
-      emit(PatientDetailsLoaded(user));
-    } on ApiException catch (e) {
-      emit(UserApiErr(e.message));
-    } catch (e) {
-      if (e is NetworkException ||
-          e is BadRequestException ||
-          e is UnauthorisedException ||
-          e is FileNotFoundException ||
-          e is AlreadyRegisteredException) {
-        emit(UserNetworkErr(e.toString()));
-      } else {
-        rethrow;
-      }
-    }
-  }
+ 
 
   Future<void> createAppointment({
     required String patientsId,
@@ -443,6 +421,27 @@ class UserCubit extends Cubit<UserStates> {
 
       final medics = await userRepository.getMedicationDetails(medicationId: medicationId);
       emit(MedicationDetailsLoaded(medics));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> getPatientDetails({required String patientId}) async {
+    try {
+      emit(PatientsDetailsLoading());
+
+      final patient = await userRepository.getPatientDetails(patientId: patientId);
+      emit(PatientsDetailsLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {

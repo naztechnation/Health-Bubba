@@ -9,6 +9,7 @@ import '../../../model/patients/get_medications.dart';
 import '../../../model/patients/get_profile_status.dart';
 import '../../../model/patients/medication_category.dart';
 import '../../../model/patients/medication_sub_category.dart';
+import '../../../model/patients/patients_details.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/medication_details.dart';
@@ -20,9 +21,7 @@ abstract class UserRepository {
     required String limit,
   });
 
-  Future<PatientsLists> getPatientsDetails({
-    required String patientsId,
-  });
+   
 
   Future<ConsultationData> addConsultationFee({
     required String rate,
@@ -62,6 +61,8 @@ abstract class UserRepository {
       {required String appointmentId});
   Future<MedicationDetails> getMedicationDetails(
       {required String medicationId});
+ Future<PatientDetails> getPatientDetails(
+      {required String patientId});
 
   Future<CreateAppointment> createAppointment({
     required String date,

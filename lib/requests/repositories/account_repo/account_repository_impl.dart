@@ -33,9 +33,12 @@ class AccountRepositoryImpl implements AccountRepository {
     required String email,
     required String password,
   }) async {
+     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
     final map = await Requests().post(AppStrings.registerUserUrl, body: {
       "email": email,
       "password": password,
+      "fcm_token": fcmToken,
     });
     return RegisterUser.fromJson(map);
   }
@@ -54,9 +57,14 @@ class AccountRepositoryImpl implements AccountRepository {
   @override
   Future<LoginData> loginUser(
       {required String email, required String password}) async {
+
+     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
     final map = await Requests().post(AppStrings.loginUrl, body: {
       "email": email,
       "password": password,
+      "fcm_token": fcmToken,
+
     });
     return LoginData.fromJson(map);
   }

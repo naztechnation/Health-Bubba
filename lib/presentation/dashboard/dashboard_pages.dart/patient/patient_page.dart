@@ -237,7 +237,7 @@ void dispose() {
                                               onTap: () {
                                                 AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page: PatientDetails(patientsId: filteredPatientsLists[index].id.toString() ?? '',),
+                                                  page: PatientDetails(patientId: filteredPatientsLists[index].id.toString() ?? '',),
                                                 );
                                               },
                                               child: patientCard(
