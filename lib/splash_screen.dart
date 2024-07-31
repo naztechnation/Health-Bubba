@@ -21,7 +21,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   startTimeout() {
-    return Timer(const Duration(seconds: 15), handleTimeout);
+    return Timer(const Duration(seconds: 7), handleTimeout);
   }
  
 
