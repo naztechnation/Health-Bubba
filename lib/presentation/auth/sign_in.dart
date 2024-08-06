@@ -313,18 +313,20 @@ class _SignInScreenState extends State<SignInScreen> {
                                                               padding:
                                                                   const EdgeInsets
                                                                       .all(
-                                                                      16.0),
+                                                                      12.0),
                                                               child: password
                                                                       .showPasswordStatus
-                                                                  ? const Icon(
-                                                                      Icons
-                                                                          .visibility_off_outlined,
-                                                                      size: 18,
-                                                                    )
-                                                                  : const Icon(
-                                                                      Icons
-                                                                          .visibility_outlined,
-                                                                      size: 18),
+                                                                  ? const ImageView.svg(
+                                               AppImages.eyeClosedIcon,
+                                               color: Colors.grey,
+                                            )
+                                          : const Padding(
+                                            padding: EdgeInsets.all(2.0),
+                                            child: ImageView.svg(
+                                                 AppImages.eyeOpenIcon,
+                                                 color: Colors.grey,
+                                            
+                                              )),
                                                             ),
                                                           ),
                                                         )

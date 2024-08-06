@@ -85,45 +85,48 @@ class AppointmentPatientCard extends StatelessWidget {
                                 isDue: true,
                               ));
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(8, 0, 8, 10),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  '${AppUtils.formatDateOnly(dateTime: upcomingAppointment.date ?? '')} - ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: const Color(0xFF0A0D14),
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    '${AppUtils.formatDateOnly(dateTime: upcomingAppointment.date ?? '')} - ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
+                                    style: GoogleFonts.getFont(
+                                      'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.4,
+                                      color: const Color(0xFF0A0D14),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            (!AppUtils.isPastDateTime(
-                                    upcomingAppointment.date ?? ''))
-                                ? const SizedBox.shrink()
-                                : Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                                    width: 4,
-                                    height: 10,
-                                    child: SizedBox(
+                              (!AppUtils.isPastDateTime(
+                                      upcomingAppointment.date ?? ''))
+                                  ? const SizedBox.shrink()
+                                  : Container(
+                                      margin:
+                                          const EdgeInsets.fromLTRB(0, 0, 20, 0),
                                       width: 4,
-                                      height: 5,
-                                      child: Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.grey.shade300,
-                                        size: 17,
+                                      height: 10,
+                                      child: SizedBox(
+                                        width: 4,
+                                        height: 5,
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.grey.shade300,
+                                          size: 17,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Container(

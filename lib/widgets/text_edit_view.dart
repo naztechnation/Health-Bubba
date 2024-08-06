@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../res/app_strings.dart';
+ 
 import '../res/app_colors.dart';
 
 class TextEditView extends StatelessWidget {
@@ -59,7 +58,7 @@ class TextEditView extends StatelessWidget {
     this.borderWidth = 1.5,
     this.suffixIcon,
     this.iconColor,
-    this.textColor,
+    this.textColor = Colors.black,
     this.prefixIcon,
     this.borderColor,
     this.filled = true,
@@ -144,8 +143,8 @@ class TextEditView extends StatelessWidget {
                       autofillHints: autofillHints,
                       onFieldSubmitted: onFieldSubmitted,
                       focusNode: focusNode,
-                      style: const TextStyle(
-                        color: Color(0xff6B7280),
+                      style:   TextStyle(
+                        color: textColor,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),

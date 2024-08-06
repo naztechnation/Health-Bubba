@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+ 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+ 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_strings.dart';
@@ -8,8 +8,7 @@ import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../blocs/accounts/account.dart';
-import '../../handlers/secure_handler.dart';
+import '../../blocs/accounts/account.dart'; 
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
@@ -210,15 +209,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       password.showPassword();
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
+                                      padding: const EdgeInsets.all(12.0),
                                       child: password.showPasswordStatus
-                                          ? const Icon(
-                                              Icons.visibility_off_outlined,
-                                              size: 18,
+                                          ?  const ImageView.svg(
+                                               AppImages.eyeClosedIcon,
+                                               color: Colors.grey,
                                             )
-                                          : const Icon(
-                                              Icons.visibility_outlined,
-                                              size: 18),
+                                          : const Padding(
+                                            padding: EdgeInsets.all(2.0),
+                                            child: ImageView.svg(
+                                                 AppImages.eyeOpenIcon,
+                                                 color: Colors.grey,
+                                            
+                                              ),
+                                          )
                                     ),
                                   ),
                                 ),
@@ -278,15 +282,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       password.showConfirmPassword();
                                     },
                                     child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
+                                      padding: const EdgeInsets.all(12.0),
                                       child: password.showConfirmPasswordStatus
-                                          ? const Icon(
-                                              Icons.visibility_off_outlined,
-                                              size: 18,
+                                          ? const ImageView.svg(
+                                               AppImages.eyeClosedIcon,
+                                               color: Colors.grey,
                                             )
-                                          : const Icon(
-                                              Icons.visibility_outlined,
-                                              size: 18),
+                                          : const Padding(
+                                            padding: EdgeInsets.all(2.0),
+                                            child: ImageView.svg(
+                                                 AppImages.eyeOpenIcon,
+                                                 color: Colors.grey,
+                                            
+                                              ),
+                                          )
                                     ),
                                   ),
                                 ),

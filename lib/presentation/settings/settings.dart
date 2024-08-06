@@ -348,9 +348,9 @@ class SettingsPage extends StatelessWidget {
                                             page: destructiveActions(
                                                 context: context,
                                                 message:
-                                                    'Are you sure you want to logout your account.',
-                                                primaryText: 'Continue',
-                                                secondaryText: 'Cancel',
+                                                    'Are you sure you want to logout?',
+                                                primaryText: 'Yes, continue',
+                                                secondaryText: 'No, go back',
                                                 primaryAction: () async {
                                                   await StorageHandler
                                                       .clearCache();

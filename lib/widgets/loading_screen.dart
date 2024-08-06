@@ -7,21 +7,17 @@ class LoadersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.lightSecondary),
-              backgroundColor: AppColors.lightSecondary.withOpacity(0.2),
-              strokeWidth: 6,
-            ),
-            
-          ],
-        ),
-      ),
+    return Stack(
+      children: [
+                  Container(color: Colors.white,height: MediaQuery.sizeOf(context).height,width: MediaQuery.sizeOf(context).height,)
+,
+        Container(
+                    color: AppColors.indicatorBgColor,
+                    child:   Center(
+                      child: CircularProgressIndicator(color: AppColors.indicatorColor),
+                    ),
+                  ),
+      ],
     );
   }
 }
@@ -40,7 +36,7 @@ class OverlayHelper {
   void showOverlay(BuildContext context) {
     if (_overlayEntry == null) {
       _overlayEntry = OverlayEntry(
-        builder: (context) => LoadersPage(),
+        builder: (context) => const LoadersPage(),
       );
       Overlay.of(context)?.insert(_overlayEntry!);
     }

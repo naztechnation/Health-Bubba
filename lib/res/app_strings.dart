@@ -16,6 +16,10 @@ class AppStrings {
   static const String verifyOtpUrl = "${_baseUrl}verify-otp";
   static const String verifyOtpPasswordResetUrl =
       "${_baseUrl}verify-otp-for-password-reset";
+  static const String updateNotificationSettingsUrl =
+      "${_baseUrl}update_notification_setting";
+      static const String getNotificationSettingsUrl =
+      "${_baseUrl}notification_settings";
   static const String loginUrl = "${_baseUrl}doctor/login";
   static const String resetPasswordUrl = "${_baseUrl}reset-password";
   static const String languagesUrl = "${_baseUrl}languages";

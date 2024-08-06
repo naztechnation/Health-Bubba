@@ -11,6 +11,7 @@ import 'package:healthbubba/model/patients/medication_category.dart';
 import 'package:healthbubba/model/patients/medication_sub_category.dart';
 import 'package:healthbubba/model/patients/patients_details.dart';
 import 'package:healthbubba/model/user/medication_details.dart';
+import 'package:healthbubba/model/user/notification_settings.dart';
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/patients/patients_list.dart';
@@ -142,13 +143,7 @@ class UserRepositoryImpl implements UserRepository {
     return AdministeredRoute.fromJson(map);
   }
 
-  @override
-  Future<PatientsLists> getPatientsDetails({required String patientsId}) async {
-    final map = await Requests().get(
-      AppStrings.getPatientsDetailsUrl(patientId: patientsId),
-    );
-    return PatientsLists.fromJson(map);
-  }
+   
 
   @override
   Future<CreateAppointment> createAppointment(
@@ -198,5 +193,26 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.patientDetailsUrl(patientId: patientId),
     );
     return PatientDetails.fromJson(map);
+  }
+
+  @override
+  Future<NotificationSettings> getNotificationSettings() async {
+    final map = await Requests().get(
+      AppStrings.getNotificationSettingsUrl,
+    );
+    return NotificationSettings.fromJson(map);
+  }
+
+
+  @override
+  Future<NotificationSettings> updateNotificationSettings({required String upcomingAlert,
+   required String medicationReminder, required String orderAlert}) async {
+    final map =
+        await Requests().post(AppStrings.updateNotificationSettingsUrl, body: {
+      'upcoming_appointment_alert': upcomingAlert,
+      'medications_reminder': medicationReminder,
+      'order_alert': orderAlert,
+    });
+    return NotificationSettings.fromJson(map);
   }
 }
