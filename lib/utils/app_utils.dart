@@ -37,13 +37,17 @@ class AppUtils {
   return outputDate;
 }
 
-static String formatDateOnly({required String dateTime}) {
-  DateTime parseDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(dateTime);
-  var outputFormat = DateFormat('MMM d, yyyy');
-  var outputDate = outputFormat.format(parseDate);
-
-  return outputDate;
-}
+ static String formatDateOnly({required String dateTime}) {
+    try {
+      DateTime parseDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parseUtc(dateTime);
+      var outputFormat = DateFormat('MMM d, yyyy');
+      var outputDate = outputFormat.format(parseDate);
+      return outputDate;
+    } catch (e) {
+      // Handle the error gracefully, e.g., return an empty string or a default value
+      return 'Invalid date';
+    }
+  }
 
  
 

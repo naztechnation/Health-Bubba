@@ -52,6 +52,7 @@ class AppStrings {
   static const String specialtyStatus = "status/specialty";
   static const String languageStatus = "status/language";
   static const String createNewMedicationUrl = "${_baseUrl}medication/create";
+  static const String cancelAppointmentUrl = "${_baseUrl}appointments/cancel";
   static const String updatePasswordUrl = "${_baseUrl}update-password";
   static const String medicationCategoriesUrl =
       "${_baseUrl}medication/categories";

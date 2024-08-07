@@ -33,7 +33,7 @@ class UpcomingPage extends StatelessWidget {
            actionText: 'Reschedule',
            onCancel: () {
              AppNavigator.pushAndStackPage(context,
-                 page: CancelAppointment());
+                 page: CancelAppointment(appointmentId: upcomingAppointment[index].appointmentId.toString(),));
            },
            onAccept: () {
              AppNavigator.pushAndStackPage(context,

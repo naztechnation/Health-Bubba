@@ -11,6 +11,7 @@ import '../../../model/patients/medication_category.dart';
 import '../../../model/patients/medication_sub_category.dart';
 import '../../../model/patients/patients_details.dart';
 import '../../../model/patients/patients_list.dart';
+import '../../../model/user/cancel_appointment.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/medication_details.dart';
 import '../../../model/user/notification_settings.dart';
@@ -64,6 +65,14 @@ abstract class UserRepository {
       {required String medicationId});
  Future<PatientDetails> getPatientDetails(
       {required String patientId});
+Future<CancelAppointment> cancelAppointment(
+      {
+        required String appointmentId,
+        required String reason,
+        
+      
+      
+      });
 
       Future<NotificationSettings> updateNotificationSettings(
       {required String upcomingAlert,required String medicationReminder,required String orderAlert,});

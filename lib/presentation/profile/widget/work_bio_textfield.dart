@@ -62,7 +62,7 @@ class BioWidget extends StatelessWidget {
 
                           onTap(bioController.text);
                         } else {
-                          Modals.showToast('bio required');
+                          Modals.showToast('bio required', context);
                         }
                       },
                       child: const Text(

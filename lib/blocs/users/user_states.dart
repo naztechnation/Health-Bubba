@@ -11,6 +11,7 @@ import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
 import '../../model/patients/patients_details.dart';
+import '../../model/user/cancel_appointment.dart';
 import '../../model/user/consultation_data.dart';
 import '../../model/user/medication_details.dart';
 import '../../model/user/notification_settings.dart';
@@ -215,6 +216,18 @@ class GetNotifyLoaded extends UserStates {
   const GetNotifyLoaded(this.notificationSettings);
   @override
   List<Object> get props => [notificationSettings];
+}
+
+class CancelAppointmentLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class CancelAppointmentLoaded extends UserStates {
+  final CancelAppointment cancelAppointment;
+  const CancelAppointmentLoaded(this.cancelAppointment);
+  @override
+  List<Object> get props => [cancelAppointment];
 }
 
 class CreateAppointmentLoading extends UserStates {

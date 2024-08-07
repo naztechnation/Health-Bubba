@@ -12,7 +12,7 @@ class AppColors {
   static const Color yellow = Color.fromARGB(246, 249, 205, 7);
   static const Color lightGreen = Color(0xFFEFFFEC);
   static   Color indicatorColor = Colors.blue.shade700;
-  static   Color indicatorBgColor = Colors.black.withOpacity(0.2);
+  static   Color indicatorBgColor = Colors.blueGrey.withOpacity(0.7);
 
   static const MaterialColor lightSecondaryAccent =
       MaterialColor(0xFF093126, blue);

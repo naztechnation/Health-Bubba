@@ -1222,7 +1222,7 @@ class _RescheduleState extends State<Reschedule> {
                         child: GestureDetector(
                           onTap: () {
                             AppNavigator.pushAndStackPage(context,
-                                page: CancelAppointment());
+                                page: CancelAppointment( appointmentId:  widget.appointment.appointmentId.toString()));
                           },
                           child: Container(
                               width: MediaQuery.sizeOf(context).width,
@@ -1253,9 +1253,9 @@ class _RescheduleState extends State<Reschedule> {
                             expanded: false,
                             onPressed: () {
                               AppNavigator.pushAndStackPage(context,
-                                  page: const BookAppointentPage(
+                                  page:   BookAppointentPage(
                                     isReBookAppointment: true,
-                                    patientsId: '43',
+                                    patientsId: widget.appointment.patientId.toString(),
                                   ));
                             },
                             borderRadius: 100,

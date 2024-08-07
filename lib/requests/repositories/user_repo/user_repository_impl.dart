@@ -10,6 +10,7 @@ import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/medication_category.dart';
 import 'package:healthbubba/model/patients/medication_sub_category.dart';
 import 'package:healthbubba/model/patients/patients_details.dart';
+import 'package:healthbubba/model/user/cancel_appointment.dart';
 import 'package:healthbubba/model/user/medication_details.dart';
 import 'package:healthbubba/model/user/notification_settings.dart';
 
@@ -214,5 +215,16 @@ class UserRepositoryImpl implements UserRepository {
       'order_alert': orderAlert,
     });
     return NotificationSettings.fromJson(map);
+  }
+
+  @override
+  Future<CancelAppointment> cancelAppointment({required String appointmentId, required String reason, }) async {
+    final map =
+        await Requests().post(AppStrings.cancelAppointmentUrl, body: {
+      'id': appointmentId,
+      'reason': reason,
+       
+    });
+    return CancelAppointment.fromJson(map);
   }
 }

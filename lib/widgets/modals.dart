@@ -2,10 +2,12 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../res/enum.dart';
 import '../res/app_colors.dart';
+import '../res/app_images.dart';
+import 'custom_toast.dart';
+import 'image_view.dart';
 import 'progress_indicator.dart';
 
 class Modals {
@@ -29,19 +31,15 @@ class Modals {
       );
   }
 
-  static void showToast(String message, {MessageType? messageType}) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: messageType == MessageType.success
-            ? Colors.green
-            : messageType == MessageType.error
-                ? Colors.red
-                : null,
-        textColor: Colors.white,
-        fontSize: 16.0);
+  static void showToast(String message,BuildContext    context) {
+
+    ToastService().showToast(
+                            context,
+                            leadingIcon: const ImageView.svg(AppImages.tick),
+                            title: '',
+                            subtitle: message ,
+                          );
+    
   }
 
   static Future<bool?> showAlertOptionDialog(context,

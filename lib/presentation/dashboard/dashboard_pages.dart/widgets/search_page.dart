@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> {
                       actionText: 'Reschedule',
                       onCancel: () {
                         AppNavigator.pushAndStackPage(context,
-                            page: CancelAppointment());
+                            page: CancelAppointment(appointmentId: filteredAppointmentLists[index].appointmentId.toString(),));
                       },
                       onAccept: () {
                         AppNavigator.pushAndStackPage(context,

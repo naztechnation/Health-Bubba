@@ -7,7 +7,7 @@ class CustomRadioWidget<T> extends StatelessWidget {
   final double width;
   final double height;
 
-  CustomRadioWidget({required this.value,required this.groupValue,required this.onChanged, this.width = 30, this.height = 30});
+    const CustomRadioWidget({super.key, required this.value,required this.groupValue,required this.onChanged, this.width = 30, this.height = 30});
 
   @override
   Widget build(BuildContext context) {

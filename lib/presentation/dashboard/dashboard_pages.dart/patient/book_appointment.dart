@@ -13,7 +13,7 @@ import '../../../../blocs/users/users.dart';
 import '../../../../model/view_model/book_appointment_viewmodel.dart';
 import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
-import '../../../../res/app_images.dart'; 
+import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/custom_toast.dart';
@@ -88,7 +88,7 @@ class _BookAppointentState extends State<BookAppointent> {
               title: AppStrings.successTitle,
               subtitle: state.createAppointment.message?.message ?? '');
 
-              AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+          AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -123,7 +123,7 @@ class _BookAppointentState extends State<BookAppointent> {
         return ErrorPage(
             statusCode: state.message ?? '',
             onTap: () {
-               _userCubit.createAppointment(
+              _userCubit.createAppointment(
                 patientsId: widget.patientsId,
                 date: Provider.of<BookAppointmentViewModel>(context,
                         listen: false)
@@ -362,8 +362,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                       ),
                                       ChoiceSelector(
                                         items: const [
-                                          "8:00 AM",
-                                          "8:30 AM",
+                                          "4:26 PM",
+                                          "5:00 PM",
                                           "9:30 AM",
                                           "10:30 AM",
                                           "11:00 AM",
@@ -480,32 +480,38 @@ class _BookAppointentState extends State<BookAppointent> {
                     child: SizedBox(
                       height: 45,
                       child: ButtonView(
-                        
                           processing: state is CreateAppointmentLoading,
                           onPressed: () {
                             if (Provider.of<BookAppointmentViewModel>(context,
-                          listen: false)
-                      .imageUrls.isNotEmpty && _selectedDay.isNotEmpty && Provider.of<BookAppointmentViewModel>(context,
-                          listen: false)
-                      .selectedDate
-                      .toString() != null) {
-                               _userCubit.createAppointment(
-                                      patientsId: widget.patientsId,
-                                      date: Provider.of<BookAppointmentViewModel>(context,
-                          listen: false)
-                      .selectedDate
-                      .toString(),
-                                      time: _selectedDay,
-                                      complaint: _complaintController.text.trim(),
-                                      images: Provider.of<BookAppointmentViewModel>(context,
-                          listen: false)
-                      .imageUrls,
-                                    );
+                                        listen: false)
+                                    .imageUrls
+                                    .isNotEmpty &&
+                                _selectedDay.isNotEmpty &&
+                                Provider.of<BookAppointmentViewModel>(context,
+                                            listen: false)
+                                        .selectedDate
+                                        .toString() !=
+                                    null) {
+                              _userCubit.createAppointment(
+                                patientsId: widget.patientsId,
+                                date: Provider.of<BookAppointmentViewModel>(
+                                        context,
+                                        listen: false)
+                                    .selectedDate
+                                    .toString(),
+                                time: _selectedDay,
+                                complaint: _complaintController.text.trim(),
+                                images: Provider.of<BookAppointmentViewModel>(
+                                        context,
+                                        listen: false)
+                                    .imageUrls,
+                              );
                             } else {
                               ToastService().showToast(context,
-                                    leadingIcon: const ImageView.svg(AppImages.error),
-                                    title: 'Error!!!',
-                                    subtitle:    'select date, time and image');
+                                  leadingIcon:
+                                      const ImageView.svg(AppImages.error),
+                                  title: 'Error!!!',
+                                  subtitle: 'select date, time and image');
                             }
                           },
                           borderRadius: 100,
