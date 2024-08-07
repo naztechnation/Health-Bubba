@@ -61,7 +61,7 @@ static String formatTimeOnly({required String dateTime}) {
   return formattedTime;
 }
 
-static String getHumanReadableDate(String dateTimeString) {
+static String getHumanReadableDate(String dateTimeString,) {
   final DateTime dateTime = DateTime.parse(dateTimeString);
   final DateTime now = DateTime.now();
   
@@ -97,6 +97,8 @@ static String getHumanReadableDate(String dateTimeString) {
 static String getTimeDifference(String dateTimeString) {
   final DateTime dateTime = DateTime.parse(dateTimeString);
   final DateTime now = DateTime.now();
+
+  print('$now'+ 'yyyyyyyyyyyyyyy');
   
   final Duration difference = now.difference(dateTime);
   
@@ -104,19 +106,25 @@ static String getTimeDifference(String dateTimeString) {
     final Duration futureDifference = dateTime.difference(now);
     return "${formatTimeDuration(futureDifference)} from now";
   } else {
-    return "${formatTimeDuration(difference)} ago";
+    if (difference.inMinutes < 1) {
+      return "just now";
+    } else if (difference.inHours < 1) {
+      return "less than an hour";
+    } else {
+      return "${formatTimeDuration(difference)} ago";
+    }
   }
 }
 
 static String formatTimeDuration(Duration duration) {
   if (duration.inDays > 0) {
-    return "${duration.inDays} day${duration.inDays > 1 ? 's' : ''}";
+    return "${duration.inDays} days";
   } else if (duration.inHours > 0) {
-    return "${duration.inHours} hour${duration.inHours > 1 ? 's' : ''}";
+    return "${duration.inHours} hours";
   } else if (duration.inMinutes > 0) {
-    return "${duration.inMinutes} minute${duration.inMinutes > 1 ? 's' : ''}";
+    return "${duration.inMinutes} minutes";
   } else {
-    return "${duration.inSeconds} second${duration.inSeconds > 1 ? 's' : ''}";
+    return "${duration.inSeconds} seconds";
   }
 }
 

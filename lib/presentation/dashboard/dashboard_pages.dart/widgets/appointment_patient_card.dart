@@ -241,7 +241,7 @@ class AppointmentPatientCard extends StatelessWidget {
                                               ),
                                               TextSpan(
                                                 text:
-                                                    '  (${AppUtils.getTimeDifference(upcomingAppointment.date ?? '')})',
+                                                    '  (${AppUtils.getTimeDifference( '2024-08-07T12:00:00.000000Z')})',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w400,
@@ -398,6 +398,7 @@ class AppointmentPatientCard extends StatelessWidget {
                           patientName:
                               upcomingAppointment.patientFirstName ?? '',
                           doctorsId: doctorsId,
+                          appointmentId: upcomingAppointment.appointmentId.toString()
                         ));
                   },
                   child: Container(

@@ -192,7 +192,7 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId){
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: appointmentListsData[index].patientId ?? 0, patientName: appointmentListsData[index].patientFirstName ?? '', doctorsId: doctorsId,));
+                                          AppNavigator.pushAndStackPage(context, page: VideoCall(patientId: appointmentListsData[index].patientId ?? 0, patientName: appointmentListsData[index].patientFirstName ?? '', doctorsId: doctorsId, appointmentId: appointmentListsData[index].appointmentId.toString(),));
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),

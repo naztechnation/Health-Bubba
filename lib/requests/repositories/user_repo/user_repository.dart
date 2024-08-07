@@ -74,6 +74,15 @@ Future<CancelAppointment> cancelAppointment(
       
       });
 
+      Future<CancelAppointment> completeAppointment(
+      {
+        required String appointmentId,
+        
+        
+      
+      
+      });
+
       Future<NotificationSettings> updateNotificationSettings(
       {required String upcomingAlert,required String medicationReminder,required String orderAlert,});
 

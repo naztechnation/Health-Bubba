@@ -519,4 +519,25 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+  Future<void> completeAppointment({required String appointmentId }) async {
+    try {
+      emit(CancelAppointmentLoading());
+
+      final patient = await userRepository.completeAppointment(appointmentId: appointmentId,  );
+      emit(CancelAppointmentLoaded(patient));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

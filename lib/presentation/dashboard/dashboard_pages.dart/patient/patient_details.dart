@@ -109,6 +109,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
           setState(() {
             patientsLists.addAll(state.patientDetails.data?.patients ?? []);
           });
+
+          
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -142,9 +144,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
       return (state is PatientsDetailsLoading)
           ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
           : Stack(
-            children: [
-              Scaffold(
-                backgroundColor: Colors.white,
+              children: [
+                Scaffold(
+                  backgroundColor: Colors.white,
                   appBar: AppBar(
                     title: Center(
                       child: Text(
@@ -159,7 +161,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         Navigator.pop(context);
                       },
                       child: const Padding(
-                        padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                        padding:
+                            EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
                         child: SizedBox(
                           width: 15,
                           height: 15,
@@ -173,7 +176,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                     actions: const [
                       Text(
                         '         ',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -210,12 +214,13 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                       ),
                                     ),
                                     child: Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 0, 16, 0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFFFFFFF),
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                         ),
                                         child: SizedBox(
                                           width: double.infinity,
@@ -229,15 +234,18 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   CrossAxisAlignment.center,
                                               children: [
                                                 Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0.3, 0, 0, 16),
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0.3, 0, 0, 16),
                                                   child: ClipRRect(
                                                     borderRadius:
-                                                        BorderRadius.circular(40),
+                                                        BorderRadius.circular(
+                                                            40),
                                                     child: SizedBox(
                                                         width: 62.6,
                                                         height: 64,
-                                                        child: ImageView.network(
+                                                        child:
+                                                            ImageView.network(
                                                           patientsLists
                                                               .first.picture,
                                                           fit: BoxFit.cover,
@@ -245,14 +253,16 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  patientsLists.first.firstName ??
+                                                  patientsLists
+                                                          .first.firstName ??
                                                       '',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
                                                     height: 1.4,
-                                                    color: const Color(0xFF0A0D14),
+                                                    color:
+                                                        const Color(0xFF0A0D14),
                                                   ),
                                                 ),
                                               ],
@@ -288,8 +298,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    0, 11, 6, 11),
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 11, 6, 11),
                                                 width: 20,
                                                 height: 20,
                                                 child: const SizedBox(
@@ -306,18 +317,19 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    margin:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 0, 0, 2),
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 2),
                                                     child: Text(
                                                       'Age',
-                                                      style: GoogleFonts.getFont(
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 14,
                                                         height: 1.4,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
+                                                        color: const Color(
+                                                            0xFF0A0D14),
                                                       ),
                                                     ),
                                                   ),
@@ -329,11 +341,12 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                         '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 12,
                                                       height: 1.7,
-                                                      color:
-                                                          const Color(0xFF6B7280),
+                                                      color: const Color(
+                                                          0xFF6B7280),
                                                     ),
                                                   ),
                                                 ],
@@ -347,8 +360,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    0, 12.7, 6, 12.7),
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 12.7, 6, 12.7),
                                                 width: 20,
                                                 height: 20,
                                                 child: const SizedBox(
@@ -365,18 +379,19 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    margin:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 0, 0, 2),
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 2),
                                                     child: Text(
                                                       'Weight',
-                                                      style: GoogleFonts.getFont(
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 14,
                                                         height: 1.4,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
+                                                        color: const Color(
+                                                            0xFF0A0D14),
                                                       ),
                                                     ),
                                                   ),
@@ -384,11 +399,12 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 12,
                                                       height: 1.7,
-                                                      color:
-                                                          const Color(0xFF6B7280),
+                                                      color: const Color(
+                                                          0xFF6B7280),
                                                     ),
                                                   ),
                                                 ],
@@ -402,8 +418,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    0, 13.2, 6, 12.6),
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 13.2, 6, 12.6),
                                                 width: 20,
                                                 height: 20,
                                                 child: const SizedBox(
@@ -420,30 +437,33 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    margin:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 0, 0, 2),
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 2),
                                                     child: Text(
                                                       'Gender+',
-                                                      style: GoogleFonts.getFont(
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 14,
                                                         height: 1.4,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
+                                                        color: const Color(
+                                                            0xFF0A0D14),
                                                       ),
                                                     ),
                                                   ),
                                                   Text(
-                                                    patientsLists.first.sex ?? '',
+                                                    patientsLists.first.sex ??
+                                                        '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 12,
                                                       height: 1.7,
-                                                      color:
-                                                          const Color(0xFF6B7280),
+                                                      color: const Color(
+                                                          0xFF6B7280),
                                                     ),
                                                   ),
                                                 ],
@@ -454,8 +474,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                       ),
                                     ),
                                   ),
-                                  if (patientsLists
-                                      .first.currentMedications!.isNotEmpty) ...[
+                                  if (patientsLists.first.currentMedications!
+                                      .isNotEmpty) ...[
                                     Container(
                                       decoration: const BoxDecoration(
                                         color: Color(0xFFFFFFFF),
@@ -487,205 +507,210 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 14,
                                                     height: 1.4,
-                                                    color: const Color(0xFF6B7280),
+                                                    color:
+                                                        const Color(0xFF6B7280),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                             Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: patientsLists
-                                                  .first.currentMedications!
-                                                  .map((medics) {
-                                                return Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 0, 8),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 1, 8, 1),
-                                                          child: Container(
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFFFFFFF),
-                                                            ),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: patientsLists
+                                                    .first.currentMedications!
+                                                    .map((medics) {
+                                                  return Container(
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 8),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .fromLTRB(
+                                                                    0, 1, 8, 1),
                                                             child: Container(
-                                                              width: 23,
-                                                              height: 23,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5),
-                                                              child:
-                                                                  const SizedBox(
-                                                                width: 20,
-                                                                height: 20,
-                                                                child: ImageView
-                                                                    .svg(
-                                                                  AppImages
-                                                                      .tick,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: Color(
+                                                                    0xFFFFFFFF),
+                                                              ),
+                                                              child: Container(
+                                                                width: 23,
+                                                                height: 23,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        1.5,
+                                                                        1.5,
+                                                                        1.5,
+                                                                        1.5),
+                                                                child:
+                                                                    const SizedBox(
+                                                                  width: 20,
+                                                                  height: 20,
+                                                                  child:
+                                                                      ImageView
+                                                                          .svg(
+                                                                    AppImages
+                                                                        .tick,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          medics.medicationName ??
-                                                              '',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 13,
-                                                            height: 1.5,
-                                                            color: const Color(
-                                                                0xFF131316),
+                                                          Text(
+                                                            medics.medicationName ??
+                                                                '',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.5,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              }).toList()),
-                                            
+                                                  );
+                                                }).toList()),
                                           ],
                                         ),
                                       ),
                                     ),
                                   ],
-                                if (patientsLists
-                                      .first.healthConditions!.isNotEmpty)  Container(
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFFFFFFFF),
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Color(0xFFE5E7EB),
-                                          width: 1,
+                                  if (patientsLists
+                                      .first.healthConditions!.isNotEmpty)
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFFFFFFFF),
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Color(0xFFE5E7EB),
+                                            width: 1,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    child: Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 16, 0, 15),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 8),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                'Current Health Conditions',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color: const Color(0xFF6B7280),
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            16, 16, 0, 15),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 0, 0, 8),
+                                              child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  'Current Health Conditions',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    height: 1.4,
+                                                    color:
+                                                        const Color(0xFF6B7280),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: patientsLists
-                                                  .first.healthConditions!
-                                                  .map((health) {
-                                                return Container(
-                                                  margin:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 0, 8),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 1, 8, 1),
-                                                          child: Container(
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFFFFFFF),
-                                                            ),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: patientsLists
+                                                    .first.healthConditions!
+                                                    .map((health) {
+                                                  return Container(
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 8),
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .fromLTRB(
+                                                                    0, 1, 8, 1),
                                                             child: Container(
-                                                              width: 23,
-                                                              height: 23,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5),
-                                                              child:
-                                                                  const SizedBox(
-                                                                width: 20,
-                                                                height: 20,
-                                                                child: ImageView
-                                                                    .svg(
-                                                                  AppImages
-                                                                      .tick,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: Color(
+                                                                    0xFFFFFFFF),
+                                                              ),
+                                                              child: Container(
+                                                                width: 23,
+                                                                height: 23,
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        1.5,
+                                                                        1.5,
+                                                                        1.5,
+                                                                        1.5),
+                                                                child:
+                                                                    const SizedBox(
+                                                                  width: 20,
+                                                                  height: 20,
+                                                                  child:
+                                                                      ImageView
+                                                                          .svg(
+                                                                    AppImages
+                                                                        .tick,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          health.healthConditionName ??
-                                                              '',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 13,
-                                                            height: 1.5,
-                                                            color: const Color(
-                                                                0xFF131316),
+                                                          Text(
+                                                            health.healthConditionName ??
+                                                                '',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.5,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              }).toList()),
-                                        ],
+                                                  );
+                                                }).toList()),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
                                   Container(
                                     decoration: const BoxDecoration(
                                       color: Color(0xFFFFFFFF),
@@ -697,10 +722,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                       ),
                                     ),
                                     child: Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 16, 0, 15),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 16, 0, 15),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -716,7 +742,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 14,
                                                   height: 1.4,
-                                                  color: const Color(0xFF6B7280),
+                                                  color:
+                                                      const Color(0xFF6B7280),
                                                 ),
                                               ),
                                             ),
@@ -734,15 +761,34 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 13,
                                                     height: 1.5,
-                                                    color: const Color(0xFF131316),
+                                                    color:
+                                                        const Color(0xFF131316),
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text:
-                                                          'May 18, 2024, 10:00 AM',
-                                                      style: GoogleFonts.getFont(
+                                                      text: (patientsLists.first
+                                                                      .nextAppointmentDate ==
+                                                                  'null' ||
+                                                              patientsLists
+                                                                      .first
+                                                                      .nextAppointmentDate ==
+                                                                  null ||
+                                                              patientsLists
+                                                                  .first
+                                                                  .nextAppointmentDate
+                                                                  .toString()
+                                                                  .isEmpty)
+                                                          ? 'none'
+                                                          : formatDateTime(
+                                                              patientsLists
+                                                                  .first
+                                                                  .nextAppointmentDate
+                                                                  .toString()),
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 13,
                                                         height: 1.3,
                                                       ),
@@ -765,15 +811,34 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 13,
                                                     height: 1.5,
-                                                    color: const Color(0xFF131316),
+                                                    color:
+                                                        const Color(0xFF131316),
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text:
-                                                          'April 15, 2024, 11:00 AM',
-                                                      style: GoogleFonts.getFont(
+                                                      text: (patientsLists.first
+                                                                      .lastAppointmentDate ==
+                                                                  'null' ||
+                                                              patientsLists
+                                                                      .first
+                                                                      .lastAppointmentDate ==
+                                                                  null ||
+                                                              patientsLists
+                                                                  .first
+                                                                  .lastAppointmentDate
+                                                                  .toString()
+                                                                  .isEmpty)
+                                                          ? 'none'
+                                                          : formatDateTime(
+                                                              patientsLists
+                                                                  .first
+                                                                  .lastAppointmentDate
+                                                                  .toString()),
+                                                      style:
+                                                          GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight: FontWeight.w500,
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                         fontSize: 13,
                                                         height: 1.3,
                                                       ),
@@ -788,31 +853,46 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 0, 0, 0, 8),
                                             child: Align(
                                               alignment: Alignment.topLeft,
-                                              child: Container(
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    text: 'Upcoming Appointments: ',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: 13,
-                                                      height: 1.5,
-                                                      color:
-                                                          const Color(0xFF131316),
-                                                    ),
-                                                    children: [
-                                                      TextSpan(
-                                                        text: '2',
-                                                        style: GoogleFonts.getFont(
-                                                          'Inter',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 13,
-                                                          height: 1.3,
-                                                        ),
-                                                      ),
-                                                    ],
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  text:
+                                                      'Upcoming Appointments: ',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 13,
+                                                    height: 1.5,
+                                                    color:
+                                                        const Color(0xFF131316),
                                                   ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: (patientsLists.first
+                                                                      .upcomingAppointmentsCount ==
+                                                                  'null' ||
+                                                              patientsLists
+                                                                      .first
+                                                                      .upcomingAppointmentsCount ==
+                                                                  null ||
+                                                              patientsLists
+                                                                  .first
+                                                                  .upcomingAppointmentsCount
+                                                                  .toString()
+                                                                  .isEmpty)
+                                                          ? '0'
+                                                          : patientsLists
+                                                                  .first
+                                                                  .upcomingAppointmentsCount.toString(),
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 13,
+                                                        height: 1.3,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -821,20 +901,23 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                             alignment: Alignment.topLeft,
                                             child: RichText(
                                               text: TextSpan(
-                                                text: 'Number of Consultations: ',
+                                                text:
+                                                    'Number of Consultations: ',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 13,
                                                   height: 1.5,
-                                                  color: const Color(0xFF131316),
+                                                  color:
+                                                      const Color(0xFF131316),
                                                 ),
                                                 children: [
                                                   TextSpan(
-                                                    text: '5',
+                                                    text: '0',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 13,
                                                       height: 1.3,
                                                     ),
@@ -912,15 +995,17 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                     ),
                   ),
                 ),
-                 if (state is PatientsDetailsLoading)
-            Container(
-              color: Colors.black.withOpacity(0.8),
-              child:   Center(
-                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
-              ),
-            ),
-            ],
-          );
+                if (state is PatientsDetailsLoading)
+                  Container(
+                    color: Colors.black.withOpacity(0.8),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.indicatorColor,
+                      ),
+                    ),
+                  ),
+              ],
+            );
     });
   }
 
@@ -941,8 +1026,14 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
 
       return age.toString();
     } catch (e) {
-      // Handle parsing error
       return 'Invalid date format';
     }
+  }
+
+  String formatDateTime(String dateTimeString) {
+    final DateTime dateTime = DateTime.parse(dateTimeString);
+    final DateFormat formatter = DateFormat('MMMM d, yyyy, h:mm a');
+
+    return formatter.format(dateTime.toLocal());
   }
 }

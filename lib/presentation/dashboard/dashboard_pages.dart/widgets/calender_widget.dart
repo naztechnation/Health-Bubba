@@ -73,7 +73,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
             onDaySelected: (selectedDay, focusedDay) {
               calendarProvider.setSelectedDate(selectedDay);
-              print(calendarProvider.selectedDay);
+              
             },
             onPageChanged: (focusedDay) {
               calendarProvider.setSelectedDate(focusedDay);

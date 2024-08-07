@@ -7,6 +7,8 @@ import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
+import 'package:healthbubba/widgets/modals.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../blocs/users/users.dart';
@@ -17,9 +19,9 @@ import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/custom_toast.dart';
+import '../../../../widgets/decision_widgets.dart';
 import '../../../../widgets/error_page.dart';
-import '../../../../widgets/image_view.dart';
-import '../../../../widgets/loading_screen.dart';
+import '../../../../widgets/image_view.dart'; 
 import '../../../../widgets/text_edit_view.dart';
 import '../widgets/calender_widget.dart';
 
@@ -75,7 +77,21 @@ class _BookAppointentState extends State<BookAppointent> {
   @override
   void initState() {
     _userCubit = context.read<UserCubit>();
+
+    _handleDaySelected('9:00 AM');
     super.initState();
+  }
+
+  List<String> generateTimeSlots() {
+    List<String> timeSlots = [];
+    for (int hour = 0; hour < 24; hour++) {
+      String suffix = hour < 12 ? 'AM' : 'PM';
+      String formattedHour24 = hour < 10 ? '0$hour' : '$hour';
+
+      timeSlots.add('$formattedHour24:00 $suffix');
+      timeSlots.add('$formattedHour24:30 $suffix');
+    }
+    return timeSlots;
   }
 
   @override
@@ -137,9 +153,10 @@ class _BookAppointentState extends State<BookAppointent> {
               );
             });
       }
-      return (state is PatientDetailsLoading)
-          ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
-          : Scaffold(
+      return Stack(
+        children: [
+          Scaffold(
+            body: Scaffold(
               appBar: AppBar(
                 title: Center(
                   child: Text(
@@ -207,8 +224,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                       vertical: 10, horizontal: 15),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -249,10 +265,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                                       color: const Color(
                                                           0xFFE8E8E8)),
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color:
-                                                      const Color(0xFFFFFFFF),
+                                                      BorderRadius.circular(100),
+                                                  color: const Color(0xFFFFFFFF),
                                                   boxShadow: const [
                                                     BoxShadow(
                                                       color: Color(0xFFF2F2F2),
@@ -269,8 +283,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
                                                       Container(
                                                         margin: const EdgeInsets
@@ -287,8 +300,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
+                                                                  FontWeight.w400,
                                                               fontSize: 14,
                                                               color: const Color(
                                                                   0xFF111827),
@@ -297,12 +309,10 @@ class _BookAppointentState extends State<BookAppointent> {
                                                         }),
                                                       ),
                                                       const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 5.0),
+                                                        padding: EdgeInsets.only(
+                                                            top: 5.0),
                                                         child: Icon(
-                                                          Icons
-                                                              .arrow_forward_ios,
+                                                          Icons.arrow_forward_ios,
                                                           size: 13,
                                                         ),
                                                       ),
@@ -336,12 +346,11 @@ class _BookAppointentState extends State<BookAppointent> {
                                   ),
                                 ),
                                 child: Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      16, 16, 25.8, 15),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 16, 25.8, 15),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -361,27 +370,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                         ),
                                       ),
                                       ChoiceSelector(
-                                        items: const [
-                                          "4:26 PM",
-                                          "5:00 PM",
-                                          "9:30 AM",
-                                          "10:30 AM",
-                                          "11:00 AM",
-                                          "11:30 AM",
-                                          "12:00 PM",
-                                          "8:00 AM",
-                                          "8:30 AM",
-                                          "9:30 AM",
-                                          "10:30 AM",
-                                          "11:00 AM",
-                                          "11:30 AM",
-                                          "8:00 AM",
-                                          "8:30 AM",
-                                          "9:30 AM",
-                                          "10:30 AM",
-                                          "11:00 AM",
-                                          "11:30 AM",
-                                        ],
+                                        items: generateTimeSlots(),
                                         onSelected: _handleDaySelected,
                                       ),
                                       const SizedBox(
@@ -394,13 +383,13 @@ class _BookAppointentState extends State<BookAppointent> {
                             ],
                           ),
                         ),
-                        GestureDetector(
-                            onTap: () {
-                              Provider.of<BookAppointmentViewModel>(context,
-                                      listen: false)
-                                  .loadImage(context, () {});
-                            },
-                            child: const Text('Upload Image')),
+                        // GestureDetector(
+                        //     onTap: () {
+                        //       Provider.of<BookAppointmentViewModel>(context,
+                        //               listen: false)
+                        //           .loadImage(context, () {});
+                        //     },
+                        //     child: const Text('Upload Image')),
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 15),
                           child: Column(
@@ -480,39 +469,39 @@ class _BookAppointentState extends State<BookAppointent> {
                     child: SizedBox(
                       height: 45,
                       child: ButtonView(
-                          processing: state is CreateAppointmentLoading,
                           onPressed: () {
-                            if (Provider.of<BookAppointmentViewModel>(context,
-                                        listen: false)
-                                    .imageUrls
-                                    .isNotEmpty &&
-                                _selectedDay.isNotEmpty &&
-                                Provider.of<BookAppointmentViewModel>(context,
-                                            listen: false)
-                                        .selectedDate
-                                        .toString() !=
-                                    null) {
-                              _userCubit.createAppointment(
-                                patientsId: widget.patientsId,
-                                date: Provider.of<BookAppointmentViewModel>(
-                                        context,
-                                        listen: false)
-                                    .selectedDate
-                                    .toString(),
-                                time: _selectedDay,
-                                complaint: _complaintController.text.trim(),
-                                images: Provider.of<BookAppointmentViewModel>(
-                                        context,
-                                        listen: false)
-                                    .imageUrls,
-                              );
-                            } else {
-                              ToastService().showToast(context,
-                                  leadingIcon:
-                                      const ImageView.svg(AppImages.error),
-                                  title: 'Error!!!',
-                                  subtitle: 'select date, time and image');
-                            }
+                            Modals.showDialogModal(
+                              context,
+                              page: destructiveActions(
+                                  context: context,
+                                  message:
+                                      'Are you sure you want to complete this action?',
+                                  primaryText: 'Yes, continue',
+                                  secondaryText: 'No, go back',
+                                  primaryAction: () async {
+                                    Navigator.pop(context);
+                                    _userCubit.createAppointment(
+                                      patientsId: widget.patientsId,
+                                      date: getFormattedDate(
+                                          Provider.of<BookAppointmentViewModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedDate ??
+                                              DateTime.now()),
+                                      time: _selectedDay,
+                                      complaint: (_complaintController.text.isNotEmpty) ? _complaintController.text.trim() : 'none',
+                                      images:
+                                          Provider.of<BookAppointmentViewModel>(
+                                                  context,
+                                                  listen: false)
+                                              .imageUrls,
+                                    );
+                                  },
+                                  primaryBgColor: const Color.fromARGB(255, 35, 155, 51),
+                                  secondaryAction: () {
+                                    Navigator.pop(context);
+                                  }),
+                            );
                           },
                           borderRadius: 100,
                           color: AppColors.lightSecondary,
@@ -529,7 +518,20 @@ class _BookAppointentState extends State<BookAppointent> {
                   ),
                 ),
               ),
-            );
+            ),
+          ),
+          if (state is CreateAppointmentLoading ||
+              state is PatientDetailsLoading)
+            Container(
+              color: AppColors.indicatorBgColor,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.indicatorColor,
+                ),
+              ),
+            ),
+        ],
+      );
     });
   }
 
@@ -633,5 +635,12 @@ class _BookAppointentState extends State<BookAppointent> {
         );
       },
     );
+  }
+
+  String getFormattedDate(DateTime date) {
+    DateTime now = date;
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    return formattedDate;
   }
 }

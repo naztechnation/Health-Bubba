@@ -153,9 +153,11 @@ class UserRepositoryImpl implements UserRepository {
       required String time,
       required String complaint,
       required List<File> images}) async {
-    final map = await Requests().post(AppStrings.createAppointmentUrl, files: {
-      'files': images,
-    }, body: {
+    final map = await Requests().post(AppStrings.createAppointmentUrl, 
+    // files: {
+    //   'files': images,
+    // },
+     body: {
       'patient_id': patientsId,
       'date': date,
       'time': time,
@@ -223,6 +225,16 @@ class UserRepositoryImpl implements UserRepository {
         await Requests().post(AppStrings.cancelAppointmentUrl, body: {
       'id': appointmentId,
       'reason': reason,
+       
+    });
+    return CancelAppointment.fromJson(map);
+  }
+  @override
+  Future<CancelAppointment> completeAppointment({required String appointmentId }) async {
+    final map =
+        await Requests().post(AppStrings.completeAppointmentUrl, body: {
+      'id': appointmentId,
+       
        
     });
     return CancelAppointment.fromJson(map);

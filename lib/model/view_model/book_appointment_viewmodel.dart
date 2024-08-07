@@ -24,7 +24,7 @@ class BookAppointmentViewModel extends BaseViewModel {
   ImagePicker picker = ImagePicker();
   
   BookAppointmentViewModel() {
-    _selectedDate = null;
+    _selectedDate = DateTime.now();
     _formattedMonth = _formatMonth(DateTime.now());
     _formattedYear = _formatYear(DateTime.now()); 
      _selectedDay = null;

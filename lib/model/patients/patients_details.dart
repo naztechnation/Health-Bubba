@@ -80,6 +80,9 @@ class Patients {
   int? isAdmin;
   List<CurrentMedications>? currentMedications;
   List<HealthConditions>? healthConditions;
+  String? lastAppointmentDate;
+  String? nextAppointmentDate;
+  int? upcomingAppointmentsCount;
 
   Patients(
       {this.id,
@@ -108,7 +111,11 @@ class Patients {
       this.type,
       this.isAdmin,
       this.currentMedications,
-      this.healthConditions});
+      this.healthConditions,
+      this.lastAppointmentDate,
+      this.nextAppointmentDate,
+      this.upcomingAppointmentsCount
+      });
 
   Patients.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -148,6 +155,9 @@ class Patients {
         healthConditions!.add(HealthConditions.fromJson(v));
       });
     }
+    lastAppointmentDate = json['last_appointment_date'];
+    nextAppointmentDate = json['next_appointment_date'];
+    upcomingAppointmentsCount = json['upcoming_appointments_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -185,6 +195,9 @@ class Patients {
       data['health_conditions'] =
           healthConditions!.map((v) => v.toJson()).toList();
     }
+     data['last_appointment_date'] = lastAppointmentDate;
+    data['next_appointment_date'] = nextAppointmentDate;
+    data['upcoming_appointments_count'] = upcomingAppointmentsCount;
     return data;
   }
 }
