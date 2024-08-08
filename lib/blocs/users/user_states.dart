@@ -290,6 +290,18 @@ class PatientsDetailsLoaded extends UserStates {
   List<Object> get props => [patientDetails];
 }
 
+class DeactivateAccountLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class DeactivateAccountLoaded extends UserStates {
+  final UserData userAccount;
+  const DeactivateAccountLoaded(this.userAccount);
+  @override
+  List<Object> get props => [userAccount];
+}
+
 class UserNetworkErr extends UserStates {
   final String? message;
   const UserNetworkErr(this.message);

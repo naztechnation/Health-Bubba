@@ -37,7 +37,7 @@ class VideoCall extends StatelessWidget {
         userRepository: UserRepositoryImpl(),
         viewModel: Provider.of<UserViewModel>(context, listen: false),
       ),
-      child: VideoCall(
+      child: VideoCallScreen(
         appointmentId: appointmentId,
         patientName: patientName,
         patientId: patientId,
@@ -125,127 +125,126 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: onBackPress,
-      child: BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
-        if (state is CancelAppointmentLoaded) {
-          if (state.cancelAppointment.ok ?? false) {
-            ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.successIcon),
-                title: AppStrings.successTitle,
-                subtitle: state.cancelAppointment.message?.message ?? '');
+        onWillPop: onBackPress,
+        child: SafeArea(
+          child:
+              BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
+            if (state is CancelAppointmentLoaded) {
+              if (state.cancelAppointment.ok ?? false) {
+                ToastService().showToast(context,
+                    leadingIcon: const ImageView.svg(AppImages.successIcon),
+                    title: AppStrings.successTitle,
+                    subtitle: state.cancelAppointment.message?.message ?? '');
+                onBackPress();
+              } else {
+                ToastService().showToast(context,
+                    leadingIcon: const ImageView.svg(AppImages.error),
+                    title: 'Error!!!',
+                    subtitle: state.cancelAppointment.message?.message ?? '');
+              }
+            } else if (state is UserApiErr || state is UserNetworkErr) {
+              ToastService().showToast(context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: 'Error!!!',
+                  subtitle: "Network Error");
+            }
+          }, builder: (context, state) {
+            if (state is UserApiErr) {
+              return ErrorPage(
+                  statusCode: state.message ?? '',
+                  onTap: () {
+                    _userCubit.completeAppointment(
+                      appointmentId: widget.appointmentId,
+                    );
+                  });
+            } else if (state is UserNetworkErr) {
+              return ErrorPage(
+                  statusCode: state.message ?? '',
+                  onTap: () {
+                    _userCubit.completeAppointment(
+                      appointmentId: widget.appointmentId,
+                    );
+                  });
+            }
+            return Stack(
+              children: [
+                Scaffold(
+                  body: Stack(
+                    children: [
+                      AgoraVideoViewer(
+                        client: client,
+                        layoutType: Layout.floating,
+                        enableHostControls: true,
+                      ),
+                      AgoraVideoButtons(
+                        client: client,
+                        addScreenSharing: false,
+                        onDisconnect: () {
+                          Modals.showDialogModal(
+                            context,
+                            page: destructiveActions(
+                                context: context,
+                                message:
+                                    'Are you sure you want to end this session? As this would mark this appointmennt as completed',
+                                primaryText: 'Make as completed.',
+                                secondaryText: 'No, end call.',
+                                primaryAction: () async {
+                                  Navigator.pop(context);
 
-            onBackPress();
-          } else {
-            ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.error),
-                title: 'Error!!!',
-                subtitle: state.cancelAppointment.message?.message ?? '');
-          }
-        } else if (state is UserApiErr || state is UserNetworkErr) {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: "Network Error");
-        }
-      }, builder: (context, state) {
-        if (state is UserApiErr) {
-          return ErrorPage(
-              statusCode: state.message ?? '',
-              onTap: () {
-                _userCubit.completeAppointment(
-                  appointmentId: widget.appointmentId,
-                );
-              });
-        } else if (state is UserNetworkErr) {
-          return ErrorPage(
-              statusCode: state.message ?? '',
-              onTap: () {
-                _userCubit.completeAppointment(
-                  appointmentId: widget.appointmentId,
-                );
-              });
-        }
-        return Stack(
-          children: [
-            Scaffold(
-              body: SafeArea(
-                child: Stack(
-                  children: [
-                    AgoraVideoViewer(
-                      client: client,
-                      layoutType: Layout.floating,
-                      enableHostControls: true,
-                    ),
-                    AgoraVideoButtons(
-                      client: client,
-                      addScreenSharing: false,
-                      onDisconnect: () {
-                        Modals.showDialogModal(
-                          context,
-                          page: destructiveActions(
-                              context: context,
-                              message:
-                                  'Are you sure you want to end this session? As this would mark this appointmennt as completed',
-                              primaryText: 'Make as completed.',
-                              secondaryText: 'No, end call.',
-                              primaryAction: () async {
-                                Navigator.pop(context);
-
-                                _userCubit.completeAppointment(
-                                  appointmentId: widget.appointmentId,
-                                );
-                              },
-                              primaryBgColor:
-                                  const Color.fromARGB(255, 35, 155, 51),
-                              secondaryAction: () {
-                                Navigator.pop(context);
-                                onBackPress();
-                              }),
-                        );
-                      },
-                    ),
-                    Positioned(
-                        top: 100,
-                        left: 30,
-                        right: 30,
-                        child: Align(
-                            child: Column(
-                          children: [
-                            const Text(
-                              'Ringing...',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              widget.patientName,
-                              style: const TextStyle(
+                                  _userCubit.completeAppointment(
+                                    appointmentId: widget.appointmentId,
+                                  );
+                                },
+                                primaryBgColor:
+                                    const Color.fromARGB(255, 35, 155, 51),
+                                secondaryAction: () {
+                                  Navigator.pop(context);
+                                  onBackPress();
+                                }),
+                          );
+                        },
+                      ),
+                      Positioned(
+                          top: 100,
+                          left: 30,
+                          right: 30,
+                          child: Align(
+                              child: Column(
+                            children: [
+                              const Text(
+                                'Ringing...',
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ))),
-                  ],
-                ),
-              ),
-            ),
-            if (state is CancelAppointmentLoading)
-              Container(
-                color: AppColors.indicatorBgColor,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.indicatorColor,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                widget.patientName,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ))),
+                    ],
                   ),
                 ),
-              ),
-          ],
-        );
-      }),
-    );
+                if (state is CancelAppointmentLoading)
+                  Container(
+                    color: AppColors.indicatorBgColor,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.indicatorColor,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          }),
+        ));
   }
 }

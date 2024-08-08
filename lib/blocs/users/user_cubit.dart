@@ -540,4 +540,25 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+  Future<void> deactivateUserAccount({required String reason, required String details}) async {
+    try {
+      emit(DeactivateAccountLoading());
+
+      final patient = await userRepository.deactivateAccount(reason: reason,  details: details);
+      emit(DeactivateAccountLoaded(patient));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

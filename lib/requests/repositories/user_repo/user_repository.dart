@@ -32,6 +32,10 @@ abstract class UserRepository {
   });
 
   Future<UserData> getUserInfo();
+  Future<UserData> deactivateAccount({
+    required String reason,
+    required String details,
+  });
 
   Future<PatientsLists> getConsultaionStatus({required String url});
 

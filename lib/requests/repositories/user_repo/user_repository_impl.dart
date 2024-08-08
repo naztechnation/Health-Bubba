@@ -239,4 +239,16 @@ class UserRepositoryImpl implements UserRepository {
     });
     return CancelAppointment.fromJson(map);
   }
+  
+  @override
+  Future<UserData> deactivateAccount({required String reason, required String details}) async {
+    final map =
+        await Requests().post(AppStrings.deactivateAccountUrl, body: {
+      'details': details,
+      'reason': reason,
+       
+       
+    });
+    return UserData.fromJson(map);
+  }
 }
