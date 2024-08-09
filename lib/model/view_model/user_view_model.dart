@@ -38,11 +38,11 @@ Future<void> setAppointmentData(
       _appointments.where((upcoming) => upcoming.status == 2).toList() ?? [];
 
 List<AppointmentListsData> get appointmentsWithinOneHour {
-    final DateTime now = DateTime.now();
+    final DateTime now = DateTime.now().add(const Duration(hours: 1));
     return upcomingAppointments.where((appointment) {
       if (appointment.date == null) return false;
       try {
-        final DateTime appointmentDateTime = DateTime.parse(appointment.date!);
+        final DateTime appointmentDateTime = DateTime.parse(replaceTimeInDateTime(appointment.date!, appointment.time!)   );
         final Duration difference = appointmentDateTime.difference(now);
         return difference.inMinutes <= 60 && difference.inMinutes >= 0;
       } catch (e) {
@@ -51,5 +51,20 @@ List<AppointmentListsData> get appointmentsWithinOneHour {
     }).toList();
   }
 
+String replaceTimeInDateTime(String dateTimeString, String newTime) {
+   
+  if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
+    return dateTimeString;  
+  }
 
+  List<String> parts = dateTimeString.split('T');
+  if (parts.length != 2) {
+  }
+  
+  String datePart = parts[0];
+
+  String newDateTimeString = '${datePart}T${newTime}Z';
+
+  return newDateTimeString;
+}
 }

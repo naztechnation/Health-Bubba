@@ -62,9 +62,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColors.lightPrimary,
-        body: BlocProvider<AccountCubit>(
+    return BlocProvider<AccountCubit>(
             lazy: false,
             create: (_) => AccountCubit(
                 accountRepository: AccountRepositoryImpl(),
@@ -137,203 +135,217 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     }
                   }
                 },
-                builder: (context, state) => Container(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.sizeOf(context).height * 0.08,
-                            ),
-                            const Align(
-                              child: ImageView.svg(
-                                AppImages.appLogo1,
-                                fit: BoxFit.fitWidth,
-                                height: 25.47,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(0, 0, 0, 24),
-                                  child: Column(
+                builder: (context, state) => Stack(
+                  children: [
+                    Scaffold(
+                              backgroundColor: AppColors.lightPrimary,
+                              body:  Container(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.sizeOf(context).height * 0.08,
+                                  ),
+                                  const Align(
+                                    child: ImageView.svg(
+                                      AppImages.appLogo1,
+                                      fit: BoxFit.fitWidth,
+                                      height: 25.47,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0.4, 32),
+                                        margin:
+                                            const EdgeInsets.fromLTRB(0, 0, 0, 24),
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
                                             Container(
                                               margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 9, 8),
-                                              child: Text(
-                                                'Enter Verification Code',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 20,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF131316),
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'We’ve sent a code to',
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
-                                                    height: 1.6,
-                                                    color:
-                                                        const Color(0xFF6B7280),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 2,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    widget.email,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    textAlign: TextAlign.center,
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 14,
-                                                      height: 1.6,
-                                                      color: AppColors
-                                                          .lightSecondary,
+                                                  0, 0, 0.4, 32),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 0, 9, 8),
+                                                    child: Text(
+                                                      'Enter Verification Code',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 20,
+                                                        height: 1.4,
+                                                        color:
+                                                            const Color(0xFF131316),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 40,
-                                            ),
-                                            Form(
-                                              key: _formKey,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 20.0),
-                                                child: PinCodeView(
-                                                  length: 4,
-                                                  controller: _pinController,
-                                                  activeState:
-                                                      isVerificationFailed,
-                                                  onChanged: (_) {
-                                                    isVerificationFailed =
-                                                        false;
-
-                                                    setState(() {});
-                                                  },
-                                                  onCompleted: (_) {
-                                                    _formKey.currentState!
-                                                        .validate();
-                                                  },
-                                                  validator: (value) {
-                                                    return Validator.validate(
-                                                        value, 'Otp');
-                                                  },
-                                                ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        'We’ve sent a code to',
+                                                        textAlign: TextAlign.center,
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 14,
+                                                          height: 1.6,
+                                                          color:
+                                                              const Color(0xFF6B7280),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 2,
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          widget.email,
+                                                          maxLines: 1,
+                                                          overflow:
+                                                              TextOverflow.ellipsis,
+                                                          textAlign: TextAlign.center,
+                                                          style: GoogleFonts.getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontSize: 14,
+                                                            height: 1.6,
+                                                            color: AppColors
+                                                                .lightSecondary,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 40,
+                                                  ),
+                                                  Form(
+                                                    key: _formKey,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                              horizontal: 20.0),
+                                                      child: PinCodeView(
+                                                        length: 4,
+                                                        controller: _pinController,
+                                                        activeState:
+                                                            isVerificationFailed,
+                                                        onChanged: (_) {
+                                                          isVerificationFailed =
+                                                              false;
+                          
+                                                          setState(() {});
+                                                        },
+                                                        onCompleted: (_) {
+                                                          _formKey.currentState!
+                                                              .validate();
+                                                        },
+                                                        validator: (value) {
+                                                          return Validator.validate(
+                                                              value, 'Otp');
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  if (!isCountdownComplete)
+                                                    Text(
+                                                      "Resend code in $countdown secs",
+                                                    ),
+                                                ],
                                               ),
                                             ),
-                                            if (!isCountdownComplete)
-                                              Text(
-                                                "Resend code in $countdown secs",
-                                              ),
+                                            ButtonView(
+                                                
+                                                onPressed: () {
+                                                  _verifyCode(context);
+                                                },
+                                                borderRadius: 100,
+                                                color: AppColors.lightSecondary,
+                                                child: const Text(
+                                                  'Continue',
+                                                  style: TextStyle(
+                                                      color: AppColors.lightPrimary,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w500),
+                                                )),
                                           ],
                                         ),
                                       ),
-                                      ButtonView(
-                                          processing: state is VerifyOtpLoading,
-                                          onPressed: () {
-                                            _verifyCode(context);
-                                          },
-                                          borderRadius: 100,
-                                          color: AppColors.lightSecondary,
-                                          child: const Text(
-                                            'Continue',
-                                            style: TextStyle(
-                                                color: AppColors.lightPrimary,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500),
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                                if (isCountdownComplete)
-                                  Opacity(
-                                    opacity: 0.8,
-                                    child: Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0.5, 0),
-                                      child: Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 8.7, 0),
-                                        child: Text(
-                                          'Experiencing issues receiving the code?',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF6B7280),
+                                      if (isCountdownComplete)
+                                        Opacity(
+                                          opacity: 0.8,
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 0, 0.5, 0),
+                                            child: Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 0, 8.7, 0),
+                                              child: Text(
+                                                'Experiencing issues receiving the code?',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color: const Color(0xFF6B7280),
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                      const SizedBox(
+                                        height: 10,
                                       ),
-                                    ),
+                                      if (isCountdownComplete)
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Text(
+                                            'Resend Code',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              decoration: TextDecoration.underline,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                              decorationColor:
+                                                  const Color(0xFF131316),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                if (isCountdownComplete)
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Text(
-                                      'Resend Code',
-                                      style: GoogleFonts.getFont(
-                                        'Inter',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        decoration: TextDecoration.underline,
-                                        height: 1.4,
-                                        color: const Color(0xFF131316),
-                                        decorationColor:
-                                            const Color(0xFF131316),
-                                      ),
-                                    ),
-                                  ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ))));
+                          )),
+                          if (state is VerifyOtpLoading )
+            Container(
+              color: AppColors.indicatorBgColor,
+              child:   Center(
+                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
+              ),
+            ),
+                  ],
+                ),
+    ));
   }
 
   _verifyCode(

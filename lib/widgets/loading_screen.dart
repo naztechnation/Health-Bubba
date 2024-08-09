@@ -12,7 +12,7 @@ class LoadersPage extends StatelessWidget {
                   Container(color: Colors.white,height: MediaQuery.sizeOf(context).height,width: MediaQuery.sizeOf(context).height,)
 ,
         Container(
-                    color: AppColors.indicatorBgColor,
+                    color: const Color.fromARGB(31, 71, 67, 67),
                     child:   Center(
                       child: CircularProgressIndicator(color: AppColors.indicatorColor),
                     ),

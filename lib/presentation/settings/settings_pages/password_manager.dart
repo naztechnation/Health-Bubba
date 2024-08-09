@@ -33,33 +33,7 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text(
-            'Change Password',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Padding(
-              padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
-              child: SizedBox(
-                width: 15,
-                height: 15,
-                child: ImageView.svg(
-                  AppImages.backBtn,
-                  height: 15,
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: BlocProvider<AccountCubit>(
+    return BlocProvider<AccountCubit>(
           lazy: false,
           create: (_) => AccountCubit(
               accountRepository: AccountRepositoryImpl(),
@@ -103,115 +77,146 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
                 }
               }
             },
-            builder: (context, state) => Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFFFFF),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
-                child: SingleChildScrollView(
-                  child: Form(
-                          key: _formKey,
-
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            builder: (context, state) => Stack(
+              children: [
+                Scaffold(
+                          backgroundColor: Colors.white,
+                          appBar: AppBar(
+                backgroundColor: Colors.white,
+                title: const Text(
+                  'Change Password',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                centerTitle: true,
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                    child: SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: ImageView.svg(
+                        AppImages.backBtn,
+                        height: 15,
+                      ),
+                    ),
+                  ),
+                ),
+                          ),
+                          body:  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFFFF),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
+                      child: SingleChildScrollView(
+                        child: Form(
+                                key: _formKey,
+                      
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Divider(
-                                color: Color(
-                                  0xFF40B93C,
-                                ),
-                              ),
                               Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 16),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 8),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                'Current Password',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF131316),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          TextEditView(
-                                            controller: _oldPasswordController,
-                                            borderColor: Colors.grey.shade200,
-                                            borderWidth: 0.5,
-                                            hintText: ' ',
-                                            validator: (value) {
-                                              return Validator.validate(
-                                                  value, 'Old password');
-                                            },
-                                          ),
-                                        ],
+                                    const Divider(
+                                      color: Color(
+                                        0xFF40B93C,
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 16),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 16, 16, 15),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 8),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                'New Password',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF131316),
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 8),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      'Current Password',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color:
+                                                            const Color(0xFF131316),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                TextEditView(
+                                                  controller: _oldPasswordController,
+                                                  borderColor: Colors.grey.shade200,
+                                                  borderWidth: 0.5,
+                                                  hintText: ' ',
+                                                  validator: (value) {
+                                                    return Validator.validate(
+                                                        value, 'Old password');
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          TextEditView(
-                                            controller: _newPasswordController,
-                                            borderColor: Colors.grey.shade200,
-                                            borderWidth: 0.5,
-                                            hintText: ' ',
-                                            validator: (value) {
-                                              return Validator.validate(
-                                                  value, 'New password');
-                                            },
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 8),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      'New Password',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color:
+                                                            const Color(0xFF131316),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextEditView(
+                                                  controller: _newPasswordController,
+                                                  borderColor: Colors.grey.shade200,
+                                                  borderWidth: 0.5,
+                                                  hintText: ' ',
+                                                  validator: (value) {
+                                                    return Validator.validate(
+                                                        value, 'New password');
+                                                  },
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -219,45 +224,53 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                                child: ButtonView(
+                                    
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        context.read<AccountCubit>().changePassword(
+                                              oldPassword:
+                                                  _oldPasswordController.text.trim(),
+                                              newPassword:
+                                                  _newPasswordController.text.trim(),
+                                            );
+                                      }
+                      
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    borderRadius: 100,
+                                    color: AppColors.lightSecondary,
+                                    child: const Text(
+                                      'Save changes',
+                                      style: TextStyle(
+                                          color: AppColors.lightPrimary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                              ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          child: ButtonView(
-                              processing: state is ChangePasswordProcessing,
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<AccountCubit>().changePassword(
-                                        oldPassword:
-                                            _oldPasswordController.text.trim(),
-                                        newPassword:
-                                            _newPasswordController.text.trim(),
-                                      );
-                                }
-
-                                FocusScope.of(context).unfocus();
-                              },
-                              borderRadius: 100,
-                              color: AppColors.lightSecondary,
-                              child: const Text(
-                                'Save changes',
-                                style: TextStyle(
-                                    color: AppColors.lightPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
+                if(state is ChangePasswordProcessing)...[
+                    Container(
+              color: AppColors.indicatorBgColor,
+              child:   Center(
+                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
               ),
             ),
-          ),
-        ));
+                ]
+              ],
+            ),
+    ),
+        );
   }
 }

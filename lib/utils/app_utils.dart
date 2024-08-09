@@ -94,39 +94,67 @@ static String getHumanReadableDate(String dateTimeString,) {
   }
 }
 
-static String getTimeDifference(String dateTimeString) {
-  final DateTime dateTime = DateTime.parse(dateTimeString);
-  final DateTime now = DateTime.now();
+String timeAgoSinceDate(String dateString) {
+  final DateTime inputDate = DateTime.parse(dateString);
+  final DateTime currentDate = DateTime.now();
+  final Duration diff = currentDate.difference(inputDate);
 
-  print('$now'+ 'yyyyyyyyyyyyyyy');
-  
-  final Duration difference = now.difference(dateTime);
-  
-  if (difference.isNegative) {
-    final Duration futureDifference = dateTime.difference(now);
-    return "${formatTimeDuration(futureDifference)} from now";
-  } else {
-    if (difference.inMinutes < 1) {
-      return "just now";
-    } else if (difference.inHours < 1) {
-      return "less than an hour";
+  if (diff.inDays >= 1) {
+    if (diff.inDays == 1) {
+      return 'Yesterday';
+    } else if (diff.inDays < 7) {
+      return '${diff.inDays} days ago';
+    } else if (diff.inDays < 30) {
+      return '${diff.inDays ~/ 7} weeks ago';
+    } else if (diff.inDays < 365) {
+      return '${diff.inDays ~/ 30} months ago';
     } else {
-      return "${formatTimeDuration(difference)} ago";
+      return '${diff.inDays ~/ 365} years ago';
     }
+  } else if (diff.inHours >= 1) {
+    return '${diff.inHours} hours ago';
+  } else if (diff.inMinutes >= 1) {
+    return '${diff.inMinutes} minutes ago';
+  } else {
+    return 'Just now';
   }
+}
+
+static String getTimeDifference(String dateTimeString) {
+   print(dateTimeString);
+   final DateTime dateTime = DateTime.parse(dateTimeString);
+   final DateTime now = DateTime.now().add(const Duration(hours: 1));
+
+   final Duration difference = now.difference(dateTime);
+
+   if (difference.isNegative) {
+       final Duration futureDifference = dateTime.difference(now);
+       return "${formatTimeDuration(futureDifference)} from now";
+   } else {
+       if (difference.inMinutes < 1) {
+           return "just now";
+       } else if (difference.inHours < 1) {
+           return "${difference.inMinutes} minutes ago";
+       } else {
+           return "${formatTimeDuration(difference)} ago";
+       }
+   }
 }
 
 static String formatTimeDuration(Duration duration) {
-  if (duration.inDays > 0) {
-    return "${duration.inDays} days";
-  } else if (duration.inHours > 0) {
-    return "${duration.inHours} hours";
-  } else if (duration.inMinutes > 0) {
-    return "${duration.inMinutes} minutes";
-  } else {
-    return "${duration.inSeconds} seconds";
-  }
+   if (duration.inDays > 0) {
+       int hours = duration.inHours % 24;
+       return "${duration.inDays} day${duration.inDays > 1 ? 's' : ''} and $hours hour${hours != 1 ? 's' : ''}";
+   } else if (duration.inHours > 0) {
+       int minutes = duration.inMinutes % 60;
+       return "${duration.inHours} hour${duration.inHours != 1 ? 's' : ''} and $minutes minute${minutes != 1 ? 's' : ''}";
+   } else if (duration.inMinutes > 0) {
+       return "${duration.inMinutes} minute${duration.inMinutes != 1 ? 's' : ''}";
+   } else {
+       return "${duration.inSeconds} second${duration.inSeconds != 1 ? 's' : ''}";
+   }
 }
+
 
 static bool isWithinFiveMinutes(String dateTimeString) {
   final DateTime dateTime = DateTime.parse(dateTimeString);

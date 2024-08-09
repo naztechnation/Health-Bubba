@@ -28,6 +28,7 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
 
     _searchController = TextEditingController();
+    _filterAppointment();
     _searchController.addListener(_filterAppointment);
   }
 
@@ -40,6 +41,12 @@ class _SearchPageState extends State<SearchPage> {
             .toLowerCase()
             .contains(query);
       }).toList();
+    });
+
+    Future.delayed(const Duration(seconds: 1),(){
+      setState(() {
+        
+      });
     });
   }
 

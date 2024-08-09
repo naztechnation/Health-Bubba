@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+ 
+import 'package:flutter/material.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
@@ -145,8 +144,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
         });
       });
 
-      print(formattedEndDate);
-      print(formattedStartDate);
+       
     }
   }
 
@@ -305,666 +303,191 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
               getUserData();
             });
       }
-      return (state is MedicationCategoryLoading ||
-              state is MedicationSubCategoryLoading ||
-              state is AdministeredRouteLoading)
-          ? LoadersPage(
-              length: MediaQuery.sizeOf(context).height.toInt(),
-            )
-          : Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Create New Medication',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                centerTitle: true,
-                leading: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
-                    child: SizedBox(
-                      width: 15,
-                      height: 15,
-                      child: ImageView.svg(
-                        AppImages.backBtn,
-                        height: 15,
+      return 
+            Stack(
+              children: [
+                Scaffold(
+                  appBar: AppBar(
+                    title: const Text(
+                      'Create New Medication',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    centerTitle: true,
+                    leading: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                        child: SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: ImageView.svg(
+                            AppImages.backBtn,
+                            height: 15,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-              body: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Divider(
-                                  color: Colors.grey.shade300,
-                                ),
-                                const SizedBox(
-                                  height: 0,
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Category',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TextEditView(
-                                              controller:
-                                                  medicationCategoryController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              readOnly: true,
-                                              hintText: 'Select',
-                                              onTap: () {
-                                                if (medCategories.isNotEmpty) {
-                                                  Modals.showDialogModal(
-                                                      context,
-                                                      page: categoryModalContent(
-                                                          context: context,
-                                                          controller:
-                                                              medicationCategoryController,
-                                                          item: medCategories));
-                                                } else {
-                                                  _userCubit
-                                                      .getMedicationCategory();
-                                                }
-                                              },
-                                              suffixIcon: const Padding(
-                                                padding: EdgeInsets.all(17.0),
-                                                child: ImageView.svg(
-                                                  AppImages.dropDown,
-                                                  scale: 0.8,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 8),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Medication name',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextEditView(
-                                        controller: medicationNameController,
-                                        borderColor: Colors.grey.shade200,
-                                        borderWidth: 0.5,
-                                        readOnly: true,
-                                        onTap: () {
-                                          if (medCategories.isEmpty ||
-                                              medications.isEmpty) {
-                                            ToastService().showToast(context,
-                                                leadingIcon:
-                                                    const ImageView.svg(
-                                                        AppImages.error),
-                                                title: 'Error!!!',
-                                                subtitle:
-                                                    "Select category first");
-                                          } else {
-                                            Modals.showDialogModal(context,
-                                                page: subCategoryModalContent(
-                                                    context: context,
-                                                    controller:
-                                                        medicationNameController,
-                                                    item: medications));
-                                          }
-                                        },
-                                        hintText: 'Select Medications',
-                                        suffixIcon: const Padding(
-                                          padding: EdgeInsets.all(17.0),
-                                          child: ImageView.svg(
-                                            AppImages.dropDown,
-                                            scale: 0.8,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Divider(
-                                        color: Colors.grey.shade300,
-                                        height: 0,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 8),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Medication For',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      if (patientId == null ||
-                                          patientId == '') ...[
-                                        TextEditView(
-                                          controller: TextEditingController(),
-                                          borderColor: Colors.grey.shade200,
-                                          borderWidth: 0.5,
-                                          hintText: 'Select Patient',
-                                          readOnly: true,
-                                          onTap: () async {
-                                            final result = await Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SelectPatient()),
-                                            );
-
-                                            if (result != null) {
-                                              setState(() {
-                                                patientId = result['patientId'];
-                                                patientImage =
-                                                    result['patientImage'];
-                                                patientName =
-                                                    result['patientName'];
-                                              });
-                                            }
-                                          },
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 1.0),
-                                            child: Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 16,
-                                              color:
-                                                  Colors.black.withOpacity(0.8),
-                                            ),
-                                          ),
-                                        ),
-                                      ] else ...[
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            color: const Color(0xFFFFFFFF),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Color(0x0A000000),
-                                                offset: Offset(0, 1),
-                                                blurRadius: 1.5,
-                                              ),
-                                              BoxShadow(
-                                                color: Color(0x0D2F3037),
-                                                offset: Offset(0, 24),
-                                                blurRadius: 34,
-                                              ),
-                                              BoxShadow(
-                                                color: Color(0x0A222A35),
-                                                offset: Offset(0, 4),
-                                                blurRadius: 3,
-                                              ),
-                                              BoxShadow(
-                                                color: Color(0x0D000000),
-                                                offset: Offset(0, 1),
-                                                blurRadius: 0.5,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                12, 4, 14, 4),
-                                            child: Row(
+                  body: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFFFF),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Divider(
+                                      color: Colors.grey.shade300,
+                                    ),
+                                    const SizedBox(
+                                      height: 0,
+                                    ),
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              40),
-                                                      child: SizedBox(
-                                                        width: 42.1,
-                                                        height: 43,
-                                                        child: ClipRRect(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        50),
-                                                            child:
-                                                                Image.network(
-                                                              fit: BoxFit.cover,
-                                                              patientImage ??
-                                                                  '',
-                                                              errorBuilder:
-                                                                  (context,
-                                                                      error,
-                                                                      stackTrace) {
-                                                                return const ImageView
-                                                                    .asset(
-                                                                    AppImages
-                                                                        .avatarIcon);
-                                                              },
-                                                              loadingBuilder:
-                                                                  (context,
-                                                                      child,
-                                                                      loadingProgress) {
-                                                                if (loadingProgress ==
-                                                                    null)
-                                                                  return child;
-                                                                return const ImageView
-                                                                    .asset(
-                                                                    AppImages
-                                                                        .avatarIcon);
-                                                              },
-                                                            )),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      patientName ?? '',
-                                                      style:
-                                                          GoogleFonts.getFont(
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 8),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      'Category',
+                                                      style: GoogleFonts.getFont(
                                                         'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
+                                                        fontWeight: FontWeight.w500,
                                                         fontSize: 14,
                                                         height: 1.4,
-                                                        color: const Color(
-                                                            0xFF0A0D14),
+                                                        color:
+                                                            const Color(0xFF131316),
                                                       ),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                                GestureDetector(
+                                                TextEditView(
+                                                  controller:
+                                                      medicationCategoryController,
+                                                  borderColor: Colors.grey.shade200,
+                                                  borderWidth: 0.5,
+                                                  readOnly: true,
+                                                  hintText: 'Select',
                                                   onTap: () {
-                                                    setState(() {
-                                                      patientId = '';
-                                                    });
+                                                    if (medCategories.isNotEmpty) {
+                                                      Modals.showDialogModal(
+                                                          context,
+                                                          page: categoryModalContent(
+                                                              context: context,
+                                                              controller:
+                                                                  medicationCategoryController,
+                                                              item: medCategories));
+                                                    } else {
+                                                      _userCubit
+                                                          .getMedicationCategory();
+                                                    }
                                                   },
-                                                  child: Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 12, 0, 0),
-                                                    width: 20,
-                                                    height: 20,
-                                                    child: const SizedBox(
-                                                      width: 20,
-                                                      height: 20,
-                                                      child: ImageView.svg(
-                                                        AppImages.remove,
-                                                      ),
+                                                  suffixIcon: const Padding(
+                                                    padding: EdgeInsets.all(17.0),
+                                                    child: ImageView.svg(
+                                                      AppImages.dropDown,
+                                                      scale: 0.8,
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Route of Administration',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 8),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Medication name',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color: const Color(0xFF131316),
                                                 ),
                                               ),
                                             ),
-                                            TextEditView(
-                                              controller:
-                                                  administrationRouteController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              hintText: 'Select',
-                                              readOnly: true,
-                                              suffixIcon: const Padding(
-                                                padding: EdgeInsets.all(17.0),
-                                                child: ImageView.svg(
-                                                  AppImages.dropDown,
-                                                  scale: 0.8,
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                if (routeAdim.isNotEmpty) {
-                                                  Modals.showDialogModal(
-                                                      context,
-                                                      page: adminModeModalContent(
-                                                          context: context,
-                                                          controller:
-                                                              administrationRouteController,
-                                                          item: routeAdim));
-                                                } else {
-                                                  _userCubit
-                                                      .getAdministeredRoute();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Dosage',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TextEditView(
-                                              controller:
-                                                  medicationDosageController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              hintText: 'e.g, 1 Tablet',
-                                              validator: (value) {
-                                                return Validator.validate(
-                                                    value, 'Dosage');
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 7, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 0),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      margin: const EdgeInsets
-                                                          .fromLTRB(0, 0, 0, 8),
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
-                                                        child: Text(
-                                                          'Frequency',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 14,
-                                                            height: 1.4,
-                                                            color: const Color(
-                                                                0xFF131316),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    ChoiceSelector(
-                                                      items: const [
-                                                        "Everyday",
-                                                        "Specific days",
-                                                      ],
-                                                      onSelected:
-                                                          _handleFrequencySelected,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            if (_frequency.toLowerCase() ==
-                                                'Specific days'.toLowerCase())
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  border: Border.all(
-                                                    color:
-                                                        const Color(0xFF40B93C),
-                                                  ),
-                                                  color:
-                                                      const Color(0xFFFFFFFF),
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      color: Color(0xFF40B93C),
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 0,
-                                                    ),
-                                                    BoxShadow(
-                                                      color: Color(0x409F9E9E),
-                                                      offset: Offset(0, 1),
-                                                      blurRadius: 1,
-                                                    ),
-                                                  ],
-                                                ),
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 20, 0, 0),
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          17.7, 8, 0, 16),
-                                                  child: choiceContent(
-                                                    context,
-                                                    days,
-                                                  ),
-                                                ),
-                                              )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 0, 8),
-                                                child: Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    'Time of the day',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xFF131316),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              timeDayContent(
-                                                context,
-                                                timeOfDay,
-                                              ),
-                                            ],
                                           ),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 0, 8),
-                                                child: Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    'To be Taken',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xFF131316),
-                                                    ),
-                                                  ),
-                                                ),
+                                          TextEditView(
+                                            controller: medicationNameController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            readOnly: true,
+                                            onTap: () {
+                                              if (medCategories.isEmpty ||
+                                                  medications.isEmpty) {
+                                                ToastService().showToast(context,
+                                                    leadingIcon:
+                                                        const ImageView.svg(
+                                                            AppImages.error),
+                                                    title: 'Error!!!',
+                                                    subtitle:
+                                                        "Select category first");
+                                              } else {
+                                                Modals.showDialogModal(context,
+                                                    page: subCategoryModalContent(
+                                                        context: context,
+                                                        controller:
+                                                            medicationNameController,
+                                                        item: medications));
+                                              }
+                                            },
+                                            hintText: 'Select Medications',
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(17.0),
+                                              child: ImageView.svg(
+                                                AppImages.dropDown,
+                                                scale: 0.8,
                                               ),
-                                              ChoiceSelector(
-                                                items: const [
-                                                  "After Food",
-                                                  "Before Food",
-                                                ],
-                                                onSelected:
-                                                    _handleWhenTakenSelected,
-                                              ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Divider(
+                                            color: Colors.grey.shade300,
+                                            height: 0,
+                                          ),
+                                        ],
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                    ),
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 0, 16, 15),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -974,177 +497,662 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             child: Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                'Duration',
+                                                'Medication For',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 14,
                                                   height: 1.4,
+                                                  color: const Color(0xFF131316),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          if (patientId == null ||
+                                              patientId == '') ...[
+                                            TextEditView(
+                                              controller: TextEditingController(),
+                                              borderColor: Colors.grey.shade200,
+                                              borderWidth: 0.5,
+                                              hintText: 'Select Patient',
+                                              readOnly: true,
+                                              onTap: () async {
+                                                final result = await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SelectPatient()),
+                                                );
+                
+                                                if (result != null) {
+                                                  setState(() {
+                                                    patientId = result['patientId'];
+                                                    patientImage =
+                                                        result['patientImage'];
+                                                    patientName =
+                                                        result['patientName'];
+                                                  });
+                                                }
+                                              },
+                                              suffixIcon: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 1.0),
+                                                child: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  size: 16,
                                                   color:
-                                                      const Color(0xFF131316),
+                                                      Colors.black.withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                          ] else ...[
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: const Color(0xFFFFFFFF),
+                                                boxShadow: const [
+                                                  BoxShadow(
+                                                    color: Color(0x0A000000),
+                                                    offset: Offset(0, 1),
+                                                    blurRadius: 1.5,
+                                                  ),
+                                                  BoxShadow(
+                                                    color: Color(0x0D2F3037),
+                                                    offset: Offset(0, 24),
+                                                    blurRadius: 34,
+                                                  ),
+                                                  BoxShadow(
+                                                    color: Color(0x0A222A35),
+                                                    offset: Offset(0, 4),
+                                                    blurRadius: 3,
+                                                  ),
+                                                  BoxShadow(
+                                                    color: Color(0x0D000000),
+                                                    offset: Offset(0, 1),
+                                                    blurRadius: 0.5,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Container(
+                                                padding: const EdgeInsets.fromLTRB(
+                                                    12, 4, 14, 4),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  40),
+                                                          child: SizedBox(
+                                                            width: 42.1,
+                                                            height: 43,
+                                                            child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            50),
+                                                                child:
+                                                                    Image.network(
+                                                                  fit: BoxFit.cover,
+                                                                  patientImage ??
+                                                                      '',
+                                                                  errorBuilder:
+                                                                      (context,
+                                                                          error,
+                                                                          stackTrace) {
+                                                                    return const ImageView
+                                                                        .asset(
+                                                                        AppImages
+                                                                            .avatarIcon);
+                                                                  },
+                                                                  loadingBuilder:
+                                                                      (context,
+                                                                          child,
+                                                                          loadingProgress) {
+                                                                    if (loadingProgress ==
+                                                                        null)
+                                                                      return child;
+                                                                    return const ImageView
+                                                                        .asset(
+                                                                        AppImages
+                                                                            .avatarIcon);
+                                                                  },
+                                                                )),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 12,
+                                                        ),
+                                                        Text(
+                                                          patientName ?? '',
+                                                          style:
+                                                              GoogleFonts.getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 14,
+                                                            height: 1.4,
+                                                            color: const Color(
+                                                                0xFF0A0D14),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          patientId = '';
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        margin: const EdgeInsets
+                                                            .fromLTRB(0, 12, 0, 0),
+                                                        width: 20,
+                                                        height: 20,
+                                                        child: const SizedBox(
+                                                          width: 20,
+                                                          height: 20,
+                                                          child: ImageView.svg(
+                                                            AppImages.remove,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 0, 16, 15),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 8),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      'Route of Administration',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color:
+                                                            const Color(0xFF131316),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextEditView(
+                                                  controller:
+                                                      administrationRouteController,
+                                                  borderColor: Colors.grey.shade200,
+                                                  borderWidth: 0.5,
+                                                  hintText: 'Select',
+                                                  readOnly: true,
+                                                  suffixIcon: const Padding(
+                                                    padding: EdgeInsets.all(17.0),
+                                                    child: ImageView.svg(
+                                                      AppImages.dropDown,
+                                                      scale: 0.8,
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    if (routeAdim.isNotEmpty) {
+                                                      Modals.showDialogModal(
+                                                          context,
+                                                          page: adminModeModalContent(
+                                                              context: context,
+                                                              controller:
+                                                                  administrationRouteController,
+                                                              item: routeAdim));
+                                                    } else {
+                                                      _userCubit
+                                                          .getAdministeredRoute();
+                                                    }
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 8),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      'Dosage',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color:
+                                                            const Color(0xFF131316),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextEditView(
+                                                  controller:
+                                                      medicationDosageController,
+                                                  borderColor: Colors.grey.shade200,
+                                                  borderWidth: 0.5,
+                                                  hintText: 'e.g, 1 Tablet',
+                                                  validator: (value) {
+                                                    return Validator.validate(
+                                                        value, 'Dosage');
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 7, 16),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 0, 0),
+                                                  child: Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 8),
+                                                          child: Align(
+                                                            alignment:
+                                                                Alignment.topLeft,
+                                                            child: Text(
+                                                              'Frequency',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight.w500,
+                                                                fontSize: 14,
+                                                                height: 1.4,
+                                                                color: const Color(
+                                                                    0xFF131316),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        ChoiceSelector(
+                                                          items: const [
+                                                            "Everyday",
+                                                            "Specific days",
+                                                          ],
+                                                          onSelected:
+                                                              _handleFrequencySelected,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                if (_frequency.toLowerCase() ==
+                                                    'Specific days'.toLowerCase())
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(8),
+                                                      border: Border.all(
+                                                        color:
+                                                            const Color(0xFF40B93C),
+                                                      ),
+                                                      color:
+                                                          const Color(0xFFFFFFFF),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                          color: Color(0xFF40B93C),
+                                                          offset: Offset(0, 0),
+                                                          blurRadius: 0,
+                                                        ),
+                                                        BoxShadow(
+                                                          color: Color(0x409F9E9E),
+                                                          offset: Offset(0, 1),
+                                                          blurRadius: 1,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    margin:
+                                                        const EdgeInsets.fromLTRB(
+                                                            0, 20, 0, 0),
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              17.7, 8, 0, 16),
+                                                      child: choiceContent(
+                                                        context,
+                                                        days,
+                                                      ),
+                                                    ),
+                                                  )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.fromLTRB(
+                                                            0, 0, 0, 8),
+                                                    child: Align(
+                                                      alignment: Alignment.topLeft,
+                                                      child: Text(
+                                                        'Time of the day',
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          height: 1.4,
+                                                          color: const Color(
+                                                              0xFF131316),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  timeDayContent(
+                                                    context,
+                                                    timeOfDay,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 16),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.fromLTRB(
+                                                            0, 0, 0, 8),
+                                                    child: Align(
+                                                      alignment: Alignment.topLeft,
+                                                      child: Text(
+                                                        'To be Taken',
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          height: 1.4,
+                                                          color: const Color(
+                                                              0xFF131316),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ChoiceSelector(
+                                                    items: const [
+                                                      "After Food",
+                                                      "Before Food",
+                                                    ],
+                                                    onSelected:
+                                                        _handleWhenTakenSelected,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.fromLTRB(
+                                                    0, 0, 0, 8),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    'Duration',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color:
+                                                          const Color(0xFF131316),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              TextEditView(
+                                                controller:
+                                                    medicationDurationController,
+                                                borderColor: Colors.grey.shade200,
+                                                borderWidth: 0.5,
+                                                hintText: 'July 5-July 8',
+                                                readOnly: true,
+                                                onTap: () {
+                                                  Modals.showDialogModal(context,
+                                                      page: dateSelectionWidget());
+                                                },
+                                                suffixIcon: const Padding(
+                                                  padding: EdgeInsets.all(17.0),
+                                                  child: ImageView.svg(
+                                                    AppImages.dropDown,
+                                                    scale: 0.8,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 8),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Add Notes for Patient (Optional)',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color: const Color(0xFF131316),
                                                 ),
                                               ),
                                             ),
                                           ),
                                           TextEditView(
-                                            controller:
-                                                medicationDurationController,
+                                            controller: medicationNoteController,
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
-                                            hintText: 'July 5-July 8',
-                                            readOnly: true,
-                                            onTap: () {
-                                              Modals.showDialogModal(context,
-                                                  page: dateSelectionWidget());
-                                            },
-                                            suffixIcon: const Padding(
-                                              padding: EdgeInsets.all(17.0),
-                                              child: ImageView.svg(
-                                                AppImages.dropDown,
-                                                scale: 0.8,
-                                              ),
-                                            ),
+                                            hintText: '',
+                                            maxLines: 4,
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 8),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            'Add Notes for Patient (Optional)',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      TextEditView(
-                                        controller: medicationNoteController,
-                                        borderColor: Colors.grey.shade200,
-                                        borderWidth: 0.5,
-                                        hintText: '',
-                                        maxLines: 4,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  bottomNavigationBar: Container(
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFFFFFFF),
+                      border: Border(
+                        top: BorderSide(
+                          color: Color(0xFFE5E7EB),
+                          width: 1,
+                        ),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x14000000),
+                          offset: Offset(0, -4),
+                          blurRadius: 8.8999996185,
+                        ),
+                      ],
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: const Color(0xFF093126),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x33212126),
+                              offset: Offset(0, 1),
+                              blurRadius: 1.5,
+                            ),
+                            BoxShadow(
+                              color: Color(0xFF083025),
+                              offset: Offset(0, 0),
+                              blurRadius: 0,
+                            ),
+                          ],
+                        ),
+                        child: SizedBox(
+                          height: 45,
+                          child: ButtonView(
+                             
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  if (patientId.isNotEmpty &&
+                                      adminRouteId.isNotEmpty &&
+                                      medicationCategoryController
+                                          .text.isNotEmpty &&
+                                      administrationRouteController
+                                          .text.isNotEmpty &&
+                                      selectedTimeOfDays.isNotEmpty &&
+                                      formattedStartDate.isNotEmpty &&
+                                      formattedEndDate.isNotEmpty &&
+                                      medicationId.isNotEmpty) {
+                                    _userCubit.createNewMedication(
+                                        patientId: patientId,
+                                        medicationName:
+                                            medicationNameController.text,
+                                        medicationId: medicationId,
+                                        category: medicationCategoryController.text,
+                                        administrationRouteId: adminRouteId,
+                                        dosage: medicationDosageController.text,
+                                        notes: medicationNoteController.text,
+                                        durationStart: formattedStartDate,
+                                        durationEnd: formattedEndDate,
+                                        frequency: _frequency,
+                                        toBeTaken: _whenTaken,
+                                        days: selectedDays,
+                                        times: selectedTimeOfDays);
+                                  } else {
+                                    ToastService().showToast(
+                                      context,
+                                      leadingIcon:
+                                          const ImageView.svg(AppImages.error),
+                                      title: 'Error!!!',
+                                      subtitle: 'Select all fields',
+                                    );
+                                  }
+                                }
+                              },
+                              borderRadius: 100,
+                              color: AppColors.lightSecondary,
+                              child: const Text(
+                                'Create New Medication',
+                                style: TextStyle(
+                                    color: AppColors.lightPrimary,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                              )),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                if(state is MedicationCategoryLoading ||
+              state is MedicationSubCategoryLoading ||
+              state is AdministeredRouteLoading || state is CreateMedicationLoading)...[
+
+ Container(
+              color: AppColors.indicatorBgColor,
+              child:   Center(
+                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
               ),
-              bottomNavigationBar: Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    top: BorderSide(
-                      color: Color(0xFFE5E7EB),
-                      width: 1,
-                    ),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(0, -4),
-                      blurRadius: 8.8999996185,
-                    ),
-                  ],
-                ),
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: const Color(0xFF093126),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x33212126),
-                          offset: Offset(0, 1),
-                          blurRadius: 1.5,
-                        ),
-                        BoxShadow(
-                          color: Color(0xFF083025),
-                          offset: Offset(0, 0),
-                          blurRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: SizedBox(
-                      height: 45,
-                      child: ButtonView(
-                          processing: state is CreateMedicationLoading,
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              if (patientId.isNotEmpty &&
-                                  adminRouteId.isNotEmpty &&
-                                  medicationCategoryController
-                                      .text.isNotEmpty &&
-                                  administrationRouteController
-                                      .text.isNotEmpty &&
-                                  selectedTimeOfDays.isNotEmpty &&
-                                  formattedStartDate.isNotEmpty &&
-                                  formattedEndDate.isNotEmpty &&
-                                  medicationId.isNotEmpty) {
-                                _userCubit.createNewMedication(
-                                    patientId: patientId,
-                                    medicationName:
-                                        medicationNameController.text,
-                                    medicationId: medicationId,
-                                    category: medicationCategoryController.text,
-                                    administrationRouteId: adminRouteId,
-                                    dosage: medicationDosageController.text,
-                                    notes: medicationNoteController.text,
-                                    durationStart: formattedStartDate,
-                                    durationEnd: formattedEndDate,
-                                    frequency: _frequency,
-                                    toBeTaken: _whenTaken,
-                                    days: selectedDays,
-                                    times: selectedTimeOfDays);
-                              } else {
-                                ToastService().showToast(
-                                  context,
-                                  leadingIcon:
-                                      const ImageView.svg(AppImages.error),
-                                  title: 'Error!!!',
-                                  subtitle: 'Select all fields',
-                                );
-                              }
-                            }
-                          },
-                          borderRadius: 100,
-                          color: AppColors.lightSecondary,
-                          child: const Text(
-                            'Create New Medication',
-                            style: TextStyle(
-                                color: AppColors.lightPrimary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          )),
-                    ),
-                  ),
-                ),
-              ),
+            ),
+              ]
+              ],
             );
     });
   }
@@ -1547,7 +1555,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,

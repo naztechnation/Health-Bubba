@@ -47,9 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final password = Provider.of<OnboardViewModel>(context, listen: true);
 
-    return Scaffold(
-        backgroundColor: AppColors.lightPrimary,
-        body: BlocProvider<AccountCubit>(
+    return BlocProvider<AccountCubit>(
             lazy: false,
             create: (_) => AccountCubit(
                 accountRepository: AccountRepositoryImpl(),
@@ -114,46 +112,41 @@ class _SignInScreenState extends State<SignInScreen> {
                     }
                   }
                 },
-                builder: (context, state) => Container(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              SizedBox(
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.08,
-                              ),
-                              const Align(
-                                child: ImageView.svg(
-                                  AppImages.appLogo1,
-                                  fit: BoxFit.fitWidth,
-                                  height: 25.47,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 24),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                builder: (context, state) => Stack(
+                  children: [
+                    Scaffold(
+                              backgroundColor: AppColors.lightPrimary,
+                              body:  Container(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+                            child: SingleChildScrollView(
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height * 0.08,
+                                    ),
+                                    const Align(
+                                      child: ImageView.svg(
+                                        AppImages.appLogo1,
+                                        fit: BoxFit.fitWidth,
+                                        height: 25.47,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          margin: const EdgeInsets.fromLTRB(
-                                              0, 0, 0.4, 32),
+                                          margin:
+                                              const EdgeInsets.fromLTRB(0, 0, 0, 24),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -161,335 +154,354 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 9, 8),
-                                                child: Text(
-                                                  'Sign In',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
+                                                margin: const EdgeInsets.fromLTRB(
+                                                    0, 0, 0.4, 32),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.fromLTRB(
+                                                              0, 0, 9, 8),
+                                                      child: Text(
+                                                        'Sign In',
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 20,
+                                                          height: 1.4,
+                                                          color:
+                                                              const Color(0xFF131316),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Hey there, welcome back!',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 14,
+                                                        height: 1.6,
+                                                        color:
+                                                            const Color(0xFF6B7280),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Text(
-                                                'Hey there, welcome back!',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14,
-                                                  height: 1.6,
-                                                  color:
-                                                      const Color(0xFF6B7280),
-                                                ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 40),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 16),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        0, 0, 0, 8),
+                                                                child: Align(
+                                                                  alignment: Alignment
+                                                                      .topLeft,
+                                                                  child: Text(
+                                                                    'Email Address',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize: 14,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF131316),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              TextEditView(
+                                                                controller:
+                                                                    _emailController,
+                                                                borderColor: Colors
+                                                                    .grey.shade200,
+                                                                borderWidth: 0.5,
+                                                                 validator: (value) {
+                                                                  return Validator
+                                                                      .validate(value,
+                                                                          'Email');
+                                                                },
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 16),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        0, 0, 0, 8),
+                                                                child: Align(
+                                                                  alignment: Alignment
+                                                                      .topLeft,
+                                                                  child: Text(
+                                                                    'Password',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize: 14,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF131316),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              TextEditView(
+                                                                controller:
+                                                                    _passwordController,
+                                                                borderColor: Colors
+                                                                    .grey.shade200,
+                                                                borderWidth: 0.5,
+                                                                validator: (value) {
+                                                                  return Validator
+                                                                      .validate(value,
+                                                                          'Password');
+                                                                },
+                                                                obscureText: password
+                                                                    .showPasswordStatus,
+                                                                suffixIcon:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    password
+                                                                        .showPassword();
+                                                                  },
+                                                                  child: Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            12.0),
+                                                                    child: password
+                                                                            .showPasswordStatus
+                                                                        ? const ImageView.svg(
+                                                     AppImages.eyeClosedIcon,
+                                                     color: Colors.grey,
+                                                  )
+                                                : const Padding(
+                                                  padding: EdgeInsets.all(2.0),
+                                                  child: ImageView.svg(
+                                                       AppImages.eyeOpenIcon,
+                                                       color: Colors.grey,
+                                                  
+                                                    )),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(1, 0, 0.5, 0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  CustomCheckbox(
+                                                                    isChecked:
+                                                                        _checkboxState,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      _handleCheckboxChanged(
+                                                                          value);
+                                                                    },
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Text(
+                                                                    'Keep me logged in',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontSize: 14,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF131316),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  AppNavigator
+                                                                      .pushAndReplaceName(
+                                                                          context,
+                                                                          name: AppRoutes
+                                                                              .forgetPassword);
+                                                                },
+                                                                child: Text(
+                                                                  'Forgot Password?',
+                                                                  style: GoogleFonts
+                                                                      .getFont(
+                                                                    'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontSize: 14,
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .underline,
+                                                                    height: 1.4,
+                                                                    color: const Color(
+                                                                        0xFF131316),
+                                                                    decorationColor:
+                                                                        const Color(
+                                                                            0xFF131316),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  ButtonView(
+                                                       
+                                                      onPressed: () {
+                                                        _loginUser(context);
+                                                      },
+                                                      borderRadius: 100,
+                                                      color: AppColors.lightSecondary,
+                                                      child: const Text(
+                                                        'Sign In',
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .lightPrimary,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w500),
+                                                      )),
+                                                ],
                                               ),
                                             ],
                                           ),
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 40),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 16),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 0, 0, 8),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Text(
-                                                              'Email Address',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 14,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        TextEditView(
-                                                          controller:
-                                                              _emailController,
-                                                          borderColor: Colors
-                                                              .grey.shade200,
-                                                          borderWidth: 0.5,
-                                                           validator: (value) {
-                                                            return Validator
-                                                                .validate(value,
-                                                                    'Email');
-                                                          },
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 16),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 0, 0, 8),
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
-                                                            child: Text(
-                                                              'Password',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: 14,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        TextEditView(
-                                                          controller:
-                                                              _passwordController,
-                                                          borderColor: Colors
-                                                              .grey.shade200,
-                                                          borderWidth: 0.5,
-                                                          validator: (value) {
-                                                            return Validator
-                                                                .validate(value,
-                                                                    'Password');
-                                                          },
-                                                          obscureText: password
-                                                              .showPasswordStatus,
-                                                          suffixIcon:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              password
-                                                                  .showPassword();
-                                                            },
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      12.0),
-                                                              child: password
-                                                                      .showPasswordStatus
-                                                                  ? const ImageView.svg(
-                                               AppImages.eyeClosedIcon,
-                                               color: Colors.grey,
-                                            )
-                                          : const Padding(
-                                            padding: EdgeInsets.all(2.0),
-                                            child: ImageView.svg(
-                                                 AppImages.eyeOpenIcon,
-                                                 color: Colors.grey,
-                                            
-                                              )),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(1, 0, 0.5, 0),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            CustomCheckbox(
-                                                              isChecked:
-                                                                  _checkboxState,
-                                                              onChanged:
-                                                                  (value) {
-                                                                _handleCheckboxChanged(
-                                                                    value);
-                                                              },
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Text(
-                                                              'Keep me logged in',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 14,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            AppNavigator
-                                                                .pushAndReplaceName(
-                                                                    context,
-                                                                    name: AppRoutes
-                                                                        .forgetPassword);
-                                                          },
-                                                          child: Text(
-                                                            'Forgot Password?',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 14,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .underline,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                              decorationColor:
-                                                                  const Color(
-                                                                      0xFF131316),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            ButtonView(
-                                                processing:
-                                                    state is AccountLoading,
-                                                onPressed: () {
-                                                  _loginUser(context);
-                                                },
-                                                borderRadius: 100,
-                                                color: AppColors.lightSecondary,
-                                                child: const Text(
-                                                  'Sign In',
-                                                  style: TextStyle(
-                                                      color: AppColors
-                                                          .lightPrimary,
+                                        Opacity(
+                                          opacity: 0.8,
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 0, 0.5, 0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 8.7, 0),
+                                                  child: Text(
+                                                    'Don’t have an account?',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w400,
                                                       fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                )),
-                                          ],
+                                                      height: 1.4,
+                                                      color: const Color(0xFF6B7280),
+                                                    ),
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    AppNavigator.pushAndStackPage(
+                                                        context,
+                                                        page: SignUpScreen());
+                                                  },
+                                                  child: Text(
+                                                    'Register',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(0xFF40B93C),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                  Opacity(
-                                    opacity: 0.8,
-                                    child: Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0.5, 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 8.7, 0),
-                                            child: Text(
-                                              'Don’t have an account?',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                                color: const Color(0xFF6B7280),
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: SignUpScreen());
-                                            },
-                                            child: Text(
-                                              'Register',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                                color: const Color(0xFF40B93C),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ))));
+                            ),
+                          )),
+                          if (state is AccountLoading )
+            Container(
+              color: AppColors.indicatorBgColor,
+              child:   Center(
+                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
+              ),
+            ),
+                          
+                  ],
+                ),
+    ));
   }
 
   _loginUser(

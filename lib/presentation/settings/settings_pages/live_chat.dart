@@ -25,17 +25,12 @@ class LiveChat extends StatelessWidget {
             child: const Icon(Icons.arrow_back_ios, color: Colors.white,)),
         ),
         body: Tawk(
-          directChatLink: 'https://tawk.to/chat/65aa3bb30ff6374032c24236/1hkgfiduc',
+          directChatLink: 'https://tawk.to/chat/66b4a3d10cca4f8a7a731d84/1i4opvqlf',
           visitor: TawkVisitor(
-            name: username.toUpperCase(),
-            email: email,
+            name: '',
+            email: '',
           ),
-          onLoad: () {
-            
-          },
-          onLinkTap: (String url) {
-            
-          },
+          
           placeholder:   Center(
             child: Container(
               color: AppColors.indicatorBgColor,

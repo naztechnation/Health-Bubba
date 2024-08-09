@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/app_utils.dart';
 
@@ -111,8 +112,8 @@ class AppointmentPatientCard extends StatelessWidget {
                                       upcomingAppointment.date ?? ''))
                                   ? const SizedBox.shrink()
                                   : Container(
-                                      margin:
-                                          const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 20, 0),
                                       width: 4,
                                       height: 10,
                                       child: SizedBox(
@@ -217,40 +218,33 @@ class AppointmentPatientCard extends StatelessWidget {
                                             color: const Color(0xFF0A0D14),
                                           ),
                                         ),
-                                        RichText(
-                                          text: TextSpan(
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12,
-                                              height: 1.7,
-                                              color: const Color(0xFF6B7280),
-                                            ),
+                                        SizedBox(
+                                          width: MediaQuery.sizeOf(context).width * 0.6,
+                                          child: Row(
                                             children: [
-                                              TextSpan(
-                                                text:
-                                                    '${AppUtils.getHumanReadableDate(upcomingAppointment.date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
+                                              Text(
+                                                '${AppUtils.getHumanReadableDate(upcomingAppointment.date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 12,
-                                                  height: 1.3,
-                                                  color:
-                                                      const Color(0xFF6C7079),
+                                                  
+                                                  color: const Color(0xFF6C7079),
                                                 ),
                                               ),
-                                              TextSpan(
-                                                text:
-                                                    '  (${AppUtils.getTimeDifference( '2024-08-07T12:00:00.000000Z')})',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  height: 1.7,
-                                                  color:
-                                                      const Color(0xFF6B7280),
+                                              const SizedBox(width: 5,),
+                                              Flexible(
+                                                child: Text(
+                                                  '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '',upcomingAppointment.time ?? ''))})',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 12,
+                                                    
+                                                    color: const Color(0xFF6B7280),
+                                                  ),
                                                 ),
-                                              ),
+                                              )
                                             ],
                                           ),
                                         ),
@@ -394,12 +388,12 @@ class AppointmentPatientCard extends StatelessWidget {
                   onTap: () {
                     AppNavigator.pushAndStackPage(context,
                         page: VideoCall(
-                          patientId: upcomingAppointment.patientId ?? 0,
-                          patientName:
-                              upcomingAppointment.patientFirstName ?? '',
-                          doctorsId: doctorsId,
-                          appointmentId: upcomingAppointment.appointmentId.toString()
-                        ));
+                            patientId: upcomingAppointment.patientId ?? 0,
+                            patientName:
+                                upcomingAppointment.patientFirstName ?? '',
+                            doctorsId: doctorsId,
+                            appointmentId:
+                                upcomingAppointment.appointmentId.toString()));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
@@ -414,4 +408,21 @@ class AppointmentPatientCard extends StatelessWidget {
       ],
     );
   }
+
+  String replaceTimeInDateTime(String dateTimeString, String newTime) {
+   
+  if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
+    return dateTimeString;  
+  }
+
+  List<String> parts = dateTimeString.split('T');
+  if (parts.length != 2) {
+  }
+  
+  String datePart = parts[0];
+
+  String newDateTimeString = '${datePart}T${newTime}Z';
+
+  return newDateTimeString;
+}
 }

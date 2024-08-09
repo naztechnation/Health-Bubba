@@ -232,10 +232,7 @@ class _HomeState extends State<Home> {
             });
       }
       return 
-          // ? LoadersPage(
-          //     length: MediaQuery.sizeOf(context).height.toInt(),
-          //   )
-          // :
+          
            Scaffold(
               body: Stack(
                 children: [
@@ -1391,7 +1388,7 @@ class _HomeState extends State<Home> {
                                           ],
                                           if (upcomingAppointment.isNotEmpty) ...[
                                             appointmentCard(
-                                                upcomingAppointment, doctorsId),
+                                                upcomingAppointment, doctorsId, context),
                                           ],
                                           Column(
                                             mainAxisAlignment:

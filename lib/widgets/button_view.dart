@@ -15,7 +15,7 @@ class ButtonView extends StatelessWidget {
   final double borderWidth;
   final double borderRadius;
   final bool disabled;
-  final bool processing;
+  final bool processin;
   final bool expanded;
   final EdgeInsets padding;
 
@@ -30,17 +30,16 @@ class ButtonView extends StatelessWidget {
       this.borderColor,
       this.borderWidth = 0.0,
       this.disabled = false,
-      this.processing = false,
+      this.processin = false,
       this.expanded = true,
       this.borderRadius = 16.0,
       this.padding =
           const EdgeInsets.symmetric(vertical: 14.0, horizontal: 8.0),
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (processing) {
+    if (processin) {
       return SizedBox(
         width: double.maxFinite,
         child: ElevatedButton(
