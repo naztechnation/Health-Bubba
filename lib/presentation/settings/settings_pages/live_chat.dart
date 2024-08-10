@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tawkto/flutter_tawk.dart';
 
+
 import '../../../res/app_colors.dart'; 
 
 
@@ -27,8 +28,8 @@ class LiveChat extends StatelessWidget {
         body: Tawk(
           directChatLink: 'https://tawk.to/chat/66b4a3d10cca4f8a7a731d84/1i4opvqlf',
           visitor: TawkVisitor(
-            name: '',
-            email: '',
+            name: username,
+            email: email,
           ),
           
           placeholder:   Center(

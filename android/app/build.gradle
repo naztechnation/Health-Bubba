@@ -54,8 +54,8 @@ android {
 
     defaultConfig {
         applicationId "com.healthbubba.healthbubba"
-        minSdkVersion 21
-        targetSdkVersion 34
+        minSdkVersion 29
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

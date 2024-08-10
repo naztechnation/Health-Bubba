@@ -10,6 +10,7 @@ import 'package:healthbubba/presentation/settings/settings_pages/privacy_policy.
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../handlers/secure_handler.dart';
 import '../../widgets/decision_widgets.dart';
@@ -18,10 +19,18 @@ import '../profile/profile_setup.dart';
 import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   final String profileUrl;
 
   const SettingsPage({super.key, required this.profileUrl});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+
+  final Uri _url = Uri.parse('https://healthbubba.com/privacy-policy');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,80 +46,78 @@ class SettingsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: 150,
-                            decoration: const BoxDecoration(),
-                            child: const ImageView.asset(
-                              AppImages.settingsBg,
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 150,
+                          decoration: const BoxDecoration(),
+                          child: const ImageView.asset(
+                            AppImages.settingsBg,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 65,
+                        )
+                      ],
+                    ),
+                    Positioned(
+                      top: 100,
+                      child: SizedBox(
+                        width: 91,
+                        height: 91,
+                        child: Hero(
+                          tag: 'profilePicture',
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(45.5),
+                            child: Image.network(
+                              widget.profileUrl,
                               fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 65,
-                          )
-                        ],
-                      ),
-                      Positioned(
-                        top: 100,
-                        child: SizedBox(
-                          width: 91,
-                          height: 91,
-                          child: Hero(
-                            tag: 'profilePicture',
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(45.5),
-                              child: Image.network(
-                                profileUrl,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Positioned(
-                        top: 50,
-                        left: 25,
-                        child: ImageView.svg(
-                          AppImages.bg,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                          top: 58,
-                          left: 36,
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
+                              errorBuilder: (context, error, stackTrace) {
+                                return const ImageView.asset(
+                                    AppImages.avatarIcon,
+                                     fit: BoxFit.cover
+                                    );
                               },
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                size: 16,
-                                color: Colors.white,
-                              )))
-                    ],
-                  ),
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const ImageView.asset(
+                                    AppImages.avatarIcon,
+                                     fit: BoxFit.cover
+                                    );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Positioned(
+                      top: 50,
+                      left: 25,
+                      child: ImageView.svg(
+                        AppImages.bg,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                        top: 58,
+                        left: 36,
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              size: 16,
+                              color: Colors.white,
+                            )))
+                  ],
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 48),
@@ -270,9 +277,11 @@ class SettingsPage extends StatelessWidget {
                                     settingsDetails(
                                         title: 'Privacy Policy',
                                         icon: AppImages.privacyPolicy,
-                                        onTap: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: PrivacyPolicy());
+                                        onTap: () async{
+
+                                          _launchUrl();
+                                          // AppNavigator.pushAndStackPage(context,
+                                          //     page: PrivacyPolicy());
                                         }),
                                     settingsDetails(
                                         title: 'Password Manager',
@@ -606,4 +615,10 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _launchUrl() async {
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
+  }
+}
 }
