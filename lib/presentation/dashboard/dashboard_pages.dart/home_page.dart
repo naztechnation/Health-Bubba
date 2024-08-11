@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
     doctorsId = int.parse(doctors ?? '0');
     await _userCubit.userData();
     await _userCubit.getProfileStatus();
-    await _userCubit.getAppointmentList();
+    // await _userCubit.getAppointmentList();
   }
 
   @override
@@ -111,19 +111,22 @@ class _HomeState extends State<Home> {
       if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
           Provider.of<OnboardViewModel>(context, listen: false)
-              .saveBio(state.userData.data?.bio ?? "");
+              .saveBio(state.userData.data?.first.bio ?? "");
 
           imageUrl =
-              "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ""}";
-          name = state.userData.data?.firstName ?? '';
-          title = state.userData.data?.title ?? '';
-          String bio = state.userData.data?.bio ?? "";
+              "${AppStrings.imageBaseUrl}${state.userData.data?.first.picture ?? ""}";
+          name = state.userData.data?.first.firstName ?? '';
+          title = state.userData.data?.first.title ?? '';
+          String bio = state.userData.data?.first.bio ?? "";
 
-          StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
+           upcomingAppointment =
+              _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
+
+          StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
           StorageHandler.saveUserFirstName(
-              state.userData.data?.firstName ?? '');
+              state.userData.data?.first.firstName ?? '');
           StorageHandler.saveUserPicture(
-              "${AppStrings.imageBaseUrl}${state.userData.data?.picture ?? ''}");
+              "${AppStrings.imageBaseUrl}${state.userData.data?.first.picture ?? ''}");
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -132,8 +135,7 @@ class _HomeState extends State<Home> {
         }
       } else if (state is AppointmentListLoaded) {
         if (state.appointmentLists.ok ?? false) {
-          upcomingAppointment =
-              _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
+         
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),

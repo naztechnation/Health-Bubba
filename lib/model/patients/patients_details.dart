@@ -83,6 +83,7 @@ class Patients {
   String? lastAppointmentDate;
   String? nextAppointmentDate;
   int? upcomingAppointmentsCount;
+  int? consultationCount;
 
   Patients(
       {this.id,
@@ -114,7 +115,8 @@ class Patients {
       this.healthConditions,
       this.lastAppointmentDate,
       this.nextAppointmentDate,
-      this.upcomingAppointmentsCount
+      this.upcomingAppointmentsCount,
+      this.consultationCount
       });
 
   Patients.fromJson(Map<String, dynamic> json) {
@@ -158,6 +160,7 @@ class Patients {
     lastAppointmentDate = json['last_appointment_date'];
     nextAppointmentDate = json['next_appointment_date'];
     upcomingAppointmentsCount = json['upcoming_appointments_count'];
+    consultationCount = json['consultations_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -198,6 +201,7 @@ class Patients {
      data['last_appointment_date'] = lastAppointmentDate;
     data['next_appointment_date'] = nextAppointmentDate;
     data['upcoming_appointments_count'] = upcomingAppointmentsCount;
+    data['consultations_count'] = consultationCount;
     return data;
   }
 }

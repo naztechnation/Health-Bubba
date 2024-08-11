@@ -124,6 +124,10 @@ class _HelpSupportState extends State<HelpSupport> {
                 height: 0,
               ),
               ListTile(
+                onTap: () {
+                  AppNavigator.pushAndStackPage(context, page: LiveChat(username: username, email: email,));
+                  
+                },
                 leading: const SizedBox(
                     width: 17.9,
                     height: 17.9,

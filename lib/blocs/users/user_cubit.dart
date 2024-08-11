@@ -73,6 +73,9 @@ class UserCubit extends Cubit<UserStates> {
 
       final user = await userRepository.getUserInfo();
 
+      await viewModel.setAppointmentData(user.data?.first.upcomingAppointments ?? []);
+
+
       emit(UserDataLoaded(user));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));

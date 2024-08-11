@@ -913,7 +913,22 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 ),
                                                 children: [
                                                   TextSpan(
-                                                    text: '0',
+                                                    text: (patientsLists.first
+                                                                      .consultationCount ==
+                                                                  'null' ||
+                                                              patientsLists
+                                                                      .first
+                                                                      .consultationCount ==
+                                                                  null ||
+                                                              patientsLists
+                                                                  .first
+                                                                  .consultationCount
+                                                                  .toString()
+                                                                  .isEmpty)
+                                                          ? '0'
+                                                          : patientsLists
+                                                                  .first
+                                                                  .consultationCount.toString(),
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:

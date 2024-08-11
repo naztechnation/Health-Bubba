@@ -55,6 +55,9 @@ class AppointmentListsData {
   String? complain;
   int? status;
   String? patientFirstName;
+  String? patientName;
+  String? doctorName;
+  String? doctorPicture;
   String? patientLastName;
   String? patientEmail;
   String? patientPicture;
@@ -69,6 +72,9 @@ class AppointmentListsData {
       this.complain,
       this.status,
       this.patientFirstName,
+      this.patientName,
+      this.doctorName,
+      this.doctorPicture,
       this.patientLastName,
       this.patientEmail,
       this.patientPicture,
@@ -83,10 +89,16 @@ class AppointmentListsData {
     complain = json['complain'];
     status = json['status'];
     patientFirstName = json['patient_first_name'];
+    doctorName = json['doctor_name'];
+    patientName = json['patient_name'];
+    doctorPicture = json['doctor_picture'];
     patientLastName = json['patient_last_name'];
     patientEmail = json['patient_email'];
     patientPicture = json['patient_picture'];
+    if (json['images'] != null) {
     images = json['images'].cast<String>();
+      
+    }
   }
 
   Map<String, dynamic> toJson() {

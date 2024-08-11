@@ -7,7 +7,8 @@ import '../../../res/app_colors.dart';
 
 
 
-class LiveChat extends StatelessWidget {
+class LiveChat
+ extends StatelessWidget {
   final String username;
   final String email;
   const LiveChat({Key? key, required this.username, required this.email}) : super(key: key);
@@ -26,7 +27,7 @@ class LiveChat extends StatelessWidget {
             child: const Icon(Icons.arrow_back_ios, color: Colors.white,)),
         ),
         body: Tawk(
-          directChatLink: 'https://tawk.to/chat/66b4a3d10cca4f8a7a731d84/1i4opvqlf',
+          directChatLink: 'https://tawk.to/chat/655e1d2b91e5c13bb5b2b7f4/1hfrq3t2j',
           visitor: TawkVisitor(
             name: username,
             email: email,
