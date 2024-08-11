@@ -15,6 +15,7 @@ import '../../../model/user/cancel_appointment.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/medication_details.dart';
 import '../../../model/user/notification_settings.dart';
+import '../../../model/user/notifications_data.dart';
 import '../../../model/user/user_data.dart';
 
 abstract class UserRepository {
@@ -60,6 +61,7 @@ abstract class UserRepository {
       {required String categoryId});
 
   Future<GetMedications> getMedications();
+  Future<NotificationsData> getNotifications();
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();
   Future<AppointmentLists> getAppointmentList();

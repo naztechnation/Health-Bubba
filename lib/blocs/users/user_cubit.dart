@@ -73,10 +73,32 @@ class UserCubit extends Cubit<UserStates> {
 
       final user = await userRepository.getUserInfo();
 
-      await viewModel.setAppointmentData(user.data?.first.upcomingAppointments ?? []);
-
+      //await viewModel.setAppointmentData(user.data?.first.upcomingAppointments ?? []);
 
       emit(UserDataLoaded(user));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> getNotificationsData() async {
+    try {
+      emit(NotificationsLoading());
+
+      final user = await userRepository.getNotifications();
+
+       
+      emit(NotificationsLoaded(user));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {
@@ -339,7 +361,6 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
- 
 
   Future<void> createAppointment({
     required String patientsId,
@@ -401,7 +422,8 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(AppointmentDetailsLoading());
 
-      final appointment = await userRepository.getAppointmentDetails(appointmentId: appointmentId);
+      final appointment = await userRepository.getAppointmentDetails(
+          appointmentId: appointmentId);
       emit(AppointmentDetailsLoaded(appointment));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -418,11 +440,12 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-    Future<void> getMedicationDetails({required String medicationId}) async {
+  Future<void> getMedicationDetails({required String medicationId}) async {
     try {
       emit(MedicationDetailsLoading());
 
-      final medics = await userRepository.getMedicationDetails(medicationId: medicationId);
+      final medics =
+          await userRepository.getMedicationDetails(medicationId: medicationId);
       emit(MedicationDetailsLoaded(medics));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -443,7 +466,8 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(PatientsDetailsLoading());
 
-      final patient = await userRepository.getPatientDetails(patientId: patientId);
+      final patient =
+          await userRepository.getPatientDetails(patientId: patientId);
       emit(PatientsDetailsLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -460,7 +484,7 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-   Future<void> getNotificationSettings() async {
+  Future<void> getNotificationSettings() async {
     try {
       emit(GetNotifyLoading());
 
@@ -481,11 +505,18 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-  Future<void> updateNotificationSettings({required String upcomingAlert,required String medicationReminder,required String orderAlert,}) async {
+  Future<void> updateNotificationSettings({
+    required String upcomingAlert,
+    required String medicationReminder,
+    required String orderAlert,
+  }) async {
     try {
       emit(UpdateNotifyLoading());
 
-      final patient = await userRepository.updateNotificationSettings(upcomingAlert: upcomingAlert, medicationReminder: medicationReminder, orderAlert: orderAlert);
+      final patient = await userRepository.updateNotificationSettings(
+          upcomingAlert: upcomingAlert,
+          medicationReminder: medicationReminder,
+          orderAlert: orderAlert);
       emit(UpdateNotifyLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -502,11 +533,17 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-  Future<void> cancelAppointment({required String appointmentId,required String reason,}) async {
+  Future<void> cancelAppointment({
+    required String appointmentId,
+    required String reason,
+  }) async {
     try {
       emit(CancelAppointmentLoading());
 
-      final patient = await userRepository.cancelAppointment(appointmentId: appointmentId, reason: reason,  );
+      final patient = await userRepository.cancelAppointment(
+        appointmentId: appointmentId,
+        reason: reason,
+      );
       emit(CancelAppointmentLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -523,11 +560,13 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-  Future<void> completeAppointment({required String appointmentId }) async {
+  Future<void> completeAppointment({required String appointmentId}) async {
     try {
       emit(CancelAppointmentLoading());
 
-      final patient = await userRepository.completeAppointment(appointmentId: appointmentId,  );
+      final patient = await userRepository.completeAppointment(
+        appointmentId: appointmentId,
+      );
       emit(CancelAppointmentLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
@@ -544,11 +583,13 @@ class UserCubit extends Cubit<UserStates> {
     }
   }
 
-  Future<void> deactivateUserAccount({required String reason, required String details}) async {
+  Future<void> deactivateUserAccount(
+      {required String reason, required String details}) async {
     try {
       emit(DeactivateAccountLoading());
 
-      final patient = await userRepository.deactivateAccount(reason: reason,  details: details);
+      final patient = await userRepository.deactivateAccount(
+          reason: reason, details: details);
       emit(DeactivateAccountLoaded(patient));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));

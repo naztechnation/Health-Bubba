@@ -23,6 +23,7 @@ import '../../../widgets/choice_widget.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
 import '../../../widgets/loading_screen.dart';
+import '../../../widgets/modals.dart';
 import '../../settings/settings_pages/consultaion_fee.dart';
 import 'appointment_tabs.dart';
 import 'medication/medication_page.dart';
@@ -72,7 +73,8 @@ class _HomeState extends State<Home> {
     doctorsId = int.parse(doctors ?? '0');
     await _userCubit.userData();
     await _userCubit.getProfileStatus();
-    // await _userCubit.getAppointmentList();
+    await _userCubit.getAppointmentList();
+    await _userCubit.getNotificationsData();
   }
 
   @override
@@ -117,11 +119,8 @@ class _HomeState extends State<Home> {
               "${AppStrings.imageBaseUrl}${state.userData.data?.first.picture ?? ""}";
           name = state.userData.data?.first.firstName ?? '';
           title = state.userData.data?.first.title ?? '';
-          String bio = state.userData.data?.first.bio ?? "";
-
-           upcomingAppointment =
-              _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
-
+          
+             
           StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
           StorageHandler.saveUserFirstName(
               state.userData.data?.first.firstName ?? '');
@@ -135,7 +134,10 @@ class _HomeState extends State<Home> {
         }
       } else if (state is AppointmentListLoaded) {
         if (state.appointmentLists.ok ?? false) {
-         
+          upcomingAppointment =
+              _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
+
+          
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),

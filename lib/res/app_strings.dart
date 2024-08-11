@@ -63,6 +63,9 @@ class AppStrings {
       "${_baseUrl}status/profile_settings";
   static const String getAdministeredRouteUrl =
       "${_baseUrl}administration_routes";
+
+      static const String getNotificationUrl =
+      "${_baseUrl}notifications";
   static const String createAppointmentUrl =
       "${_baseUrl}doctor/create_appointment";
   static const String appointmentListUrl = "${_baseUrl}doctor/appointments";

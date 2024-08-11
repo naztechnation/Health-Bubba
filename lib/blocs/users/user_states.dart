@@ -15,6 +15,7 @@ import '../../model/user/cancel_appointment.dart';
 import '../../model/user/consultation_data.dart';
 import '../../model/user/medication_details.dart';
 import '../../model/user/notification_settings.dart';
+import '../../model/user/notifications_data.dart';
 import '../../model/user/user_data.dart';
 
 abstract class UserStates extends Equatable {
@@ -97,6 +98,18 @@ class CheckSpecialtyStatusLoaded extends UserStates {
   const CheckSpecialtyStatusLoaded(this.specialty);
   @override
   List<Object> get props => [specialty];
+}
+
+class NotificationsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class NotificationsLoaded extends UserStates {
+  final NotificationsData notificationsData;
+  const NotificationsLoaded(this.notificationsData);
+  @override
+  List<Object> get props => [notificationsData];
 }
 
 class UserDataLoading extends UserStates {

@@ -15,6 +15,7 @@ class UserViewModel extends BaseViewModel {
 Future<void> setAppointmentData(
     List<AppointmentListsData> appointments,
   ) async {
+  
     _appointments = appointments;
 
     setViewState(ViewState.success);
@@ -64,6 +65,10 @@ String replaceTimeInDateTime(String dateTimeString, String newTime) {
   String datePart = parts[0];
 
   String newDateTimeString = '${datePart}T${newTime}Z';
+
+  print('newDateTimeString');
+  print(newDateTimeString);
+  print('newDateTimeString');
 
   return newDateTimeString;
 }

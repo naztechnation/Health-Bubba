@@ -13,6 +13,7 @@ import 'package:healthbubba/model/patients/patients_details.dart';
 import 'package:healthbubba/model/user/cancel_appointment.dart';
 import 'package:healthbubba/model/user/medication_details.dart';
 import 'package:healthbubba/model/user/notification_settings.dart';
+import 'package:healthbubba/model/user/notifications_data.dart';
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/patients/patients_list.dart';
@@ -250,5 +251,13 @@ class UserRepositoryImpl implements UserRepository {
        
     });
     return UserData.fromJson(map);
+  }
+
+  @override
+  Future<NotificationsData> getNotifications() async {
+    final map = await Requests().get(
+      AppStrings.getNotificationUrl,
+    );
+    return NotificationsData.fromJson(map);
   }
 }
