@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/handlers/secure_handler.dart';
 import 'package:healthbubba/model/patients/get_profile_status.dart';
+import 'package:healthbubba/presentation/dashboard/notifications.dart';
 import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings.dart';
 import 'package:healthbubba/res/app_images.dart';
@@ -74,7 +75,7 @@ class _HomeState extends State<Home> {
     await _userCubit.userData();
     await _userCubit.getProfileStatus();
     await _userCubit.getAppointmentList();
-    await _userCubit.getNotificationsData();
+   
   }
 
   @override
@@ -319,44 +320,49 @@ class _HomeState extends State<Home> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    0, 0, 16, 1.7),
-                                                width: 32,
-                                                height: 32,
+                                              GestureDetector(
+                                                onTap: () {
+                                                  AppNavigator.pushAndStackPage(context, page: Notifications());
+                                                },
                                                 child: Container(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: const Color(
-                                                            0xFFE5E7EB)),
-                                                    borderRadius:
-                                                        BorderRadius.circular(8),
-                                                    color: const Color(0xFFFFFFFF),
-                                                  ),
+                                                  margin: const EdgeInsets.fromLTRB(
+                                                      0, 0, 16, 1.7),
+                                                  width: 32,
+                                                  height: 32,
                                                   child: Container(
-                                                    width: 32,
-                                                    height: 32,
-                                                    padding:
-                                                        const EdgeInsets.fromLTRB(
-                                                            3, 3, 3, 3),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color(
+                                                              0xFFE5E7EB)),
+                                                      borderRadius:
+                                                          BorderRadius.circular(8),
+                                                      color: const Color(0xFFFFFFFF),
+                                                    ),
                                                     child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            const Color(0xFFF1F3F5),
-                                                        borderRadius:
-                                                            BorderRadius.circular(
-                                                                4),
-                                                      ),
+                                                      width: 32,
+                                                      height: 32,
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              3, 3, 3, 3),
                                                       child: Container(
-                                                        width: 24,
-                                                        height: 24,
-                                                        padding: const EdgeInsets
-                                                            .fromLTRB(2, 2, 2, 2),
-                                                        child: const SizedBox(
-                                                          width: 20,
-                                                          height: 20,
-                                                          child: ImageView.svg(
-                                                              AppImages.notifyIcon),
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              const Color(0xFFF1F3F5),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  4),
+                                                        ),
+                                                        child: Container(
+                                                          width: 24,
+                                                          height: 24,
+                                                          padding: const EdgeInsets
+                                                              .fromLTRB(2, 2, 2, 2),
+                                                          child: const SizedBox(
+                                                            width: 20,
+                                                            height: 20,
+                                                            child: ImageView.svg(
+                                                                AppImages.notifyIcon),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),

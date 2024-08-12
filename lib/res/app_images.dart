@@ -84,6 +84,12 @@ class AppImages {
   static const eyeClosedIcon = '${_baseUrl}eyes_closed.svg';
   static const eyeOpenIcon = '${_baseUrl}eye_open.svg';
   static const logoo = '${_baseUrl}HealthBubba.gif';
+  static const appointmentSuccess = '${_baseUrl}calendar.svg';
+  static const scheduleChange = '${_baseUrl}calendar_blue.svg';
+  static const videoConsultation = '${_baseUrl}video_call.svg';
+  static const appointmentCancelled = '${_baseUrl}calendar_remove.svg';
+  static const orderInTransit = '${_baseUrl}truck_time.svg';
+  static const orderCompleted = '${_baseUrl}truck_tick.svg';
  
 
 

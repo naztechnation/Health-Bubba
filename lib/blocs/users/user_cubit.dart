@@ -73,7 +73,6 @@ class UserCubit extends Cubit<UserStates> {
 
       final user = await userRepository.getUserInfo();
 
-      //await viewModel.setAppointmentData(user.data?.first.upcomingAppointments ?? []);
 
       emit(UserDataLoaded(user));
     } on ApiException catch (e) {
@@ -96,6 +95,9 @@ class UserCubit extends Cubit<UserStates> {
       emit(NotificationsLoading());
 
       final user = await userRepository.getNotifications();
+
+      await viewModel.filterNotification(user);
+
 
        
       emit(NotificationsLoaded(user));
