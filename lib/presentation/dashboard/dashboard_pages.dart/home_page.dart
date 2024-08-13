@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/handlers/secure_handler.dart';
-import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/presentation/dashboard/notifications.dart';
 import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings.dart';
@@ -20,11 +17,8 @@ import '../../../model/view_model/user_view_model.dart';
 import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_colors.dart';
 import '../../../res/app_strings.dart';
-import '../../../widgets/choice_widget.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
-import '../../../widgets/loading_screen.dart';
-import '../../../widgets/modals.dart';
 import '../../settings/settings_pages/consultaion_fee.dart';
 import 'appointment_tabs.dart';
 import 'medication/medication_page.dart';
@@ -78,8 +72,8 @@ class _HomeState extends State<Home> {
     title = await StorageHandler.getUserTitle();
     String doctors = await StorageHandler.getUserId();
     doctorsId = int.parse(doctors ?? '0');
-    await _userCubit.userData();
     await _userCubit.getProfileStatus();
+    await _userCubit.userData();
     await _userCubit.getAppointmentList();
     await _userCubit.doctorsAnalyticsAccount();
   }
