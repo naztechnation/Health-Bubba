@@ -68,7 +68,7 @@ borderRadius: const BorderRadius.all(
         color: selected
                   ? (widget.selectedColor ??
                       AppColors.lightSecondary)
-                  : (widget.color ?? Theme.of(context).backgroundColor),
+                  : (widget.color ?? Theme.of(context).primaryColor),
         child: Container(
             height: widget.height,
             padding: widget.contentPadding,
@@ -77,7 +77,7 @@ borderRadius: const BorderRadius.all(
               color: selected
                   ? (widget.selectedColor ??
                       AppColors.lightSecondary)
-                  : (widget.color ?? Theme.of(context).backgroundColor),
+                  : (widget.color ?? Theme.of(context).primaryColor),
               borderRadius: const BorderRadius.all(
                 Radius.circular(30.0),
               ),
@@ -87,7 +87,7 @@ borderRadius: const BorderRadius.all(
                     color:  selected
                   ? 
                       widget.selectedColor ?? AppColors.lightSecondary
-                  : (widget.color ?? Theme.of(context).backgroundColor),
+                  : (widget.color ?? Theme.of(context).primaryColor),
                     style: BorderStyle.solid)
             ),
             child: Column(
@@ -102,7 +102,7 @@ borderRadius: const BorderRadius.all(
                               ? (widget.selectedTextColor ??
                                   Theme.of(context).primaryColor)
                               : (widget.textColor ??
-                                  Theme.of(context).textTheme.caption!.color),
+                                  Theme.of(context).textTheme.bodyMedium!.color),
                           fontSize: widget.fontSize,
                 
                           fontWeight: FontWeight.w600)),

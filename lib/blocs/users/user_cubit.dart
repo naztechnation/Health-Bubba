@@ -607,4 +607,27 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+
+  Future<void> doctorsAnalyticsAccount(
+     ) async {
+    try {
+      emit(AnalyticsLoading());
+
+      final patient = await userRepository.getAnalytics(
+           );
+      emit(AnalyticsLoaded(patient));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

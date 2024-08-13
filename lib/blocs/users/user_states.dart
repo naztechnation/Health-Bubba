@@ -13,6 +13,7 @@ import '../../model/patients/medication_sub_category.dart';
 import '../../model/patients/patients_details.dart';
 import '../../model/user/cancel_appointment.dart';
 import '../../model/user/consultation_data.dart';
+import '../../model/user/doctors_analytics.dart';
 import '../../model/user/medication_details.dart';
 import '../../model/user/notification_settings.dart';
 import '../../model/user/notifications_data.dart';
@@ -122,6 +123,18 @@ class UserDataLoaded extends UserStates {
   const UserDataLoaded(this.userData);
   @override
   List<Object> get props => [userData];
+}
+
+class AnalyticsLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AnalyticsLoaded extends UserStates {
+  final DoctorsAnalytics doctorsAnalytics;
+  const AnalyticsLoaded(this.doctorsAnalytics);
+  @override
+  List<Object> get props => [doctorsAnalytics];
 }
 
 class CreateMedicationLoading extends UserStates {

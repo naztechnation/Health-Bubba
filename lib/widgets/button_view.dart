@@ -47,19 +47,19 @@ class ButtonView extends StatelessWidget {
           onPressed: () {},
           style: ElevatedButton.styleFrom(
             backgroundColor: disabled
-                ? Theme.of(context).backgroundColor
+                ? Theme.of(context).primaryColor
                 : (color ?? AppColors.lightSecondary),
             padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
                 side: BorderSide(
                     color: disabled
-                        ? Theme.of(context).textTheme.caption!.color!
+                        ? Theme.of(context).textTheme.bodyMedium!.color!
                         : (borderColor ??
                             AppColors.lightSecondary),
                     width: borderWidth)),
             textStyle: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1!.color,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
             ),
           ),
           child: Align(
@@ -87,7 +87,7 @@ class ButtonView extends StatelessWidget {
             onPressed: disabled ? null : onPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor: disabled
-                  ? Theme.of(context).backgroundColor
+                  ? Theme.of(context).primaryColor
                   : (color ?? AppColors.lightSecondary),
                           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
 
@@ -95,14 +95,14 @@ class ButtonView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                   side: BorderSide(
                       color: disabled
-                          ? Theme.of(context).textTheme.caption!.color!
+                          ? Theme.of(context).textTheme.bodyMedium!.color!
                           : (borderColor ??
                               AppColors.lightSecondary),
                       width: borderWidth)),
               textStyle: TextStyle(
               fontSize: fontSize,
                 
-                color: Theme.of(context).textTheme.bodyText1!.color,
+                color: Theme.of(context).textTheme.bodyMedium!.color,
               ),
             ),
             child: child,
@@ -114,7 +114,7 @@ class ButtonView extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: disabled
-                ? Theme.of(context).backgroundColor
+                ? Theme.of(context).primaryColor
                 : (color ?? AppColors.lightSecondary),
                         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
 
@@ -122,13 +122,13 @@ class ButtonView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(borderRadius),
                 side: BorderSide(
                     color: disabled
-                        ? Theme.of(context).textTheme.caption!.color!
+                        ? Theme.of(context).textTheme.bodyMedium!.color!
                         : (borderColor ??
                             AppColors.lightSecondary),
                     width: borderWidth)),
             textStyle: TextStyle(
               fontSize: fontSize,
-              color: Theme.of(context).textTheme.bodyText1!.color,
+              color: Theme.of(context).textTheme.bodyMedium!.color,
             ),
           ),
           child: child,

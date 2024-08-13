@@ -189,8 +189,8 @@ class TextEditView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Text(
                     field.errorText ?? '',
-                    style: TextStyle(
-                        color: Theme.of(context).errorColor, fontSize: 12),
+                    style: const TextStyle(
+                        color:  Colors.red, fontSize: 12),
                   ),
                 ),
             ],

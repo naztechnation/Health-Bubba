@@ -56,6 +56,7 @@ class AppStrings {
   static const String completeAppointmentUrl = "${_baseUrl}appointments/complete";
   static const String updatePasswordUrl = "${_baseUrl}update-password";
   static const String deactivateAccountUrl = "${_baseUrl}user/delete_account";
+  static const String doctorAnalyticsUrl = "${_baseUrl}doctor/analytics";
   static const String medicationCategoriesUrl =
       "${_baseUrl}medication/categories";
   static const String medicationsUrl = "${_baseUrl}doctor/medications";

@@ -13,6 +13,7 @@ import '../../../model/patients/patients_details.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/cancel_appointment.dart';
 import '../../../model/user/consultation_data.dart';
+import '../../../model/user/doctors_analytics.dart';
 import '../../../model/user/medication_details.dart';
 import '../../../model/user/notification_settings.dart';
 import '../../../model/user/notifications_data.dart';
@@ -61,6 +62,7 @@ abstract class UserRepository {
       {required String categoryId});
 
   Future<GetMedications> getMedications();
+  Future<DoctorsAnalytics> getAnalytics();
   Future<NotificationsData> getNotifications();
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();

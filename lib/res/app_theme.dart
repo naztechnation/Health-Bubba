@@ -6,7 +6,8 @@ import 'app_colors.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
       brightness: Brightness.light,
-      backgroundColor: AppColors.lightBackground,
+     // backgroundColor: AppColors.lightBackground,
+     
       primaryColor: AppColors.lightPrimary,
       dividerColor: AppColors.lightDivider,
       canvasColor: AppColors.lightCanvas,
@@ -24,7 +25,7 @@ class AppTheme {
           elevation: 0.0,
           titleTextStyle: ThemeData.light()
               .textTheme
-              .headline6!
+              .titleLarge!
               .copyWith(fontSize: 20, fontWeight: FontWeight.w700),
           iconTheme: ThemeData.light().iconTheme,
           color: AppColors.lightPrimary,
