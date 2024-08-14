@@ -609,11 +609,12 @@ class UserCubit extends Cubit<UserStates> {
   }
 
   Future<void> doctorsAnalyticsAccount(
+    {required String days}
      ) async {
     try {
       emit(AnalyticsLoading());
 
-      final patient = await userRepository.getAnalytics(
+      final patient = await userRepository.getAnalytics(days
            );
       emit(AnalyticsLoaded(patient));
     } on ApiException catch (e) {

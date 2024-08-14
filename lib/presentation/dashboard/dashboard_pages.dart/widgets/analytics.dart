@@ -1,6 +1,7 @@
  
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/widgets/modals.dart';
 
 import '../../../../res/app_images.dart';
 import '../../../../widgets/choice_widget.dart';
@@ -18,13 +19,7 @@ class EmptyAnalytics extends StatefulWidget {
 
 class _EmptyAnalyticsState extends State<EmptyAnalytics> {
 
-    String _selectedDay = "1 Day";
-
-  void _handleDaySelected(String selectedDay) {
-    setState(() {
-      _selectedDay = selectedDay;
-    });
-  }
+    
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -68,17 +63,7 @@ class _EmptyAnalyticsState extends State<EmptyAnalytics> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                ChoiceSelector(
-                                                  items: const [
-                                                    "1 Day",
-                                                    "7 Days",
-                                                    "30 Days"
-                                                  ],
-                                                  onSelected: _handleDaySelected,
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
+                                               
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
@@ -227,18 +212,24 @@ class AnalyticsData extends StatefulWidget {
   final String totalPrescription ;
   final String totalRevenue ;
   final String patientDemography;
-  const AnalyticsData({super.key, required this.totalConsultation, required this.totalPrescription, required this.totalRevenue, required this.patientDemography});
+  final Function(String value) onTap;
+  const AnalyticsData({super.key, required this.totalConsultation, required this.totalPrescription, required this.totalRevenue, required this.patientDemography, required this.onTap});
 
   @override
   State<AnalyticsData> createState() => _AnalyticsDataState();
 }
 
 class _AnalyticsDataState extends State<AnalyticsData> {
-  String _selectedDay = "1 Day";
+  String selectedDay = "1 Day";
 
-  void _handleDaySelected(String selectedDay) {
+  void _handleDaySelected(String selectedDay, BuildContext context, String day) {
+   
+
+     
     setState(() {
-      _selectedDay = selectedDay;
+      selectedDay = selectedDay;
+      widget.onTap(day);
+      
     });
   }
 
@@ -284,7 +275,10 @@ class _AnalyticsDataState extends State<AnalyticsData> {
               children: [
                 ChoiceSelector(
                   items: const ["1 Day", "7 Days", "30 Days"],
-                  onSelected: _handleDaySelected,
+                  onSelected: (value){
+                    int number = extractNumber(value);
+                    _handleDaySelected(value,context, number.toString());
+                  } ,
                 ),
                 const SizedBox(
                   height: 15,
@@ -633,4 +627,16 @@ class _AnalyticsDataState extends State<AnalyticsData> {
       ),
     );
   }
+
+  int extractNumber(String value) {
+   
+  final RegExp regExp = RegExp(r'\d+');
+  final match = regExp.firstMatch(value);
+  
+  if (match != null) {
+    return int.parse(match.group(0)!);
+  } else {
+    throw ArgumentError('No numeric value found in the string.');
+  }
+}
 }

@@ -62,7 +62,7 @@ abstract class UserRepository {
       {required String categoryId});
 
   Future<GetMedications> getMedications();
-  Future<DoctorsAnalytics> getAnalytics();
+  Future<DoctorsAnalytics> getAnalytics(String days);
   Future<NotificationsData> getNotifications();
   Future<GetProfileStatus> getProfileStatus();
   Future<AdministeredRoute> getAdministeredRoute();

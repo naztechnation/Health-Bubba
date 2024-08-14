@@ -263,9 +263,12 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<DoctorsAnalytics> getAnalytics() async {
-    final map = await Requests().get(
+  Future<DoctorsAnalytics> getAnalytics(String days) async {
+    final map = await Requests().post(
       AppStrings.doctorAnalyticsUrl,
+      body: {
+        'days': days
+      }
     );
     return DoctorsAnalytics.fromJson(map);
   }

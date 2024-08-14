@@ -73,9 +73,10 @@ class _HomeState extends State<Home> {
     String doctors = await StorageHandler.getUserId();
     doctorsId = int.parse(doctors ?? '0');
     await _userCubit.getProfileStatus();
+    await _userCubit.doctorsAnalyticsAccount(days: '1');
+
     await _userCubit.userData();
     await _userCubit.getAppointmentList();
-    await _userCubit.doctorsAnalyticsAccount();
   }
 
   @override
@@ -231,14 +232,22 @@ class _HomeState extends State<Home> {
       if (state is UserApiErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
-            onTap: () {
-              getUserData();
+            onTap: () async{
+              await _userCubit.getProfileStatus();
+    await _userCubit.doctorsAnalyticsAccount(days: '1');
+
+    await _userCubit.userData();
+    await _userCubit.getAppointmentList();
             });
       } else if (state is UserNetworkErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
-            onTap: () {
-              getUserData();
+            onTap: () async{
+              await _userCubit.getProfileStatus();
+    await _userCubit.doctorsAnalyticsAccount(days: '1');
+
+    await _userCubit.userData();
+    await _userCubit.getAppointmentList();
             });
       }
       return Scaffold(
@@ -325,7 +334,7 @@ class _HomeState extends State<Home> {
                                           onTap: () {
                                             AppNavigator.pushAndStackPage(
                                                 context,
-                                                page: Notifications());
+                                                page: const Notifications());
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.fromLTRB(
@@ -1921,7 +1930,16 @@ class _HomeState extends State<Home> {
                                   patientDemography == '0/0') ...[
                                 const EmptyAnalytics(),
                               ] else ...[
-                                  AnalyticsData(totalConsultation: totalConsultation, totalPrescription: totalPrescription, totalRevenue: totalRevenue, patientDemography: patientDemography,)
+                                AnalyticsData(
+                                  totalConsultation: totalConsultation,
+                                  totalPrescription: totalPrescription,
+                                  totalRevenue: totalRevenue,
+                                  patientDemography: patientDemography,
+                                  onTap: (String value) async {
+                                    await _userCubit.doctorsAnalyticsAccount(
+                                        days: value);
+                                  },
+                                )
                               ],
                             ],
                           ),
@@ -1932,9 +1950,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            if (
-                //  state is UserDataLoading ||
-                state is ProfileStatusLoading)
+            if (state is AnalyticsLoading || state is ProfileStatusLoading)
               Container(
                 color: AppColors.indicatorBgColor,
                 child: Center(
