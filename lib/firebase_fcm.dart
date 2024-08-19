@@ -4,7 +4,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'handlers/secure_handler.dart';
 import 'main.dart';
-import 'notification.dart';
 import 'res/app_routes.dart';
  
 
