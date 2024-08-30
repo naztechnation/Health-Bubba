@@ -1,21 +1,125 @@
+import 'package:flutter/material.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:intl/intl.dart';
 
 import '../../res/enum.dart';
+import '../patients/get_medications.dart';
+import '../patients/get_profile_status.dart';
+import '../patients/patients_list.dart';
+import '../user/doctors_analytics.dart';
 import '../user/notifications_data.dart';
 import 'base_viewmodel.dart';
 
 class UserViewModel extends BaseViewModel {
+
+  UserViewModel(){
+     searchController = TextEditingController();
+  searchController.addListener(_filterPatients);
+  medSearchController = TextEditingController();
+    medSearchController.addListener(_filterMedications);
+  }
+
+    @override
+void dispose() {
+  searchController.dispose();
+  super.dispose();
+}  
+
   int _currentIndex = 0;
+
+  GetProfileStatus? _status;
+  DoctorsAnalytics? _analytics;
+
+  late TextEditingController searchController;
+  late TextEditingController medSearchController;
+
+ 
+  GetMedications? _medications;
+   List<GetMedicationsData> medicationLists = [];
+
+  List<GetMedicationsData> _filteredMedicationsLists = [];
+
+   PatientsLists? _patients;
+  List<Patients> _filteredPatientsLists = [];
 
   List<AppointmentListsData> _appointments = [];
 
+ 
+
   NotificationsData? _notificationsData;
 
+
+  void _filterPatients() {
+   
+    String query = searchController.text.toLowerCase();
+    _filteredPatientsLists = _patients?.data.patients.where((patient) {
+      return patient.firstName.toString().toLowerCase().contains(query);
+    }).toList();
+    setViewState(ViewState.success);
+  
+}
+void _filterMedications() {
+     
+      String query = medSearchController.text.toLowerCase();
+      _filteredMedicationsLists = medicationLists.where((medication) {
+        return medication.medicationName
+            .toString()
+            .toLowerCase()
+            .contains(query);
+      }).toList();
+    setViewState(ViewState.success);
+     
+  }
   Future<void> setAppointmentData(
     List<AppointmentListsData> appointments,
   ) async {
     _appointments = appointments;
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> saveProfileStatus(
+    GetProfileStatus status,
+  ) async {
+    _status = status;
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> savePatietList(
+    PatientsLists filteredPatientsLists,
+  ) async {
+    _filteredPatientsLists = filteredPatientsLists.data.patients;
+    _patients = filteredPatientsLists;
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> saveMedicalList(
+    GetMedications filteredMedsLists,
+  ) async {
+    _filteredMedicationsLists = filteredMedsLists.data ?? [];
+    medicationLists = filteredMedsLists.data ?? [];
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> saveAnalytics(
+    DoctorsAnalytics analytics,
+  ) async {
+    _analytics = analytics;
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> clearAnalytics() async {
+    _analytics = null;
+
+    setViewState(ViewState.success);
+  }
+
+  Future<void> clearProfileStatus() async {
+    _status = null;
 
     setViewState(ViewState.success);
   }
@@ -36,29 +140,37 @@ class UserViewModel extends BaseViewModel {
 
   int get currentPage => _currentIndex;
 
-    
-
-       List<NotifyData>? get todayFilter {
+  List<NotifyData>? get todayFilter {
     final String todaysDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    return _notificationsData?.data?.where((notify) => notify.date?.split('T')[0] == todaysDate).toList();
+    return _notificationsData?.data
+        ?.where((notify) => notify.date?.split('T')[0] == todaysDate)
+        .toList();
   }
 
-List<NotifyData>? get yesterdayFilter {
-    final String yesterdaysDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 1)));
-    return _notificationsData?.data?.where((notify) => notify.date?.split('T')[0] == yesterdaysDate).toList();
+  List<NotifyData>? get yesterdayFilter {
+    final String yesterdaysDate = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().subtract(const Duration(days: 1)));
+    return _notificationsData?.data
+        ?.where((notify) => notify.date?.split('T')[0] == yesterdaysDate)
+        .toList();
   }
 
   List<NotifyData>? get pastDaysFilter {
     final String todaysDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final String yesterdaysDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(const Duration(days: 1)));
+    final String yesterdaysDate = DateFormat('yyyy-MM-dd')
+        .format(DateTime.now().subtract(const Duration(days: 1)));
 
     return _notificationsData?.data?.where((notify) {
       final String? notificationDate = notify.date?.split('T')[0];
-      return notificationDate != null && 
-             notificationDate != todaysDate && 
-             notificationDate != yesterdaysDate;
+      return notificationDate != null &&
+          notificationDate != todaysDate &&
+          notificationDate != yesterdaysDate;
     }).toList();
   }
+
+
+
+  List<AppointmentListsData> get appointments => _appointments;
   List<AppointmentListsData> get upcomingAppointments =>
       _appointments.where((upcoming) => upcoming.status == 0).toList() ?? [];
   List<AppointmentListsData> get completedAppointments =>
@@ -96,4 +208,10 @@ List<NotifyData>? get yesterdayFilter {
 
     return newDateTimeString;
   }
+
+  GetProfileStatus? get status => _status;
+  DoctorsAnalytics? get analytics => _analytics;
+  PatientsLists? get patients => _patients;
+  List<Patients> get filteredPatientsLists => _filteredPatientsLists;
+  List<GetMedicationsData> get filteredMedicationsLists => _filteredMedicationsLists;
 }

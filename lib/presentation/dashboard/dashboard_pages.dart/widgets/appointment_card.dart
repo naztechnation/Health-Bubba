@@ -10,7 +10,7 @@ import 'package:healthbubba/widgets/image_view.dart';
 import '../../../../utils/app_utils.dart';
 import '../../../../widgets/choice_widget.dart';
 import '../../video_call/video.dart';
-import '../upcomig_page.dart';
+import '../upcoming_page.dart';
 
 appointmentCard(
     List<AppointmentListsData> appointmentListsData, num doctorsId, BuildContext context) {

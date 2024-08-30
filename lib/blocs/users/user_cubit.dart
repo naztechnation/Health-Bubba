@@ -21,10 +21,10 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(PatientsListLoading());
 
-      final user =
+      final patients =
           await userRepository.getPatientsLists(page: page, limit: limit);
-
-      emit(PatientsListLoaded(user));
+     viewModel.savePatietList(patients);
+      emit(PatientsListLoaded(patients));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {
@@ -302,9 +302,9 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(MedicationsLoading());
 
-      final user = await userRepository.getMedications();
-
-      emit(MedicationsLoaded(user));
+      final medics = await userRepository.getMedications();
+      viewModel.saveMedicalList(medics);
+      emit(MedicationsLoaded(medics));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {
@@ -324,9 +324,11 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(ProfileStatusLoading());
 
-      final user = await userRepository.getProfileStatus();
+      final status = await userRepository.getProfileStatus();
 
-      emit(ProfileStatusLoaded(user));
+      viewModel.saveProfileStatus(status);
+
+      emit(ProfileStatusLoaded(status));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {
@@ -614,9 +616,11 @@ class UserCubit extends Cubit<UserStates> {
     try {
       emit(AnalyticsLoading());
 
-      final patient = await userRepository.getAnalytics(days
+      final analytics = await userRepository.getAnalytics(days
            );
-      emit(AnalyticsLoaded(patient));
+
+           viewModel.saveAnalytics(analytics);
+      emit(AnalyticsLoaded(analytics));
     } on ApiException catch (e) {
       emit(UserApiErr(e.message));
     } catch (e) {

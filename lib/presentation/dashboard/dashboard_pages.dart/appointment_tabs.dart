@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
@@ -123,200 +121,209 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
           ),
         ],
       ),
-      body: BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
-        if (state is AppointmentListLoaded) {
-          if (state.appointmentLists.ok ?? false) {
-            upcomingAppointment =
-                _userCubit.viewModel.upcomingAppointments.reversed.toList();
-            completedAppointment =
-                _userCubit.viewModel.completedAppointments.reversed.toList();
-            cancelledAppointment =
-                _userCubit.viewModel.cancelledAppointments.reversed.toList();
-          } else {
+      body: RefreshIndicator(
+          onRefresh: _refreshPage,
+
+        child: BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
+          if (state is AppointmentListLoaded) {
+            if (state.appointmentLists.ok ?? false) {
+              upcomingAppointment =
+                  _userCubit.viewModel.upcomingAppointments.reversed.toList();
+              completedAppointment =
+                  _userCubit.viewModel.completedAppointments.reversed.toList();
+              cancelledAppointment =
+                  _userCubit.viewModel.cancelledAppointments.reversed.toList();
+            } else {
+              ToastService().showToast(context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: 'Error!!!',
+                  subtitle: state.appointmentLists.message?.message ?? '');
+            }
+          } else if (state is UserApiErr || state is UserNetworkErr) {
             ToastService().showToast(context,
                 leadingIcon: const ImageView.svg(AppImages.error),
                 title: 'Error!!!',
-                subtitle: state.appointmentLists.message?.message ?? '');
+                subtitle: "Network Error");
           }
-        } else if (state is UserApiErr || state is UserNetworkErr) {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: "Network Error");
-        }
-      }, builder: (context, state) {
-        if (state is UserApiErr) {
-          return ErrorPage(
-              statusCode: state.message ?? '',
-              onTap: () {
-                _userCubit.getAppointmentList();
-              });
-        } else if (state is UserNetworkErr) {
-          return ErrorPage(
-              statusCode: state.message ?? '',
-              onTap: () {
-                _userCubit.getAppointmentList();
-              });
-        }
-        return (state is AppointmentListLoading)
-            ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
-            : Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFEFF1F5),
-                          borderRadius: BorderRadius.circular(12)),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                upComing = true;
-                                cancelled = false;
-                                completed = false;
-                              });
-                            },
-                            child: Container(
+        }, builder: (context, state) {
+          if (state is UserApiErr) {
+            return ErrorPage(
+                statusCode: state.message ?? '',
+                onTap: () {
+                  _userCubit.getAppointmentList();
+                });
+          } else if (state is UserNetworkErr) {
+            return ErrorPage(
+                statusCode: state.message ?? '',
+                onTap: () {
+                  _userCubit.getAppointmentList();
+                });
+          }
+          return (_userCubit.viewModel.appointments.isEmpty && state is AppointmentListLoading )
+              ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
+              : Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: const Color(0xFFEFF1F5),
+                            borderRadius: BorderRadius.circular(12)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  upComing = true;
+                                  cancelled = false;
+                                  completed = false;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                                decoration: upComing
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(11),
+                                        color: const Color(0xFFFFFFFF),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x0D000000),
+                                            offset: Offset(0, 4),
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                      )
+                                    : null,
+                                child: Text('Upcoming',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: upComing
+                                            ? Colors.black
+                                            : Colors.grey)),
+                              ),
+                            ),
+                            Container(
+                              height: 20,
+                              width: 1,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
-                              decoration: upComing
-                                  ? BoxDecoration(
-                                      borderRadius: BorderRadius.circular(11),
-                                      color: const Color(0xFFFFFFFF),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color(0x0D000000),
-                                          offset: Offset(0, 4),
-                                          blurRadius: 2,
-                                        ),
-                                      ],
-                                    )
-                                  : null,
-                              child: Text('Upcoming',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: upComing
-                                          ? Colors.black
-                                          : Colors.grey)),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFA09CAB),
+                                  borderRadius: BorderRadius.circular(11)),
                             ),
-                          ),
-                          Container(
-                            height: 20,
-                            width: 1,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFA09CAB),
-                                borderRadius: BorderRadius.circular(11)),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                upComing = false;
-                                cancelled = false;
-                                completed = true;
-                              });
-                            },
-                            child: Container(
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  upComing = false;
+                                  cancelled = false;
+                                  completed = true;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                                decoration: completed
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(11),
+                                        color: const Color(0xFFFFFFFF),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x0D000000),
+                                            offset: Offset(0, 4),
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                      )
+                                    : null,
+                                child: Text('Completed',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: completed
+                                            ? Colors.black
+                                            : Colors.grey)),
+                              ),
+                            ),
+                            Container(
+                              height: 20,
+                              width: 1,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 10),
-                              decoration: completed
-                                  ? BoxDecoration(
-                                      borderRadius: BorderRadius.circular(11),
-                                      color: const Color(0xFFFFFFFF),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color(0x0D000000),
-                                          offset: Offset(0, 4),
-                                          blurRadius: 2,
-                                        ),
-                                      ],
-                                    )
-                                  : null,
-                              child: Text('Completed',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: completed
-                                          ? Colors.black
-                                          : Colors.grey)),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xFFA09CAB),
+                                  borderRadius: BorderRadius.circular(11)),
                             ),
-                          ),
-                          Container(
-                            height: 20,
-                            width: 1,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFA09CAB),
-                                borderRadius: BorderRadius.circular(11)),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                upComing = false;
-                                cancelled = true;
-                                completed = false;
-                              });
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10),
-                              decoration: cancelled
-                                  ? BoxDecoration(
-                                      borderRadius: BorderRadius.circular(11),
-                                      color: const Color(0xFFFFFFFF),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color(0x0D000000),
-                                          offset: Offset(0, 4),
-                                          blurRadius: 2,
-                                        ),
-                                      ],
-                                    )
-                                  : null,
-                              child: Text('Cancelled',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: cancelled
-                                          ? Colors.black
-                                          : Colors.grey)),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  upComing = false;
+                                  cancelled = true;
+                                  completed = false;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                                decoration: cancelled
+                                    ? BoxDecoration(
+                                        borderRadius: BorderRadius.circular(11),
+                                        color: const Color(0xFFFFFFFF),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x0D000000),
+                                            offset: Offset(0, 4),
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                      )
+                                    : null,
+                                child: Text('Cancelled',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: cancelled
+                                            ? Colors.black
+                                            : Colors.grey)),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          if (upComing)
-                            UpcomingPage(
-                              upcomingAppointment: upcomingAppointment,
-                            )
-                          else if (completed)
-                            CompletedPage(
-                              completedAppointment: completedAppointment,
-                            )
-                          else if (cancelled)
-                            CancelledPage(
-                              cancelledAppointment: cancelledAppointment,
-                            )
-                        ],
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            if (upComing)
+                              UpcomingPage(
+                                upcomingAppointment: _userCubit.viewModel.upcomingAppointments.reversed.toList(),
+                              )
+                            else if (completed)
+                              CompletedPage(
+                                completedAppointment: _userCubit.viewModel.completedAppointments.reversed.toList(),
+                              )
+                            else if (cancelled)
+                              CancelledPage(
+                                cancelledAppointment: _userCubit.viewModel.cancelledAppointments.reversed.toList(),
+                              )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              );
-      }),
+                    )
+                  ],
+                );
+        }),
+      ),
     );
+  }
+  Future<void> _refreshPage() async {
+
+   
+    await _userCubit.getAppointmentList();
   }
 }

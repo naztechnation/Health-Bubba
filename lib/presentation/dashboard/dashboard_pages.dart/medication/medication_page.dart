@@ -9,7 +9,6 @@ import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
-import '../../../../res/app_strings.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/custom_toast.dart';
@@ -42,10 +41,7 @@ class Medications extends StatefulWidget {
 class _MedicationsState extends State<Medications> {
   late UserCubit _userCubit;
 
-  List<GetMedicationsData> medicationLists = [];
-
-  List<GetMedicationsData> filteredMedicationsLists = [];
-  late TextEditingController _searchController;
+  
 
   getUserData() async {
     _userCubit = context.read<UserCubit>();
@@ -56,31 +52,17 @@ class _MedicationsState extends State<Medications> {
   @override
   void initState() {
     getUserData();
-    _searchController = TextEditingController();
-    _searchController.addListener(_filterMedications);
+   
     super.initState();
   }
 
-  void _filterMedications() {
-    setState(() {
-      String query = _searchController.text.toLowerCase();
-      filteredMedicationsLists = medicationLists.where((medication) {
-        return medication.medicationName
-            .toString()
-            .toLowerCase()
-            .contains(query);
-      }).toList();
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is MedicationsLoaded) {
-        medicationLists.addAll(state.medications.data ?? []) ;
-
- 
-                filteredMedicationsLists = List.from(medicationLists);
+         
       } else if (state is UserApiErr) {
         ToastService().showToast(context,
             leadingIcon: const ImageView.svg(AppImages.error),
@@ -106,7 +88,7 @@ class _MedicationsState extends State<Medications> {
               getUserData();
             });
       }
-      return (state is MedicationsLoading)
+      return (_userCubit.viewModel.filteredMedicationsLists.isEmpty &&state is MedicationsLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -154,7 +136,7 @@ class _MedicationsState extends State<Medications> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 15),
                             child: TextEditView(
-                            controller: _searchController,
+                              controller: _userCubit.viewModel.medSearchController,
                               prefixIcon: SizedBox(
                                 width: 50,
                                 child: Row(
@@ -193,16 +175,17 @@ class _MedicationsState extends State<Medications> {
                             color: Colors.grey.shade300,
                             height: 0,
                           ),
-
                           Expanded(
                             child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: filteredMedicationsLists.length,
-                              itemBuilder: (context, index){
-                              return MedicationCard(medications: filteredMedicationsLists[index],);
-                            }),
+                                shrinkWrap: true,
+                                itemCount: Provider.of<UserViewModel>(context, listen: true).filteredMedicationsLists.length,
+                                itemBuilder: (context, index) {
+                                  return MedicationCard(
+                                    medications:
+                                        _userCubit.viewModel.filteredMedicationsLists[index],
+                                  );
+                                }),
                           )
-                           
                         ],
                       ),
                     ),
@@ -233,5 +216,11 @@ class _MedicationsState extends State<Medications> {
               ),
             );
     });
+  }
+
+  Future<void> _refreshPage() async {
+
+   
+    await _userCubit.getMedications();
   }
 }
