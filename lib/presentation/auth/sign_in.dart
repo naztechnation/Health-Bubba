@@ -74,6 +74,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   StorageHandler.saveUserTitle(
                       state.loginData.data?.user?.title ?? '');
                   StorageHandler.saveUserFirstName(
+                      state.loginData.data?.user?.firstName ?? '');
+                      StorageHandler.saveLastName(
                       state.loginData.data?.user?.lastName ?? '');
                   StorageHandler.saveUserPicture(
                       "${AppStrings.imageBaseUrl}${state.loginData.data?.user?.picture ?? ''}");

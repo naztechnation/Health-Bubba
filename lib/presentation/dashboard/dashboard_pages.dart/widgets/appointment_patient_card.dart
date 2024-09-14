@@ -407,7 +407,9 @@ class AppointmentPatientCard extends StatelessWidget {
                     plugins: [ZegoUIKitSignalingPlugin()],
                   );
                       
-                    AppNavigator.pushAndStackPage(context, page: CallInviteScreen(inviteeId: upcomingAppointment.patientId.toString(), inviteeName: upcomingAppointment.patientLastName.toString(),));
+                    AppNavigator.pushAndStackPage(context, page: CallInviteScreen(inviteeId: 
+                    upcomingAppointment.patientId.toString(), 
+                    inviteeName: upcomingAppointment.patientLastName.toString(),));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
