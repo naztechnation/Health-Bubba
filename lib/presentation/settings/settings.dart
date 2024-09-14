@@ -11,6 +11,7 @@ import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../../handlers/secure_handler.dart';
 import '../../widgets/decision_widgets.dart';
@@ -361,6 +362,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 primaryText: 'Yes, continue',
                                                 secondaryText: 'No, go back',
                                                 primaryAction: () async {
+                                                  ZegoUIKitPrebuiltCallInvitationService().uninit();
                                                   await StorageHandler
                                                       .clearCache();
                                                   StorageHandler
@@ -381,7 +383,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: DeleteAccount());
+                                            page: const DeleteAccount());
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

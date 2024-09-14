@@ -57,6 +57,11 @@ static Future<void> saveFcmToken([String? token]) async {
       await storage.write(key: 'FCM', value: token);
     }
   }
+static Future<void> saveLastName([String? token]) async {
+    if (token != null) {
+      await storage.write(key: 'LASTNAME', value: token);
+    }
+  }
 
 
   static Future<void> saveUserToken([String? token]) async {
@@ -111,6 +116,18 @@ static Future<void> saveFcmToken([String? token]) async {
 
    static Future<String> getFirstName() async {
     String? value = await storage.read(key: 'FIRSTNAME');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+
+  static Future<String> getLastName() async {
+    String? value = await storage.read(key: 'LASTNAME');
     String? name;
     String? data = value;
     if (data != null) {

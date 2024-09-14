@@ -1,17 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/call_invitation.dart';
 import 'package:healthbubba/utils/app_utils.dart';
+
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import '../../../../handlers/secure_handler.dart';
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
+import '../../../../res/app_strings.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
-import '../../video_call/video.dart';
 import 'reschedule.dart';
 
 class AppointmentPatientCard extends StatelessWidget {
@@ -34,9 +36,13 @@ class AppointmentPatientCard extends StatelessWidget {
 
   num doctorsId = 0;
 
+  String userId = '';
+  String userName = '';
+
   getUserDetails() async {
-    String doctors = await StorageHandler.getUserId();
-    doctorsId = int.parse(doctors);
+    userId = await StorageHandler.getUserId();
+    userName = await StorageHandler.getFirstName();
+    doctorsId = int.parse(userId);
   }
 
   @override
@@ -219,7 +225,9 @@ class AppointmentPatientCard extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.sizeOf(context).width * 0.6,
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.6,
                                           child: Row(
                                             children: [
                                               Text(
@@ -228,20 +236,22 @@ class AppointmentPatientCard extends StatelessWidget {
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 12,
-                                                  
-                                                  color: const Color(0xFF6C7079),
+                                                  color:
+                                                      const Color(0xFF6C7079),
                                                 ),
                                               ),
-                                              const SizedBox(width: 5,),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
                                               Flexible(
                                                 child: Text(
-                                                  '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '',upcomingAppointment.time ?? ''))})',
+                                                  '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '', upcomingAppointment.time ?? ''))})',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 12,
-                                                    
-                                                    color: const Color(0xFF6B7280),
+                                                    color:
+                                                        const Color(0xFF6B7280),
                                                   ),
                                                 ),
                                               )
@@ -386,14 +396,18 @@ class AppointmentPatientCard extends StatelessWidget {
                 right: 30,
                 child: GestureDetector(
                   onTap: () {
-                    AppNavigator.pushAndStackPage(context,
-                        page: VideoCall(
-                            patientId: upcomingAppointment.patientId ?? 0,
-                            patientName:
-                                upcomingAppointment.patientFirstName ?? '',
-                            doctorsId: doctorsId,
-                            appointmentId:
-                                upcomingAppointment.appointmentId.toString()));
+                     ZegoUIKitPrebuiltCallInvitationService().init(
+                    appID: AppStrings.zigoAppIdUrl,
+                    appSign: AppStrings.zegoAppSign,
+                    
+                    userID:  userId,
+
+                    userName:  userName,
+                    
+                    plugins: [ZegoUIKitSignalingPlugin()],
+                  );
+                      
+                    AppNavigator.pushAndStackPage(context, page: CallInviteScreen(inviteeId: upcomingAppointment.patientId.toString(), inviteeName: upcomingAppointment.patientLastName.toString(),));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
@@ -410,19 +424,17 @@ class AppointmentPatientCard extends StatelessWidget {
   }
 
   String replaceTimeInDateTime(String dateTimeString, String newTime) {
-   
-  if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
-    return dateTimeString;  
+    if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
+      return dateTimeString;
+    }
+
+    List<String> parts = dateTimeString.split('T');
+    if (parts.length != 2) {}
+
+    String datePart = parts[0];
+
+    String newDateTimeString = '${datePart}T${newTime}Z';
+
+    return newDateTimeString;
   }
-
-  List<String> parts = dateTimeString.split('T');
-  if (parts.length != 2) {
-  }
-  
-  String datePart = parts[0];
-
-  String newDateTimeString = '${datePart}T${newTime}Z';
-
-  return newDateTimeString;
-}
 }

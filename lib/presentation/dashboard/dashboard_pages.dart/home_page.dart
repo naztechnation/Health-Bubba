@@ -9,6 +9,8 @@ import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:provider/provider.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import '../../../blocs/users/users.dart';
 import '../../../model/patients/appointment_lists.dart';
@@ -56,6 +58,8 @@ class _HomeState extends State<Home> {
 
   String imageUrl = "";
   String name = "";
+  String lastName = "";
+  String userId = "";
   String title = "";
 
   String totalConsultation = '0';
@@ -71,9 +75,11 @@ class _HomeState extends State<Home> {
 
     imageUrl = await StorageHandler.getUserPicture();
     name = await StorageHandler.getFirstName();
+    lastName = await StorageHandler.getLastName();
+    
     title = await StorageHandler.getUserTitle();
-    String doctors = await StorageHandler.getUserId();
-    doctorsId = int.parse(doctors ?? '0');
+    userId = await StorageHandler.getUserId();
+    doctorsId = int.parse(userId ?? '0');
     await _userCubit.getProfileStatus();
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
@@ -125,6 +131,15 @@ class _HomeState extends State<Home> {
               state.userData.data?.first.firstName ?? '');
           StorageHandler.saveUserPicture(
               "${AppStrings.imageBaseUrl}${state.userData.data?.first.picture ?? ''}");
+          StorageHandler.saveUserId(
+              state.userData.data?.first.id.toString() ?? '');
+          ZegoUIKitPrebuiltCallInvitationService().init(
+            appID: AppStrings.zigoAppIdUrl,
+            appSign: AppStrings.zegoAppSign,
+            userID: state.userData.data?.first.id.toString() ?? '',
+            userName: state.userData.data?.first.lastName ?? '',
+            plugins: [ZegoUIKitSignalingPlugin()],
+          );
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -236,16 +251,18 @@ class _HomeState extends State<Home> {
                             child: Container(
                               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        margin:
-                                            const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                        margin: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 8),
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
@@ -279,8 +296,8 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                   Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 0, 14.3),
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0, 0, 0, 14.3),
                                     child: SizedBox(
                                       child: Row(
                                         mainAxisAlignment:
@@ -306,7 +323,8 @@ class _HomeState extends State<Home> {
                                                           0xFFE5E7EB)),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
-                                                  color: const Color(0xFFFFFFFF),
+                                                  color:
+                                                      const Color(0xFFFFFFFF),
                                                 ),
                                                 child: Container(
                                                   width: 32,
@@ -316,8 +334,8 @@ class _HomeState extends State<Home> {
                                                           3, 3, 3, 3),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                      color:
-                                                          const Color(0xFFF1F3F5),
+                                                      color: const Color(
+                                                          0xFFF1F3F5),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4),
@@ -331,7 +349,8 @@ class _HomeState extends State<Home> {
                                                         width: 20,
                                                         height: 20,
                                                         child: ImageView.svg(
-                                                            AppImages.notifyIcon),
+                                                            AppImages
+                                                                .notifyIcon),
                                                       ),
                                                     ),
                                                   ),
@@ -352,7 +371,8 @@ class _HomeState extends State<Home> {
                                                 height: 40,
                                                 child: ClipRRect(
                                                     borderRadius:
-                                                        BorderRadius.circular(50),
+                                                        BorderRadius.circular(
+                                                            50),
                                                     child: Hero(
                                                       tag: 'profilePicture',
                                                       child: Image.network(
@@ -364,18 +384,21 @@ class _HomeState extends State<Home> {
                                                               .asset(
                                                               AppImages
                                                                   .avatarIcon,
-                                                              fit: BoxFit.cover);
+                                                              fit:
+                                                                  BoxFit.cover);
                                                         },
                                                         loadingBuilder: (context,
                                                             child,
                                                             loadingProgress) {
                                                           if (loadingProgress ==
-                                                              null) return child;
+                                                              null)
+                                                            return child;
                                                           return const ImageView
                                                               .asset(
                                                               AppImages
                                                                   .avatarIcon,
-                                                              fit: BoxFit.cover);
+                                                              fit:
+                                                                  BoxFit.cover);
                                                         },
                                                       ),
                                                     )),
@@ -399,7 +422,8 @@ class _HomeState extends State<Home> {
                                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 3),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Column(
                                         mainAxisAlignment:
@@ -423,7 +447,8 @@ class _HomeState extends State<Home> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  if (_completedCount() == 5) ...[
+                                                  if (_completedCount() ==
+                                                      5) ...[
                                                     const SizedBox.shrink()
                                                   ] else ...[
                                                     const SizedBox(
@@ -431,7 +456,8 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(10, 0, 0, 8),
+                                                          .fromLTRB(
+                                                          10, 0, 0, 8),
                                                       child: Align(
                                                         alignment:
                                                             Alignment.topLeft,
@@ -451,8 +477,11 @@ class _HomeState extends State<Home> {
                                                           child: Container(
                                                             padding:
                                                                 const EdgeInsets
-                                                                    .fromLTRB(7.4,
-                                                                    0, 7.4, 0),
+                                                                    .fromLTRB(
+                                                                    7.4,
+                                                                    0,
+                                                                    7.4,
+                                                                    0),
                                                             child: Text(
                                                               '${_completedCount()}/5 completed',
                                                               style: GoogleFonts
@@ -475,26 +504,29 @@ class _HomeState extends State<Home> {
                                                       height: 6,
                                                     ),
                                                   ],
-                                                  if (_completedCount() == 5) ...[
+                                                  if (_completedCount() ==
+                                                      5) ...[
                                                     const SizedBox.shrink()
                                                   ] else ...[
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(10, 0, 10, 8),
+                                                          .fromLTRB(
+                                                          10, 0, 10, 8),
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
                                                             color: const Color(
                                                                 0xFFE2E4E9)),
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                16),
+                                                            BorderRadius
+                                                                .circular(16),
                                                         color: const Color(
                                                             0xFFF6F8FA),
                                                         boxShadow: const [
                                                           BoxShadow(
-                                                            color:
-                                                                Color(0x3DE4E5E7),
-                                                            offset: Offset(0, 1),
+                                                            color: Color(
+                                                                0x3DE4E5E7),
+                                                            offset:
+                                                                Offset(0, 1),
                                                             blurRadius: 1,
                                                           ),
                                                         ],
@@ -522,60 +554,55 @@ class _HomeState extends State<Home> {
                                                                           page:
                                                                               const WorkInformation());
                                                                 },
-                                                                child: Container(
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          8),
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                12),
+                                                                        BorderRadius.circular(
+                                                                            12),
                                                                     color: const Color(
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D2F3037),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                24),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
                                                                         blurRadius:
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A222A35),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                4),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
                                                                         blurRadius:
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             0.5,
                                                                       ),
@@ -605,13 +632,8 @@ class _HomeState extends State<Home> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  0,
-                                                                                  8.3,
-                                                                                  0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.3, 0),
+                                                                              decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(99),
                                                                                 color: const Color(0xFFFFFFFF),
                                                                                 boxShadow: const [
@@ -632,8 +654,7 @@ class _HomeState extends State<Home> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                              child:
-                                                                                  Container(
+                                                                              child: Container(
                                                                                 width: 20,
                                                                                 height: 20,
                                                                                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -648,13 +669,8 @@ class _HomeState extends State<Home> {
                                                                               ),
                                                                             ),
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  1.5,
-                                                                                  0,
-                                                                                  1.5),
-                                                                              child:
-                                                                                  Text(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
                                                                                 'Add a Bio to your profile',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
@@ -681,8 +697,7 @@ class _HomeState extends State<Home> {
                                                                               10,
                                                                           child:
                                                                               const Icon(
-                                                                            Icons
-                                                                                .arrow_forward_ios,
+                                                                            Icons.arrow_forward_ios,
                                                                             size:
                                                                                 16,
                                                                           ),
@@ -700,60 +715,55 @@ class _HomeState extends State<Home> {
                                                                           page:
                                                                               const WorkInformation());
                                                                 },
-                                                                child: Container(
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          8),
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                12),
+                                                                        BorderRadius.circular(
+                                                                            12),
                                                                     color: const Color(
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D2F3037),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                24),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
                                                                         blurRadius:
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A222A35),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                4),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
                                                                         blurRadius:
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             0.5,
                                                                       ),
@@ -783,13 +793,8 @@ class _HomeState extends State<Home> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  0,
-                                                                                  4.4,
-                                                                                  0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 4.4, 0),
+                                                                              decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(99),
                                                                                 color: const Color(0xFFFFFFFF),
                                                                                 boxShadow: const [
@@ -810,8 +815,7 @@ class _HomeState extends State<Home> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                              child:
-                                                                                  Container(
+                                                                              child: Container(
                                                                                 width: 20,
                                                                                 height: 20,
                                                                                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -826,13 +830,8 @@ class _HomeState extends State<Home> {
                                                                               ),
                                                                             ),
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  1.5,
-                                                                                  0,
-                                                                                  1.5),
-                                                                              child:
-                                                                                  Text(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
                                                                                 'Configure availability',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
@@ -865,8 +864,7 @@ class _HomeState extends State<Home> {
                                                                             child:
                                                                                 Icon(
                                                                               Icons.arrow_forward_ios,
-                                                                              size:
-                                                                                  16,
+                                                                              size: 16,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -883,60 +881,55 @@ class _HomeState extends State<Home> {
                                                                           page:
                                                                               const WorkInformation());
                                                                 },
-                                                                child: Container(
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          8),
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                12),
+                                                                        BorderRadius.circular(
+                                                                            12),
                                                                     color: const Color(
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D2F3037),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                24),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
                                                                         blurRadius:
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A222A35),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                4),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
                                                                         blurRadius:
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             0.5,
                                                                       ),
@@ -966,13 +959,8 @@ class _HomeState extends State<Home> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  0,
-                                                                                  8.5,
-                                                                                  0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.5, 0),
+                                                                              decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(99),
                                                                                 color: const Color(0xFFFFFFFF),
                                                                                 boxShadow: const [
@@ -993,8 +981,7 @@ class _HomeState extends State<Home> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                              child:
-                                                                                  Container(
+                                                                              child: Container(
                                                                                 width: 20,
                                                                                 height: 20,
                                                                                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -1009,15 +996,9 @@ class _HomeState extends State<Home> {
                                                                               ),
                                                                             ),
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  1.5,
-                                                                                  0,
-                                                                                  1.5),
-                                                                              width:
-                                                                                  MediaQuery.sizeOf(context).width * 0.7,
-                                                                              child:
-                                                                                  Text(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              width: MediaQuery.sizeOf(context).width * 0.7,
+                                                                              child: Text(
                                                                                 'Specify Languages for communication',
                                                                                 overflow: TextOverflow.ellipsis,
                                                                                 maxLines: 1,
@@ -1052,8 +1033,7 @@ class _HomeState extends State<Home> {
                                                                             child:
                                                                                 Icon(
                                                                               Icons.arrow_forward_ios,
-                                                                              size:
-                                                                                  16,
+                                                                              size: 16,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1070,60 +1050,55 @@ class _HomeState extends State<Home> {
                                                                           page:
                                                                               const WorkInformation());
                                                                 },
-                                                                child: Container(
-                                                                  margin:
-                                                                      const EdgeInsets
-                                                                          .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          8),
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                12),
+                                                                        BorderRadius.circular(
+                                                                            12),
                                                                     color: const Color(
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D2F3037),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                24),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
                                                                         blurRadius:
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A222A35),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                4),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
                                                                         blurRadius:
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             0.5,
                                                                       ),
@@ -1153,13 +1128,8 @@ class _HomeState extends State<Home> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  0,
-                                                                                  8.2,
-                                                                                  0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.2, 0),
+                                                                              decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(99),
                                                                                 color: const Color(0xFFFFFFFF),
                                                                                 boxShadow: const [
@@ -1180,8 +1150,7 @@ class _HomeState extends State<Home> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                              child:
-                                                                                  Container(
+                                                                              child: Container(
                                                                                 width: 20,
                                                                                 height: 20,
                                                                                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -1196,13 +1165,8 @@ class _HomeState extends State<Home> {
                                                                               ),
                                                                             ),
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  1.5,
-                                                                                  0,
-                                                                                  1.5),
-                                                                              child:
-                                                                                  Text(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
                                                                                 'Add Specialties or area of focus',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
@@ -1235,8 +1199,7 @@ class _HomeState extends State<Home> {
                                                                             child:
                                                                                 Icon(
                                                                               Icons.arrow_forward_ios,
-                                                                              size:
-                                                                                  16,
+                                                                              size: 16,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1253,53 +1216,49 @@ class _HomeState extends State<Home> {
                                                                           page:
                                                                               const ConsultationFeePage());
                                                                 },
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   decoration:
                                                                       BoxDecoration(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                12),
+                                                                        BorderRadius.circular(
+                                                                            12),
                                                                     color: const Color(
                                                                         0xFFFFFFFF),
                                                                     boxShadow: const [
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             1.5,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D2F3037),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                24),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
                                                                         blurRadius:
                                                                             34,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0A222A35),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                4),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
                                                                         blurRadius:
                                                                             3,
                                                                       ),
                                                                       BoxShadow(
                                                                         color: Color(
                                                                             0x0D000000),
-                                                                        offset:
-                                                                            Offset(
-                                                                                0,
-                                                                                1),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
                                                                         blurRadius:
                                                                             0.5,
                                                                       ),
@@ -1329,13 +1288,8 @@ class _HomeState extends State<Home> {
                                                                               CrossAxisAlignment.start,
                                                                           children: [
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  0,
-                                                                                  8.4,
-                                                                                  0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.4, 0),
+                                                                              decoration: BoxDecoration(
                                                                                 borderRadius: BorderRadius.circular(99),
                                                                                 color: const Color(0xFFFFFFFF),
                                                                                 boxShadow: const [
@@ -1356,8 +1310,7 @@ class _HomeState extends State<Home> {
                                                                                   ),
                                                                                 ],
                                                                               ),
-                                                                              child:
-                                                                                  Container(
+                                                                              child: Container(
                                                                                 width: 20,
                                                                                 height: 20,
                                                                                 padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -1372,13 +1325,8 @@ class _HomeState extends State<Home> {
                                                                               ),
                                                                             ),
                                                                             Container(
-                                                                              margin: const EdgeInsets.fromLTRB(
-                                                                                  0,
-                                                                                  1.5,
-                                                                                  0,
-                                                                                  1.5),
-                                                                              child:
-                                                                                  Text(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
                                                                                 'Set consultation fee ',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
@@ -1411,8 +1359,7 @@ class _HomeState extends State<Home> {
                                                                             child:
                                                                                 Icon(
                                                                               Icons.arrow_forward_ios,
-                                                                              size:
-                                                                                  16,
+                                                                              size: 16,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1440,7 +1387,7 @@ class _HomeState extends State<Home> {
                                       ],
                                       if (upcomingAppointment.isNotEmpty) ...[
                                         appointmentCard(upcomingAppointment,
-                                            doctorsId, context),
+                                            doctorsId, context,  lastName, userId),
                                       ],
                                       Column(
                                         mainAxisAlignment:
@@ -1504,7 +1451,8 @@ class _HomeState extends State<Home> {
                                                                       .asset(
                                                                 AppImages
                                                                     .scheduleAppointment,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
@@ -1525,14 +1473,14 @@ class _HomeState extends State<Home> {
                                                                         .topLeft,
                                                                 child: Text(
                                                                   'Schedule Appointment',
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .getFont(
+                                                                  style: GoogleFonts
+                                                                      .getFont(
                                                                     'Inter',
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
-                                                                    fontSize: 14,
+                                                                    fontSize:
+                                                                        14,
                                                                     height: 1.4,
                                                                     color: const Color(
                                                                         0xFF0A0D14),
@@ -1543,14 +1491,14 @@ class _HomeState extends State<Home> {
                                                                 height: 20,
                                                                 child: Text(
                                                                   'Book appointment on behalf of a patient',
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .getFont(
+                                                                  style: GoogleFonts
+                                                                      .getFont(
                                                                     'Inter',
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w400,
-                                                                    fontSize: 12,
+                                                                    fontSize:
+                                                                        12,
                                                                     height: 1.7,
                                                                     color: const Color(
                                                                         0xFF6B7280),
@@ -1564,14 +1512,16 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(0, 7, 0, 31),
+                                                          .fromLTRB(
+                                                          0, 7, 0, 31),
                                                       width: 4,
                                                       height: 10,
                                                       child: const SizedBox(
                                                         width: 4,
                                                         height: 10,
                                                         child: Icon(
-                                                          Icons.arrow_forward_ios,
+                                                          Icons
+                                                              .arrow_forward_ios,
                                                           size: 16,
                                                         ),
                                                       ),
@@ -1639,7 +1589,8 @@ class _HomeState extends State<Home> {
                                                                       .asset(
                                                                 AppImages
                                                                     .createPrescriptionn,
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
@@ -1660,12 +1611,15 @@ class _HomeState extends State<Home> {
                                                                   alignment:
                                                                       Alignment
                                                                           .topLeft,
-                                                                  child: SizedBox(
+                                                                  child:
+                                                                      SizedBox(
                                                                     height: 20,
                                                                     child:
                                                                         SizedBox(
-                                                                      height: 20,
-                                                                      child: Text(
+                                                                      height:
+                                                                          20,
+                                                                      child:
+                                                                          Text(
                                                                         'Create a New Prescription',
                                                                         style: GoogleFonts
                                                                             .getFont(
@@ -1676,8 +1630,8 @@ class _HomeState extends State<Home> {
                                                                               14,
                                                                           height:
                                                                               1.4,
-                                                                          color: const Color(
-                                                                              0xFF0A0D14),
+                                                                          color:
+                                                                              const Color(0xFF0A0D14),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -1695,7 +1649,8 @@ class _HomeState extends State<Home> {
                                                                               .w400,
                                                                       fontSize:
                                                                           12,
-                                                                      height: 1.7,
+                                                                      height:
+                                                                          1.7,
                                                                       color: const Color(
                                                                           0xFF6B7280),
                                                                     ),
@@ -1709,14 +1664,16 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(0, 7, 0, 31),
+                                                          .fromLTRB(
+                                                          0, 7, 0, 31),
                                                       width: 4,
                                                       height: 10,
                                                       child: const SizedBox(
                                                         width: 4,
                                                         height: 10,
                                                         child: Icon(
-                                                          Icons.arrow_forward_ios,
+                                                          Icons
+                                                              .arrow_forward_ios,
                                                           size: 16,
                                                         ),
                                                       ),
@@ -1782,7 +1739,8 @@ class _HomeState extends State<Home> {
                                                                             0xffE5E7EB),
                                                                         width:
                                                                             1)),
-                                                                child: ClipRRect(
+                                                                child:
+                                                                    ClipRRect(
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
@@ -1801,9 +1759,8 @@ class _HomeState extends State<Home> {
                                                                 width: 12,
                                                               ),
                                                               SizedBox(
-                                                                width: MediaQuery
-                                                                            .sizeOf(
-                                                                                context)
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
                                                                         .width *
                                                                     0.6,
                                                                 child: Column(
@@ -1818,7 +1775,8 @@ class _HomeState extends State<Home> {
                                                                       alignment:
                                                                           Alignment
                                                                               .topLeft,
-                                                                      child: Text(
+                                                                      child:
+                                                                          Text(
                                                                         'View Patient Profiles',
                                                                         style: GoogleFonts
                                                                             .getFont(
@@ -1829,8 +1787,8 @@ class _HomeState extends State<Home> {
                                                                               14,
                                                                           height:
                                                                               1.4,
-                                                                          color: const Color(
-                                                                              0xFF0A0D14),
+                                                                          color:
+                                                                              const Color(0xFF0A0D14),
                                                                         ),
                                                                       ),
                                                                     ),
@@ -1840,8 +1798,7 @@ class _HomeState extends State<Home> {
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             12,
                                                                         height:
@@ -1860,14 +1817,16 @@ class _HomeState extends State<Home> {
                                                     ),
                                                     Container(
                                                       margin: const EdgeInsets
-                                                          .fromLTRB(0, 7, 0, 51),
+                                                          .fromLTRB(
+                                                          0, 7, 0, 51),
                                                       width: 4,
                                                       height: 10,
                                                       child: const SizedBox(
                                                         width: 4,
                                                         height: 10,
                                                         child: Icon(
-                                                          Icons.arrow_forward_ios,
+                                                          Icons
+                                                              .arrow_forward_ios,
                                                           size: 16,
                                                         ),
                                                       ),
@@ -1894,7 +1853,8 @@ class _HomeState extends State<Home> {
                                     totalRevenue: totalRevenue,
                                     patientDemography: patientDemography,
                                     onTap: (String value) async {
-                                     await _userCubit.viewModel.clearAnalytics();
+                                      await _userCubit.viewModel
+                                          .clearAnalytics();
                                       await _userCubit.doctorsAnalyticsAccount(
                                           days: value);
                                     },
@@ -1977,11 +1937,10 @@ class _HomeState extends State<Home> {
     }
   }
 
-Future<void> _refreshPage() async {
-
-  // await _userCubit.viewModel.clearProfileStatus();
-  // await _userCubit.viewModel.clearAnalytics();
-   await _userCubit.getProfileStatus();
+  Future<void> _refreshPage() async {
+    // await _userCubit.viewModel.clearProfileStatus();
+    // await _userCubit.viewModel.clearAnalytics();
+    await _userCubit.getProfileStatus();
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
     await _userCubit.userData();

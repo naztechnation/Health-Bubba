@@ -3,8 +3,17 @@ import 'dart:io';
 class AppStrings {
   static const String appName = 'HEALTH BUBBA PARTNER';
 
-  ///base url
+  //zego details
+
   static const String _baseUrl = 'https://api.healthbubba.com/api/';
+
+
+  ///base url
+  static const int zigoAppIdUrl = 1679397057;
+  static const String zegoAppSign = 'e9816227c410458c0e4629ebb2244a40df41da81dce59b6df3cb9d43d3b356c3';
+  static const String zegoResourceId = 'bubba_ios';
+
+
   static const String imageBaseUrl =
       "http://api.healthbubba.com//uploads/profile_pics/";
 

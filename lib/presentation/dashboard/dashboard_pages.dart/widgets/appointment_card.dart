@@ -6,14 +6,16 @@ import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
-import '../../../../utils/app_utils.dart';
-import '../../../../widgets/choice_widget.dart';
-import '../../video_call/video.dart';
+import '../../../../call_invitation.dart';
+import '../../../../res/app_strings.dart';
+import '../../../../utils/app_utils.dart'; 
 import '../upcoming_page.dart';
 
 appointmentCard(
-    List<AppointmentListsData> appointmentListsData, num doctorsId, BuildContext context) {
+    List<AppointmentListsData> appointmentListsData, num doctorsId, BuildContext context,String username, String userId) {
   return Container(
     decoration: const BoxDecoration(
       color: Color(0xFFFFFFFF),
@@ -206,19 +208,20 @@ appointmentCard(
                             ),
                             GestureDetector(
                               onTap: () {
-                                AppNavigator.pushAndStackPage(context,
-                                    page: VideoCall(
-                                      patientId: appointmentListsData[index]
-                                              .patientId ??
-                                          0,
-                                      patientName: appointmentListsData[index]
-                                              .patientFirstName ??
-                                          '',
-                                      doctorsId: doctorsId,
-                                      appointmentId: appointmentListsData[index]
-                                          .appointmentId
-                                          .toString(),
-                                    ));
+                    ZegoUIKitPrebuiltCallInvitationService().init(
+                    appID: AppStrings.zigoAppIdUrl,
+                    appSign: AppStrings.zegoAppSign,
+                    
+                    userID:  userId,
+
+                    userName:  username,
+                    
+                    plugins: [ZegoUIKitSignalingPlugin()],
+                  );
+                      
+                    AppNavigator.pushAndStackPage(context, 
+                    page: CallInviteScreen(inviteeId: appointmentListsData[index].patientId.toString(),
+                     inviteeName: appointmentListsData[index].patientLastName.toString(),));           
                               },
                               child: Container(
                                 margin:
