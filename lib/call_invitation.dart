@@ -7,7 +7,8 @@ import 'res/app_strings.dart';
 class CallInviteScreen extends StatelessWidget {
   final String inviteeId;
   final String inviteeName;
-  const CallInviteScreen({super.key, required this.inviteeId, required this.inviteeName});
+  const CallInviteScreen({super.key, required this.inviteeId,
+   required this.inviteeName});
 
   @override
   Widget build(BuildContext context) {

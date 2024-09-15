@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
+import '../../handlers/secure_handler.dart';
 import '../../res/app_images.dart';
 import 'dashboard_pages.dart/appointment_tabs.dart';
 import 'dashboard_pages.dart/home_page.dart';
@@ -68,6 +69,7 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+                    StorageHandler.saveIsLoggedIn('true');
     
     return Scaffold(
       body: pages[index],

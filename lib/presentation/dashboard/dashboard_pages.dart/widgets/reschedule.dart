@@ -349,7 +349,7 @@ class _RescheduleState extends State<Reschedule> {
                                           margin: const EdgeInsets.fromLTRB(
                                               0, 0, 15.8, 0),
                                           child: Text(
-                                            appointmentDetails?.weight ?? '',
+                                            appointmentDetails?.weight.toString() ?? '',
                                             style: GoogleFonts.getFont(
                                               'Inter',
                                               fontWeight: FontWeight.w400,

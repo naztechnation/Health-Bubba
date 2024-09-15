@@ -17,6 +17,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B26384161958AA27A7678F6A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81372785B9D0662A89FF8448 /* GoogleService-Info.plist */; };
+		FDABB9212C95F41B00AE4154 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDABB9202C95F41A00AE4154 /* CallKit.framework */; };
+		FDABB9232C95F43200AE4154 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDABB9222C95F43100AE4154 /* PushKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		C0E973226D8FD1A8FC7B8DDD /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		C448D2ACAEA4F7E7792F9FED /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		FDA530302C739F2A00F735B6 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		FDABB9202C95F41A00AE4154 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		FDABB9222C95F43100AE4154 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D36E75E4999A066550B47E7 /* Pods_Runner.framework in Frameworks */,
+				FDABB9212C95F41B00AE4154 /* CallKit.framework in Frameworks */,
+				FDABB9232C95F43200AE4154 /* PushKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +99,8 @@
 		1DB85CC08D74EFA36FF75394 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FDABB9222C95F43100AE4154 /* PushKit.framework */,
+				FDABB9202C95F41A00AE4154 /* CallKit.framework */,
 				95664780576EA28B265B1B63 /* Pods_Runner.framework */,
 				4AD22851A7C45CB50A987388 /* Pods_RunnerTests.framework */,
 			);
@@ -235,7 +243,7 @@
 				};
 			};
 			buildConfigurationList = 97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (

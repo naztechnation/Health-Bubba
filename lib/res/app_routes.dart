@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 
 import '../message.dart';
 import '../presentation/auth/forgot_password.dart';
@@ -15,19 +16,16 @@ class AppRoutes {
   static const String successScreen = 'successScreen';
   static const String forgetPassword = 'forgetPassword';
   static const String resetPassword = 'resetPassword';
+  static const String dashboardScreen = 'dashboardScreen';
   static const String message = '/message';
-
- 
 
   static Map<String, Widget Function(BuildContext)> routes = {
     ///Named routes to be added here in this format
     splashScreen: (context) => const SplashScreen(),
-     forgetPassword: (context) =>   ForgotPassword(),
-    // signUpScreen: (context) =>   SignUpScreen(),
-     signInScreen: (context) =>   SignInScreen(),
-    message: (context) => Messages(),
-
-    
+    forgetPassword: (context) => ForgotPassword(),
+    dashboardScreen: (context) => const Dashboard(),
+    signInScreen: (context) => SignInScreen(),
+    message: (context) => const Messages(),
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,20 +34,20 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (context) => const SplashScreen(),
         );
-       case forgetPassword:
+      case forgetPassword:
         return MaterialPageRoute(
-          builder: (context) =>   ForgotPassword(),
-        );
-      
-      case signInScreen:
-        return MaterialPageRoute(
-          builder: (context) =>   SignInScreen(),
+          builder: (context) => ForgotPassword(),
         );
 
-         
-      
-      
-       
+      case signInScreen:
+        return MaterialPageRoute(
+          builder: (context) => SignInScreen(),
+        );
+      case dashboardScreen:
+        return MaterialPageRoute(
+          builder: (context) => const Dashboard(),
+        );
+
       //Default Route is error route
       default:
         return CupertinoPageRoute(

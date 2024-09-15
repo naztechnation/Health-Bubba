@@ -13,9 +13,12 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'firebase_options.dart';
+import 'handlers/secure_handler.dart';
 import 'model/view_model/onboard_view_model.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+
+String userLoggedIn = '';
 
 //final navigatorKey = GlobalKey();
 
@@ -23,9 +26,13 @@ Future _firebaseBackgroundMessage(RemoteMessage message) async {
   if (message.notification != null) {}
 }
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    userLoggedIn = await StorageHandler.getLoggedInState();
+
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     if (message.notification != null) {
       //navigatorKey.currentState!.pushNamed(AppRoutes.message, arguments: message);
@@ -72,8 +79,10 @@ Future<void> main() async {
         ChangeNotifierProvider(
             create: (_) => BookAppointmentViewModel(), lazy: false),
       ],
-      child: HealthBubba(navigatorKey: navigatorKey),
+      child: HealthBubba(navigatorKey: navigatorKey, userLoggedIn: userLoggedIn,),
     ));
   });
+
+   
 }
 

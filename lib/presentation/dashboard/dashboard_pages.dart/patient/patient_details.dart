@@ -1,156 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:ui';
+import 'package:flutter/material.dart'; 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/book_appointment.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../blocs/users/users.dart';
-import '../../../../model/patients/patients_details.dart';
-import '../../../../model/view_model/user_view_model.dart';
-import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
+import 'package:intl/intl.dart'; 
+import '../../../../model/patients/patients_list.dart'; 
 import '../../../../res/app_colors.dart';
-import '../../../../widgets/button_view.dart';
-import '../../../../widgets/custom_toast.dart';
-import '../../../../widgets/error_page.dart';
-import '../../../../widgets/loading_screen.dart';
+import '../../../../widgets/button_view.dart'; 
 
-class PatientDetails extends StatelessWidget {
-  final String patientId;
+ 
 
-  const PatientDetails({
-    super.key,
-    required this.patientId,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<UserCubit>(
-        create: (BuildContext context) => UserCubit(
-              userRepository: UserRepositoryImpl(),
-              viewModel: Provider.of<UserViewModel>(context, listen: false),
-            ),
-        child: PatientDetailsScreen(
-          patientsId: patientId,
-        ));
-  }
-}
-
-class PatientDetailsScreen extends StatefulWidget {
-  final String patientsId;
-  const PatientDetailsScreen({Key? key, required this.patientsId})
+class PatientDetails extends StatefulWidget {
+  final Patients patientsId;
+  const PatientDetails({Key? key, required this.patientsId})
       : super(key: key);
 
   @override
-  State<PatientDetailsScreen> createState() => _PatientDetailsScreenState();
+  State<PatientDetails> createState() => _PatientDetailsState();
 }
 
-class _PatientDetailsScreenState extends State<PatientDetailsScreen> {
-  late UserCubit _userCubit;
-  List<Patients> patientDetails = [];
+class _PatientDetailsState extends State<PatientDetails> {
+  
+  late Patients patientDetails;
 
   @override
   void initState() {
     super.initState();
-    _userCubit = context.read<UserCubit>();
-
-    _userCubit.getPatientDetails(patientId: widget.patientsId);
+    
+  patientDetails = widget.patientsId;
+     
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserCubit>(
-      create: (BuildContext context) => UserCubit(
-        userRepository: UserRepositoryImpl(),
-        viewModel: Provider.of<UserViewModel>(context, listen: false),
-      ),
-      child: PatientDetailsPage(
-        patientsId: widget.patientsId,
-      ),
-    );
-  }
-}
-
-class PatientDetailsPage extends StatefulWidget {
-  final String patientsId;
-
-  const PatientDetailsPage({super.key, required this.patientsId});
-
-  @override
-  State<PatientDetailsPage> createState() => _PatientDetailsPageState();
-}
-
-class _PatientDetailsPageState extends State<PatientDetailsPage> {
-  late UserCubit _userCubit;
-  List<Patients> patientsLists = [];
-
-  getPatientsLists() async {
-    _userCubit.getPatientDetails(
-      patientId: widget.patientsId,
-    );
-  }
-
-  @override
-  void initState() {
-    _userCubit = context.read<UserCubit>();
-    getPatientsLists();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
-      if (state is PatientsDetailsLoaded) {
-        if (state.patientDetails.ok ?? false) {
-          setState(() {
-            patientsLists.addAll(state.patientDetails.data?.patients ?? []);
-          });
-
-          
-        } else {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
-              subtitle: state.patientDetails.message ?? '');
-        }
-      } else if (state is UserApiErr || state is UserNetworkErr) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
-      }
-    }, builder: (context, state) {
-      if (state is UserApiErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-              _userCubit.getPatientDetails(
-                patientId: widget.patientsId,
-              );
-            });
-      } else if (state is UserNetworkErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-              _userCubit.getPatientDetails(
-                patientId: widget.patientsId,
-              );
-            });
-      }
-      return (state is PatientsDetailsLoading)
-          ? LoadersPage(length: MediaQuery.sizeOf(context).height.toInt())
-          : Stack(
-              children: [
-                Scaffold(
+    return Scaffold(
                   backgroundColor: Colors.white,
                   appBar: AppBar(
                     title: Center(
                       child: Text(
-                        patientsLists.first.firstName ?? '',
+                        patientDetails.firstName ?? '',
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
@@ -246,15 +135,13 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                         height: 64,
                                                         child:
                                                             ImageView.network(
-                                                          patientsLists
-                                                              .first.picture,
+                                                          patientDetails.picture,
                                                           fit: BoxFit.cover,
                                                         )),
                                                   ),
                                                 ),
                                                 Text(
-                                                  patientsLists
-                                                          .first.firstName ??
+                                                  patientDetails.firstName ??
                                                       '',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
@@ -335,10 +222,8 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   ),
                                                   Text(
                                                     textAlign: TextAlign.center,
-                                                    calculateAge(patientsLists
-                                                                .first.dob ??
-                                                            '') ??
-                                                        '',
+                                                    calculateAge(patientDetails.dob ??
+                                                            '') ,
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
@@ -454,7 +339,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    patientsLists.first.sex ??
+                                                    patientDetails.sex ??
                                                         '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
@@ -474,7 +359,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                       ),
                                     ),
                                   ),
-                                  if (patientsLists.first.currentMedications!
+                                  if (patientDetails.currentMedications!
                                       .isNotEmpty) ...[
                                     Container(
                                       decoration: const BoxDecoration(
@@ -516,8 +401,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                             Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                children: patientsLists
-                                                    .first.currentMedications!
+                                                children: patientDetails.currentMedications!
                                                     .map((medics) {
                                                   return Container(
                                                     margin: const EdgeInsets
@@ -593,8 +477,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                       ),
                                     ),
                                   ],
-                                  if (patientsLists
-                                      .first.healthConditions!.isNotEmpty)
+                                  if (patientDetails.healthConditions!.isNotEmpty)
                                     Container(
                                       decoration: const BoxDecoration(
                                         color: Color(0xFFFFFFFF),
@@ -635,8 +518,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                             Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                children: patientsLists
-                                                    .first.healthConditions!
+                                                children: patientDetails.healthConditions!
                                                     .map((health) {
                                                   return Container(
                                                     margin: const EdgeInsets
@@ -766,23 +648,17 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: (patientsLists.first
-                                                                      .nextAppointmentDate ==
+                                                      text: (patientDetails.nextAppointmentDate ==
                                                                   'null' ||
-                                                              patientsLists
-                                                                      .first
-                                                                      .nextAppointmentDate ==
+                                                              patientDetails.nextAppointmentDate ==
                                                                   null ||
-                                                              patientsLists
-                                                                  .first
+                                                              patientDetails
                                                                   .nextAppointmentDate
                                                                   .toString()
                                                                   .isEmpty)
                                                           ? 'none'
                                                           : formatDateTime(
-                                                              patientsLists
-                                                                  .first
-                                                                  .nextAppointmentDate
+                                                              patientDetails.nextAppointmentDate
                                                                   .toString()),
                                                       style:
                                                           GoogleFonts.getFont(
@@ -816,23 +692,16 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: (patientsLists.first
-                                                                      .lastAppointmentDate ==
+                                                      text: (patientDetails.lastAppointmentDate ==
                                                                   'null' ||
-                                                              patientsLists
-                                                                      .first
-                                                                      .lastAppointmentDate ==
+                                                              patientDetails.lastAppointmentDate ==
                                                                   null ||
-                                                              patientsLists
-                                                                  .first
-                                                                  .lastAppointmentDate
+                                                              patientDetails.lastAppointmentDate
                                                                   .toString()
                                                                   .isEmpty)
                                                           ? 'none'
                                                           : formatDateTime(
-                                                              patientsLists
-                                                                  .first
-                                                                  .lastAppointmentDate
+                                                              patientDetails.lastAppointmentDate
                                                                   .toString()),
                                                       style:
                                                           GoogleFonts.getFont(
@@ -867,22 +736,15 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: (patientsLists.first
-                                                                      .upcomingAppointmentsCount ==
+                                                      text: (patientDetails.upcomingAppointmentsCount ==
                                                                   'null' ||
-                                                              patientsLists
-                                                                      .first
-                                                                      .upcomingAppointmentsCount ==
+                                                              patientDetails.upcomingAppointmentsCount ==
                                                                   null ||
-                                                              patientsLists
-                                                                  .first
-                                                                  .upcomingAppointmentsCount
+                                                              patientDetails.upcomingAppointmentsCount
                                                                   .toString()
                                                                   .isEmpty)
                                                           ? '0'
-                                                          : patientsLists
-                                                                  .first
-                                                                  .upcomingAppointmentsCount.toString(),
+                                                          : patientDetails.upcomingAppointmentsCount.toString(),
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -913,22 +775,14 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                 ),
                                                 children: [
                                                   TextSpan(
-                                                    text: (patientsLists.first
-                                                                      .consultationCount ==
-                                                                  'null' ||
-                                                              patientsLists
-                                                                      .first
-                                                                      .consultationCount ==
+                                                    text: (patientDetails.consultationsCount ==
                                                                   null ||
-                                                              patientsLists
-                                                                  .first
-                                                                  .consultationCount
+                                                               
+                                                              patientDetails.consultationsCount
                                                                   .toString()
                                                                   .isEmpty)
                                                           ? '0'
-                                                          : patientsLists
-                                                                  .first
-                                                                  .consultationCount.toString(),
+                                                          : patientDetails.consultationsCount.toString(),
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
@@ -994,7 +848,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                               AppNavigator.pushAndStackPage(context,
                                   page: BookAppointentPage(
                                     isReBookAppointment: false,
-                                    patientsId: widget.patientsId,
+                                    patientsId:patientDetails.id.toString()  ?? '',
                                   ));
                             },
                             borderRadius: 100,
@@ -1009,22 +863,10 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                       ),
                     ),
                   ),
-                ),
-                if (state is PatientsDetailsLoading)
-                  Container(
-                    color: Colors.black.withOpacity(0.8),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.indicatorColor,
-                      ),
-                    ),
-                  ),
-              ],
-            );
-    });
+                )
+   ;
   }
-
-  String calculateAge(String birthdate) {
+ String calculateAge(String birthdate) {
     if (birthdate.isEmpty) {
       return '';
     }
@@ -1052,3 +894,5 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
     return formatter.format(dateTime.toLocal());
   }
 }
+
+

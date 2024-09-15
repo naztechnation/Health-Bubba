@@ -46,9 +46,9 @@ class AppointmentDetailsData {
   String? lastName;
   String? email;
   String? phone;
-  String? dob;
-  String? weight;
-  String? sex;
+  dynamic dob;
+  dynamic weight;
+  dynamic sex;
   String? date;
   String? time;
   String? complain;

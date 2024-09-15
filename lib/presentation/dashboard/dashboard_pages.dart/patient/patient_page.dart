@@ -201,13 +201,12 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                               AppNavigator.pushAndStackPage(
                                                 context,
                                                 page: PatientDetails(
-                                                  patientId: _userCubit
+                                                  patientsId: _userCubit
                                                           .viewModel
                                                           .filteredPatientsLists[
                                                               index]
-                                                          .id
-                                                          .toString() ??
-                                                      '',
+                                                          
+                                                         ,
                                                 ),
                                               );
                                             },
