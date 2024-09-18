@@ -6,13 +6,33 @@ import 'package:provider/provider.dart';
 
 import '../../../model/view_model/onboard_view_model.dart';
 
-class BioWidget extends StatelessWidget {
+class BioWidget extends StatefulWidget {
   final Function(String bio) onTap;
+  final String bio;
 
   final BuildContext contex;
-  BioWidget({super.key, required this.contex, required this.onTap});
+  BioWidget({super.key, required this.contex, required this.onTap, required this.bio});
 
+  @override
+  State<BioWidget> createState() => _BioWidgetState();
+}
+
+class _BioWidgetState extends State<BioWidget> {
   var bioController = TextEditingController();
+
+  getBio(){
+    if (widget.bio.isNotEmpty) {
+      bioController.text = widget.bio.trim();
+    } else {
+      
+    }
+  }
+
+  @override
+  void initState() {
+     getBio();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +42,7 @@ class BioWidget extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(contex).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(widget.contex).viewInsets.bottom),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +80,7 @@ class BioWidget extends StatelessWidget {
                         if (bioController.text.isNotEmpty) {
                           Navigator.pop(context);
 
-                          onTap(bioController.text);
+                          widget.onTap(bioController.text);
                         } else {
                           Modals.showToast('bio required', context);
                         }

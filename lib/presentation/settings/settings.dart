@@ -14,9 +14,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../../handlers/secure_handler.dart';
+import '../../res/app_colors.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
-import '../profile/profile_setup.dart'; 
+import '../profile/profile_setup.dart';
 import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
 
@@ -30,7 +31,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   final Uri _url = Uri.parse('https://healthbubba.com/privacy-policy');
   @override
   Widget build(BuildContext context) {
@@ -82,16 +82,14 @@ class _SettingsPageState extends State<SettingsPage> {
                               errorBuilder: (context, error, stackTrace) {
                                 return const ImageView.asset(
                                     AppImages.avatarIcon,
-                                     fit: BoxFit.cover
-                                    );
+                                    fit: BoxFit.cover);
                               },
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
                                 return const ImageView.asset(
                                     AppImages.avatarIcon,
-                                     fit: BoxFit.cover
-                                    );
+                                    fit: BoxFit.cover);
                               },
                             ),
                           ),
@@ -185,22 +183,25 @@ class _SettingsPageState extends State<SettingsPage> {
                                         title: 'Profile Details',
                                         icon: AppImages.profileDetails,
                                         onTap: () {
-                                         AppNavigator.pushAndStackPage(context, page:   const ProfileSetup(isEdit: true,));
+                                          AppNavigator.pushAndStackPage(context,
+                                              page: const ProfileSetup(
+                                                isEdit: true,
+                                              ));
                                         }),
                                     settingsDetails(
                                         title: 'Work Information',
                                         icon: AppImages.workInfo,
                                         onTap: () {
                                           AppNavigator.pushAndStackPage(context,
-                                              page: const WorkInformation());
+                                              page: const WorkInformation(
+                                                  isEdit: true));
                                         }),
                                     settingsDetails(
                                         title: 'Payment Settings',
                                         icon: AppImages.paymentSettings,
                                         onTap: () {
-                                           AppNavigator.pushAndStackPage(context,
+                                          AppNavigator.pushAndStackPage(context,
                                               page: PaymentDetails());
-                                          
                                         }),
                                   ],
                                 ),
@@ -278,11 +279,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                     settingsDetails(
                                         title: 'Privacy Policy',
                                         icon: AppImages.privacyPolicy,
-                                        onTap: () async{
-
+                                        onTap: () async {
                                           _launchUrl();
-                                          // AppNavigator.pushAndStackPage(context,
-                                          //     page: PrivacyPolicy());
                                         }),
                                     settingsDetails(
                                         title: 'Password Manager',
@@ -362,7 +360,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 primaryText: 'Yes, continue',
                                                 secondaryText: 'No, go back',
                                                 primaryAction: () async {
-                                                  ZegoUIKitPrebuiltCallInvitationService().uninit();
+                                                  ZegoUIKitPrebuiltCallInvitationService()
+                                                      .uninit();
                                                   await StorageHandler
                                                       .clearCache();
                                                   StorageHandler
@@ -375,6 +374,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                                 },
                                                 primaryBgColor:
                                                     const Color(0xFFF70000),
+                                                secondaryBgColor:
+                                                    AppColors.lightPrimary,
                                                 secondaryAction: () {
                                                   Navigator.pop(context);
                                                 }),
@@ -619,8 +620,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _launchUrl() async {
-  if (!await launchUrl(_url)) {
-    throw Exception('Could not launch $_url');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
-}
 }

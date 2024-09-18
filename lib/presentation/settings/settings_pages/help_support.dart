@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/handlers/secure_handler.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../res/app_images.dart';
 import '../../../widgets/image_view.dart';
@@ -19,6 +20,8 @@ class _HelpSupportState extends State<HelpSupport> {
 
   String email = '';
   String username = '';
+  final Uri _url = Uri.parse('https://healthbubba.com/#faqs');
+
 
   getUserDetails()async{
     email = await StorageHandler.getUserEmail();
@@ -125,8 +128,7 @@ class _HelpSupportState extends State<HelpSupport> {
               ),
               ListTile(
                 onTap: () {
-                  AppNavigator.pushAndStackPage(context, page: LiveChat(username: username, email: email,));
-                  
+                 _launchUrl(); 
                 },
                 leading: const SizedBox(
                     width: 17.9,
@@ -179,4 +181,9 @@ class _HelpSupportState extends State<HelpSupport> {
       ),
     );
   }
+  Future<void> _launchUrl() async {
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
+  }
+}
 }

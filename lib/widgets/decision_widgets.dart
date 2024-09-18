@@ -13,6 +13,7 @@ destructiveActions({
   Function? secondaryAction,
   required BuildContext context,
   required Color primaryBgColor,
+  required Color secondaryBgColor,
 
 }) {
   return Padding(
@@ -56,7 +57,7 @@ destructiveActions({
                                     borderRadius: BorderRadius.circular(
                                       100,
                                     ),
-                                    color: AppColors.lightPrimary,
+                                    color: secondaryBgColor,
                                     border: Border.all(
                                         color: Colors.grey, width: 0.5)),
                                 child:   Center(

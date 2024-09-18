@@ -245,7 +245,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                 AppNavigator.pushAndReplacePage(context,
                     page: const Dashboard());
               },
-              primaryBgColor: const Color(0xFFF70000),
+              primaryBgColor: const Color(0xFF093126),
+              secondaryBgColor: AppColors.lightPrimary,
               secondaryAction: () {
                 setState(() {
                   medicationCategoryController.clear();

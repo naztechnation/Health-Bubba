@@ -9,6 +9,7 @@ import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../model/working_hours.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
+import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
 import '../../res/app_strings.dart';
 import '../../utils/navigator/page_navigator.dart';
@@ -20,8 +21,10 @@ import '../../widgets/modals.dart';
 import 'work_information.dart';
 
 class ScheduleWidget extends StatelessWidget {
+  final bool isEdit;
+
   const ScheduleWidget({
-    Key? key,
+    Key? key, required this.isEdit,
   }) : super(key: key);
 
   @override
@@ -30,12 +33,16 @@ class ScheduleWidget extends StatelessWidget {
       create: (BuildContext context) => AccountCubit(
           accountRepository: AccountRepositoryImpl(),
           viewModel: Provider.of<AccountViewModel>(context, listen: false)),
-      child: ScheduleWidgetPage(),
+      child: ScheduleWidgetPage(isEdit: isEdit,),
     );
   }
 }
 
 class ScheduleWidgetPage extends StatefulWidget {
+  final bool isEdit;
+
+  const ScheduleWidgetPage({super.key, required this.isEdit});
+
   @override
   _ScheduleWidgetPageState createState() => _ScheduleWidgetPageState();
 }
@@ -43,14 +50,29 @@ class ScheduleWidgetPage extends StatefulWidget {
 class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
   late AccountCubit _accountCubit;
 
-  getAvailability() async {
+   getAvailability() async {
     _accountCubit = context.read<AccountCubit>();
+    final existingSchedule = Provider.of<OnboardViewModel>(context, listen: false).schedule;
+
+    if (existingSchedule != null) {
+      setState(() {
+        for (var daySchedule in existingSchedule) {
+          _daySwitchState[daySchedule.day] = daySchedule.isOpen;
+          _dayTimeSlots[daySchedule.day] = daySchedule.timeSlots.map((slot) {
+            return {
+              'start': TimeOfDay(hour: slot['start_time']!.hour, minute: slot['start_time']!.minute),
+              'end': TimeOfDay(hour: slot['end_time']!.hour, minute: slot['end_time']!.minute),
+            };
+          }).toList();
+        }
+      });
+    }
   }
 
   @override
   void initState() {
-    getAvailability();
     super.initState();
+    getAvailability();
   }
 
   final Map<String, bool> _daySwitchState = {
@@ -116,11 +138,11 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
   }
 
   String _formatTime(TimeOfDay time) {
-  final now = DateTime.now();
-  final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-  final format = DateFormat.Hm(); 
-  return format.format(dt);
-}
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    final format = DateFormat.Hm();
+    return format.format(dt);
+  }
 
   List<DaySchedule> newSchedule = [];
 
@@ -133,13 +155,14 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
       );
     }).toList();
 
-    Provider.of<OnboardViewModel>(context, listen: false)
-        .updateSchedule(newSchedule);
+    Provider.of<OnboardViewModel>(context, listen: false).updateSchedule(newSchedule);
   }
 
   void _clearSchedule() {
-    _daySwitchState.clear();
-    _dayTimeSlots.clear();
+    setState(() {
+      _daySwitchState.updateAll((key, value) => false);
+      _dayTimeSlots.updateAll((key, value) => []);
+    });
 
     List<DaySchedule> emptySchedule = _daySwitchState.keys.map((day) {
       return DaySchedule(
@@ -149,8 +172,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
       );
     }).toList();
 
-    Provider.of<OnboardViewModel>(context, listen: false)
-        .updateSchedule(emptySchedule);
+    Provider.of<OnboardViewModel>(context, listen: false).updateSchedule(emptySchedule);
   }
 
   @override
@@ -167,7 +189,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                 );
         
                 AppNavigator.pushAndReplacePage(context,
-                    page: const WorkInformation());
+                    page:   WorkInformation(isEdit: widget.isEdit,));
               } else {
                 ToastService().showToast(
                   context,
@@ -213,25 +235,27 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                     page: destructiveActions(
                       context: context,
                       message:
-                          'Lorem ipsum dolor sit amet consectetur. Imperdiet nibh sed quis feugiat non.',
+                          'Are you sure you want to discard this selected Info?.',
                       primaryText: 'Discard',
                       secondaryText: 'Save',
                       primaryAction: () {
                         _clearSchedule();
                         AppNavigator.pushAndReplacePage(context,
-                            page: const WorkInformation());
+                            page:   WorkInformation(isEdit: widget.isEdit));
                       },
                       primaryBgColor: const Color(0xFFF70000),
+                        
+              secondaryBgColor: AppColors.lightPrimary,
                       secondaryAction: () {
                         _saveSchedule();
                         AppNavigator.pushAndReplacePage(context,
-                            page: const WorkInformation());
+                            page:   WorkInformation(isEdit: widget.isEdit));
                       },
                     ),
                   );
                 } else {
                   AppNavigator.pushAndReplacePage(context,
-                      page: const WorkInformation());
+                      page:   WorkInformation(isEdit: widget.isEdit));
                 }
               },
               child: const Padding(
@@ -350,74 +374,87 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
     );
   }
 
-  Widget _buildOpenDayContent(String day) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Column(
-            children: _dayTimeSlots[day]!.asMap().entries.map((entry) {
-              int idx = entry.key;
-              TimeOfDay startTime = entry.value['start']!;
-              TimeOfDay endTime = entry.value['end']!;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () => _selectTime(context, day, idx, true),
-                    child: Row(
-                      children: [
-                        Text('${_formatTime(startTime)} ',
-                            style: const TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF0A0D14))),
-                      ],
-                    ),
-                  ),
-                  const Text(' - ',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF0A0D14))),
-                  GestureDetector(
-                    onTap: () => _selectTime(context, day, idx, false),
-                    child: Row(
-                      children: [
-                        Text(' ${_formatTime(endTime)}',
-                            style: const TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF0A0D14))),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.black,
-                      size: 18,
-                    ),
-                    onPressed: () => _removeTimeSlot(day, idx),
-                  ),
-                ],
-              );
-            }).toList(),
+ Widget _buildOpenDayContent(String day) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 16.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (_dayTimeSlots[day]!.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text('Opened for the day',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF6B7280),
+                    fontWeight: FontWeight.w400)),
           ),
-          const SizedBox(height: 10),
+        
+        Column(
+          children: _dayTimeSlots[day]!.asMap().entries.map((entry) {
+            int idx = entry.key;
+            TimeOfDay startTime = entry.value['start']!;
+            TimeOfDay endTime = entry.value['end']!;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () => _selectTime(context, day, idx, true),
+                  child: Row(
+                    children: [
+                      Text('${_formatTime(startTime)} ',
+                          style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF0A0D14))),
+                    ],
+                  ),
+                ),
+                const Text(' - ',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFF0A0D14))),
+                GestureDetector(
+                  onTap: () => _selectTime(context, day, idx, false),
+                  child: Row(
+                    children: [
+                      Text(' ${_formatTime(endTime)}',
+                          style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF0A0D14))),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.black,
+                    size: 18,
+                  ),
+                  onPressed: () => _removeTimeSlot(day, idx),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+        
+        if (_dayTimeSlots[day]!.length < 2) const SizedBox(height: 10),
+        if (_dayTimeSlots[day]!.length < 2)
           Row(
             children: <Widget>[
               GestureDetector(
-                  onTap: () => _addTimeSlot(day),
-                  child: const Icon(
-                    Icons.add,
-                    color: Color(
-                      0xFF40B93C,
-                    ),
-                  )),
+                onTap: () => _addTimeSlot(day),
+                child: const Icon(
+                  Icons.add,
+                  color: Color(
+                    0xFF40B93C,
+                  ),
+                ),
+              ),
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () => _addTimeSlot(day),
@@ -431,10 +468,11 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
+
 
    
 }

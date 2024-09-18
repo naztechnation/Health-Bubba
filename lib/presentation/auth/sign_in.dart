@@ -397,7 +397,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                       GestureDetector(
                                                         onTap: () {
                                                           AppNavigator
-                                                              .pushAndReplaceName(
+                                                              .pushAndStackNamed(
                                                                   context,
                                                                   name: AppRoutes
                                                                       .forgetPassword);

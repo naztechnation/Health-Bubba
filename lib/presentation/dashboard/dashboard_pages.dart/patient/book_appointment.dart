@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -497,7 +496,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                               .imageUrls,
                                     );
                                   },
-                                  primaryBgColor: const Color.fromARGB(255, 35, 155, 51),
+                                  primaryBgColor: const Color(0xFF093126),
+              secondaryBgColor: AppColors.lightPrimary,
                                   secondaryAction: () {
                                     Navigator.pop(context);
                                   }),

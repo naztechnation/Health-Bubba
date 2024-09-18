@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:provider/provider.dart';
 
 import '../../../blocs/users/users.dart';
@@ -19,7 +20,8 @@ import 'widgets/search_page.dart';
 import 'widgets/upcoming_appointments.dart';
 
 class AppointmentTabView extends StatelessWidget {
-  const AppointmentTabView({Key? key}) : super(key: key);
+  final bool isDashboard;
+    AppointmentTabView({Key? key, required this.isDashboard}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +30,15 @@ class AppointmentTabView extends StatelessWidget {
         userRepository: UserRepositoryImpl(),
         viewModel: Provider.of<UserViewModel>(context, listen: false),
       ),
-      child: const AppointmentTabViewScreen(),
+      child:   AppointmentTabViewScreen(isDashboard: isDashboard,),
     );
   }
 }
 
 class AppointmentTabViewScreen extends StatefulWidget {
-  const AppointmentTabViewScreen({super.key});
+  final bool isDashboard;
+
+  const AppointmentTabViewScreen({super.key, required this.isDashboard});
 
   @override
   State<AppointmentTabViewScreen> createState() =>
@@ -64,7 +68,22 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Text(
+        leading: (!widget.isDashboard) ?GestureDetector(
+                  onTap: () {
+                    AppNavigator.pushAndReplacePage(context, page:const Dashboard());
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                    child: SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: ImageView.svg(
+                        AppImages.backBtn,
+                        height: 15,
+                      ),
+                    ),
+                  ),
+                ): Text(
           ' ',
           style: GoogleFonts.getFont(
             'Inter',

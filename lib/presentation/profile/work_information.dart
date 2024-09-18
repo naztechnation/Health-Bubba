@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/presentation/profile/add_specialties.dart';
@@ -20,6 +19,7 @@ import '../../blocs/accounts/account.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
 import '../../model/user/selected_qualifications.dart';
+import '../../model/user/selected_user_specialties.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
@@ -33,8 +33,10 @@ import 'widget/work_bio_textfield.dart';
 import 'working_hours.dart';
 
 class WorkInformation extends StatelessWidget {
+  final bool isEdit;
   const WorkInformation({
     Key? key,
+    required this.isEdit,
   }) : super(key: key);
 
   @override
@@ -43,13 +45,15 @@ class WorkInformation extends StatelessWidget {
       create: (BuildContext context) => AccountCubit(
           accountRepository: AccountRepositoryImpl(),
           viewModel: Provider.of<AccountViewModel>(context, listen: false)),
-      child: const WorkInformationPage(),
+      child: WorkInformationPage(isEdit: isEdit),
     );
   }
 }
 
 class WorkInformationPage extends StatefulWidget {
-  const WorkInformationPage({super.key});
+  final bool isEdit;
+
+  const WorkInformationPage({super.key, required this.isEdit});
 
   @override
   State<WorkInformationPage> createState() => _WorkInformationPageState();
@@ -62,7 +66,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
   String imageUrl = '';
 
   List<SelectedLanguagesData> languages = [];
-  List<GetSelectedQualificationsData> qualification = [];
+  List<SelectedUserSpecialtiesData> qualification = [];
 
   Map<String, List<Map<String, String>>> availabilities = {};
 
@@ -76,10 +80,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
     'Sunday'
   ];
 
-  getLanguages() async {
+  getDoctorsDetails() async {
     _accountCubit = context.read<AccountCubit>();
-
+    context.read<OnboardViewModel>().clearSpecialties();
     _accountCubit.selectedLanguages();
+    _accountCubit.getSpecialties();
     _accountCubit.selectedQualification();
     _accountCubit.selectedAvailability();
     _accountCubit.userData();
@@ -87,7 +92,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
   @override
   void initState() {
-    getLanguages();
+    getDoctorsDetails();
     super.initState();
   }
 
@@ -103,28 +108,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             Provider.of<OnboardViewModel>(context, listen: false)
                 .addLanguage(lang.languageName ?? '', lang.languageId ?? 0);
           }
-        } else {
-          // ToastService().showToast(context,
-          //     leadingIcon: const ImageView.svg(AppImages.error),
-          //     title: 'Error!!!',
-          //     subtitle: state.language.message?.message ?? '');
-        }
+        } else {}
       } else if (state is SelectedQualificationsLoaded) {
         if (state.qualificationsData.ok ?? false) {
           qualification = state.qualificationsData.message?.data ?? [];
           for (var qualification in qualification) {
-            Provider.of<OnboardViewModel>(context, listen: false)
-                .toggleSpecialty(
-              specialty: qualification.qualificationName ?? '',
-              specialtiesId: qualification.qualificationId ?? 0,
+            Provider.of<OnboardViewModel>(context, listen: false).addSpecialty(
+              specialty: qualification.specialtyName ?? '',
+              specialtiesId: qualification.specialtyId ?? 0,
             );
           }
-        } else {
-          // ToastService().showToast(context,
-          //     leadingIcon: const ImageView.svg(AppImages.error),
-          //     title: 'Error!!!',
-          //     subtitle: state.qualificationsData.message?.message ?? '');
-        }
+        } else {}
       } else if (state is UpdateBioLoaded) {
         if (state.bio.ok ?? false) {
           ToastService().showToast(context,
@@ -134,27 +128,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
           Provider.of<OnboardViewModel>(context, listen: false)
               .saveBio(bioData);
-        } else {
-          // ToastService().showToast(context,
-          //     leadingIcon: const ImageView.svg(AppImages.error),
-          //     title: 'Error!!!',
-          //     subtitle: state.bio.message ?? '');
-        }
+        } else {}
       } else if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
           Provider.of<OnboardViewModel>(context, listen: false)
               .saveBio(state.userData.data?.first.bio ?? "");
 
           imageUrl = state.userData.data?.first.picture ?? "";
-        } else {
-          // ToastService().showToast(context,
-          //     leadingIcon: const ImageView.svg(AppImages.error),
-          //     title: 'Error!!!',
-          //     subtitle: state.userData.message ?? '');
-        }
+        } else {}
       } else if (state is UploadImageLoaded) {
         if (state.uploadImage.ok ?? false) {
-              _accountCubit.userData();
+          _accountCubit.userData();
 
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.success),
@@ -182,14 +166,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             availabilities[day]!
                 .add({'start_time': startTime, 'end_time': endTime});
           }
-        } else {
-           
-        }
+        } else {}
       } else if (state is AccountApiErr) {
-         
-      } else if (state is AccountNetworkErr) {
-         
-      }
+      } else if (state is AccountNetworkErr) {}
     }, builder: (context, state) {
       return (state is UpdateBioLoading || state is UploadImageLoading)
           ? LoadersPage(
@@ -205,7 +184,12 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                 centerTitle: true,
                 leading: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    if (widget.isEdit) {
+                      AppNavigator.pushAndStackPage(context,
+                          page: const Dashboard());
+                    } else {
+                      Navigator.pop(context);
+                    }
                   },
                   child: const Padding(
                     padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
@@ -248,12 +232,13 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                           children: [
                             Container(
                                 height: 100,
+                                width: double.infinity,
                                 margin:
                                     const EdgeInsets.only(bottom: 58, left: 0),
-                                width: MediaQuery.sizeOf(context).width,
                                 child: const ImageView.asset(
                                   AppImages.profileBg,
                                   height: 94,
+                                  fit: BoxFit.cover,
                                 )),
                             if (imageUrl == null ||
                                 imageUrl == '' ||
@@ -377,7 +362,6 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     Provider.of<OnboardViewModel>(context,
                                             listen: false)
                                         .loadImage(context, () {
-                                       
                                       _accountCubit.uploadImage(
                                           image: Provider.of<OnboardViewModel>(
                                                   context,
@@ -397,30 +381,36 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                             shape: BoxShape.circle,
                                             color: Color(0xFFFFFFFF),
                                           ),
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              child: 
-                                              Image.network(
-                                "${AppStrings.imageBaseUrl}$imageUrl",
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                              ),
-                                              
-                                              ),
+                                          child: (imageUrl.isEmpty ||
+                                                  imageUrl == '')
+                                              ? const ImageView.asset(
+                                                  AppImages.avatarIcon,
+                                                  fit: BoxFit.cover)
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                  child: Image.network(
+                                                    imageUrl,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return const ImageView
+                                                          .asset(
+                                                          AppImages.avatarIcon,
+                                                          fit: BoxFit.cover);
+                                                    },
+                                                    loadingBuilder: (context,
+                                                        child,
+                                                        loadingProgress) {
+                                                      if (loadingProgress ==
+                                                          null) return child;
+                                                      return const ImageView
+                                                          .asset(
+                                                          AppImages.avatarIcon,
+                                                          fit: BoxFit.cover);
+                                                    },
+                                                  ),
+                                                ),
                                         ),
                                         Positioned(
                                           top: 35,
@@ -529,6 +519,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               isScrollControlled: true,
                                               page: BioWidget(
                                                   contex: context,
+                                                  bio: Provider.of<
+                                                              OnboardViewModel>(
+                                                          context,
+                                                          listen: false)
+                                                      .workBio,
                                                   onTap: (bio) {
                                                     setState(() {
                                                       bioData = bio;
@@ -716,7 +711,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                       GestureDetector(
                                         onTap: () {
                                           AppNavigator.pushAndStackPage(context,
-                                              page: const ScheduleWidget());
+                                              page: ScheduleWidget(
+                                                  isEdit: widget.isEdit));
                                         },
                                         child: Container(
                                           width: 31.5,
@@ -835,7 +831,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: const LanguageSelector());
+                                            page: LanguageSelector(
+                                                isEdit: widget.isEdit));
                                       },
                                       child: Padding(
                                         padding:
@@ -921,17 +918,25 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           : Consumer<OnboardViewModel>(
                                               builder:
                                                   (context, provider, child) {
+                                                // Filter out any empty or null specialties
+                                                final filteredSpecialties =
+                                                    provider
+                                                        .selectedSpecialties
+                                                        .where((specialty) =>
+                                                            specialty
+                                                                .isNotEmpty)
+                                                        .toList();
+
                                                 return Wrap(
                                                   children:
                                                       List<Widget>.generate(
-                                                    provider.selectedSpecialties
-                                                        .length,
+                                                    filteredSpecialties.length,
                                                     (index) {
-                                                      final specialties = provider
-                                                              .selectedSpecialties[
-                                                          index];
+                                                      final specialties =
+                                                          filteredSpecialties[
+                                                              index];
                                                       final isLast = index ==
-                                                          provider.selectedSpecialties
+                                                          filteredSpecialties
                                                                   .length -
                                                               1;
                                                       return Padding(
@@ -954,7 +959,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: const SpecialtyListPage());
+                                            page: SpecialtyListPage(
+                                                isEdit: widget.isEdit));
                                       },
                                       child: Padding(
                                         padding:
@@ -1006,7 +1012,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                           ],
                         ),
                         const SizedBox(
-                          height:60,
+                          height: 60,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -1020,18 +1026,27 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                           context: context,
                                           message:
                                               'Are you sure you want to continue with this action?',
-                                          primaryText: 'Cancel',
-                                          secondaryText: 'Continue',
-                                          primaryAction: () {
-                                            Navigator.pop(context);
+                                          primaryText: 'Continue',
+                                          secondaryText: 'Cancel',
+                                          primaryAction: () { 
+                                            if (widget.isEdit) {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: const Dashboard());
+                                            } else {
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page:
+                                                      const CompleteSetUpScreen());
+                                            }
+                                           
                                           },
                                           primaryBgColor:
-                                              const Color(0xFFF70000),
+                                              const Color(0xFF093126),
+                                          secondaryBgColor:
+                                              AppColors.lightPrimary,
                                           secondaryAction: () {
-                                            AppNavigator.pushAndStackPage(
-                                                context,
-                                                page:
-                                                    const CompleteSetUpScreen());
+                                            Navigator.pop(context);
                                           }),
                                     );
                                   },
@@ -1055,16 +1070,18 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                         context: context,
                                         message:
                                             'Are you sure you want to continue with this action?',
-                                        primaryText: 'Cancel',
-                                        secondaryText: 'Continue',
+                                        primaryText: 'Continue',
+                                        secondaryText: 'Cancel',
                                         primaryAction: () {
-                                          Navigator.pop(context);
-                                        },
-                                        primaryBgColor: const Color(0xFFF70000),
-                                        secondaryAction: () {
                                           AppNavigator.pushAndReplacePage(
                                               context,
                                               page: const Dashboard());
+                                        },
+                                        primaryBgColor: const Color(0xFF093126),
+                                        secondaryBgColor:
+                                            AppColors.lightPrimary,
+                                        secondaryAction: () {
+                                          Navigator.pop(context);
                                         }),
                                   );
                                 },
@@ -1099,5 +1116,4 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               ));
     });
   }
-
 }

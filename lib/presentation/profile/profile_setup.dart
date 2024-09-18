@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,7 @@ import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:healthbubba/widgets/modals.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../blocs/accounts/account.dart';
 import '../../model/user/qualification.dart';
@@ -19,7 +21,6 @@ import '../../widgets/button_view.dart';
 import '../../widgets/checkbox.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/error_page.dart';
-import '../../widgets/loading_screen.dart';
 import '../../widgets/text_edit_view.dart';
 import 'work_information.dart';
 
@@ -141,10 +142,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         } else {}
       } else if (state is SelectQualificationsLoaded) {
         if (state.qualification.ok ?? false) {
-          ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
-              title: AppStrings.successTitle,
-              subtitle: state.qualification.message?.message ?? '');
+          // ToastService().showToast(context,
+          //     leadingIcon: const ImageView.svg(AppImages.success),
+          //     title: AppStrings.successTitle,
+          //     subtitle: state.qualification.message?.message ?? '');
           setState(() {});
 
               _firstnameController.clear();
@@ -169,10 +170,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
               title: AppStrings.successTitle,
               subtitle: state.updateUser.message ?? '');
           if (widget.isEdit) {
-            AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+            AppNavigator.pushAndStackPage(context, page: const Dashboard());
           } else {
-            AppNavigator.pushAndReplacePage(context,
-                page: const WorkInformation());
+            AppNavigator.pushAndStackPage(context,
+                page:   WorkInformation(isEdit: widget.isEdit,));
           }
         } else {
           ToastService().showToast(context,
@@ -603,6 +604,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 ),
                                                 children: [
                                                   TextSpan(
+                                                    recognizer: TapGestureRecognizer()..onTap = (){
+                                                      _launchUrl('https://healthbubba.com/terms');
+                                                    },
                                                     text: 'Terms and Conditions',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
@@ -617,6 +621,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                     text: ' and ',
                                                   ),
                                                   TextSpan(
+                                                    recognizer: TapGestureRecognizer()..onTap = (){
+                                                      _launchUrl('https://healthbubba.com/privacy-policy');
+                                                    },
                                                     text: 'Privacy Policy',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
@@ -911,4 +918,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       ),
     );
   }
+
+    Future<void> _launchUrl(String url) async {
+  if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+  }
+}
 }

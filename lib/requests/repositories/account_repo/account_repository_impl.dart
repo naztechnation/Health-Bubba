@@ -21,6 +21,7 @@ import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
 import '../../../model/user/select_specialties.dart';
+import '../../../model/user/selected_user_specialties.dart';
 import '../../../model/user/update_user.dart';
 import '../../../res/app_strings.dart';
 
@@ -127,11 +128,11 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<GetSelectedQualifications> getSelectedQualifications() async {
+  Future<SelectedUserSpecialties> getSelectedQualifications() async {
     final map = await Requests().get(
       AppStrings.selectedQualificationsUrl,
     );
-    return GetSelectedQualifications.fromJson(map);
+    return SelectedUserSpecialties.fromJson(map);
   }
 
   @override

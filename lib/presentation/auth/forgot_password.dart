@@ -15,6 +15,7 @@ import '../../widgets/button_view.dart';
 
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
+import 'sign_up.dart';
 import 'verify_code.dart';
 
 class ForgotPassword extends StatelessWidget {
@@ -261,14 +262,21 @@ class ForgotPassword extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Text(
-                                                'Register',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color: const Color(0xFF40B93C),
+                                              GestureDetector(
+                                                onTap: () {
+                                                    AppNavigator.pushAndStackPage(
+                                                context,
+                                                page: SignUpScreen());
+                                                },
+                                                child: Text(
+                                                  'Register',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 14,
+                                                    height: 1.4,
+                                                    color: const Color(0xFF40B93C),
+                                                  ),
                                                 ),
                                               ),
                                             ],

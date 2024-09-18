@@ -18,6 +18,7 @@ import '../../../model/user/select_qualifications.dart';
 import '../../../model/user/select_specialties.dart';
 import '../../../model/user/selected_languages.dart';
 import '../../../model/user/selected_qualifications.dart';
+import '../../../model/user/selected_user_specialties.dart';
 import '../../../model/user/update_user.dart';
 import '../../../model/working_hours.dart';
 
@@ -61,7 +62,7 @@ abstract class AccountRepository {
       {required List<int> qualificationIds});
   Future<LoginData> updateAvalaibility(
       {required List<DaySchedule> schedule, required BuildContext context});
-  Future<GetSelectedQualifications> getSelectedQualifications();
+  Future<SelectedUserSpecialties> getSelectedQualifications();
   Future<GetSelectedAvailability> getSelectedAvailability();
   Future<SelectSpecialties> selectSpecialties(
       {required List<int> specialties});

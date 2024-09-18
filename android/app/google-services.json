@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1088264478524:android:c1b7468d66b77010c0c839",
+        "mobilesdk_app_id": "1:1088264478524:android:ff869e60927d5e94c0c839",
         "android_client_info": {
-          "package_name": "com.healthbubba.healthbubba"
+          "package_name": "com.healthbubba.doctor"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBozAx5bvLAwUq5CblI7PU-Qlqj_opxJLk"
@@ -20,7 +25,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.healthbubba.healthbubba"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088264478524:android:c1b7468d66b77010c0c839",
+        "android_client_info": {
+          "package_name": "com.healthbubba.healthbubba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBozAx5bvLAwUq5CblI7PU-Qlqj_opxJLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.healthbubba.healthbubba"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +84,20 @@
           "package_name": "com.healthbubba.patient"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1088264478524-1q1jlkocvcc409t1hcp19n29pck8p8ak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthbubba.patient",
+            "certificate_hash": "7c44e636f9bd274cf6977a5b2c0ada12faf2131f"
+          }
+        },
+        {
+          "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBozAx5bvLAwUq5CblI7PU-Qlqj_opxJLk"
@@ -39,7 +105,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.healthbubba.healthbubba"
+              }
+            }
+          ]
         }
       }
     }

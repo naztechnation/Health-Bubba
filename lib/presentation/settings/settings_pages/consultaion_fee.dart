@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/dashboard/dashboard.dart';
+import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../res/app_colors.dart';
@@ -80,6 +82,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
               leadingIcon: const ImageView.svg(AppImages.success),
               title: AppStrings.successTitle,
               subtitle: state.fee.message?.message ?? '');
+
+              AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         }  else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),

@@ -62,13 +62,36 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
     _accountCubit.getBanks();
   }
 
+  TextEditingController searchController = TextEditingController();
+  List<BanksData> filteredBanks = [];
+   
+
+   
+
+  
+
   @override
   void initState() {
     getSpecialties();
 
     super.initState();
+    searchController.addListener(_filterBanks); // Adding listener
   }
 
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+void _filterBanks() {
+    String query = searchController.text.toLowerCase();
+    setState(() {
+      filteredBanks = banks
+          .where((bank) =>
+              bank.name!.toLowerCase().contains(query))  
+          .toList();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AccountCubit, AccountStates>(
@@ -76,6 +99,7 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
       if (state is BanksDataLoaded) {
         if (state.banks.ok ?? false) {
           banks = state.banks.message?.data ?? [];
+          filteredBanks = banks;
         } else {}
       } else if (state is AddBanksDataLoaded) {
         if (state.bankDetails.ok ?? false) {
@@ -425,78 +449,126 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
   }
 
   bankModalContent(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width * 0.6,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300, width: 2),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0A000000),
-            offset: Offset(0, 1),
-            blurRadius: 1.5,
-          ),
-          BoxShadow(
-            color: Color(0x0D2F3037),
-            offset: Offset(0, 24),
-            blurRadius: 34,
-          ),
-          BoxShadow(
-            color: Color(0x0A222A35),
-            offset: Offset(0, 4),
-            blurRadius: 3,
-          ),
-          BoxShadow(
-            color: Color(0x0D000000),
-            offset: Offset(0, 1),
-            blurRadius: 0.5,
-          ),
-        ],
-      ),
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: banks.length,
-        separatorBuilder: (context, index) => Divider(
-          color: Colors.grey.shade300,
-          height: 0,
-        ),
-        itemBuilder: (context, index) {
-          String title = banks[index].name ?? '';
-          String bankId = banks[index].code ?? '';
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                bankNameController.text = title;
-                bankCode = bankId;
-              });
-
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: const EdgeInsets.all(0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white,
+    return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState  ) {
+        return Container(
+          width: MediaQuery.sizeOf(context).width * 0.6,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+            border: Border.all(color: Colors.grey.shade300, width: 2),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0A000000),
+                offset: Offset(0, 1),
+                blurRadius: 1.5,
               ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 13.0, horizontal: 15),
-                child: Text(
-                  title,
-                  style: GoogleFonts.getFont(
-                    'Inter',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                    height: 1.5,
-                    color: const Color(0xFF030712),
+              BoxShadow(
+                color: Color(0x0D2F3037),
+                offset: Offset(0, 24),
+                blurRadius: 34,
+              ),
+              BoxShadow(
+                color: Color(0x0A222A35),
+                offset: Offset(0, 4),
+                blurRadius: 3,
+              ),
+              BoxShadow(
+                color: Color(0x0D000000),
+                offset: Offset(0, 1),
+                blurRadius: 0.5,
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 15),
+                      child: TextEditView(
+                        controller: searchController,
+                        onChanged: (value) {
+                    setState(() {
+                      
+                    },);
+                  },
+                        borderColor: Colors.white,
+                        borderWidth: 0,
+                        prefixIcon: SizedBox(
+                          width: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(width: 0),
+                              const ImageView.svg(
+                                AppImages.searchIcon,
+                                height: 19,
+                              ),
+                              Container(
+                                height: 20,
+                                width: 1,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xFF000000),
+                                    borderRadius: BorderRadius.circular(11)),
+                              ),
+                              const SizedBox(width: 0),
+                            ],
+                          ),
+                        ),
+                        hintText: 'Search banks...',
+                      ),
+                    ),
+              
+              Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: filteredBanks.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey.shade300,
+                    height: 0,
                   ),
+                  itemBuilder: (context, index) {
+                    String title = filteredBanks[index].name ?? '';
+                    String bankId = filteredBanks[index].code ?? '';
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          bankNameController.text = title;
+                          bankCode = bankId;
+                        });
+                
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.symmetric(vertical: 13.0, horizontal: 15),
+                          child: Text(
+                            title,
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                              height: 1.5,
+                              color: const Color(0xFF030712),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-            ),
-          );
-        },
-      ),
+            ],
+          ),
+        );
+      }
     );
   }
 }

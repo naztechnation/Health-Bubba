@@ -266,7 +266,7 @@ class _HomeState extends State<Home> {
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            (name != null || name != '')
+                                            (name != null && name.isNotEmpty)
                                                 ? 'Hi, $title $name'
                                                 : 'Hi',
                                             style: GoogleFonts.getFont(
@@ -280,7 +280,16 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       if (_completedCount() == 5) ...[
-                                        const SizedBox.shrink()
+                                        Text(
+                                          'What do you want to do today?',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color: const Color(0xFF6B7280),
+                                          )),
+                                          const SizedBox(height: 8,)
                                       ] else ...[
                                         Text(
                                           'Finish setting up your account',
@@ -292,6 +301,8 @@ class _HomeState extends State<Home> {
                                             color: const Color(0xFF6B7280),
                                           ),
                                         ),
+                                          const SizedBox(height: 8,)
+
                                       ]
                                     ],
                                   ),
@@ -552,7 +563,7 @@ class _HomeState extends State<Home> {
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const WorkInformation());
+                                                                              const WorkInformation(isEdit: true,));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -713,7 +724,7 @@ class _HomeState extends State<Home> {
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const WorkInformation());
+                                                                              const WorkInformation(isEdit: true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -879,7 +890,7 @@ class _HomeState extends State<Home> {
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const WorkInformation());
+                                                                              const WorkInformation(isEdit: true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1048,7 +1059,7 @@ class _HomeState extends State<Home> {
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const WorkInformation());
+                                                                              const WorkInformation(isEdit: true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1386,6 +1397,9 @@ class _HomeState extends State<Home> {
                                         )
                                       ],
                                       if (upcomingAppointment.isNotEmpty) ...[
+                                          const SizedBox(
+                                                      height: 14,
+                                                    ),
                                         appointmentCard(upcomingAppointment,
                                             doctorsId, context,  lastName, userId),
                                       ],
@@ -1400,7 +1414,7 @@ class _HomeState extends State<Home> {
                                               AppNavigator.pushAndStackPage(
                                                   context,
                                                   page:
-                                                      const AppointmentTabView());
+                                                        AppointmentTabView(isDashboard: false,));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(

@@ -196,11 +196,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        'We’ve sent a code to',
-                                                        textAlign: TextAlign.center,
+                                                  RichText(
+                                                 textAlign: TextAlign.center,
+                                                  maxLines: 2,
+                                                        overflow:
+                                                            TextOverflow.ellipsis,
+                                                text: TextSpan(
+                                                  text: 'We’ve sent a code to ',
                                                         style: GoogleFonts.getFont(
                                                           'Inter',
                                                           fontWeight: FontWeight.w400,
@@ -209,30 +211,23 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                                           color:
                                                               const Color(0xFF6B7280),
                                                         ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 2,
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          widget.email,
-                                                          maxLines: 1,
-                                                          overflow:
-                                                              TextOverflow.ellipsis,
-                                                          textAlign: TextAlign.center,
-                                                          style: GoogleFonts.getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize: 14,
-                                                            height: 1.6,
-                                                            color: AppColors
-                                                                .lightSecondary,
-                                                          ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: widget.email,
+                                                      style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 14,
+                                                          height: 1.6,
+                                                          color: AppColors
+                                                              .lightSecondary,
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                                  
                                                   const SizedBox(
                                                     height: 40,
                                                   ),

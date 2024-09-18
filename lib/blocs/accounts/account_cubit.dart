@@ -192,7 +192,7 @@ class AccountCubit extends Cubit<AccountStates> {
       emit(LanguagesLoading());
 
       final user = await accountRepository.getLanguages();
-
+      viewModel.savePlatformLanguages(user.message?.data ?? []);
       emit(LanguagesLoaded(user));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
@@ -481,9 +481,9 @@ class AccountCubit extends Cubit<AccountStates> {
     try {
       emit(GetSpecialtiesLoading());
 
-      final user = await accountRepository.getSpecialties();
-
-      emit(GetSpecialtiesLoaded(user));
+      final specialties = await accountRepository.getSpecialties();
+      viewModel.savePlatformSpecialties(specialties.message?.data ?? []);
+      emit(GetSpecialtiesLoaded(specialties));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {

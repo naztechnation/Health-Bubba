@@ -57,19 +57,19 @@ class Modals {
             title: Column(
               children: [
                 Text(title,
-                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600), ),
+                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600), ),
                 const SizedBox(height: 10,),
-                Divider()
+                const Divider()
               ],
             ),
             content: Text(message),
             actions: [
               TextButton(
-                child: Text(buttonNoText,  style: TextStyle( fontWeight: FontWeight.w600, color: Colors.red),),
+                child: Text(buttonNoText,  style: const TextStyle( fontWeight: FontWeight.w600, color: Colors.red),),
                 onPressed: () => Navigator.pop(context, false),
               ),
               TextButton(
-                child: Text(buttonYesText, style: TextStyle( fontWeight: FontWeight.w600, color: Colors.black),),
+                child: Text(buttonYesText, style: const TextStyle( fontWeight: FontWeight.w600, color: Colors.black),),
                 onPressed: (){
                   onTap();
                   Navigator.pop(context, false);

@@ -11,6 +11,7 @@ import '../../blocs/accounts/account.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
+import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../widgets/custom_toast.dart';
@@ -21,8 +22,11 @@ import '../../widgets/loading_screen.dart';
 import 'work_information.dart';
 
 class LanguageSelector extends StatelessWidget {
+  final bool isEdit;
+
   const LanguageSelector({
     Key? key,
+    required this.isEdit,
   }) : super(key: key);
 
   @override
@@ -31,12 +35,18 @@ class LanguageSelector extends StatelessWidget {
       create: (BuildContext context) => AccountCubit(
           accountRepository: AccountRepositoryImpl(),
           viewModel: Provider.of<AccountViewModel>(context, listen: false)),
-      child: LanguageSelectorScreen(),
+      child: LanguageSelectorScreen(
+        isEdit: isEdit,
+      ),
     );
   }
 }
 
 class LanguageSelectorScreen extends StatefulWidget {
+  final bool isEdit;
+
+  const LanguageSelectorScreen({super.key, required this.isEdit});
+
   @override
   State<LanguageSelectorScreen> createState() => _LanguageSelectorScreenState();
 }
@@ -104,10 +114,8 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               GestureDetector(
                 onTap: () {
                   if (languageController.text.isNotEmpty) {
-                    
-                       _accountCubit.selectLanguages(
-                              languages: languageController.text.trim());
-
+                    _accountCubit.selectLanguages(
+                        languages: languageController.text.trim());
 
                     Navigator.pop(context);
                   } else {
@@ -136,49 +144,53 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
         listener: (context, state) {
       if (state is LanguagesLoaded) {
         if (state.languages.ok ?? false) {
-          languages = state.languages.message?.data ?? [];
+          languages = _accountCubit.viewModel.plaformLanguages ?? [];
 
-             context.read<OnboardViewModel>().clearLanguage();
+          // context.read<OnboardViewModel>().clearLanguage();
           setState(() {});
         } else {}
       } else if (state is SelectLanguagesLoaded) {
-         if (state.language.ok ?? false) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.success),
-            title: 'Success!!!',
-            subtitle: state.language.message?.message ?? '');
-
-        AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-         }else{
+        if (state.language.ok ?? false) {
           ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: AppStrings.errorTitle,
-            subtitle: state.language.message ?? '');
-         }
-      }else if (state is ChooseLanguagesLoaded) {
-       if (state.language.ok ?? false) {
-        ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.success),
-            title: 'Success!!!',
-            subtitle: state.language.message?.message ?? '');
+              leadingIcon: const ImageView.svg(AppImages.success),
+              title: 'Success!!!',
+              subtitle: state.language.message?.message ?? '');
 
-        AppNavigator.pushAndReplacePage(context, page: const WorkInformation());
-         }else{
+          AppNavigator.pushAndReplacePage(context,
+              page: WorkInformation(
+                isEdit: widget.isEdit,
+              ));
+        } else {
           ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: AppStrings.errorTitle,
-            subtitle: state.language.message ?? '');
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: AppStrings.errorTitle,
+              subtitle: state.language.message ?? '');
+        }
+      } else if (state is ChooseLanguagesLoaded) {
+        if (state.language.ok ?? false) {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.success),
+              title: 'Success!!!',
+              subtitle: state.language.message?.message ?? '');
 
-            context
-                                .read<OnboardViewModel>()
-                                .clearLanguage();
-         }
+          AppNavigator.pushAndReplacePage(context,
+              page: WorkInformation(isEdit: widget.isEdit));
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(AppImages.error),
+              title: AppStrings.errorTitle,
+              subtitle: state.language.message ?? '');
+
+          context.read<OnboardViewModel>().clearLanguage();
+        }
       }
     }, builder: (context, state) {
       if (state is AccountApiErr) {
-        return ErrorPage(statusCode: state.message ?? '', onTap: () {
-          _accountCubit.loadLanguages();
-        });
+        return ErrorPage(
+            statusCode: state.message ?? '',
+            onTap: () {
+              _accountCubit.loadLanguages();
+            });
       } else if (state is AccountNetworkErr) {
         return ErrorPage(
             statusCode: state.message ?? '',
@@ -187,7 +199,9 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
             });
       }
 
-      return (state is LanguagesLoading || state is SelectLanguageLoading || state is ChooseLanguageLoading)
+      return (( (_accountCubit.viewModel.plaformLanguages.isEmpty) ? state is LanguagesLoading : false) ||
+              state is SelectLanguageLoading ||
+              state is ChooseLanguageLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -214,30 +228,28 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             secondaryText: 'Save',
                             primaryAction: () {
                               context.read<OnboardViewModel>().clearLanguage();
-                        
+
                               AppNavigator.pushAndReplacePage(context,
-                                  page: const WorkInformation());
+                                  page: WorkInformation(isEdit: widget.isEdit));
                             },
                             primaryBgColor: const Color(0xFFF70000),
+                            
+              secondaryBgColor: AppColors.lightPrimary,
                             secondaryAction: () {
-                                if (context
-                            .read<OnboardViewModel>()
-                            .selectedLanguages
-                            .isNotEmpty) {
-                          _accountCubit.chooseLanguage(
-                              language: context
-                            .read<OnboardViewModel>()
-                            .selectedLanguagesId);
-                        } else {
-                          Navigator.pop(context);
-                          ToastService().showToast(context,
-                              leadingIcon: const ImageView.svg(AppImages.error),
-                              title: 'Error',
-                              subtitle:
-                                  'Select atleast a language to continue');
-                        }
+                              if (context
+                                  .read<OnboardViewModel>()
+                                  .selectedLanguages
+                                  .isNotEmpty) {
+                                _accountCubit.chooseLanguage(
+                                    language: context
+                                        .read<OnboardViewModel>()
+                                        .selectedLanguagesId);
+                              }
                             }),
                       );
+                    } else {
+                      AppNavigator.pushAndReplacePage(context,
+                          page: WorkInformation(isEdit: widget.isEdit));
                     }
                   },
                   child: const Padding(
@@ -261,8 +273,8 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             .isNotEmpty) {
                           _accountCubit.chooseLanguage(
                               language: context
-                            .read<OnboardViewModel>()
-                            .selectedLanguagesId);
+                                  .read<OnboardViewModel>()
+                                  .selectedLanguagesId);
                         } else {
                           ToastService().showToast(context,
                               leadingIcon: const ImageView.svg(AppImages.error),
@@ -304,13 +316,36 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                               children:
                                   provider.selectedLanguages.map((language) {
                                 return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 4.0),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 5, horizontal: 12),
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
-                                      borderRadius: BorderRadius.circular(20)),
+                                    color: const Color(0xFFE5E7EB),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x0A000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 1.5,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0D2F3037),
+                                        offset: Offset(0, 24),
+                                        blurRadius: 34,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0A222A35),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 3,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x0D000000),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 0.5,
+                                      ),
+                                    ],
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -320,7 +355,9 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                       ),
                                       GestureDetector(
                                           onTap: () {
-                                            provider.removeLanguage(language.language,language.languageId);
+                                            provider.removeLanguage(
+                                                language.language,
+                                                language.languageId);
                                           },
                                           child: Icon(
                                             Icons.close,
@@ -340,7 +377,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                       color: Colors.grey.shade300,
                     ),
                     ListView.separated(
-                      itemCount: languages.length,
+                      itemCount: _accountCubit.viewModel.plaformLanguages.length,
                       shrinkWrap: true,
                       separatorBuilder: (context, index) => Divider(
                         color: Colors.grey.shade300,
@@ -348,14 +385,14 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            context
-                                .read<OnboardViewModel>()
-                                .addLanguage(languages[index].languageName ?? '', languages[index].languageId ?? 0);
+                            context.read<OnboardViewModel>().addLanguage(
+                                _accountCubit.viewModel.plaformLanguages[index].languageName ?? '',
+                                _accountCubit.viewModel.plaformLanguages[index].languageId ?? 0);
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 8),
-                            child: Text(languages[index].languageName ?? ''),
+                            child: Text(_accountCubit.viewModel.plaformLanguages[index].languageName ?? ''),
                           ),
                         );
                       },
