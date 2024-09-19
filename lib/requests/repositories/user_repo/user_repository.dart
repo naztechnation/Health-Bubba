@@ -17,6 +17,7 @@ import '../../../model/user/doctors_analytics.dart';
 import '../../../model/user/medication_details.dart';
 import '../../../model/user/notification_settings.dart';
 import '../../../model/user/notifications_data.dart';
+import '../../../model/user/reg_with_google.dart';
 import '../../../model/user/user_data.dart';
 
 abstract class UserRepository {
@@ -24,8 +25,6 @@ abstract class UserRepository {
     required String page,
     required String limit,
   });
-
-   
 
   Future<ConsultationData> addConsultationFee({
     required String rate,
@@ -71,31 +70,23 @@ abstract class UserRepository {
       {required String appointmentId});
   Future<MedicationDetails> getMedicationDetails(
       {required String medicationId});
- Future<PatientDetails> getPatientDetails(
-      {required String patientId});
-Future<CancelAppointment> cancelAppointment(
-      {
-        required String appointmentId,
-        required String reason,
-        
-      
-      
-      });
+  Future<PatientDetails> getPatientDetails({required String patientId});
+  Future<CancelAppointment> cancelAppointment({
+    required String appointmentId,
+    required String reason,
+  });
 
-      Future<CancelAppointment> completeAppointment(
-      {
-        required String appointmentId,
-        
-        
-      
-      
-      });
+  Future<CancelAppointment> completeAppointment({
+    required String appointmentId,
+  });
 
-      Future<NotificationSettings> updateNotificationSettings(
-      {required String upcomingAlert,required String medicationReminder,required String orderAlert,});
+  Future<NotificationSettings> updateNotificationSettings({
+    required String upcomingAlert,
+    required String medicationReminder,
+    required String orderAlert,
+  });
 
-       Future<NotificationSettings> getNotificationSettings(
-      );
+  Future<NotificationSettings> getNotificationSettings();
 
   Future<CreateAppointment> createAppointment({
     required String date,
@@ -104,4 +95,5 @@ Future<CancelAppointment> cancelAppointment(
     required List<File> images,
     required String patientsId,
   });
+  
 }

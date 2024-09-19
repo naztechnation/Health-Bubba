@@ -62,9 +62,9 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
 
   final pages = [
     const HomePage(),
-    const PatientPage(),
+    const PatientPage(isDashboard: true,),
       AppointmentTabView(isDashboard: true,),
-    const MedicationPage()
+    const MedicationPage(true)
   ];
 
   @override

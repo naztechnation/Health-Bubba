@@ -1,5 +1,6 @@
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class StorageHandler {
   static FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -261,6 +262,10 @@ static Future<void> saveLastName([String? token]) async {
  
 
   static Future<void> clearCache() async {
+     final GoogleSignIn googleSignIn =
+                                        GoogleSignIn();
+                                    await googleSignIn.signOut();
+    saveIsLoggedIn('');
     await storage.delete(key:'LOGGEDIN');
   }
 }

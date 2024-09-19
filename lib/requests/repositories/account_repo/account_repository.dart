@@ -12,12 +12,13 @@ import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
 import '../../../model/user/bank_details.dart';
 import '../../../model/user/get_specialties.dart';
+import '../../../model/user/login_with_google.dart';
 import '../../../model/user/qualification.dart';
+import '../../../model/user/reg_with_google.dart';
 import '../../../model/user/select_language.dart';
 import '../../../model/user/select_qualifications.dart';
 import '../../../model/user/select_specialties.dart';
-import '../../../model/user/selected_languages.dart';
-import '../../../model/user/selected_qualifications.dart';
+import '../../../model/user/selected_languages.dart'; 
 import '../../../model/user/selected_user_specialties.dart';
 import '../../../model/user/update_user.dart';
 import '../../../model/working_hours.dart';
@@ -95,5 +96,18 @@ abstract class AccountRepository {
     required String hospitalAffliated,
     required String phone,
     String? location,
+  });
+
+  Future<RegWithGoogle> regWithGoogleA({
+    required String dob,
+    required String sex,
+    required String firstname,
+    required String email,
+    required String fcm,
+  });
+   Future<LoginWithGoogle> loginWithGoogleA({
+     
+    required String email,
+     
   });
 }

@@ -30,6 +30,7 @@ class AppImages {
   static const dropDown = '${_baseUrl}drop_down.svg';
   static const location = '${_baseUrl}location.svg';
   static const backBtn = '${_baseUrl}back_button.svg';
+  static const backAndroidBtn = '${_baseUrl}bck_android.svg';
   static const edit = '${_baseUrl}edit.svg';
   static const person = '${_baseUrl}person.svg';
   static const clock = '${_baseUrl}clock.svg';
@@ -90,6 +91,8 @@ class AppImages {
   static const appointmentCancelled = '${_baseUrl}calendar_remove.svg';
   static const orderInTransit = '${_baseUrl}truck_time.svg';
   static const orderCompleted = '${_baseUrl}truck_tick.svg';
+  static const appleLogo = '${_baseUrl}apple.svg';
+  static const googleLogo = '${_baseUrl}google.svg';
  
 
 

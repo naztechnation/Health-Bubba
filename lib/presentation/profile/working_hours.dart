@@ -289,76 +289,75 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                   )),
             ],
           ),
-          body: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Column(
-                      children: [
-                        const Divider(
-                          color: Color(
-                            0xFF40B93C,
+          body: Column(
+            children: [
+              const Divider(
+                height: 0.9,
+                color: Color(
+                  0xFF40B93C,
+                  
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _daySwitchState.keys.map((day) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0),
+                          child: Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(day,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF0A0D14),
+                                      fontWeight: FontWeight.w500)),
+                              Transform.scale(
+                                transformHitTests: false,
+                                scale: .7,
+                                child: CupertinoSwitch(
+                                  value: _daySwitchState[day]!,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _daySwitchState[day] = value;
+                                      if (!value) {
+                                        _dayTimeSlots[day]?.clear();
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        _daySwitchState[day]!
+                            ? _buildOpenDayContent(day)
+                            : _buildClosedDayContent(),
                         const SizedBox(
                           height: 10,
                         ),
-                        Expanded(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: _daySwitchState.keys.map((day) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(day,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF0A0D14),
-                                                fontWeight: FontWeight.w500)),
-                                        Transform.scale(
-                                          transformHitTests: false,
-                                          scale: .7,
-                                          child: CupertinoSwitch(
-                                            value: _daySwitchState[day]!,
-                                            onChanged: (bool value) {
-                                              setState(() {
-                                                _daySwitchState[day] = value;
-                                                if (!value) {
-                                                  _dayTimeSlots[day]?.clear();
-                                                }
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  _daySwitchState[day]!
-                                      ? _buildOpenDayContent(day)
-                                      : _buildClosedDayContent(),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Divider(
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              );
-                            }).toList(),
-                          ),
+                        Divider(
+                          color: Colors.grey.shade300,
+                        ),
+                        const SizedBox(
+                          height: 5,
                         ),
                       ],
-                    ),
-                  ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
           ),
     );
   }

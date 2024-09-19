@@ -16,11 +16,14 @@ import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/loading_screen.dart';
 import '../../../../widgets/text_edit_view.dart';
+import '../../dashboard.dart';
 import '../widgets/medication_card.dart';
 import 'create_new_medication.dart';
 
 class MedicationPage extends StatelessWidget {
-  const MedicationPage();
+  final bool isDashboard;
+
+  const MedicationPage(this.isDashboard);
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +31,16 @@ class MedicationPage extends StatelessWidget {
       create: (BuildContext context) => UserCubit(
           userRepository: UserRepositoryImpl(),
           viewModel: Provider.of<UserViewModel>(context, listen: false)),
-      child: Medications(),
+      child: Medications(isDashboard: isDashboard,),
     );
   }
 }
 
 class Medications extends StatefulWidget {
+  final bool isDashboard;
+
+  const Medications({super.key, required this.isDashboard});
+
   @override
   State<Medications> createState() => _MedicationsState();
 }
@@ -104,25 +111,57 @@ class _MedicationsState extends State<Medications> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                        
+        
                           SafeArea(
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFFFFFFF),
-                              ),
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 0, 16, 11),
-                                child: Text(
-                                  'Medication',
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    height: 1.5,
-                                    color: const Color(0xFF0A0D14),
+                            child: Row(
+                              children: [
+                                  (!widget.isDashboard) ?GestureDetector(
+                  onTap: () {
+                    AppNavigator.pushAndReplacePage(context, page:const Dashboard());
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 18.0, top: 8, bottom: 19),
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: ImageView.svg(
+                        AppImages.backBtn,
+                        height: 18,
+                      ),
+                    ),
+                  ),
+                ): Text(
+          ' ',
+          style: GoogleFonts.getFont(
+            'Inter',
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            height: 1.5,
+            color: const Color(0xFF0A0D14),
+          ),
+        ),
+        const SizedBox(width: 12,),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(16, 0, 16, 11),
+                                    child: Text(
+                                      'Medication',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        height: 1.5,
+                                        color: const Color(0xFF0A0D14),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                           Divider(
@@ -175,7 +214,41 @@ class _MedicationsState extends State<Medications> {
                             color: Colors.grey.shade300,
                             height: 0,
                           ),
-                          Expanded(
+                         (Provider.of<UserViewModel>(context, listen: true).filteredMedicationsLists.isEmpty)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                     SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.23,
+                      width: 80,),
+                  const Align(
+                    child: SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: ImageView.svg(AppImages.noData)),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No Medications Data Yet. ',
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.7,
+                        color: const Color(0xFF0A0D14),
+                      ),
+                    ),
+                  ),
+                   
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              )
+            :  Expanded(
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: Provider.of<UserViewModel>(context, listen: true).filteredMedicationsLists.length,

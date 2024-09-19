@@ -595,4 +595,59 @@ class AccountCubit extends Cubit<AccountStates> {
       }
     }
   }
+
+   Future<void> regWithGoogle(
+    {required String dob, 
+  required String sex, required String firstname,
+   required String email, required String fcm}
+     ) async {
+    try {
+      emit(GoogleRegLoading());
+
+      final google = await accountRepository.regWithGoogleA(dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm 
+           );
+
+            
+      emit(GoogleRegLoaded(google));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+     Future<void> loginWithGoogle(
+    { 
+   required String email}
+     ) async {
+    try {
+      emit(GoogleLoginLoading());
+
+      final google = await accountRepository.loginWithGoogleA(email: email,   
+           );
+
+            
+      emit(GoogleLoginLoaded(google));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

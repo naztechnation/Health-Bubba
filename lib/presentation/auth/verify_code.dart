@@ -213,7 +213,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                                         ),
                                                   children: [
                                                     TextSpan(
-                                                      text: widget.email,
+                                                      text: 'your email and phone number',
                                                       style: GoogleFonts.getFont(
                                                           'Inter',
                                                           fontWeight:

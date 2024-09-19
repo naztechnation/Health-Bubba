@@ -23,8 +23,7 @@ import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/decision_widgets.dart';
 import '../../../../widgets/error_page.dart';
-import '../../../../widgets/image_view.dart';
-import '../../../../widgets/loading_screen.dart';
+import '../../../../widgets/image_view.dart'; 
 import '../../../../widgets/modals.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../widgets/select_patient.dart';
@@ -161,7 +160,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     if (date == null) {
       return '--';
     } else {
-      return DateFormat('MMMM d').format(date);
+      return DateFormat('MMM d').format(date);
     }
   }
 

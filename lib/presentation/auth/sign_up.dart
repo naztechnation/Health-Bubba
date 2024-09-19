@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
  
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 
+import 'package:firebase_auth/firebase_auth.dart' as u;
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+
 import '../../blocs/accounts/account.dart'; 
+import '../../handlers/secure_handler.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
@@ -19,6 +25,7 @@ import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/password_checker.dart';
+import '../dashboard/dashboard.dart';
 import 'sign_in.dart';
 import 'verify_code.dart';
 
@@ -41,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final password = Provider.of<OnboardViewModel>(context, listen: true);
+    final userAuth = Provider.of<OnboardViewModel>(context, listen: true);
 
     return BlocProvider<AccountCubit>(
                 lazy: false,
@@ -73,7 +80,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             );
                           }
                         }
-                      } else if (state is AccountApiErr) {
+                      } else if (state is GoogleRegLoaded) {
+              if (state.google.ok ?? false) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.successIcon),
+                  title: AppStrings.successTitle,
+                  subtitle: state.google.message ?? '',
+                );
+
+                StorageHandler.saveUserToken(state.google.data?.token?.accessToken ?? '');
+                StorageHandler.saveUserId(
+                    state.google.data?.user?.id.toString() ?? '');
+                StorageHandler.saveUserTitle(
+                    state.google.data?.user?.title ?? '');
+                StorageHandler.saveUserFirstName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveLastName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveUserPicture(
+                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+
+                StorageHandler.saveIsLoggedIn('true');
+                ZegoUIKitPrebuiltCallInvitationService().init(
+                  appID: AppStrings.zigoAppIdUrl,
+                  appSign: AppStrings.zegoAppSign,
+                  userID: state.google.data?.user?.id.toString() ?? '',
+                  userName: state.google.data?.user?.lastName ?? '',
+                  plugins: [ZegoUIKitSignalingPlugin()],
+                );
+                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+              } else {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.google.message ?? '',
+                );
+              }
+            } else if (state is AccountApiErr) {
                         if (state.message != null) {
                           ToastService().showToast(
                             context,
@@ -205,14 +250,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           return Validator.validate(
                                               value, 'Password');
                                         },
-                                        obscureText: password.showPasswordStatus,
+                                        obscureText: userAuth.showPasswordStatus,
                                         suffixIcon: GestureDetector(
                                           onTap: () {
-                                            password.showPassword();
+                                            userAuth.showPassword();
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(12.0),
-                                            child: password.showPasswordStatus
+                                            child: userAuth.showPasswordStatus
                                                 ?  const ImageView.svg(
                                                      AppImages.eyeClosedIcon,
                                                      color: Colors.grey,
@@ -278,14 +323,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           }
                                           return null;
                                         },
-                                        obscureText: password.showConfirmPasswordStatus,
+                                        obscureText: userAuth.showConfirmPasswordStatus,
                                         suffixIcon: GestureDetector(
                                           onTap: () {
-                                            password.showConfirmPassword();
+                                            userAuth.showConfirmPassword();
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(12.0),
-                                            child: password.showConfirmPasswordStatus
+                                            child: userAuth.showConfirmPasswordStatus
                                                 ? const ImageView.svg(
                                                      AppImages.eyeClosedIcon,
                                                      color: Colors.grey,
@@ -301,8 +346,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 50,
+                                         const SizedBox(
+                                        height: 35,
                                       ),
                                       ButtonView(
                                           onPressed: () {
@@ -318,6 +363,141 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500),
                                           )),
+                                            const SizedBox(
+                                        height: 40,
+                                      ),
+                                       Opacity(
+                                  opacity: 0.8,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 1,
+                                          width: 200,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        'OR',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          height: 1.4,
+                                          color: const Color(0xFF6B7280),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 1,
+                                          width: 200,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final GoogleSignIn googleSignIn =
+                                        GoogleSignIn();
+                                    await googleSignIn.signOut();
+
+                                    u.User? user =
+                                        await userAuth.signInWithGoogle();
+
+                                    if (user != null) {
+                                      context
+                                          .read<AccountCubit>()
+                                          .regWithGoogle(
+                                               
+                                              email: user.email ?? '', dob: '', sex: '', firstname:  user.displayName ?? '', fcm: '',
+                                              );
+                                    }
+                                  },
+                                  child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: const Color(0xFFE9E9E9),
+                                              width: 0.8)),
+                                      child: const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ImageView.svg(AppImages.googleLogo),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              'Continue with Google',
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.lightSecondary,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: const Color(0xFFE9E9E9),
+                                              width: 0.8)),
+                                      child: const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ImageView.svg(
+                                              AppImages.appleLogo,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              'Continue with Apple',
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.lightSecondary,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                  
                                       const SizedBox(
                                         height: 30,
                                       ),
@@ -365,7 +545,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ))),
 
-                               if (state is AccountProcessing )
+                               if (state is AccountProcessing || userAuth.status  || state is GoogleRegLoading)
             Container(
               color: AppColors.indicatorBgColor,
               child:   Center(

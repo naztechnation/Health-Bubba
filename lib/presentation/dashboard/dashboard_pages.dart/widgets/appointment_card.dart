@@ -218,10 +218,12 @@ appointmentCard(
                     
                     plugins: [ZegoUIKitSignalingPlugin()],
                   );
+
+                  
                       
                     AppNavigator.pushAndStackPage(context, 
                     page: CallInviteScreen(inviteeId: appointmentListsData[index].patientId.toString(),
-                     inviteeName: appointmentListsData[index].patientLastName.toString(),));           
+                     inviteeName: appointmentListsData[index].patientLastName.toString(), appointmentId: appointmentListsData[index].appointmentId.toString(),));           
                               },
                               child: Container(
                                 margin:

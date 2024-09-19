@@ -17,7 +17,10 @@ import '../../../../widgets/loading_screen.dart';
 class MedicationDetailsPage extends StatelessWidget {
   final String medicatioId;
 
-  const MedicationDetailsPage({super.key, required this.medicatioId,  });
+  const MedicationDetailsPage({
+    super.key,
+    required this.medicatioId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +93,10 @@ class _MedicationDetailsState extends State<MedicationDetails> {
           : Scaffold(
               backgroundColor: AppColors.lightPrimary,
               appBar: AppBar(
-                title:   Text(
+                title: Text(
                   medicationDetails.first.patientFirstName ?? '',
-                  style:const  TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600),
                 ),
                 centerTitle: true,
                 leading: GestureDetector(
@@ -175,37 +179,55 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                     margin: const EdgeInsets
                                                         .fromLTRB(
                                                         0.7, 0, 0, 16),
-                                                    child:   SizedBox(
-                                                        width: 60,
-                                                        height: 60,
-                                                        child: Hero(
-                            tag: 'medicsPicture',
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(45.5),
-                              child: Image.network(
-                                medicationDetails.first.patientPicture ?? '',
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const ImageView.asset(
-                                      AppImages.avatarIcon,
-                                       fit: BoxFit.cover
-                                      );
-                                },
-                              ),
-                            ),
-                          ),),
+                                                    child: SizedBox(
+                                                      width: 60,
+                                                      height: 60,
+                                                      child: Hero(
+                                                        tag: 'medicsPicture',
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      45.5),
+                                                          child: Image.network(
+                                                            medicationDetails
+                                                                    .first
+                                                                    .patientPicture ??
+                                                                '',
+                                                            fit: BoxFit.cover,
+                                                            errorBuilder:
+                                                                (context, error,
+                                                                    stackTrace) {
+                                                              return const ImageView
+                                                                  .asset(
+                                                                  AppImages
+                                                                      .avatarIcon,
+                                                                  fit: BoxFit
+                                                                      .cover);
+                                                            },
+                                                            loadingBuilder:
+                                                                (context, child,
+                                                                    loadingProgress) {
+                                                              if (loadingProgress ==
+                                                                  null)
+                                                                return child;
+                                                              return const ImageView
+                                                                  .asset(
+                                                                  AppImages
+                                                                      .avatarIcon,
+                                                                  fit: BoxFit
+                                                                      .cover);
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                                 Text(
-                                                  medicationDetails.first.medicationName ?? '',
+                                                  medicationDetails.first
+                                                          .medicationName ??
+                                                      '',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w500,
@@ -283,39 +305,42 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 0, 0, 0),
-                                                          child: Text(
-                                                            'Medication name',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 14,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF5E5F6E),
-                                                            ),
+                                                        Text(
+                                                          'Medication name',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 14,
+                                                            height: 1.4,
+                                                            color: const Color(
+                                                                0xFF5E5F6E),
                                                           ),
                                                         ),
                                                         const Spacer(),
                                                         Expanded(
-                                                          child: Text(
-                                                            medicationDetails.first.medicationName ?? '',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w500,
-                                                              fontSize: 12,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF0A0D14),
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: Text(
+                                                              medicationDetails
+                                                                      .first
+                                                                      .medicationName ??
+                                                                  '',
+                                                              textAlign:
+                                                                  TextAlign.end,
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 12,
+                                                                height: 1.4,
+                                                                color: const Color(
+                                                                    0xFF0A0D14),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -355,6 +380,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         RichText(
+                                                          textAlign:
+                                                              TextAlign.end,
                                                           text: TextSpan(
                                                             style: GoogleFonts
                                                                 .getFont(
@@ -369,7 +396,10 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                             ),
                                                             children: [
                                                               TextSpan(
-                                                                text: medicationDetails.first.dosage ?? '',
+                                                                text: medicationDetails
+                                                                        .first
+                                                                        .dosage ??
+                                                                    '',
                                                                 style:
                                                                     GoogleFonts
                                                                         .getFont(
@@ -405,8 +435,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
-                                                        .fromLTRB(
-                                                        0, 0, 0, 12),
+                                                        .fromLTRB(0, 0, 0, 12),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -436,45 +465,61 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         const Spacer(),
-                                                      if(medicationDetails.first.frequency.toString().toLowerCase() == 'Specific days'.toLowerCase() )...[
-                                                        Expanded(
-                                                          child: Text(
-                                                            getMedicationDaysString(medicationDetails.first.medicationDays ?? []),
+                                                        if (medicationDetails
+                                                                .first.frequency
+                                                                .toString()
+                                                                .toLowerCase() ==
+                                                            'Specific days'
+                                                                .toLowerCase()) ...[
+                                                          Expanded(
+                                                            child: Text(
+                                                              textAlign:
+                                                                  TextAlign.end,
+                                                              getMedicationDaysString(
+                                                                  medicationDetails
+                                                                          .first
+                                                                          .medicationDays ??
+                                                                      []),
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 13,
+                                                                height: 1.4,
+                                                                color: const Color(
+                                                                    0xFF0A0D14),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ] else ...[
+                                                          Text(
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            medicationDetails
+                                                                    .first
+                                                                    .frequency ??
+                                                                '',
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight.w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                               fontSize: 13,
                                                               height: 1.4,
                                                               color: const Color(
                                                                   0xFF0A0D14),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ] else...[
-                                                        Text(
-                                                            medicationDetails.first.frequency ?? '',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w500,
-                                                              fontSize: 13,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF0A0D14),
-                                                            ),
-                                                          ),
-                                                      ] 
-                                                        
+                                                        ]
                                                       ],
                                                     ),
                                                   ),
                                                   Container(
                                                     margin: const EdgeInsets
-                                                        .fromLTRB(
-                                                        0, 0, 0, 12),
+                                                        .fromLTRB(0, 0, 0, 12),
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -487,7 +532,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           margin:
                                                               const EdgeInsets
                                                                   .fromLTRB(
-                                                                  0, 0,  0, 0),
+                                                                  0, 0, 0, 0),
                                                           child: Text(
                                                             'Time of the day',
                                                             style: GoogleFonts
@@ -506,12 +551,19 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                         const Spacer(),
                                                         Expanded(
                                                           child: Text(
-                                                            getMedicationTimesString(medicationDetails.first.medicationTimes ?? []),
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            getMedicationTimesString(
+                                                                medicationDetails
+                                                                        .first
+                                                                        .medicationTimes ??
+                                                                    []),
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
-                                                                  FontWeight.w500,
+                                                                  FontWeight
+                                                                      .w500,
                                                               fontSize: 13,
                                                               height: 1.4,
                                                               color: const Color(
@@ -555,7 +607,12 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          medicationDetails.first.toBeTaken ?? '',
+                                                          textAlign:
+                                                              TextAlign.end,
+                                                          medicationDetails
+                                                                  .first
+                                                                  .toBeTaken ??
+                                                              '',
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -603,7 +660,12 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          medicationDetails.first.category ?? '',
+                                                          textAlign:
+                                                              TextAlign.end,
+                                                          medicationDetails
+                                                                  .first
+                                                                  .category ??
+                                                              '',
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -651,7 +713,17 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          getDurationDifference( medicationDetails.first.durationStartTime ?? '', medicationDetails.first.durationEndTime ?? ''),
+                                                          textAlign:
+                                                              TextAlign.end,
+                                                          getDurationDifference(
+                                                              medicationDetails
+                                                                      .first
+                                                                      .durationStartTime ??
+                                                                  '',
+                                                              medicationDetails
+                                                                      .first
+                                                                      .durationEndTime ??
+                                                                  ''),
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -698,7 +770,12 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                           ),
                                                         ),
                                                         Text(
-                                                          medicationDetails.first.administrationRouteName ?? '',
+                                                          textAlign:
+                                                              TextAlign.end,
+                                                          medicationDetails
+                                                                  .first
+                                                                  .administrationRouteName ??
+                                                              '',
                                                           style: GoogleFonts
                                                               .getFont(
                                                             'Inter',
@@ -759,7 +836,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                 ),
                                               ),
                                               Text(
-                                               medicationDetails.first.notes ?? '',
+                                                medicationDetails.first.notes ??
+                                                    '',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
@@ -901,7 +979,9 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      medicationDetails.first.category ?? '',
+                                                      medicationDetails
+                                                              .first.category ??
+                                                          '',
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -932,45 +1012,47 @@ class _MedicationDetailsState extends State<MedicationDetails> {
   }
 
   String getDurationDifference(String startTimeString, String endTimeString) {
-  final DateTime startTime = DateTime.parse(startTimeString);
-  final DateTime endTime = DateTime.parse(endTimeString);
-  
-  if (endTime.isBefore(startTime) || endTime.isAtSameMomentAs(startTime)) {
-    return "elapsed";
+    final DateTime startTime = DateTime.parse(startTimeString);
+    final DateTime endTime = DateTime.parse(endTimeString);
+
+    if (endTime.isBefore(startTime) || endTime.isAtSameMomentAs(startTime)) {
+      return "elapsed";
+    }
+
+    final Duration difference = endTime.difference(startTime);
+    int days = difference.inDays;
+
+    final int weeks = days ~/ 7;
+    days = days % 7;
+
+    final int months = weeks ~/ 4;
+    final int remainingWeeks = weeks % 4;
+
+    String result = "";
+
+    if (months > 0) {
+      result += "$months month${months > 1 ? 's' : ''} ";
+    }
+    if (remainingWeeks > 0) {
+      result += "$remainingWeeks week${remainingWeeks > 1 ? 's' : ''} ";
+    }
+    if (days > 0) {
+      result += "$days day${days > 1 ? 's' : ''}";
+    }
+
+    return result.trim();
   }
 
-  final Duration difference = endTime.difference(startTime);
-  int days = difference.inDays;
-  
-  final int weeks = days ~/ 7;
-  days = days % 7;
-  
-  final int months = weeks ~/ 4;
-  final int remainingWeeks = weeks % 4;
-
-  String result = "";
-  
-  if (months > 0) {
-    result += "$months month${months > 1 ? 's' : ''} ";
+  String getMedicationDaysString(List<MedicationDays> medicationDays) {
+    List<String> days =
+        medicationDays.map((medicationDay) => medicationDay.day ?? '').toList();
+    return days.join(', ');
   }
-  if (remainingWeeks > 0) {
-    result += "$remainingWeeks week${remainingWeeks > 1 ? 's' : ''} ";
+
+  String getMedicationTimesString(List<MedicationTimes> medicationDays) {
+    List<String> days = medicationDays
+        .map((medicationDay) => medicationDay.time ?? '')
+        .toList();
+    return days.join(', ');
   }
-  if (days > 0) {
-    result += "$days day${days > 1 ? 's' : ''}";
-  }
-  
-  return result.trim();
-}
-
-
-String getMedicationDaysString(List<MedicationDays> medicationDays) {
-  List<String> days = medicationDays.map((medicationDay) => medicationDay.day ?? '').toList();
-  return days.join(', ');
-}
-
-String getMedicationTimesString(List<MedicationTimes> medicationDays) {
-  List<String> days = medicationDays.map((medicationDay) => medicationDay.time ?? '').toList();
-  return days.join(', ');
-}
 }

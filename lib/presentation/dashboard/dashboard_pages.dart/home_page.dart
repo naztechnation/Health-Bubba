@@ -1549,7 +1549,7 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page: const MedicationPage());
+                                                  page:   const MedicationPage(false));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
@@ -1701,7 +1701,7 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page: const PatientPage());
+                                                  page: const PatientPage(isDashboard: false,));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(

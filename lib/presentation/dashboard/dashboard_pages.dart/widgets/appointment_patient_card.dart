@@ -114,10 +114,11 @@ class AppointmentPatientCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              (!AppUtils.isPastDateTime(
-                                      upcomingAppointment.date ?? ''))
-                                  ? const SizedBox.shrink()
-                                  : Container(
+                              // (!AppUtils.isPastDateTime(
+                              //         upcomingAppointment.date ?? ''))
+                              //     ? const SizedBox.shrink()
+                              //     : 
+                                  Container(
                                       margin: const EdgeInsets.fromLTRB(
                                           0, 0, 20, 0),
                                       width: 4,
@@ -409,7 +410,7 @@ class AppointmentPatientCard extends StatelessWidget {
                       
                     AppNavigator.pushAndStackPage(context, page: CallInviteScreen(inviteeId: 
                     upcomingAppointment.patientId.toString(), 
-                    inviteeName: upcomingAppointment.patientLastName.toString(),));
+                    inviteeName: upcomingAppointment.patientLastName.toString(),appointmentId: upcomingAppointment.appointmentId.toString(),));
                   },
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),

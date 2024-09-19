@@ -16,10 +16,13 @@ import 'package:healthbubba/model/user/selected_qualifications.dart';
 import 'package:healthbubba/model/user/upload_image.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 import 'package:healthbubba/model/working_hours.dart';
+import 'package:healthbubba/widgets/modals.dart';
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/user/login_with_google.dart';
+import '../../../model/user/reg_with_google.dart';
 import '../../../model/user/select_specialties.dart';
 import '../../../model/user/selected_user_specialties.dart';
 import '../../../model/user/update_user.dart';
@@ -328,5 +331,44 @@ profilePic.add(image);
       },
     );
     return LoginData.fromJson(map);
+  }
+
+  @override
+  Future<RegWithGoogle> regWithGoogleA({required String dob, 
+  required String sex, required String firstname,
+   required String email, required String fcm}) async {
+     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
+    final map = await Requests().post(
+      AppStrings.googleRegUrl,
+      body: {
+        'email':email,
+        'firstname':firstname,
+        'sex':sex,
+        'dob':dob,
+        'fcm_token':fcmToken,
+      }
+       
+    );
+    return RegWithGoogle.fromJson(map);
+  }
+
+    @override
+  Future<LoginWithGoogle> loginWithGoogleA({ 
+   required String email }) async {
+     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
+      
+
+    final map = await Requests().post(
+      AppStrings.googleLoginUrl,
+      body: {
+        'email':email,
+         
+        'fcm_token':fcmToken,
+      }
+       
+    );
+    return LoginWithGoogle.fromJson(map);
   }
 }

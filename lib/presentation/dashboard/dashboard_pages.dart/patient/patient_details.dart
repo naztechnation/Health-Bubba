@@ -201,7 +201,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: const EdgeInsets
@@ -261,7 +261,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: const EdgeInsets
@@ -319,7 +319,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Container(
                                                     margin: const EdgeInsets

@@ -24,7 +24,6 @@ class CustomToast extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
           child: Container(
-            height: 70,
             margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0.0),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
@@ -45,13 +44,13 @@ class CustomToast extends StatelessWidget {
                         title,
                         style: const TextStyle(
                           color: AppColors
-                              .lightSecondary, // Replace with your color
+                              .lightSecondary,  
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         subtitle,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             color: Color(0xFF4B5563),
@@ -105,7 +104,7 @@ class ToastService {
     required Widget leadingIcon,
     required String title,
     required String subtitle,
-    Duration duration = const Duration(seconds: 5),
+    Duration duration = const Duration(seconds: 7),
   }) {
     _overlayEntry?.remove();
 

@@ -30,6 +30,8 @@ class AppStrings {
       static const String getNotificationSettingsUrl =
       "${_baseUrl}notification_settings";
   static const String loginUrl = "${_baseUrl}doctor/login";
+  static const String googleRegUrl = "${_baseUrl}doctor/register/google";
+  static const String googleLoginUrl = "${_baseUrl}doctor/login/google";
   static const String resetPasswordUrl = "${_baseUrl}reset-password";
   static const String languagesUrl = "${_baseUrl}languages";
   static const String initiatePasswordResetUrl =

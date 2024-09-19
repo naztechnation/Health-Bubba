@@ -14,11 +14,14 @@ import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/text_edit_view.dart';
+import '../../dashboard.dart';
 import '../widgets/patient_card.dart';
 import 'patient_details.dart';
 
 class PatientPage extends StatelessWidget {
-  const PatientPage({Key? key}) : super(key: key);
+  final bool isDashboard;
+
+  const PatientPage({Key? key, required this.isDashboard}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +30,15 @@ class PatientPage extends StatelessWidget {
         userRepository: UserRepositoryImpl(),
         viewModel: Provider.of<UserViewModel>(context, listen: false),
       ),
-      child: PatientsScreen(),
+      child: PatientsScreen(isDashboard: isDashboard,),
     );
   }
 }
 
 class PatientsScreen extends StatefulWidget {
-  PatientsScreen({Key? key}) : super(key: key);
+  final bool isDashboard;
+
+  PatientsScreen({Key? key, required this.isDashboard}) : super(key: key);
 
   @override
   State<PatientsScreen> createState() => _PatientsScreenState();
@@ -101,14 +106,75 @@ class _PatientsScreenState extends State<PatientsScreen> {
             backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
-              automaticallyImplyLeading: false,
+              elevation: 1,
+            leading:  (!widget.isDashboard) ?GestureDetector(
+                  onTap: () {
+                    AppNavigator.pushAndReplacePage(context, page:const Dashboard());
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 18.0, top: 18, bottom: 19),
+                    child: SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: ImageView.svg(
+                        AppImages.backBtn,
+                        height: 15,
+                      ),
+                    ),
+                  ),
+                ): Text(
+          ' ',
+          style: GoogleFonts.getFont(
+            'Inter',
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            height: 1.5,
+            color: const Color(0xFF0A0D14),
+          ),
+        ),
+        
+          
               title: const Text(
                 'Patients',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               centerTitle: true,
             ),
-            body: RefreshIndicator(
+            body:(Provider.of<UserViewModel>(context, listen: true).filteredPatientsLists.isEmpty)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                     SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.10,
+                      width: 80,),
+                  const Align(
+                    child: SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: ImageView.svg(AppImages.noData)),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No Registered Patient Yet. ',
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.7,
+                        color: const Color(0xFF0A0D14),
+                      ),
+                    ),
+                  ),
+                   
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              )
+            :  RefreshIndicator(
           onRefresh: _refreshPage,
 
               child: Container(
@@ -186,7 +252,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      ListView.builder(
+                                     ListView.builder(
                                         itemCount: Provider.of<UserViewModel>(
                                                 context,
                                                 listen: true)

@@ -10,6 +10,8 @@ import 'package:healthbubba/model/user/user_data.dart';
 
 import '../../model/auth_model/register.dart';
 import '../../model/user/banks.dart';
+import '../../model/user/login_with_google.dart';
+import '../../model/user/reg_with_google.dart';
 import '../../model/user/select_language.dart';
 import '../../model/user/select_specialties.dart';
 import '../../model/user/selected_docs_availability.dart';
@@ -316,6 +318,30 @@ class AddBanksDataLoaded extends AccountStates {
   const AddBanksDataLoaded(this.bankDetails);
   @override
   List<Object> get props => [bankDetails];
+}
+
+class GoogleRegLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class GoogleRegLoaded extends AccountStates {
+  final RegWithGoogle google;
+  const GoogleRegLoaded(this.google);
+  @override
+  List<Object> get props => [google];
+}
+
+class GoogleLoginLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class GoogleLoginLoaded extends AccountStates {
+  final LoginWithGoogle google;
+  const GoogleLoginLoaded(this.google);
+  @override
+  List<Object> get props => [google];
 }
 
 class AccountNetworkErr extends AccountStates {
