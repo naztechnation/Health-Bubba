@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/continue_signin.dart';
-import 'package:healthbubba/presentation/auth/sign_up.dart';  
+import 'package:healthbubba/presentation/auth/sign_up.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -22,7 +24,7 @@ import '../../utils/navigator/page_navigator.dart';
 import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
-import '../../widgets/image_view.dart'; 
+import '../../widgets/image_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as u;
 
@@ -40,8 +42,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-   
-
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<OnboardViewModel>(context, listen: true);
@@ -53,47 +53,44 @@ class _SignInScreenState extends State<SignInScreen> {
             viewModel: Provider.of<AccountViewModel>(context, listen: false)),
         child: BlocConsumer<AccountCubit, AccountStates>(
           listener: (context, state) {
-             if(state is GoogleLoginLoaded){
-                if (state.google.ok ?? false) {
-                  ToastService().showToast(
+            if (state is GoogleLoginLoaded) {
+              if (state.google.ok ?? false) {
+                ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(AppImages.successIcon),
                   title: AppStrings.successTitle,
                   subtitle: state.google.message ?? '',
                 );
 
-                StorageHandler.saveUserToken(
-                      state.google.data?.token ?? '');
-                  StorageHandler.saveUserId(
-                      state.google.data?.user?.id.toString() ?? '');
-                  StorageHandler.saveUserTitle(
-                      state.google.data?.user?.title ?? '');
-                  StorageHandler.saveUserFirstName(
-                      state.google.data?.user?.firstName ?? '');
-                  StorageHandler.saveLastName(
-                      state.google.data?.user?.firstName ?? '');
-                      StorageHandler.saveUserPicture(
-                      "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+                StorageHandler.saveUserToken(state.google.data?.token ?? '');
+                StorageHandler.saveUserId(
+                    state.google.data?.user?.id.toString() ?? '');
+                StorageHandler.saveUserTitle(
+                    state.google.data?.user?.title ?? '');
+                StorageHandler.saveUserFirstName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveLastName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveUserPicture(
+                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
 
-                    StorageHandler.saveIsLoggedIn('true');
-ZegoUIKitPrebuiltCallInvitationService().init(
-                    appID: AppStrings.zigoAppIdUrl,
-                    appSign: AppStrings.zegoAppSign,
-                    userID: state.google.data?.user?.id.toString() ?? '',
-                    userName: state.google.data?.user?.lastName ?? '',
-                    plugins: [ZegoUIKitSignalingPlugin()],
-                  );
-                  AppNavigator.pushAndStackPage(context,
-                      page: const Dashboard());
-                } else {
-                  ToastService().showToast(
-                context,
-                leadingIcon: const ImageView.svg(AppImages.error),
-                title: AppStrings.errorTitle,
-                subtitle: state.google.message ?? '',
-              );
-                }
-
+                StorageHandler.saveIsLoggedIn('true');
+                ZegoUIKitPrebuiltCallInvitationService().init(
+                  appID: AppStrings.zigoAppIdUrl,
+                  appSign: AppStrings.zegoAppSign,
+                  userID: state.google.data?.user?.id.toString() ?? '',
+                  userName: state.google.data?.user?.lastName ?? '',
+                  plugins: [ZegoUIKitSignalingPlugin()],
+                );
+                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+              } else {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.google.message ?? '',
+                );
+              }
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -252,8 +249,6 @@ ZegoUIKitPrebuiltCallInvitationService().init(
                                                     ],
                                                   ),
                                                 ),
-                                               
-                                                
                                               ],
                                             ),
                                           ),
@@ -330,13 +325,13 @@ ZegoUIKitPrebuiltCallInvitationService().init(
                                     u.User? user =
                                         await userAuth.signInWithGoogle();
 
-                                    
-                                       if (user != null) {
-                                        context.read<AccountCubit>().loginWithGoogle(  email: user.email ?? '',
-                                         );
-                                       }
-                                    
-                                   
+                                    if (user != null) {
+                                      context
+                                          .read<AccountCubit>()
+                                          .loginWithGoogle(
+                                            email: user.email ?? '',
+                                          );
+                                    }
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
@@ -370,19 +365,20 @@ ZegoUIKitPrebuiltCallInvitationService().init(
                                         ),
                                       )),
                                 ),
-                                const SizedBox(
+                              if(Platform.isIOS)  const SizedBox(
                                   height: 20,
                                 ),
-                                GestureDetector(
-                                  onTap: () async{
-                                    final credential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
+                              if(Platform.isIOS)  GestureDetector(
+                                  onTap: () async {
+                                    final credential = await SignInWithApple
+                                        .getAppleIDCredential(
+                                      scopes: [
+                                        AppleIDAuthorizationScopes.email,
+                                        AppleIDAuthorizationScopes.fullName,
+                                      ],
+                                    );
 
-    print(credential);
+                                    print(credential);
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
@@ -493,7 +489,9 @@ ZegoUIKitPrebuiltCallInvitationService().init(
     BuildContext ctx,
   ) {
     if (_formKey.currentState!.validate()) {
-      AppNavigator.pushAndStackPage(context, page: ContinueSignInScreen(emailAddress: _emailController.text.trim()));
+      AppNavigator.pushAndStackPage(context,
+          page:
+              ContinueSignInScreen(emailAddress: _emailController.text.trim()));
     }
 
     FocusScope.of(context).unfocus();

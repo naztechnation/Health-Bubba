@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -538,10 +540,10 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                         ),
                                       )),
                                 ),
-                                const SizedBox(
+                          if(Platform.isIOS)      const SizedBox(
                                   height: 20,
                                 ),
-                                GestureDetector(
+                              if(Platform.isIOS)  GestureDetector(
                                   onTap: () {},
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,

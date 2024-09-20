@@ -143,6 +143,7 @@ class _CallInviteState extends State<CallInvite> {
                             secondaryBgColor: AppColors.lightPrimary,
                             secondaryAction: () {
                               Navigator.pop(context);
+                              AppNavigator.pushAndReplacePage(context, page: const Dashboard());
                             }),
                       );
                     },

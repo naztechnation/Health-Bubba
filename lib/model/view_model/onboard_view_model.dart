@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../res/enum.dart';
  
@@ -529,6 +530,12 @@ String _successMessage = '';
       return null;
     }
   }
+  
+  
+
+  
+  
+  
   PageController get pageController => _pageController;
 
   bool get showPasswordStatus => _showPassword;
