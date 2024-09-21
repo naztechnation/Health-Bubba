@@ -17,18 +17,29 @@ class CustomToast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-        child: Material(
-          elevation: 3,
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
+    return Material(
+      elevation: 0,
+      type: MaterialType.card,
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0.0),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: AppColors.lightPrimary,  
               borderRadius: BorderRadius.circular(8.0),
+              boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFFF0F0F0),
+                          offset: Offset(0, 0),
+                          blurRadius: 0,
+                        ),
+                        BoxShadow(
+                          color: Color(0x409F9E9E),
+                          offset: Offset(0, 1),
+                          blurRadius: 1,
+                        ),
+                      ],
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,8 +94,8 @@ class CustomToast extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ));
+          )),
+    );
   }
 }
 

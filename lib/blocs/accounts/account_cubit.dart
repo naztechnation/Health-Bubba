@@ -650,4 +650,65 @@ class AccountCubit extends Cubit<AccountStates> {
       }
     }
   }
+
+  Future<void> regWithApple(
+    {required String dob, 
+  required String sex,
+   required String firstname,
+   required String email,
+    required String fcm,
+    required String appleId,
+    }
+     ) async {
+    try {
+      emit(AppleRegLoading());
+
+      final apple = await accountRepository.regWithAppleA(dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm, appleId: appleId 
+  );
+
+            
+      emit(AppleRegLoaded(apple));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+     Future<void> loginWithApple(
+    { 
+   required String email,
+   required String appleId,
+   }
+     ) async {
+    try {
+      emit(AppleLoginLoading());
+
+      final google = await accountRepository.loginWithAppleA(email: email, appleId: appleId,   
+           );
+
+            
+      emit(AppleLoginLoaded(google));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

@@ -91,6 +91,44 @@ class _SignInScreenState extends State<SignInScreen> {
                   subtitle: state.google.message ?? '',
                 );
               }
+            } else if (state is AppleLoginLoaded) {
+              if (state.google.ok ?? false) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.successIcon),
+                  title: AppStrings.successTitle,
+                  subtitle: state.google.message ?? '',
+                );
+
+                StorageHandler.saveUserToken(state.google.data?.token ?? '');
+                StorageHandler.saveUserId(
+                    state.google.data?.user?.id.toString() ?? '');
+                StorageHandler.saveUserTitle(
+                    state.google.data?.user?.title ?? '');
+                StorageHandler.saveUserFirstName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveLastName(
+                    state.google.data?.user?.firstName ?? '');
+                StorageHandler.saveUserPicture(
+                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+
+                StorageHandler.saveIsLoggedIn('true');
+                ZegoUIKitPrebuiltCallInvitationService().init(
+                  appID: AppStrings.zigoAppIdUrl,
+                  appSign: AppStrings.zegoAppSign,
+                  userID: state.google.data?.user?.id.toString() ?? '',
+                  userName: state.google.data?.user?.lastName ?? '',
+                  plugins: [ZegoUIKitSignalingPlugin()],
+                );
+                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+              } else {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.google.message ?? '',
+                );
+              }
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -275,146 +313,171 @@ class _SignInScreenState extends State<SignInScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Opacity(
-                                  opacity: 0.8,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: 1,
-                                          width: 200,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        'OR',
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          height: 1.4,
-                                          color: const Color(0xFF6B7280),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 1,
-                                          width: 200,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    final GoogleSignIn googleSignIn =
-                                        GoogleSignIn();
-                                    await googleSignIn.signOut();
+                                // Opacity(
+                                //   opacity: 0.8,
+                                //   child: Row(
+                                //     mainAxisAlignment: MainAxisAlignment.center,
+                                //     children: [
+                                //       Expanded(
+                                //         child: Container(
+                                //           height: 1,
+                                //           width: 200,
+                                //           color: Colors.grey.shade300,
+                                //         ),
+                                //       ),
+                                //       const SizedBox(
+                                //         width: 8,
+                                //       ),
+                                //       Text(
+                                //         'OR',
+                                //         style: GoogleFonts.getFont(
+                                //           'Inter',
+                                //           fontWeight: FontWeight.w400,
+                                //           fontSize: 12,
+                                //           height: 1.4,
+                                //           color: const Color(0xFF6B7280),
+                                //         ),
+                                //       ),
+                                //       const SizedBox(
+                                //         width: 8,
+                                //       ),
+                                //       Expanded(
+                                //         child: Container(
+                                //           height: 1,
+                                //           width: 200,
+                                //           color: Colors.grey.shade300,
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // const SizedBox(
+                                //   height: 30,
+                                // ),
+                                // GestureDetector(
+                                //   onTap: () async {
+                                //     try {
+                                //       // final GoogleSignIn googleSignIn =
+                                //       //     GoogleSignIn();
+                                //       // await googleSignIn.signOut();
 
-                                    u.User? user =
-                                        await userAuth.signInWithGoogle();
+                                      
 
-                                    if (user != null) {
-                                      context
-                                          .read<AccountCubit>()
-                                          .loginWithGoogle(
-                                            email: user.email ?? '',
-                                          );
-                                    }
-                                  },
-                                  child: Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      height: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            100,
-                                          ),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: const Color(0xFFE9E9E9),
-                                              width: 0.8)),
-                                      child: const Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            ImageView.svg(AppImages.googleLogo),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              'Continue with Google',
-                                              style: TextStyle(
-                                                  color:
-                                                      AppColors.lightSecondary,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ),
-                              if(Platform.isIOS)  const SizedBox(
-                                  height: 20,
-                                ),
-                              if(Platform.isIOS)  GestureDetector(
-                                  onTap: () async {
-                                    final credential = await SignInWithApple
-                                        .getAppleIDCredential(
-                                      scopes: [
-                                        AppleIDAuthorizationScopes.email,
-                                        AppleIDAuthorizationScopes.fullName,
-                                      ],
-                                    );
+                                //       u.User? user =
+                                //           await userAuth.signInWithGoogle();
 
-                                    print(credential);
-                                  },
-                                  child: Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      height: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            100,
-                                          ),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: const Color(0xFFE9E9E9),
-                                              width: 0.8)),
-                                      child: const Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            ImageView.svg(
-                                              AppImages.appleLogo,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              'Continue with Apple',
-                                              style: TextStyle(
-                                                  color:
-                                                      AppColors.lightSecondary,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ),
+                                //       if (user != null) {
+                                //         context
+                                //             .read<AccountCubit>()
+                                //             .loginWithGoogle(
+                                //               email: user.email ?? '',
+                                //             );
+                                //       }
+                                //     } catch (error) {
+                                //       print(error);
+                                //     }
+                                //   },
+                                //   child: Container(
+                                //       width: MediaQuery.sizeOf(context).width,
+                                //       height: 42,
+                                //       decoration: BoxDecoration(
+                                //           borderRadius: BorderRadius.circular(
+                                //             100,
+                                //           ),
+                                //           color: Colors.white,
+                                //           border: Border.all(
+                                //               color: const Color(0xFFE9E9E9),
+                                //               width: 0.8)),
+                                //       child: const Center(
+                                //         child: Row(
+                                //           mainAxisAlignment:
+                                //               MainAxisAlignment.center,
+                                //           children: [
+                                //             ImageView.svg(AppImages.googleLogo),
+                                //             SizedBox(
+                                //               width: 8,
+                                //             ),
+                                //             Text(
+                                //               'Continue with Google',
+                                //               style: TextStyle(
+                                //                   color:
+                                //                       AppColors.lightSecondary,
+                                //                   fontSize: 14,
+                                //                   fontWeight: FontWeight.w400),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       )),
+                                // ),
+                                // if (Platform.isIOS)
+                                //   const SizedBox(
+                                //     height: 20,
+                                //   ),
+                                // if (Platform.isIOS)
+                                //   GestureDetector(
+                                //     onTap: () async {
+                                //       final credential = await SignInWithApple
+                                //           .getAppleIDCredential(
+                                //         scopes: [
+                                //           AppleIDAuthorizationScopes.email,
+                                //           AppleIDAuthorizationScopes.fullName,
+                                //         ],
+                                //       );
+                                //       if (credential.userIdentifier != null) {
+                                //         context
+                                //             .read<AccountCubit>()
+                                //             .loginWithApple(
+                                //               email: credential.email ?? '',
+                                //               appleId:
+                                //                   credential.userIdentifier ??
+                                //                       '',
+                                //             );
+                                //       } else {
+                                //         ToastService().showToast(
+                                //           context,
+                                //           leadingIcon: const ImageView.svg(
+                                //               AppImages.error),
+                                //           title: AppStrings.successTitle,
+                                //           subtitle: 'verification failed',
+                                //         );
+                                //       }
+                                //     },
+                                //     child: Container(
+                                //         width: MediaQuery.sizeOf(context).width,
+                                //         height: 42,
+                                //         decoration: BoxDecoration(
+                                //             borderRadius: BorderRadius.circular(
+                                //               100,
+                                //             ),
+                                //             color: Colors.white,
+                                //             border: Border.all(
+                                //                 color: const Color(0xFFE9E9E9),
+                                //                 width: 0.8)),
+                                //         child: const Center(
+                                //           child: Row(
+                                //             mainAxisAlignment:
+                                //                 MainAxisAlignment.center,
+                                //             children: [
+                                //               ImageView.svg(
+                                //                 AppImages.appleLogo,
+                                //                 fit: BoxFit.cover,
+                                //               ),
+                                //               SizedBox(
+                                //                 width: 8,
+                                //               ),
+                                //               Text(
+                                //                 'Continue with Apple',
+                                //                 style: TextStyle(
+                                //                     color: AppColors
+                                //                         .lightSecondary,
+                                //                     fontSize: 14,
+                                //                     fontWeight:
+                                //                         FontWeight.w400),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         )),
+                                //   ),
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -471,7 +534,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                   )),
-              if (userAuth.status || state is GoogleLoginLoading)
+              if (userAuth.status ||
+                  state is GoogleLoginLoading ||
+                  state is AppleLoginLoading)
                 Container(
                   color: AppColors.indicatorBgColor,
                   child: Center(

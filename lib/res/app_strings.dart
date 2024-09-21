@@ -32,6 +32,9 @@ class AppStrings {
   static const String loginUrl = "${_baseUrl}doctor/login";
   static const String googleRegUrl = "${_baseUrl}doctor/register/google";
   static const String googleLoginUrl = "${_baseUrl}doctor/login/google";
+  static const String appleRegUrl = "${_baseUrl}doctor/register/apple";
+  static const String appleLoginUrl = "${_baseUrl}doctor/login/apple"; 
+
   static const String resetPasswordUrl = "${_baseUrl}reset-password";
   static const String languagesUrl = "${_baseUrl}languages";
   static const String initiatePasswordResetUrl =
@@ -100,4 +103,9 @@ class AppStrings {
   static String patientsListsUrl(
           {required String page, required String limit}) =>
       "${_baseUrl}patients?page=$page&limit=$limit";
+
+      static const String updateInfo =
+      "HealthBubba Partner recommends that you update to the latest version. The update is very important so as to enjoy all of our new features, while we keep serving you better!!!.";
+  static const int appVersion = 1;
+  
 }

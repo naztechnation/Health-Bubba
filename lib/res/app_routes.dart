@@ -6,6 +6,7 @@ import '../message.dart';
 import '../presentation/auth/forgot_password.dart';
 import '../presentation/auth/sign_in.dart';
 import '../splash_screen.dart';
+import '../update_page.dart';
 
 class AppRoutes {
   ///Route names used through out the app will be specified as static constants here in this format
@@ -17,6 +18,7 @@ class AppRoutes {
   static const String forgetPassword = 'forgetPassword';
   static const String resetPassword = 'resetPassword';
   static const String dashboardScreen = 'dashboardScreen';
+  static const String updateScreen = 'updateScreen';
   static const String message = '/message';
 
   static Map<String, Widget Function(BuildContext)> routes = {
@@ -26,6 +28,7 @@ class AppRoutes {
     dashboardScreen: (context) => const Dashboard(),
     signInScreen: (context) => SignInScreen(),
     message: (context) => const Messages(),
+    updateScreen: (context) => const UpdateScreen(),
   };
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -46,6 +49,10 @@ class AppRoutes {
       case dashboardScreen:
         return MaterialPageRoute(
           builder: (context) => const Dashboard(),
+        );
+         case updateScreen:
+        return MaterialPageRoute(
+          builder: (context) => const UpdateScreen(),
         );
 
       //Default Route is error route

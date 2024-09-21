@@ -220,7 +220,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                 child: Text('Upcoming',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: upComing ? FontWeight.w800:  FontWeight.w600,
                                         color: upComing
                                             ? Colors.black
                                             : Colors.grey)),
@@ -262,7 +262,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                 child: Text('Completed',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: completed ? FontWeight.w800: FontWeight.w600,
                                         color: completed
                                             ? Colors.black
                                             : Colors.grey)),
@@ -304,7 +304,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                 child: Text('Cancelled',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: cancelled ? FontWeight.w800: FontWeight.w600,
                                         color: cancelled
                                             ? Colors.black
                                             : Colors.grey)),

@@ -110,4 +110,20 @@ abstract class AccountRepository {
     required String email,
      
   });
+
+  Future<RegWithGoogle> regWithAppleA({
+    required String dob,
+    required String sex,
+    required String firstname,
+    required String email,
+    required String appleId,
+    required String fcm,
+  });
+   Future<LoginWithGoogle> loginWithAppleA({
+     
+    required String email,
+    required String appleId,
+
+     
+  });
 }

@@ -446,7 +446,7 @@ String _successMessage = '';
       _status = true;
       setViewState(ViewState.success);
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: '1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com').signIn();
 
       if (googleUser == null) {
         _successMessage = 'Authentication canceled';

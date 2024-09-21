@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,8 @@ import 'handlers/secure_handler.dart';
 import 'presentation/dashboard/dashboard.dart';
 import 'presentation/onboarding/onboard.dart'; 
 import 'res/app_colors.dart'; 
+import 'res/app_strings.dart';
+import 'update_page.dart';
 import 'widgets/image_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -55,8 +58,29 @@ class _SplashScreenState extends State<SplashScreen>
         overlays: SystemUiOverlay.values);
   }
 
+  void _checkVersionAndNavigate() {
+    FirebaseFirestore.instance
+        .collection('app_version')
+        .doc('version_number')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        final versionNumber = snapshot.data()?['current_version'] ?? '';
+        if (versionNumber as int > AppStrings.appVersion) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UpdateScreen()),
+          );
+        } else {
+          
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
+    _checkVersionAndNavigate();
     getUserDetails();
      
     super.initState();

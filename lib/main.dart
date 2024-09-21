@@ -38,7 +38,7 @@ Future<void> main() async {
       //navigatorKey.currentState!.pushNamed(AppRoutes.message, arguments: message);
     }
   });
-
+      
   PushNotifications.init();
   PushNotifications.localNotiInit();
 

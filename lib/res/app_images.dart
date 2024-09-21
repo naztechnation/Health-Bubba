@@ -93,6 +93,8 @@ class AppImages {
   static const orderCompleted = '${_baseUrl}truck_tick.svg';
   static const appleLogo = '${_baseUrl}apple.svg';
   static const googleLogo = '${_baseUrl}google.svg';
+   static const playStoreLogo = '${_baseUrl}playstore.png';
+  static const appleStoreLogo = '${_baseUrl}apple_store.png';
  
 
 

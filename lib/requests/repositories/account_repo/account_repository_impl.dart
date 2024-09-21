@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:healthbubba/model/auth_model/verify_otp.dart'; 
+import 'package:healthbubba/model/auth_model/verify_otp.dart';
 import 'package:healthbubba/model/user/bank_details.dart';
 import 'package:healthbubba/model/user/banks.dart';
 import 'package:healthbubba/model/user/get_specialties.dart';
@@ -37,7 +37,7 @@ class AccountRepositoryImpl implements AccountRepository {
     required String email,
     required String password,
   }) async {
-     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
     final map = await Requests().post(AppStrings.registerUserUrl, body: {
       "email": email,
@@ -61,14 +61,12 @@ class AccountRepositoryImpl implements AccountRepository {
   @override
   Future<LoginData> loginUser(
       {required String email, required String password}) async {
-
-     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
     final map = await Requests().post(AppStrings.loginUrl, body: {
       "email": email,
       "password": password,
       "fcm_token": fcmToken,
-
     });
     return LoginData.fromJson(map);
   }
@@ -234,9 +232,8 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<UploadImage> uploadImage({required File image}) async {
-
     List<File> profilePic = [];
-profilePic.add(image);
+    profilePic.add(image);
 
     final map = await Requests().post(
       AppStrings.uploadimageUrl,
@@ -273,8 +270,7 @@ profilePic.add(image);
         .post(AppStrings.selectSpecialtiesUrl, body: body, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-            'Authorization': "Bearer $accessToken",
-
+      'Authorization': "Bearer $accessToken",
     });
     return SelectSpecialties.fromJson(map);
   }
@@ -319,56 +315,84 @@ profilePic.add(image);
     );
     return BankDetails.fromJson(map);
   }
-  
+
   @override
-  Future<LoginData> changePassword({required String oldPassword, required String newPassword}) async {
+  Future<LoginData> changePassword(
+      {required String oldPassword, required String newPassword}) async {
     final map = await Requests().post(
       AppStrings.updatePasswordUrl,
       body: {
         "old_password": oldPassword,
         "new_password": newPassword,
-         
       },
     );
     return LoginData.fromJson(map);
   }
 
   @override
-  Future<RegWithGoogle> regWithGoogleA({required String dob, 
-  required String sex, required String firstname,
-   required String email, required String fcm}) async {
-     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  Future<RegWithGoogle> regWithGoogleA(
+      {required String dob,
+      required String sex,
+      required String firstname,
+      required String email,
+      required String fcm}) async {
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
-    final map = await Requests().post(
-      AppStrings.googleRegUrl,
-      body: {
-        'email':email,
-        'firstname':firstname,
-        'sex':sex,
-        'dob':dob,
-        'fcm_token':fcmToken,
-      }
-       
-    );
+    final map = await Requests().post(AppStrings.googleRegUrl, body: {
+      'email': email,
+      'firstname': firstname,
+      'sex': sex,
+      'dob': dob,
+      'fcm_token': fcmToken,
+    });
     return RegWithGoogle.fromJson(map);
   }
 
-    @override
-  Future<LoginWithGoogle> loginWithGoogleA({ 
-   required String email }) async {
-     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  @override
+  Future<LoginWithGoogle> loginWithGoogleA({required String email}) async {
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
-      
-
-    final map = await Requests().post(
-      AppStrings.googleLoginUrl,
-      body: {
-        'email':email,
-         
-        'fcm_token':fcmToken,
-      }
-       
-    );
+    final map = await Requests().post(AppStrings.googleLoginUrl, body: {
+      'email': email,
+      'fcm_token': fcmToken,
+    });
     return LoginWithGoogle.fromJson(map);
+  }
+
+  @override
+  Future<LoginWithGoogle> loginWithAppleA(
+      {required String email, required String appleId}) async {
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
+    final map = await Requests().post(AppStrings.appleLoginUrl,
+     body: {
+      'email': email,
+      'apple_id': appleId,
+      'fcm_token': fcmToken,
+    });
+    return LoginWithGoogle.fromJson(map);
+  }
+
+  @override
+  Future<RegWithGoogle> regWithAppleA(
+      {required String dob,
+      required String sex,
+      required String firstname,
+      required String email,
+      required String appleId,
+      required String fcm}) async {
+    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+
+    final map = await Requests().post(AppStrings.appleRegUrl, body: {
+      'email': email,
+      'firstname': firstname,
+      'apple_id': appleId,
+      'sex': sex,
+      'dob': dob,
+      'fcm_token': fcmToken,
+    },
+    
+    );
+    return RegWithGoogle.fromJson(map);
   }
 }

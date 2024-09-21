@@ -344,6 +344,30 @@ class GoogleLoginLoaded extends AccountStates {
   List<Object> get props => [google];
 }
 
+class AppleRegLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AppleRegLoaded extends AccountStates {
+  final RegWithGoogle google;
+  const AppleRegLoaded(this.google);
+  @override
+  List<Object> get props => [google];
+}
+
+class AppleLoginLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class AppleLoginLoaded extends AccountStates {
+  final LoginWithGoogle google;
+  const AppleLoginLoaded(this.google);
+  @override
+  List<Object> get props => [google];
+}
+
 class AccountNetworkErr extends AccountStates {
   final String? message;
   const AccountNetworkErr(this.message);
