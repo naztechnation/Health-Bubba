@@ -17,7 +17,7 @@ class AccountViewModel extends BaseViewModel {
 
   AccountViewModel() {
     getToken();
-    changeScreen();
+    
   }
 
   String _token = "";
@@ -43,38 +43,7 @@ class AccountViewModel extends BaseViewModel {
     _token = await StorageHandler.getUserToken() ?? '';
     setViewState(ViewState.success);
   }
-  changeScreen( ) async {
-    Map<String, dynamic>? data;
-    try {
-      final firestoreRef = FirebaseFirestore.instance
-          .collection('app_version')
-          .doc('version_number');
-
-      DocumentSnapshot snapshot = await firestoreRef.get();
-
-      if (snapshot.exists) {
-        data = snapshot.data() as Map<String, dynamic>;
-
-        if (data['current_version'] as int > AppStrings.appVersion) {
-          _isUptoDate = false;
-          setViewState(ViewState.success);
-        } else {
-          _isUptoDate = false;
-          setViewState(ViewState.success);
-
-        }
-      }
-    } catch (error) {
-      if (error is FirebaseException) {
-        if (error.code == 'unavailable') {
-           
-        }
-
-          _isUptoDate = true;
-
-      }
-    }
-  }
+   
 
   List<LanguagesData> get plaformLanguages => _platformLanguages;
   List<GetSpecialtiesData> get platformSpecialties => _platformSpecialties;

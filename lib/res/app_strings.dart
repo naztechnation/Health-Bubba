@@ -1,7 +1,7 @@
-import 'dart:io';
+ 
 
 class AppStrings {
-  static const String appName = 'HEALTH BUBBA PARTNER';
+  static const String appName = 'HEALTHBUBBA SPECIALISTS';
 
   //zego details
 
@@ -106,6 +106,7 @@ class AppStrings {
 
       static const String updateInfo =
       "HealthBubba Partner recommends that you update to the latest version. The update is very important so as to enjoy all of our new features, while we keep serving you better!!!.";
-  static const int appVersion = 1;
+  static const int appVersionIos = 1;
+  static const int appVersionAndroid = 1;
   
 }

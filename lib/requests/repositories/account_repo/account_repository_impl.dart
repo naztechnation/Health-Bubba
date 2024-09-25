@@ -384,7 +384,7 @@ class AccountRepositoryImpl implements AccountRepository {
     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
     final map = await Requests().post(AppStrings.appleRegUrl, body: {
-      'email': email,
+      if(email.isNotEmpty)'email': email,
       'firstname': firstname,
       'apple_id': appleId,
       'sex': sex,

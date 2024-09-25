@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbubba/res/app_colors.dart';
@@ -66,14 +68,16 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
   ];
 
   void _checkVersionAndNavigate() {
-    FirebaseFirestore.instance
-        .collection('app_version')
-        .doc('version_number')
+     
+if (Platform.isAndroid) {
+  FirebaseFirestore.instance
+        .collection('app_version_android')
+        .doc('version_number_android')
         .snapshots()
         .listen((snapshot) {
       if (snapshot.exists) {
-        final versionNumber = snapshot.data()?['current_version'] ?? '';
-        if (versionNumber as int > AppStrings.appVersion) {
+        final versionNumber = snapshot.data()?['current_version_android'] ?? '';
+        if (versionNumber as int > AppStrings.appVersionAndroid) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const UpdateScreen()),
@@ -83,7 +87,30 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
         }
       }
     });
+} else if (Platform.isIOS) {
+  FirebaseFirestore.instance
+        .collection('app_version_ios')
+        .doc('version_number_ios')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        final versionNumber = snapshot.data()?['current_version_ios'] ?? '';
+        if (versionNumber as int > AppStrings.appVersionIos) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UpdateScreen()),
+          );
+        } else {
+          
+        }
+      }
+    });
+}
+
+
+     
   }
+
 
   @override
   void initState() {

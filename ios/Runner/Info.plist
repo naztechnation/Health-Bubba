@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Healthbubba Partner</string>
+	<string>HealthBubba</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,6 +22,8 @@
 	<string>1.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>GIDClientID</key>
+    <string>1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -33,17 +35,17 @@
 			</array>
 		</dict>
 	</array>
-	<key>GIDClientID</key>
-
-    <string>1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com</string>
+	
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Camera permission is required for image upload.</string>
+	<string>We need access to your camera to allow you to take and upload photos for your profile within the app.</string>
+
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to your microphone for audio calls.</string>
+    <string>We need access to your microphone to enable audios calls and for voice messaging features within the app.</string>
+
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you to choose photos to upload or share within the app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

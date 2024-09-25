@@ -400,194 +400,182 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
                                   )),
-                              // const SizedBox(
-                              //   height: 40,
-                              // ),
-                              // Opacity(
-                              //   opacity: 0.8,
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Expanded(
-                              //         child: Container(
-                              //           height: 1,
-                              //           width: 200,
-                              //           color: Colors.grey.shade300,
-                              //         ),
-                              //       ),
-                              //       const SizedBox(
-                              //         width: 8,
-                              //       ),
-                              //       Text(
-                              //         'OR',
-                              //         style: GoogleFonts.getFont(
-                              //           'Inter',
-                              //           fontWeight: FontWeight.w400,
-                              //           fontSize: 12,
-                              //           height: 1.4,
-                              //           color: const Color(0xFF6B7280),
-                              //         ),
-                              //       ),
-                              //       const SizedBox(
-                              //         width: 8,
-                              //       ),
-                              //       Expanded(
-                              //         child: Container(
-                              //           height: 1,
-                              //           width: 200,
-                              //           color: Colors.grey.shade300,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // const SizedBox(
-                              //   height: 30,
-                              // ),
-                              // GestureDetector(
-                              //   onTap: () async {
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              Opacity(
+                                opacity: 0.8,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 1,
+                                        width: 200,
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      'OR',
+                                      style: GoogleFonts.getFont(
+                                        'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        height: 1.4,
+                                        color: const Color(0xFF6B7280),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 1,
+                                        width: 200,
+                                        color: Colors.grey.shade300,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                           if (Platform.isAndroid)   const SizedBox(
+                                height: 30,
+                              ),
+                          if (Platform.isAndroid)    GestureDetector(
+                                onTap: () async {
 
-                              //     try {
-                              //       final GoogleSignIn googleSignIn =
-                              //         GoogleSignIn();
-                              //     await googleSignIn.signOut();
+                                  try {
+                                    final GoogleSignIn googleSignIn =
+                                      GoogleSignIn();
+                                  await googleSignIn.signOut();
 
-                              //     u.User? user =
-                              //         await userAuth.signInWithGoogle();
+                                  u.User? user =
+                                      await userAuth.signInWithGoogle();
 
-                              //     if (user != null) {
-                              //       context.read<AccountCubit>().regWithGoogle(
-                              //             email: user.email ?? '',
-                              //             dob: '',
-                              //             sex: '',
-                              //             firstname: user.displayName ?? '',
-                              //             fcm: '',
-                              //           );
-                              //     }
-                              //     } catch (e) {
-                              //       print(e);
-                              //     }
+                                  if (user != null) {
+                                    context.read<AccountCubit>().regWithGoogle(
+                                          email: user.email ?? '',
+                                          dob: '',
+                                          sex: '',
+                                          firstname: user.displayName ?? '',
+                                          fcm: '',
+                                        );
+                                  }
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                   
-                              //   },
-                              //   child: Container(
-                              //       width: MediaQuery.sizeOf(context).width,
-                              //       height: 42,
-                              //       decoration: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(
-                              //             100,
-                              //           ),
-                              //           color: Colors.white,
-                              //           border: Border.all(
-                              //               color: const Color(0xFFE9E9E9),
-                              //               width: 0.8)),
-                              //       child: const Center(
-                              //         child: Row(
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: [
-                              //             ImageView.svg(AppImages.googleLogo),
-                              //             SizedBox(
-                              //               width: 8,
-                              //             ),
-                              //             Text(
-                              //               'Continue with Google',
-                              //               style: TextStyle(
-                              //                   color: AppColors.lightSecondary,
-                              //                   fontSize: 14,
-                              //                   fontWeight: FontWeight.w400),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       )),
-                              // ),
-                              // if (Platform.isIOS)
-                              //   const SizedBox(
-                              //     height: 20,
-                              //   ),
-                              // if (Platform.isIOS)
-                              //   GestureDetector(
-                              //     onTap: () async{
-                              //         context
-                              //               .read<AccountCubit>()
-                              //               .regWithApple(
-                              //                 email:   '',
-                              //             dob: '',
-                              //             sex: '',
-                              //             firstname:  '',
-                              //             fcm: '',
-                                              
-                              //                 appleId:
-                                                  
-                              //                         '1234',
-                              //               );
-                                    
-                              //       // final credential = await SignInWithApple
-                              //       //       .getAppleIDCredential(
-                              //       //     scopes: [
-                              //       //       AppleIDAuthorizationScopes.email,
-                              //       //       AppleIDAuthorizationScopes.fullName,
-                              //       //     ],
-                              //       //   );
-                              //       //   if (credential.userIdentifier != null) {
+                                },
+                                child: Container(
+                                    width: MediaQuery.sizeOf(context).width,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          100,
+                                        ),
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: const Color(0xFFE9E9E9),
+                                            width: 0.8)),
+                                    child: const Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ImageView.svg(AppImages.googleLogo),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Text(
+                                            'Continue with Google',
+                                            style: TextStyle(
+                                                color: AppColors.lightSecondary,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                              if (Platform.isIOS)
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              if (Platform.isIOS)
+                                GestureDetector(
+                                  onTap: () async{
+                                      
+                                       
+                                    final credential = await SignInWithApple
+                                          .getAppleIDCredential(
+                                        scopes: [
+                                          AppleIDAuthorizationScopes.email,
+                                          AppleIDAuthorizationScopes.fullName,
+                                        ],
+                                      );
+                                      if (credential.userIdentifier != null) {
                                           
-                              //       //     context
-                              //       //         .read<AccountCubit>()
-                              //       //         .regWithApple(
-                              //       //           email: credential.email ?? '',
-                              //       //       dob: '',
-                              //       //       sex: '',
-                              //       //       firstname: credential.familyName ?? '',
-                              //       //       fcm: '',
+                                        context
+                                            .read<AccountCubit>()
+                                            .regWithApple(
+                                              email: credential.email ?? '',
+                                          dob: '',
+                                          sex: '',
+                                          firstname: credential.familyName ?? '',
+                                          fcm: '',
                                               
-                              //       //           appleId:
-                              //       //               credential.userIdentifier ??
-                              //       //                   '',
-                              //       //         );
-                              //       //   } else {
-                              //       //     ToastService().showToast(
-                              //       //       context,
-                              //       //       leadingIcon: const ImageView.svg(
-                              //       //           AppImages.error),
-                              //       //       title: AppStrings.successTitle,
-                              //       //       subtitle: 'verification failed',
-                              //       //     );
-                              //       //   }
-                              //     },
-                              //     child: Container(
-                              //         width: MediaQuery.sizeOf(context).width,
-                              //         height: 42,
-                              //         decoration: BoxDecoration(
-                              //             borderRadius: BorderRadius.circular(
-                              //               100,
-                              //             ),
-                              //             color: Colors.white,
-                              //             border: Border.all(
-                              //                 color: const Color(0xFFE9E9E9),
-                              //                 width: 0.8)),
-                              //         child: const Center(
-                              //           child: Row(
-                              //             mainAxisAlignment:
-                              //                 MainAxisAlignment.center,
-                              //             children: [
-                              //               ImageView.svg(
-                              //                 AppImages.appleLogo,
-                              //                 fit: BoxFit.cover,
-                              //               ),
-                              //               SizedBox(
-                              //                 width: 8,
-                              //               ),
-                              //               Text(
-                              //                 'Continue with Apple',
-                              //                 style: TextStyle(
-                              //                     color:
-                              //                         AppColors.lightSecondary,
-                              //                     fontSize: 14,
-                              //                     fontWeight: FontWeight.w400),
-                              //               ),
-                              //             ],
-                              //           ),
-                              //         )),
-                              //   ),
+                                              appleId:
+                                                  credential.userIdentifier ??
+                                                      '',
+                                            );
+                                      } else {
+                                        ToastService().showToast(
+                                          context,
+                                          leadingIcon: const ImageView.svg(
+                                              AppImages.error),
+                                          title: AppStrings.successTitle,
+                                          subtitle: 'verification failed',
+                                        );
+                                      }
+                                  },
+                                  child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: const Color(0xFFE9E9E9),
+                                              width: 0.8)),
+                                      child: const Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            ImageView.svg(
+                                              AppImages.appleLogo,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              'Continue with Apple',
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.lightSecondary,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                ),
                               const SizedBox(
                                 height: 30,
                               ),

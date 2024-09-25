@@ -10,7 +10,7 @@ import '../utils/navigator/page_navigator.dart';
 import 'handlers/secure_handler.dart';
 import 'presentation/dashboard/dashboard.dart';
 import 'presentation/onboarding/onboard.dart'; 
-import 'res/app_colors.dart'; 
+import 'dart:io' show Platform;
 import 'res/app_strings.dart';
 import 'update_page.dart';
 import 'widgets/image_view.dart';
@@ -59,14 +59,16 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _checkVersionAndNavigate() {
-    FirebaseFirestore.instance
-        .collection('app_version')
-        .doc('version_number')
+     
+if (Platform.isAndroid) {
+  FirebaseFirestore.instance
+        .collection('app_version_android')
+        .doc('version_number_android')
         .snapshots()
         .listen((snapshot) {
       if (snapshot.exists) {
-        final versionNumber = snapshot.data()?['current_version'] ?? '';
-        if (versionNumber as int > AppStrings.appVersion) {
+        final versionNumber = snapshot.data()?['current_version_android'] ?? '';
+        if (versionNumber as int > AppStrings.appVersionAndroid) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const UpdateScreen()),
@@ -76,6 +78,28 @@ class _SplashScreenState extends State<SplashScreen>
         }
       }
     });
+} else if (Platform.isIOS) {
+  FirebaseFirestore.instance
+        .collection('app_version_ios')
+        .doc('version_number_ios')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        final versionNumber = snapshot.data()?['current_version_ios'] ?? '';
+        if (versionNumber as int > AppStrings.appVersionIos) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const UpdateScreen()),
+          );
+        } else {
+          
+        }
+      }
+    });
+}
+
+
+     
   }
 
   @override
