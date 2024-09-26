@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1088264478524-j97ogobvqbnfvm45sso7c4ksnit7br0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthbubba.doctor",
+            "certificate_hash": "52c72a58fd575f0a479a6aed1b1db8c06a06509c"
+          }
+        },
+        {
+          "client_id": "1088264478524-ma3dsaovflbbn6g7f68mffe6delp6iem.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthbubba.doctor",
+            "certificate_hash": "ba59aceac7452673df5fe7138e89592aedaaa666"
+          }
+        },
+        {
           "client_id": "1088264478524-qeenr22tq7sktcdv04os2vf90q4dl318.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -79,17 +95,25 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1088264478524:android:cf84c1c1dbd49923c0c839",
+        "mobilesdk_app_id": "1:1088264478524:android:20540bbec98350d5c0c839",
         "android_client_info": {
-          "package_name": "com.healthbubba.patient"
+          "package_name": "com.healthbubba.patientapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1088264478524-1q1jlkocvcc409t1hcp19n29pck8p8ak.apps.googleusercontent.com",
+          "client_id": "1088264478524-kljdh41n1rf529ir9voph3a43mfnka5i.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.healthbubba.patient",
+            "package_name": "com.healthbubba.patientapp",
+            "certificate_hash": "093fa65f706866c25fbb01dc51a0c5e27b6063ac"
+          }
+        },
+        {
+          "client_id": "1088264478524-r6gj4d9he1p4d7tckp6dueh0ir2s8sgt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.healthbubba.patientapp",
             "certificate_hash": "7c44e636f9bd274cf6977a5b2c0ada12faf2131f"
           }
         },

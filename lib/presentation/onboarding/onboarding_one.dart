@@ -156,16 +156,14 @@ class OnboardingOne extends StatelessWidget {
                      children: [
                         // Spacer(),
                        ButtonView(
-                        
                         onPressed: (){
                         onboard.nextPage();
-                      // AppNavigator.pushAndStackPage(context, page: OnboardingTwo());
                        }, 
                        borderRadius: 100,
                        color: AppColors.lightSecondary,
                        child: const Text('Next', 
                        style: TextStyle(color: AppColors.lightPrimary, fontSize: 14, fontWeight: FontWeight.w500),)),
-                     
+                        
                         const SizedBox(height: 14,),
                     GestureDetector(
                       onTap: () {
@@ -174,7 +172,7 @@ class OnboardingOne extends StatelessWidget {
                       },
                       child: Container(
                                         width: MediaQuery.sizeOf(context).width,
-                                        height: 38,
+                                        height: 55,
                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(100, ),
                                          color:  AppColors.lightPrimary,
                                          border: Border.all(color: Colors.grey, width: 0.5)

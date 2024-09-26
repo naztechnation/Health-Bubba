@@ -32,14 +32,13 @@ class _SplashScreenState extends State<SplashScreen>
     changeScreen();
   }
 
-  String userType = '';
+  
   String userLoggedIn = '';
   String isonBoarding = '';
 
-  getUserDetails() async {
-    userType = await StorageHandler.getUserType();
+  getUserDetails() async { 
     userLoggedIn = await StorageHandler.getLoggedInState();
-    isonBoarding = await StorageHandler.getOnBoardState();
+   // isonBoarding = await StorageHandler.getOnBoardState();
   }
 
   Future<void> changeScreen() async {
@@ -119,9 +118,11 @@ if (Platform.isAndroid) {
       backgroundColor: const Color(0xff0b372b),
       body: SizedBox(
         height: MediaQuery.sizeOf(context).height,
-        child: const ImageView.asset(
-          AppImages.logoo,
-          
+        child: const Align(
+          child: ImageView.asset(
+            AppImages.logoo,
+            
+          ),
         ),
       ),
     );

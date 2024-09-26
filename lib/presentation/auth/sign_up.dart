@@ -441,10 +441,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ],
                                 ),
                               ),
-                           if (Platform.isAndroid)   const SizedBox(
+                             const SizedBox(
                                 height: 30,
                               ),
-                          if (Platform.isAndroid)    GestureDetector(
+                            GestureDetector(
                                 onTap: () async {
 
                                   try {
@@ -471,7 +471,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 child: Container(
                                     width: MediaQuery.sizeOf(context).width,
-                                    height: 42,
+                                    height: 55,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           100,
@@ -543,7 +543,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
-                                      height: 42,
+                                      height: 55,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             100,
