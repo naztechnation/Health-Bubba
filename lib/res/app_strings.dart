@@ -18,8 +18,8 @@ class AppStrings {
       "http://api.healthbubba.com//uploads/profile_pics/";
 
   static const String networkErrorMessage = "Network error, try again later";
-  static const String errorTitle = "Error!!!";
-  static const String successTitle = "Success!!!";
+  static const String errorTitle = "An error occurred!!!";
+  static const String successTitle = "Successful!!!";
 
   static const String registerUserUrl = "${_baseUrl}doctor/register";
   static const String verifyOtpUrl = "${_baseUrl}verify-otp";

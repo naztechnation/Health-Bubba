@@ -36,7 +36,11 @@ class ForgotPassword extends StatelessWidget {
                     if (state.userData.ok ?? false) {
                       ToastService().showToast(
                         context,
-                        leadingIcon: const ImageView.svg(AppImages.tick),
+
+                        leadingIcon: const ImageView.svg(AppImages.tick,
+                                                        height: 25,
+                        
+                        ),
                         title: AppStrings.successTitle,
                         subtitle: state.userData.message ?? '',
                       );
@@ -47,7 +51,10 @@ class ForgotPassword extends StatelessWidget {
                       if (state.userData.errors != null) {
                         ToastService().showToast(
                           context,
-                          leadingIcon: const ImageView.svg(AppImages.error),
+                          leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                          
+                          ),
                           title: AppStrings.errorTitle,
                           subtitle: state.userData.message ?? '',
                         );
@@ -57,7 +64,10 @@ class ForgotPassword extends StatelessWidget {
                     if (state.message != null) {
                       ToastService().showToast(
                         context,
-                        leadingIcon: const ImageView.svg(AppImages.error),
+                        leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                        
+                        ),
                         title: AppStrings.errorTitle,
                         subtitle: state.message ?? '',
                       );
@@ -65,7 +75,10 @@ class ForgotPassword extends StatelessWidget {
                   } else if (state is AccountNetworkErr) {
                     ToastService().showToast(
                       context,
-                      leadingIcon: const ImageView.svg(AppImages.error),
+                      leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                      
+                      ),
                       title: AppStrings.errorTitle,
                       subtitle: state.message ?? '',
                     );

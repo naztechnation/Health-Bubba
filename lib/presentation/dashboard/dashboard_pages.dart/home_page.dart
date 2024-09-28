@@ -142,7 +142,10 @@ class _HomeState extends State<Home> {
           );
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.userData.message ?? '');
         }
@@ -152,7 +155,10 @@ class _HomeState extends State<Home> {
               _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.appointmentLists.message?.message ?? '');
         }
@@ -190,12 +196,16 @@ class _HomeState extends State<Home> {
         }
       } else if (state is UserApiErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+             height: 25,
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       } else if (state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+             height: 25,
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }
@@ -1867,8 +1877,8 @@ class _HomeState extends State<Home> {
                                     totalRevenue: totalRevenue,
                                     patientDemography: patientDemography,
                                     onTap: (String value) async {
-                                      await _userCubit.viewModel
-                                          .clearAnalytics();
+                                      // await _userCubit.viewModel
+                                      //     .clearAnalytics();
                                       await _userCubit.doctorsAnalyticsAccount(
                                           days: value);
                                     },

@@ -64,7 +64,10 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
       if (state is DeactivateAccountLoaded) {
         if (state.userAccount.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.successIcon),
+              leadingIcon: const ImageView.svg(AppImages.successIcon,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.successTitle,
               subtitle: state.userAccount.message ?? '');
 
@@ -74,13 +77,19 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           AppNavigator.pushAndReplacePage(context, page: SignInScreen());
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.userAccount.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+            
+                                                        height: 25,
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }

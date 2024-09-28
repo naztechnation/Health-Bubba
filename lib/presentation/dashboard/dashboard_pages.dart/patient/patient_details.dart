@@ -222,13 +222,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   ),
                                                   Text(
                                                     textAlign: TextAlign.center,
-                                                    calculateAge(patientDetails.dob ??
+                                                 (patientDetails.dob == null ) ? 'N/B':  calculateAge(patientDetails.dob ??
                                                             '') ,
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                       height: 1.7,
                                                       color: const Color(
                                                           0xFF6B7280),
@@ -281,12 +281,12 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '',
+                                                    'N/B',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
                                                           FontWeight.w400,
-                                                      fontSize: 12,
+                                                      fontSize: 10,
                                                       height: 1.7,
                                                       color: const Color(
                                                           0xFF6B7280),
@@ -340,13 +340,13 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                   ),
                                                   Text(
                                                     patientDetails.sex ??
-                                                        '',
+                                                        'N/B',
+
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 12,
-                                                      height: 1.7,
+                                                         FontWeight.w400,
+                                                      fontSize:  10,
                                                       color: const Color(
                                                           0xFF6B7280),
                                                     ),
@@ -452,19 +452,21 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                               ),
                                                             ),
                                                           ),
-                                                          Text(
-                                                            medics.medicationName ??
-                                                                '',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13,
-                                                              height: 1.5,
-                                                              color: const Color(
-                                                                  0xFF131316),
+                                                          Expanded(
+                                                            child: Text(
+                                                              medics.medicationName ??
+                                                                  '',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontSize: 13,
+                                                                height: 1.5,
+                                                                color: const Color(
+                                                                    0xFF131316),
+                                                              ),
                                                             ),
                                                           ),
                                                         ],

@@ -44,7 +44,10 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
                 if (state.changePassword.ok?? false) {
                   ToastService().showToast(
                     context,
-                    leadingIcon: const ImageView.svg(AppImages.tick),
+                    leadingIcon: const ImageView.svg(AppImages.tick,
+                                                        height: 25,
+                    
+                    ),
                     title: AppStrings.successTitle,
                     subtitle: state.changePassword.message ?? '',
                   );
@@ -54,7 +57,11 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
                 } else {
                   ToastService().showToast(
                     context,
-                    leadingIcon: const ImageView.svg(AppImages.error),
+                    leadingIcon: const ImageView.svg(AppImages.error,
+                    
+                                                        height: 25,
+                    
+                    ),
                     title: AppStrings.errorTitle,
                     subtitle: state.changePassword.message ?? '',
                   );
@@ -62,7 +69,10 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
               } else if (state is AccountApiErr) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
                 );
@@ -70,7 +80,10 @@ class _PasswordManagerPageState extends State<PasswordManagerPage> {
                 if (state.message != null) {
                   ToastService().showToast(
                     context,
-                    leadingIcon: const ImageView.svg(AppImages.error),
+                    leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                    
+                    ),
                     title: AppStrings.errorTitle,
                     subtitle: state.message ?? '',
                   );

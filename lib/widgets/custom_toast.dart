@@ -17,17 +17,40 @@ class CustomToast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 0,
-      type: MaterialType.card,
+    return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+
       child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-          child: Container(
+
             margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0.0),
-            padding: const EdgeInsets.all(10.0),
+
+        decoration: BoxDecoration(
+                  color: AppColors.lightPrimary,  
+                  borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: const [
+                            BoxShadow(
+                              color: Color(0xFFF0F0F0),
+                              offset: Offset(0, 0),
+                              blurRadius: 0,
+                            ),
+                            BoxShadow(
+                              color: Color(0x409F9E9E),
+                              offset: Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                ),
+        child: Material(
+          elevation: 3,
+          borderRadius: BorderRadius.circular(16),
+          type: MaterialType.card,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+            
             decoration: BoxDecoration(
               color: AppColors.lightPrimary,  
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(16.0),
               boxShadow: const [
                         BoxShadow(
                           color: Color(0xFFF0F0F0),
@@ -43,12 +66,19 @@ class CustomToast extends StatelessWidget {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              
               children: [
-                leadingIcon,
+               
+                  
+                Padding(
+                  padding: const EdgeInsets.only(bottom:18.0),
+                  child: leadingIcon,
+                ),
                 const SizedBox(width: 10.0),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -77,8 +107,8 @@ class CustomToast extends StatelessWidget {
                   width: 0.5,
                   color: Colors.grey.shade300,
                 ),
-                const SizedBox(width: 10.0),
-                Center(
+                const SizedBox(width: 16.0),
+                Align(
                   child: GestureDetector(
                     onTap: onClose,
                     child: const Text(
@@ -92,9 +122,13 @@ class CustomToast extends StatelessWidget {
                     ),
                   ),
                 ),
+                
+                  
               ],
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -115,13 +149,13 @@ class ToastService {
     required Widget leadingIcon,
     required String title,
     required String subtitle,
-    Duration duration = const Duration(seconds: 7),
+    Duration duration = const Duration(seconds: 5),
   }) {
     _overlayEntry?.remove();
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 30.0,
+        top: MediaQuery.of(context).padding.top + 20.0,
         left: 0,
         right: 0,
         child: CustomToast(

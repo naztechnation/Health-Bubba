@@ -152,7 +152,10 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
       } else if (state is SelectLanguagesLoaded) {
         if (state.language.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: 'Success!!!',
               subtitle: state.language.message?.message ?? '');
 
@@ -162,7 +165,10 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               ));
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.errorTitle,
               subtitle: state.language.message ?? '');
         }
@@ -177,7 +183,10 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               page: WorkInformation(isEdit: widget.isEdit));
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.errorTitle,
               subtitle: state.language.message ?? '');
 
@@ -206,12 +215,15 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
           : Scaffold(
+                backgroundColor: Colors.white,
+
               appBar: AppBar(
                 title: const Text(
                   'Language Spoken',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 centerTitle: false,
+                backgroundColor: Colors.white,
                 leading: GestureDetector(
                   onTap: () {
                     if (context
@@ -277,7 +289,10 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                   .selectedLanguagesId);
                         } else {
                           ToastService().showToast(context,
-                              leadingIcon: const ImageView.svg(AppImages.error),
+                              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                              
+                              ),
                               title: 'Error',
                               subtitle:
                                   'Select atleast a language to continue');

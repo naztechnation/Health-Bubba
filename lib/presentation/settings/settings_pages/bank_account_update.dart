@@ -104,7 +104,10 @@ void _filterBanks() {
       } else if (state is AddBanksDataLoaded) {
         if (state.bankDetails.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.successTitle,
               subtitle: state.bankDetails.message?.message ?? '');
 
@@ -116,12 +119,18 @@ void _filterBanks() {
         } else {
           if (state.bankDetails.message is Map<String, dynamic>) {
             ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: AppStrings.errorTitle,
                 subtitle: state.bankDetails.message?.message ?? '');
           } else if (state.bankDetails.message is String) {
             ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: AppStrings.errorTitle,
                 subtitle: state.bankDetails.message ?? '');
           }
@@ -415,7 +424,10 @@ void _filterBanks() {
                                   } else {
                                     ToastService().showToast(context,
                                         leadingIcon:
-                                            const ImageView.svg(AppImages.error),
+                                            const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                                            
+                                            ),
                                         title: AppStrings.errorTitle,
                                         subtitle: 'Select bank name');
                                   }
@@ -494,25 +506,18 @@ void _filterBanks() {
                   },
                         borderColor: Colors.white,
                         borderWidth: 0,
-                        prefixIcon: SizedBox(
+                        prefixIcon: const SizedBox(
                           width: 50,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const SizedBox(width: 0),
-                              const ImageView.svg(
-                                AppImages.searchIcon,
-                                height: 19,
-                              ),
-                              Container(
-                                height: 20,
-                                width: 1,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xFF000000),
-                                    borderRadius: BorderRadius.circular(11)),
-                              ),
-                              const SizedBox(width: 0),
+                              SizedBox(width: 0),
+                                  ImageView.svg(
+                                    AppImages.searchIcon,
+                                    height: 19,
+                                  ),
+                                  SizedBox(width: 0),
                             ],
                           ),
                         ),

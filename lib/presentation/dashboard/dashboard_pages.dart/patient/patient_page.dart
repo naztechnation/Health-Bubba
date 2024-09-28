@@ -81,7 +81,10 @@ class _PatientsScreenState extends State<PatientsScreen> {
       if (state is PatientsListLoaded) {
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+            
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }
@@ -194,25 +197,19 @@ class _PatientsScreenState extends State<PatientsScreen> {
                               vertical: 15.0, horizontal: 15),
                           child: TextEditView(
                             controller: _userCubit.viewModel.searchController,
-                            prefixIcon: SizedBox(
+                            prefixIcon: const SizedBox(
                               width: 50,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const SizedBox(width: 0),
-                                  const ImageView.svg(
+                                  SizedBox(width: 0),
+                                  ImageView.svg(
                                     AppImages.searchIcon,
                                     height: 19,
                                   ),
-                                  Container(
-                                    height: 20,
-                                    width: 1,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xFF000000),
-                                        borderRadius: BorderRadius.circular(11)),
-                                  ),
-                                  const SizedBox(width: 0),
+                                  SizedBox(width: 0),
+                                   
                                 ],
                               ),
                             ),

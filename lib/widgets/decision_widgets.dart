@@ -4,6 +4,7 @@ import 'package:healthbubba/widgets/button_view.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 
 import '../res/app_colors.dart';
+ 
 
 destructiveActions({
   required String message,
@@ -55,7 +56,7 @@ destructiveActions({
           },
           child: Container(
               width: MediaQuery.sizeOf(context).width,
-              height: 42,
+              height: 45,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                     100,

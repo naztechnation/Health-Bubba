@@ -182,7 +182,7 @@ class OnboardingTwo extends StatelessWidget {
                       },
                       child: Container(
                                         width: MediaQuery.sizeOf(context).width,
-                                        height: 55,
+                                        height: 45,
                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(100, ),
                                          color:  AppColors.lightPrimary,
                                          border: Border.all(color: Colors.grey, width: 0.5)

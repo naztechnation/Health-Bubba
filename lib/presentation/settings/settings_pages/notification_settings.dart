@@ -65,7 +65,11 @@ class _NotificationState extends State<Notification> {
           orderAlert = notificationSettings?.orderAlert ?? 1;
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+              
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.notificationSettings.message?.message ?? '');
         }
@@ -78,13 +82,19 @@ class _NotificationState extends State<Notification> {
           orderAlert = notificationSettings?.orderAlert ?? 1;
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.notificationSettings.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+            
+                                                        height: 25,
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }

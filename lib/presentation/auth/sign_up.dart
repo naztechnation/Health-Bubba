@@ -9,8 +9,6 @@ import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
-
-import 'package:firebase_auth/firebase_auth.dart' as u;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
@@ -27,7 +25,7 @@ import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/password_checker.dart';
-import '../dashboard/dashboard.dart';
+import '../profile/profile_setup.dart';
 import 'sign_in.dart';
 import 'verify_code.dart';
 
@@ -41,12 +39,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _emailController = TextEditingController();
 
+  final _phoneController = TextEditingController();
+
   final _confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _isStrong = false;
   bool _isVisible = false;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               if (state.userData.ok ?? false) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.tick),
+                  leadingIcon: const ImageView.svg(
+                    AppImages.tick,
+                    height: 25,
+                  ),
                   title: AppStrings.successTitle,
                   subtitle: state.userData.message ?? '',
                 );
@@ -76,7 +81,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 if (state.userData.errors != null) {
                   ToastService().showToast(
                     context,
-                    leadingIcon: const ImageView.svg(AppImages.error),
+                    leadingIcon: const ImageView.svg(
+                      AppImages.error,
+                      height: 25,
+                    ),
                     title: AppStrings.errorTitle,
                     subtitle: state.userData.message ?? '',
                   );
@@ -84,12 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               }
             } else if (state is GoogleRegLoaded) {
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
+                 
 
                 StorageHandler.saveUserToken(
                     state.google.data?.token?.accessToken ?? '');
@@ -112,23 +115,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
-                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+                AppNavigator.pushAndReplacePage(context,
+                    page: const ProfileSetup(
+                      isEdit: false,
+                    ));
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
               }
-            }else if (state is AppleRegLoaded) {
+            } else if (state is AppleRegLoaded) {
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
+                 
 
                 StorageHandler.saveUserToken(
                     state.google.data?.token?.accessToken ?? '');
@@ -151,11 +155,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
-                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+                AppNavigator.pushAndReplacePage(context,
+                    page: const ProfileSetup(
+                      isEdit: false,
+                    ));
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
@@ -164,7 +174,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               if (state.message != null) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
                 );
@@ -172,7 +185,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             } else if (state is AccountNetworkErr) {
               ToastService().showToast(
                 context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(
+                  AppImages.error,
+                  height: 25,
+                ),
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
               );
@@ -260,7 +276,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
+                              ),
+                              Text(
+                                'Phone Number',
+                                style: GoogleFonts.getFont(
+                                  'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  height: 1.4,
+                                  color: const Color(0xFF131316),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextEditView(
+                                controller: _phoneController,
+                                borderColor: Colors.grey.shade200,
+                                keyboardType: TextInputType.number,
+                                borderWidth: 0.5,
+                                maxLength: 11,
+                                validator: (value) {
+                                  return Validator.validate(
+                                      value, 'Phone Number');
+                                },
+                              ),
+                              const SizedBox(
+                                height: 15,
                               ),
                               Text(
                                 'Password',
@@ -401,7 +444,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         fontWeight: FontWeight.w500),
                                   )),
                               const SizedBox(
-                                height: 40,
+                                height: 30,
                               ),
                               Opacity(
                                 opacity: 0.8,
@@ -441,37 +484,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ],
                                 ),
                               ),
-                             const SizedBox(
+                              const SizedBox(
                                 height: 30,
                               ),
-                            GestureDetector(
+                              GestureDetector(
                                 onTap: () async {
-
                                   try {
                                     final GoogleSignIn googleSignIn =
-                                      GoogleSignIn();
-                                  await googleSignIn.signOut();
+                                        GoogleSignIn();
+                                    await googleSignIn.signOut();
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    String email =
+                                        await userAuth.signInWithGoogle1();
 
-                                  u.User? user =
-                                      await userAuth.signInWithGoogle();
-
-                                  if (user != null) {
-                                    context.read<AccountCubit>().regWithGoogle(
-                                          email: user.email ?? '',
-                                          dob: '',
-                                          sex: '',
-                                          firstname: user.displayName ?? '',
-                                          fcm: '',
-                                        );
+                                    if (email.isNotEmpty) {
+                                      await context
+                                          .read<AccountCubit>()
+                                          .regWithGoogle(
+                                            email: email ?? '',
+                                            dob: '',
+                                            sex: '',
+                                            firstname: '',
+                                            fcm: '',
+                                          );
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      ToastService().showToast(
+                                        context,
+                                        leadingIcon: const ImageView.svg(
+                                          height: 25,
+                                          AppImages.error,
+                                        ),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'verification failed',
+                                      );
+                                    }
+                                  } catch (error) {
+                                    print(error);
                                   }
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                  
                                 },
                                 child: Container(
                                     width: MediaQuery.sizeOf(context).width,
-                                    height: 55,
+                                    height: 45,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           100,
@@ -506,44 +567,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               if (Platform.isIOS)
                                 GestureDetector(
-                                  onTap: () async{
-                                      
-                                       
+                                  onTap: () async {
                                     final credential = await SignInWithApple
-                                          .getAppleIDCredential(
-                                        scopes: [
-                                          AppleIDAuthorizationScopes.email,
-                                          AppleIDAuthorizationScopes.fullName,
-                                        ],
+                                        .getAppleIDCredential(
+                                      scopes: [
+                                        AppleIDAuthorizationScopes.email,
+                                        AppleIDAuthorizationScopes.fullName,
+                                      ],
+                                    );
+                                    if (credential.userIdentifier != null) {
+                                      context.read<AccountCubit>().regWithApple(
+                                            email: credential.email ?? '',
+                                            dob: '',
+                                            sex: '',
+                                            firstname:
+                                                credential.familyName ?? '',
+                                            fcm: '',
+                                            appleId:
+                                                credential.userIdentifier ?? '',
+                                          );
+                                    } else {
+                                      ToastService().showToast(
+                                        context,
+                                        leadingIcon: const ImageView.svg(
+                                          AppImages.error,
+                                          height: 25,
+                                        ),
+                                        title: AppStrings.successTitle,
+                                        subtitle: 'verification failed',
                                       );
-                                      if (credential.userIdentifier != null) {
-                                          
-                                        context
-                                            .read<AccountCubit>()
-                                            .regWithApple(
-                                              email: credential.email ?? '',
-                                          dob: '',
-                                          sex: '',
-                                          firstname: credential.familyName ?? '',
-                                          fcm: '',
-                                              
-                                              appleId:
-                                                  credential.userIdentifier ??
-                                                      '',
-                                            );
-                                      } else {
-                                        ToastService().showToast(
-                                          context,
-                                          leadingIcon: const ImageView.svg(
-                                              AppImages.error),
-                                          title: AppStrings.successTitle,
-                                          subtitle: 'verification failed',
-                                        );
-                                      }
+                                    }
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
-                                      height: 55,
+                                      height: 45,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             100,
@@ -621,9 +678,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ))),
-              if ( state is AppleRegLoading || state is AccountProcessing ||
-                  userAuth.status  
-                 )
+              if (state is AppleRegLoading || state is AccountProcessing)
                 Container(
                   color: AppColors.indicatorBgColor,
                   child: Center(
@@ -648,7 +703,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         } else {
           ToastService().showToast(
             context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
+            ),
             title: AppStrings.errorTitle,
             subtitle: '',
           );

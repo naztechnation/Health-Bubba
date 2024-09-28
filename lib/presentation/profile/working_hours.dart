@@ -183,7 +183,10 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
               if (state.availability.ok!) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.tick),
+                  leadingIcon: const ImageView.svg(AppImages.tick,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.successTitle,
                   subtitle: state.availability.message ?? '',
                 );
@@ -193,7 +196,10 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                  
+                                                        height: 25,
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.availability.message ?? '',
                 );
@@ -201,7 +207,10 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
               );
@@ -209,7 +218,10 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
               if (state.message != null) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                  
+                                                        height: 25,
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
                 );

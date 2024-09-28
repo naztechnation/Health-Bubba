@@ -106,15 +106,21 @@ class _BookAppointentState extends State<BookAppointent> {
           AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
+              title: AppStrings.errorTitle,
               subtitle: state.createAppointment.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
+            leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+            
+            ),
+             title: AppStrings.errorTitle,
+            subtitle:   'Network Error');
       }
     }, builder: (context, state) {
       if (state is UserApiErr) {

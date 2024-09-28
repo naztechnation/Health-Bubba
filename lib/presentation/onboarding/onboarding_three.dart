@@ -157,7 +157,7 @@ class OnboardingThree extends StatelessWidget {
                       ButtonView(
                           onPressed: () {
                             AppNavigator.pushAndReplaceName(context,
-                                name: AppRoutes.signInScreen);
+                                name: AppRoutes.signUpScreen);
                             StorageHandler.saveOnboardState('true');
                           },
                           borderRadius: 100,

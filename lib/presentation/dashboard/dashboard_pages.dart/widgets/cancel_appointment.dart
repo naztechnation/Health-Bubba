@@ -80,20 +80,29 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
       if (state is CancelAppointmentLoaded) {
         if (state.cancelAppointment.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.successIcon),
+              leadingIcon: const ImageView.svg(AppImages.successIcon,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.successTitle,
               subtitle: state.cancelAppointment.message?.message ?? '');
 
           AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.cancelAppointment.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+            
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }

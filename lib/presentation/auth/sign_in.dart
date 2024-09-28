@@ -55,12 +55,7 @@ class _SignInScreenState extends State<SignInScreen> {
           listener: (context, state) {
             if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
+                 
 
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
@@ -86,20 +81,17 @@ class _SignInScreenState extends State<SignInScreen> {
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
               }
             } else if (state is AppleLoginLoaded) {
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
-
+                
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -124,7 +116,10 @@ class _SignInScreenState extends State<SignInScreen> {
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
@@ -132,7 +127,10 @@ class _SignInScreenState extends State<SignInScreen> {
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
               );
@@ -140,7 +138,10 @@ class _SignInScreenState extends State<SignInScreen> {
               if (state.message != null) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
                 );
@@ -292,7 +293,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                           ),
                                           ButtonView(
                                               onPressed: () {
-                                                _loginUser(context);
+                                                
+                                                 _loginUser(context);
                                               },
                                               borderRadius: 100,
                                               color: AppColors.lightSecondary,
@@ -352,26 +354,31 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 const SizedBox(
-                                height: 30,
-                              ),
-                            GestureDetector(
+                                  height: 30,
+                                ),
+                                GestureDetector(
                                   onTap: () async {
                                     try {
                                       final GoogleSignIn googleSignIn =
                                           GoogleSignIn();
                                       await googleSignIn.signOut();
+                                      String email =
+                                          await userAuth.signInWithGoogle1();
 
-                                      
-
-                                      u.User? user =
-                                          await userAuth.signInWithGoogle();
-
-                                      if (user != null) {
-                                        context
+                                      if (email.isNotEmpty) {
+                                        await context
                                             .read<AccountCubit>()
                                             .loginWithGoogle(
-                                              email: user.email ?? '',
+                                              email: email,
                                             );
+                                      } else {
+                                        ToastService().showToast(
+                                          context,
+                                          leadingIcon: const ImageView.svg(
+                                              AppImages.error),
+                                          title: AppStrings.errorTitle,
+                                          subtitle: 'verification failed',
+                                        );
                                       }
                                     } catch (error) {
                                       print(error);
@@ -379,7 +386,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
-                                      height: 55,
+                                      height: 45,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             100,
@@ -424,7 +431,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                         ],
                                       );
                                       if (credential.userIdentifier != null) {
-                                        context
+                                        await context
                                             .read<AccountCubit>()
                                             .loginWithApple(
                                               email: credential.email ?? '',
@@ -437,14 +444,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                           context,
                                           leadingIcon: const ImageView.svg(
                                               AppImages.error),
-                                          title: AppStrings.successTitle,
+                                          title: AppStrings.errorTitle,
                                           subtitle: 'verification failed',
                                         );
                                       }
                                     },
                                     child: Container(
                                         width: MediaQuery.sizeOf(context).width,
-                                        height: 55,
+                                        height: 45,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                               100,

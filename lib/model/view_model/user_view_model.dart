@@ -26,6 +26,9 @@ void dispose() {
 }  
 
   int _currentIndex = 0;
+  String _patientId = '';
+  String _patientName = '';
+  String _patientImage = '';
 
   GetProfileStatus? _status;
   DoctorsAnalytics? _analytics;
@@ -33,7 +36,10 @@ void dispose() {
   late TextEditingController searchController;
   late TextEditingController medSearchController;
 
- 
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _titleController = TextEditingController();
+
   GetMedications? _medications;
    List<GetMedicationsData> medicationLists = [];
 
@@ -58,6 +64,31 @@ void dispose() {
     setViewState(ViewState.success);
   
 }
+
+    savePatientDetails({
+     required String patientId,
+     required String patientName,
+     required String patientImage
+    }){
+      _patientId = patientId;
+      _patientName = patientName;
+      _patientImage = patientImage;
+
+    setViewState(ViewState.success);
+
+    }
+
+    clearPatientDetails( ){
+      _patientId = '';
+      _patientName = '';
+      _patientImage = '';
+
+    setViewState(ViewState.success);
+
+    }
+
+
+
 void _filterMedications() {
      
       String query = medSearchController.text.toLowerCase();
@@ -82,6 +113,56 @@ void _filterMedications() {
     GetProfileStatus status,
   ) async {
     _status = status;
+
+    setViewState(ViewState.success);
+  }
+
+    Future<void> updateFirstname(
+    String fName,
+  ) async {
+    _firstnameController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+
+    Future<void> updateLastname(
+    String lName,
+  ) async {
+    _lastnameController.text = lName;
+
+    setViewState(ViewState.success);
+  }
+
+    Future<void> updateTitle(
+    String title,
+  ) async {
+   _titleController.text = title;
+     
+
+    setViewState(ViewState.success);
+  }
+
+   Future<void> clearFirstname(
+    
+  ) async {
+    _firstnameController.clear();
+
+    setViewState(ViewState.success);
+  }
+
+    Future<void> clearLastname(
+    
+  ) async {
+       _lastnameController.clear();
+
+
+    setViewState(ViewState.success);
+  }
+
+    Future<void> clearTitle(
+    
+  ) async {
+    _titleController.clear();
 
     setViewState(ViewState.success);
   }
@@ -214,4 +295,11 @@ void _filterMedications() {
   PatientsLists? get patients => _patients;
   List<Patients> get filteredPatientsLists => _filteredPatientsLists;
   List<GetMedicationsData> get filteredMedicationsLists => _filteredMedicationsLists;
+  String get patientId => _patientId;
+  String  get patientImage => _patientImage;
+  String get patientName => _patientName;
+
+  TextEditingController  get firstnameController => _firstnameController;
+  TextEditingController  get lastnameController => _lastnameController;
+  TextEditingController  get titleController => _titleController;
 }

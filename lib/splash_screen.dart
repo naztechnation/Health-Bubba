@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   getUserDetails() async { 
     userLoggedIn = await StorageHandler.getLoggedInState();
-   // isonBoarding = await StorageHandler.getOnBoardState();
+    isonBoarding = await StorageHandler.getOnBoardState();
   }
 
   Future<void> changeScreen() async {

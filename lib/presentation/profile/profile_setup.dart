@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../blocs/accounts/account.dart';
 import '../../model/user/qualification.dart';
 import '../../model/view_model/account_view_model.dart';
+import '../../model/view_model/user_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
 import '../../utils/validator.dart';
@@ -88,15 +89,13 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     super.initState();
   }
 
-  final _firstnameController = TextEditingController();
-  final _lastnameController = TextEditingController();
+  
   final _licenceNumberController = TextEditingController();
   final _yearsOfExpController = TextEditingController();
   final _hospitalAffliateController = TextEditingController();
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
 
-  final _titleController = TextEditingController();
   final _qualificationController = TextEditingController();
 
   bool isAgreed = false;
@@ -133,6 +132,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<UserViewModel>(context, listen: true);
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
       if (state is QualificationsLoaded) {
@@ -148,15 +148,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
           //     subtitle: state.qualification.message?.message ?? '');
           setState(() {});
 
-              _firstnameController.clear();
-              _lastnameController.clear();
-              _licenceNumberController.clear();
-              _yearsOfExpController.clear();
-              _hospitalAffliateController.clear();
-              _phoneController.clear();
-              _locationController.clear();
-
-              validated =true;
+              
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error),
@@ -166,9 +158,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       } else if (state is UpdateUserLoaded) {
         if (state.updateUser.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.successTitle,
               subtitle: state.updateUser.message ?? '');
+
+
+              profile.clearFirstname();
+              profile.clearLastname();
+              profile.clearTitle();
           if (widget.isEdit) {
             AppNavigator.pushAndStackPage(context, page: const Dashboard());
           } else {
@@ -177,7 +177,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
           }
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.errorTitle,
               subtitle: state.updateUser.message ?? '');
         }
@@ -306,7 +309,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 height: 8,
                                               ),
                                               TextEditView(
-                                                controller: _titleController,
+                                                controller: profile.titleController,
                                                 borderColor: Colors.grey.shade200,
                                                 borderWidth: 0.5,
                                                 hintText: 'Select',
@@ -341,12 +344,15 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 height: 8,
                                               ),
                                               TextEditView(
-                                                controller: _firstnameController,
+                                                controller: profile.firstnameController,
                                                 borderColor: Colors.grey.shade200,
                                                 borderWidth: 0.5,
                                                 validator: (value) {
                                                   return Validator.validate(
                                                       value, 'First name');
+                                                },
+                                                onChanged: (value) {
+                                                  Provider.of<UserViewModel>(context, listen: false).updateFirstname(value);
                                                 },
                                               ),
                                               const SizedBox(
@@ -366,12 +372,16 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 height: 8,
                                               ),
                                               TextEditView(
-                                                controller: _lastnameController,
+                                                controller:profile.lastnameController,
                                                 borderColor: Colors.grey.shade200,
                                                 borderWidth: 0.5,
                                                 validator: (value) {
                                                   return Validator.validate(
                                                       value, 'Last name');
+                                                },
+                                                onChanged: (value) {
+                                                  Provider.of<UserViewModel>(context, listen: false).updateLastname(value);
+                                                  
                                                 },
                                               ),
                                               const SizedBox(
@@ -403,7 +413,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                     if(validated)...[
                                                       const ImageView.svg(AppImages.successIcon, color: Colors.green,)
                                                     ]else ...[
-                                                      const ImageView.svg(AppImages.closeIcon, color: Colors.red,fit: BoxFit.cover,)
+                                                      const SizedBox.shrink()
                                                 
                                                     ],  
                                                       const Padding(
@@ -656,14 +666,14 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                       vertical: 10, horizontal: 10),
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      if (_titleController.text.trim().isNotEmpty) {
+                                      if (profile.titleController.text.trim().isNotEmpty) {
                                         if (isAgreed) {
                                           _accountCubit.updateUserData(
-                                              title: _titleController.text.trim(),
+                                              title: profile.titleController.text.trim(),
                                               firstname:
-                                                  _firstnameController.text.trim(),
+                                                  profile.firstnameController.text.trim(),
                                               lastname:
-                                                  _lastnameController.text.trim(),
+                                                  profile.lastnameController.text.trim(),
                                               licenceNumber:
                                                   _licenceNumberController.text
                                                       .trim(),
@@ -675,10 +685,13 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   _hospitalAffliateController.text
                                                       .trim(),
                                               phone: _phoneController.text.trim());
+
+                                          
                                         } else {
                                           ToastService().showToast(context,
                                               leadingIcon: const ImageView.svg(
-                                                  AppImages.error),
+                                                        height: 25,
+                                                  AppImages.error, ),
                                               title: AppStrings.errorTitle,
                                               subtitle:
                                                   'Agree to our terms and conditions to continue');
@@ -686,6 +699,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                       } else {
                                         ToastService().showToast(context,
                                             leadingIcon: const ImageView.svg(
+                                                        height: 25,
+
                                                 AppImages.error),
                                             title: AppStrings.errorTitle,
                                             subtitle: 'Select title please');
@@ -777,27 +792,26 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: titles.length,
-        separatorBuilder: (context, index) => (index == 0)
-            ? Divider(
-                color: Colors.grey.shade300,
+        separatorBuilder: (context, index) =>    Divider(
+                color: Colors.grey.shade200,
                 height: 0,
-              )
-            : const SizedBox.shrink(),
+              ),
+             
         itemBuilder: (context, index) {
           String title = titles[index];
           return GestureDetector(
             onTap: () {
               setState(() {
-                _titleController.text = title;
+                Provider.of<UserViewModel>(context, listen: false).updateTitle(title);
               });
 
               Navigator.pop(context);
             },
             child: Container(
-              margin: EdgeInsets.all((index == 0) ? 8 : 0),
+               
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: (index == 0) ? const Color(0xFFF9FAFB) : Colors.white,
+                color:  Colors.white,
               ),
               child: Padding(
                 padding:
@@ -853,9 +867,13 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListView.builder(
+          ListView.separated(
             shrinkWrap: true,
             itemCount: qualifications.length,
+             separatorBuilder: (context, index) =>    Divider(
+                color: Colors.grey.shade200,
+                height: 0,
+              ),
             itemBuilder: (context, index) {
               QualificationData qualification = qualifications[index];
               bool isChecked = _selectedItems.any((item) =>

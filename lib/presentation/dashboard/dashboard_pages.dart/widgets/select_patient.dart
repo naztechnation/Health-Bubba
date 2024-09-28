@@ -7,14 +7,13 @@ import '../../../../blocs/users/users.dart';
 import '../../../../model/patients/patients_list.dart';
 import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
-import '../../../../res/app_images.dart';
-import '../../../../utils/navigator/page_navigator.dart';
+import '../../../../res/app_images.dart'; 
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/loading_screen.dart';
 import '../../../../widgets/text_edit_view.dart';
-import '../medication/create_new_medication.dart';
+ 
 import '../widgets/patient_card.dart';
 
 class SelectPatient extends StatelessWidget {
@@ -91,6 +90,7 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final patient =  Provider.of<UserViewModel>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -131,13 +131,19 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
               });
             } else {
               ToastService().showToast(context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: 'Error!!!',
                   subtitle: state.patientsLists.message ?? '');
             }
           } else if (state is UserApiErr || state is UserNetworkErr) {
             ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: 'Error!!!',
                 subtitle: "Network Error");
           }
@@ -177,27 +183,19 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
                                 vertical: 15.0, horizontal: 15),
                             child: TextEditView(
                               controller: _searchController,
-                              prefixIcon: SizedBox(
+                              prefixIcon: const SizedBox(
                                 width: 50,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const SizedBox(width: 0),
-                                    const ImageView.svg(
-                                      AppImages.searchIcon,
-                                      height: 19,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xFF000000),
-                                          borderRadius:
-                                              BorderRadius.circular(11)),
-                                    ),
-                                    const SizedBox(width: 0),
+                                    SizedBox(width: 0),
+                                  ImageView.svg(
+                                    AppImages.searchIcon,
+                                    height: 19,
+                                  ),
+                                  SizedBox(width: 0),
                                   ],
                                 ),
                               ),
@@ -251,6 +249,14 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
+                                                patient.savePatientDetails(patientId: filteredPatientsLists[
+                                                                index]
+                                                            .id
+                                                            .toString(), patientName: filteredPatientsLists[
+                                                                index]
+                                                            .firstName ?? '', patientImage: filteredPatientsLists[
+                                                                index]
+                                                            .picture ?? '');
                                                 Navigator.pop(context, {
                                                   'patientId': filteredPatientsLists[
                                                                 index]

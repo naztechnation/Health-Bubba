@@ -112,13 +112,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
               }
             } else if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
-
+                 
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -150,12 +144,8 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
               }
             }else if(state is AppleLoginLoaded){
               if (state.google.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(AppImages.successIcon),
-                  title: AppStrings.successTitle,
-                  subtitle: state.google.message ?? '',
-                );
+               
+               
 
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
@@ -531,30 +521,38 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                               ),
                           GestureDetector(
                                   onTap: () async {
-                                    try {
-        final GoogleSignIn googleSignIn =
-                                        GoogleSignIn();
-                                    await googleSignIn.signOut();
+                                      try {
+                                      final GoogleSignIn googleSignIn =
+                                          GoogleSignIn();
+                                      await googleSignIn.signOut();           
 
-                                    u.User? user =
-                                        await userAuth.signInWithGoogle();
+                                      String email =
+                                          await userAuth.signInWithGoogle1();
 
-                                    if (user != null) {
-                                      context
-                                          .read<AccountCubit>()
-                                          .loginWithGoogle(
-                                               
-                                              email: user.email ?? '',
-                                              );
+                                      if (email.isNotEmpty) {
+                                       await context
+                                            .read<AccountCubit>()
+                                            .loginWithGoogle(
+                                              email: email ,
+                                            );
+                                      }else{
+                                        ToastService().showToast(
+                                          context,
+                                          leadingIcon: const ImageView.svg(
+                                                        height: 25,
+                                              AppImages.error, ),
+                                          title: AppStrings.errorTitle,
+                                          subtitle: 'verification failed',
+                                        );
+                                      }
+                                    } catch (error) {
+                                      print(error);
                                     }
-  } catch (error) {
-    print(error);
-  }
                                    
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
-                                      height: 55,
+                                      height: 45,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             100,
@@ -618,7 +616,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
-                                      height: 55,
+                                      height: 45,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             100,
@@ -708,7 +706,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                     ),
                   )),
               if (state is AccountLoading ||
-                  userAuth.status ||
+                   
                   state is GoogleLoginLoading)
                 Container(
                   color: AppColors.indicatorBgColor,

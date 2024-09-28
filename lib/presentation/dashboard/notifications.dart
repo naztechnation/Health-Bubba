@@ -62,13 +62,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
           yesterdayFilter = _userCubit.viewModel.yesterdayFilter?.reversed.toList() ?? [];
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.notificationsData.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
+            leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+            
+            ),
             title: 'Error!!!',
             subtitle: "Network Error");
       }
@@ -106,7 +112,39 @@ class _NotificationsPageState extends State<NotificationsPage> {
               ),
               body: Column(
                 children: [
-                  ListView.builder(
+               (todayFilter.isEmpty) ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                     SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.3,
+                      width: 80,),
+                  const Align(
+                    child: SizedBox(
+                        height: 80,
+                        width: 80,
+                        child: ImageView.svg(AppImages.noData)),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No Notifications Data Yet. ',
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.7,
+                        color: const Color(0xFF0A0D14),
+                      ),
+                    ),
+                  ),
+                   
+                  const SizedBox(
+                    height: 30,
+                  )
+                ],
+              ):   ListView.builder(
                     itemCount: todayFilter.length ?? 0,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {

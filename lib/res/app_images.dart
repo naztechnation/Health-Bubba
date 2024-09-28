@@ -45,8 +45,8 @@ class AppImages {
   static const medication = '${_baseUrl}medication.svg';
   static const medicationOutline = '${_baseUrl}medication_outline.svg';
   static const check = '${_baseUrl}check.svg';
-  static const success = '${_baseUrl}success.svg';
-  static const tick = '${_baseUrl}tick.svg';
+  static const success = '${_baseUrl}check.svg';
+  static const tick = '${_baseUrl}check.svg';
   static const error = '${_baseUrl}error.svg';
   static const info = '${_baseUrl}info.svg';
   static const warning = '${_baseUrl}warning.svg';
@@ -80,7 +80,7 @@ class AppImages {
   static const supportIcon = '${_baseUrl}support.svg';
   static const refreshIcon = '${_baseUrl}refresh.svg';
   static const warningErrorIcon = '${_baseUrl}warning_error.svg';
-  static const successIcon = '${_baseUrl}success_icon.svg';
+  static const successIcon = '${_baseUrl}check.svg';
   static const closeIcon = '${_baseUrl}close_icon.svg';
   static const eyeClosedIcon = '${_baseUrl}eyes_closed.svg';
   static const eyeOpenIcon = '${_baseUrl}eye_open.svg';

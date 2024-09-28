@@ -154,13 +154,19 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                   _userCubit.viewModel.cancelledAppointments.reversed.toList();
             } else {
               ToastService().showToast(context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: 'Error!!!',
                   subtitle: state.appointmentLists.message?.message ?? '');
             }
           } else if (state is UserApiErr || state is UserNetworkErr) {
             ToastService().showToast(context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                
+                ),
                 title: 'Error!!!',
                 subtitle: "Network Error");
           }

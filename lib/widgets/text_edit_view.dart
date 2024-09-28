@@ -97,7 +97,7 @@ class TextEditView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                height: (maxLines == null) ? 65 : null,
+                height: (maxLines == null) ? 47 : null,
                 child: Container(
                   height: 65,
                   decoration: BoxDecoration(
@@ -179,7 +179,7 @@ class TextEditView extends StatelessWidget {
                         suffixIcon: suffixIcon,
                         suffixIconColor: iconColor,
                         contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 10.0),
+                            vertical: 10.0, horizontal: 10.0),
                       ),
                     ),
                   ),

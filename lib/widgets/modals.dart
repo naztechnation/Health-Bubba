@@ -35,7 +35,12 @@ class Modals {
 
     ToastService().showToast(
                             context,
-                            leadingIcon: const ImageView.svg(AppImages.tick),
+                            
+                            leadingIcon: const ImageView.svg(AppImages.tick, 
+                            
+                                                        height: 25,
+                            
+                            ),
                             title: '',
                             subtitle: message ,
                           );

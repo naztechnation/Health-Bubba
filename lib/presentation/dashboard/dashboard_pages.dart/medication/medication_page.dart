@@ -9,6 +9,7 @@ import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
+import '../../../../res/app_strings.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/custom_toast.dart';
@@ -31,7 +32,9 @@ class MedicationPage extends StatelessWidget {
       create: (BuildContext context) => UserCubit(
           userRepository: UserRepositoryImpl(),
           viewModel: Provider.of<UserViewModel>(context, listen: false)),
-      child: Medications(isDashboard: isDashboard,),
+      child: Medications(
+        isDashboard: isDashboard,
+      ),
     );
   }
 }
@@ -48,8 +51,6 @@ class Medications extends StatefulWidget {
 class _MedicationsState extends State<Medications> {
   late UserCubit _userCubit;
 
-  
-
   getUserData() async {
     _userCubit = context.read<UserCubit>();
 
@@ -59,27 +60,30 @@ class _MedicationsState extends State<Medications> {
   @override
   void initState() {
     getUserData();
-   
+
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is MedicationsLoaded) {
-         
       } else if (state is UserApiErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
+            ),
+            title: AppStrings.errorTitle,
+            subtitle: state.message ?? '');
       } else if (state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
-            subtitle: "Network Error");
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
+            ),
+            title: AppStrings.errorTitle,
+            subtitle: state.message ?? '');
       }
     }, builder: (context, state) {
       if (state is UserApiErr) {
@@ -95,7 +99,8 @@ class _MedicationsState extends State<Medications> {
               getUserData();
             });
       }
-      return (_userCubit.viewModel.filteredMedicationsLists.isEmpty &&state is MedicationsLoading)
+      return (_userCubit.viewModel.filteredMedicationsLists.isEmpty &&
+              state is MedicationsLoading)
           ? LoadersPage(
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
@@ -111,44 +116,49 @@ class _MedicationsState extends State<Medications> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        
-        
                           SafeArea(
                             child: Row(
                               children: [
-                                  (!widget.isDashboard) ?GestureDetector(
-                  onTap: () {
-                    AppNavigator.pushAndReplacePage(context, page:const Dashboard());
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 18.0, top: 8, bottom: 19),
-                    child: SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: ImageView.svg(
-                        AppImages.backBtn,
-                        height: 18,
-                      ),
-                    ),
-                  ),
-                ): Text(
-          ' ',
-          style: GoogleFonts.getFont(
-            'Inter',
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            height: 1.5,
-            color: const Color(0xFF0A0D14),
-          ),
-        ),
-        const SizedBox(width: 12,),
+                                (!widget.isDashboard)
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          AppNavigator.pushAndReplacePage(
+                                              context,
+                                              page: const Dashboard());
+                                        },
+                                        child: const Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 18.0, top: 8, bottom: 19),
+                                          child: SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: ImageView.svg(
+                                              AppImages.backBtn,
+                                              height: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Text(
+                                        ' ',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                          color: const Color(0xFF0A0D14),
+                                        ),
+                                      ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
                                 Container(
                                   decoration: const BoxDecoration(
                                     color: Color(0xFFFFFFFF),
                                   ),
                                   child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 0, 16, 11),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16, 0, 16, 11),
                                     child: Text(
                                       'Medication',
                                       style: GoogleFonts.getFont(
@@ -175,32 +185,21 @@ class _MedicationsState extends State<Medications> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 15),
                             child: TextEditView(
-                              controller: _userCubit.viewModel.medSearchController,
-                              prefixIcon: SizedBox(
+                              controller:
+                                  _userCubit.viewModel.medSearchController,
+                              prefixIcon: const SizedBox(
                                 width: 50,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const SizedBox(
-                                      width: 0,
-                                    ),
-                                    const ImageView.svg(
-                                      AppImages.searchIcon,
-                                      height: 19,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      width: 1,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xFF000000),
-                                          borderRadius:
-                                              BorderRadius.circular(11)),
-                                    ),
-                                    const SizedBox(
-                                      width: 0,
-                                    ),
+                                     SizedBox(width: 0),
+                                  ImageView.svg(
+                                    AppImages.searchIcon,
+                                    height: 19,
+                                  ),
+                                  SizedBox(width: 0),
                                   ],
                                 ),
                               ),
@@ -214,51 +213,61 @@ class _MedicationsState extends State<Medications> {
                             color: Colors.grey.shade300,
                             height: 0,
                           ),
-                         (Provider.of<UserViewModel>(context, listen: true).filteredMedicationsLists.isEmpty)
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                     SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.23,
-                      width: 80,),
-                  const Align(
-                    child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: ImageView.svg(AppImages.noData)),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'No Medications Data Yet. ',
-                      style: GoogleFonts.getFont(
-                        'Inter',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 1.7,
-                        color: const Color(0xFF0A0D14),
-                      ),
-                    ),
-                  ),
-                   
-                  const SizedBox(
-                    height: 30,
-                  )
-                ],
-              )
-            :  Expanded(
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: Provider.of<UserViewModel>(context, listen: true).filteredMedicationsLists.length,
-                                itemBuilder: (context, index) {
-                                  return MedicationCard(
-                                    medications:
-                                        _userCubit.viewModel.filteredMedicationsLists[index],
-                                  );
-                                }),
-                          )
+                          (Provider.of<UserViewModel>(context, listen: true)
+                                  .filteredMedicationsLists
+                                  .isEmpty)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.23,
+                                      width: 80,
+                                    ),
+                                    const Align(
+                                      child: SizedBox(
+                                          height: 80,
+                                          width: 80,
+                                          child:
+                                              ImageView.svg(AppImages.noData)),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 15),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'No Medications Data Yet. ',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          height: 1.7,
+                                          color: const Color(0xFF0A0D14),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    )
+                                  ],
+                                )
+                              : Expanded(
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: Provider.of<UserViewModel>(
+                                              context,
+                                              listen: true)
+                                          .filteredMedicationsLists
+                                          .length,
+                                      itemBuilder: (context, index) {
+                                        return MedicationCard(
+                                          medications: _userCubit.viewModel
+                                              .filteredMedicationsLists[index],
+                                        );
+                                      }),
+                                )
                         ],
                       ),
                     ),
@@ -292,8 +301,6 @@ class _MedicationsState extends State<Medications> {
   }
 
   Future<void> _refreshPage() async {
-
-   
     await _userCubit.getMedications();
   }
 }

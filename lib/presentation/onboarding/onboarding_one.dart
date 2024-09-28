@@ -15,10 +15,8 @@ import '../../utils/navigator/page_navigator.dart';
 class OnboardingOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final onboard =
-        Provider.of<OnboardViewModel>(context, listen: false);
-    return 
-    GestureDetector(
+    final onboard = Provider.of<OnboardViewModel>(context, listen: false);
+    return GestureDetector(
       child: Scaffold(
         backgroundColor: AppColors.lightPrimary,
         body: Container(
@@ -38,8 +36,8 @@ class OnboardingOne extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                       child: Container(
-                         width: double.infinity,
-                          height: MediaQuery.sizeOf(context).height * 0.5,
+                        width: double.infinity,
+                        height: MediaQuery.sizeOf(context).height * 0.5,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           image: const DecorationImage(
@@ -49,7 +47,6 @@ class OnboardingOne extends StatelessWidget {
                             ),
                           ),
                         ),
-                         
                       ),
                     ),
                   ),
@@ -67,13 +64,15 @@ class OnboardingOne extends StatelessWidget {
                                 color: Color(0xFFFFFFFF),
                               ),
                               child: Container(
-                                padding: const EdgeInsets.fromLTRB(10, 16, 10, 16),
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 16, 10, 16),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+                                      margin:
+                                          const EdgeInsets.fromLTRB(0, 0, 0, 4),
                                       child: Align(
                                         child: Text(
                                           'Schedule appointment with Patients',
@@ -89,7 +88,8 @@ class OnboardingOne extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(5.5, 0, 5.5, 0),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          5.5, 0, 5.5, 0),
                                       child: Text(
                                         'Manage patient appointments seamlessly, ensuring timely and organized care for your clients.',
                                         textAlign: TextAlign.center,
@@ -122,22 +122,27 @@ class OnboardingOne extends StatelessWidget {
                                     height: 6,
                                   ),
                                 ),
-                                const SizedBox(width: 3,),
+                                const SizedBox(
+                                  width: 3,
+                                ),
                                 Container(
                                   width: 11,
                                   height: 6,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xFF093126)),
+                                    border: Border.all(
+                                        color: const Color(0xFF093126)),
                                     borderRadius: BorderRadius.circular(100),
                                   ),
                                 ),
-                                const SizedBox(width: 3,),
-      
+                                const SizedBox(
+                                  width: 3,
+                                ),
                                 Container(
                                   width: 11,
                                   height: 6,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: const Color(0xFF093126)),
+                                    border: Border.all(
+                                        color: const Color(0xFF093126)),
                                     borderRadius: BorderRadius.circular(100),
                                   ),
                                 ),
@@ -148,48 +153,60 @@ class OnboardingOne extends StatelessWidget {
                       ),
                     ),
                   ),
-                 const SizedBox(height: 30,),
-                
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                   child: Column(
-                     children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      children: [
                         // Spacer(),
-                       ButtonView(
-                        onPressed: (){
-                        onboard.nextPage();
-                       }, 
-                       borderRadius: 100,
-                       color: AppColors.lightSecondary,
-                       child: const Text('Next', 
-                       style: TextStyle(color: AppColors.lightPrimary, fontSize: 14, fontWeight: FontWeight.w500),)),
-                        
-                        const SizedBox(height: 14,),
-                    GestureDetector(
-                      onTap: () {
-                        AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
-                     StorageHandler.saveOnboardState('true');
-                      },
-                      child: Container(
-                                        width: MediaQuery.sizeOf(context).width,
-                                        height: 55,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100, ),
-                                         color:  AppColors.lightPrimary,
-                                         border: Border.all(color: Colors.grey, width: 0.5)
-                                         ),
-                      
-                      child: const Center(
-                        child: Text('Skip', 
-                                           style: TextStyle(color: AppColors.lightSecondary, fontSize: 14, fontWeight: FontWeight.w500),),
-                      )
-                                       ),
-                    )
-                    ],
-                   ),
-                 ),
+                        ButtonView(
+                            onPressed: () {
+                              onboard.nextPage();
+                            },
+                            borderRadius: 100,
+                            color: AppColors.lightSecondary,
+                            child: const Text(
+                              'Next',
+                              style: TextStyle(
+                                  color: AppColors.lightPrimary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            )),
 
-                
-               
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            AppNavigator.pushAndReplaceName(context,
+                                name: AppRoutes.signInScreen);
+                            StorageHandler.saveOnboardState('true');
+                          },
+                          child: Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    100,
+                                  ),
+                                  color: AppColors.lightPrimary,
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.5)),
+                              child: const Center(
+                                child: Text(
+                                  'Skip',
+                                  style: TextStyle(
+                                      color: AppColors.lightSecondary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

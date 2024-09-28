@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_colors.dart';
+import 'package:healthbubba/res/app_strings.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../blocs/users/users.dart';
@@ -64,14 +65,20 @@ class _MedicationDetailsState extends State<MedicationDetails> {
           medicationDetails = state.medicationDetails.data ?? [];
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
-              title: 'Error!!!',
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
+              ),
+              title: AppStrings.errorTitle,
               subtitle: state.medicationDetails.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error),
-            title: 'Error!!!',
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
+            ),
+            title: AppStrings.errorTitle,
             subtitle: "Network Error");
       }
     }, builder: (context, state) {

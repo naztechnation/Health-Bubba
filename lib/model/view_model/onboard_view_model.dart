@@ -440,96 +440,16 @@ String _successMessage = '';
     setViewState(ViewState.success);
   }
 
+  signInWithGoogle1() async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-  Future<User?> signInWithGoogle() async {
-    try {
-      _status = true;
-      setViewState(ViewState.success);
-
-      final GoogleSignInAccount? googleUser = await GoogleSignIn(clientId: '1088264478524-ev6kd3n6pdvbsgfoarnve490vjpunvso.apps.googleusercontent.com').signIn();
-
-      if (googleUser == null) {
-        _successMessage = 'Authentication canceled';
-        _status = false;
-        setViewState(ViewState.success);
-
-        return null;
-      }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final UserCredential authResult =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      final User? user = authResult.user;
-
-      if (authResult != null) {
-        Map<String, dynamic> userInfo = {
-          "email": user!.email,
-          "name": user.displayName,
-          "imageUrl": user.photoURL,
-          "id": user.uid,
-        };
-      }
-
-      _successMessage = 'Authentication successful';
-      _status = false;
-      setViewState(ViewState.success);
-
-      return user;
-    } catch (error) {
-      if (error is FirebaseAuthException) {
-        switch (error.code) {
-          case 'account-exists-with-different-credential':
-            _successMessage = 'Account already exists';
-            _status = false;
-            break;
-          case 'invalid-credential':
-            _successMessage = 'Invalid credential';
-            _status = false;
-            break;
-          case 'operation-not-allowed':
-            _successMessage = 'Operation not allowed';
-            _status = false;
-            break;
-          case 'user-disabled':
-            _successMessage =
-                'User account has been disabled by an administrator';
-            _status = false;
-            break;
-          case 'user-not-found':
-            _successMessage = 'User not found';
-            _status = false;
-            break;
-          case 'wrong-password':
-            _successMessage = 'Wrong password';
-            _status = false;
-            break;
-          default:
-            _successMessage = "Error during authentication: ${error.message}";
-            _status = false;
-        }
-
-        setViewState(ViewState.success);
-      } else if (error is PlatformException &&
-          error.code == 'sign_in_failed' &&
-          error.details == 'ID Token expired') {
-        _successMessage = 'Session expired, please sign in again';
-        _status = false;
-        setViewState(ViewState.success);
-      } else {
-        _successMessage = "Unexpected error during authentication: $error";
-        _status = false;
-        setViewState(ViewState.success);
-      }
-
-      return null;
-    }
+    await gUser!.authentication;
+    // print(gUser.email);
+    return gUser.email;
   }
+
+
+   
   
   
 

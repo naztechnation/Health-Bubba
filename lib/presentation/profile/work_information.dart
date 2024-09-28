@@ -122,7 +122,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
       } else if (state is UpdateBioLoaded) {
         if (state.bio.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: 'Success!!!',
               subtitle: state.bio.message ?? '');
 
@@ -141,12 +144,18 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           _accountCubit.userData();
 
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: 'Success!!!',
               subtitle: state.uploadImage.message ?? '');
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+              
+                                                        height: 25,
+              ),
               title: 'Error!!!',
               subtitle: state.uploadImage.error ?? '');
         }

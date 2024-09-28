@@ -16,8 +16,7 @@ import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_strings.dart';
 import '../../../utils/validator.dart';
 import '../../../widgets/custom_toast.dart';
-import '../../../widgets/error_page.dart';
-import '../../../widgets/loading_screen.dart';
+import '../../../widgets/error_page.dart'; 
 import '../../../widgets/modals.dart';
 
 class ConsultationFeePage extends StatelessWidget {
@@ -79,14 +78,20 @@ class _ConsultationFeeState extends State<ConsultationFee> {
       if (state is ConsultaionFeeLoaded) {
         if (state.fee.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success),
+              leadingIcon: const ImageView.svg(AppImages.success,
+                                                        height: 25,
+              
+              ),
               title: AppStrings.successTitle,
               subtitle: state.fee.message?.message ?? '');
 
               AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         }  else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error),
+              leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+              
+              ),
               title: 'Error!!!',
               subtitle: state.fee.message?.message ?? '');
         }
@@ -345,7 +350,10 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                   }
                                   }else{
                                      ToastService().showToast(context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: 'Error!!!',
                   subtitle:   'Select Duration');
                                   }

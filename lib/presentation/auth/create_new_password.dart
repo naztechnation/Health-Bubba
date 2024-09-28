@@ -54,7 +54,10 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
               if (state.userData.ok ?? false) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.tick),
+                  leadingIcon: const ImageView.svg(AppImages.tick,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.successTitle,
                   subtitle: state.userData.message ?? '',
                 );
@@ -73,7 +76,10 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
               if (state.message != null) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error),
+                  leadingIcon: const ImageView.svg(AppImages.error,
+                                                        height: 25,
+                  
+                  ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
                 );
@@ -81,7 +87,9 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
             } else if (state is AccountNetworkErr) {
               ToastService().showToast(
                 context,
-                leadingIcon: const ImageView.svg(AppImages.error),
+                                                        
+
+                leadingIcon: const ImageView.svg(AppImages.error,height: 25,),
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
               );
