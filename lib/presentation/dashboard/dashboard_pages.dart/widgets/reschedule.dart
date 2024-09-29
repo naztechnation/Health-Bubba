@@ -336,11 +336,11 @@ class _RescheduleState extends State<Reschedule> {
                                               Text(
                                                 calculateAge(
                                                     appointmentDetails?.dob ??
-                                                        ''),
+                                                        'N/B'),
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
+                                                  fontSize: 10,
                                                   height: 1.7,
                                                   color:
                                                       const Color(0xFF6B7280),
@@ -396,12 +396,12 @@ class _RescheduleState extends State<Reschedule> {
                                                         0, 0, 15.8, 0),
                                                 child: Text(
                                                   appointmentDetails?.weight
-                                                          .toString() ??
-                                                      '',
+                                                           ??
+                                                      'N/B',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 12,
+                                                    fontSize: 10,
                                                     height: 1.7,
                                                     color:
                                                         const Color(0xFF6B7280),
@@ -455,11 +455,11 @@ class _RescheduleState extends State<Reschedule> {
                                               Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  appointmentDetails?.sex ?? '',
+                                                  appointmentDetails?.sex ?? 'N/B',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w400,
-                                                    fontSize: 12,
+                                                    fontSize: 10,
                                                     height: 1.7,
                                                     color:
                                                         const Color(0xFF6B7280),
@@ -575,7 +575,7 @@ class _RescheduleState extends State<Reschedule> {
                                           ),
                                         ),
                                         Text(
-                                          'Self',
+                                          'Patient',
                                           style: GoogleFonts.getFont(
                                             'Inter',
                                             fontWeight: FontWeight.w500,
@@ -779,7 +779,16 @@ class _RescheduleState extends State<Reschedule> {
                                           ),
                                         ),
                                       ),
-                                      Align(
+                                   (appointmentDetails?.healthConditions == null || appointmentDetails?.healthConditions == '' ) ? Text(
+                                               'None',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 13,
+                                                height: 1.5,
+                                                color: const Color(0xFF131316),
+                                              ),
+                                            ): Align(
                                         alignment: Alignment.topLeft,
                                         child: Row(
                                           mainAxisAlignment:
@@ -788,30 +797,26 @@ class _RescheduleState extends State<Reschedule> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 1, 8, 1),
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xFFFFFFFF),
-                                                ),
-                                                child: Container(
-                                                  width: 23,
-                                                  height: 23,
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          1.5, 1.5, 1.5, 1.5),
-                                                  child: const SizedBox(
-                                                    width: 20,
-                                                    height: 20,
-                                                    child: ImageView.svg(
-                                                      AppImages.tick,
-                                                    ),
-                                                  ),
+                                              width: 23,
+                                              height: 23,
+                                                margin: const EdgeInsets.fromLTRB(
+                                              0, 1, 8, 1),
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                            ),
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      1.5, 1.5, 1.5, 1.5),
+                                              child: const SizedBox(
+                                                width: 20,
+                                                height: 20,
+                                                child: ImageView.svg(
+                                                  AppImages.tick,
                                                 ),
                                               ),
                                             ),
                                             Text(
-                                              'Amlodipine',
+                                              appointmentDetails?.healthConditions ?? '',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w400,
@@ -827,383 +832,323 @@ class _RescheduleState extends State<Reschedule> {
                                   ),
                                 ),
                               ),
-                              (appointmentDetails?.healthConditions == null)
-                                  ? const SizedBox.shrink()
-                                  : Container(
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xFFFFFFFF),
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Color(0xFFE5E7EB),
-                                            width: 1,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            16, 16, 0, 15),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Current Health Conditions',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF6B7280),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 8),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.topLeft,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 1, 8, 1),
-                                                            child: Container(
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFFFFFFF),
-                                                              ),
-                                                              child: Container(
-                                                                width: 23,
-                                                                height: 23,
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5),
-                                                                child:
-                                                                    const SizedBox(
-                                                                  width: 20,
-                                                                  height: 20,
-                                                                  child:
-                                                                      ImageView
-                                                                          .svg(
-                                                                    AppImages
-                                                                        .tick,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            'Vitamin Deficiency',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13,
-                                                              height: 1.5,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 8),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.topLeft,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 1, 8, 1),
-                                                            child: Container(
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFFFFFFF),
-                                                              ),
-                                                              child: Container(
-                                                                width: 23,
-                                                                height: 23,
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5),
-                                                                child:
-                                                                    const SizedBox(
-                                                                  width: 20,
-                                                                  height: 20,
-                                                                  child:
-                                                                      ImageView
-                                                                          .svg(
-                                                                    AppImages
-                                                                        .tick,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            'Osteoporosis',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13,
-                                                              height: 1.5,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 8),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 1, 8, 1),
-                                                          child: Container(
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFFFFFFF),
-                                                            ),
-                                                            child: Container(
-                                                              width: 23,
-                                                              height: 23,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5),
-                                                              child:
-                                                                  const SizedBox(
-                                                                width: 20,
-                                                                height: 20,
-                                                                child: ImageView
-                                                                    .svg(
-                                                                  AppImages
-                                                                      .tick,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Dermatological Problems',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 13,
-                                                            height: 1.5,
-                                                            color: const Color(
-                                                                0xFF131316),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                        .fromLTRB(0, 0, 0, 8),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.topLeft,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .fromLTRB(
-                                                                    0, 1, 8, 1),
-                                                            child: Container(
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFFFFFFF),
-                                                              ),
-                                                              child: Container(
-                                                                width: 23,
-                                                                height: 23,
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .fromLTRB(
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5,
-                                                                        1.5),
-                                                                child:
-                                                                    const SizedBox(
-                                                                  width: 20,
-                                                                  height: 20,
-                                                                  child:
-                                                                      ImageView
-                                                                          .svg(
-                                                                    AppImages
-                                                                        .tick,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            'Athritis',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13,
-                                                              height: 1.5,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topLeft,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0, 1, 8, 1),
-                                                          child: Container(
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFFFFFFF),
-                                                            ),
-                                                            child: Container(
-                                                              width: 23,
-                                                              height: 23,
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5,
-                                                                      1.5),
-                                                              child:
-                                                                  const SizedBox(
-                                                                width: 20,
-                                                                height: 20,
-                                                                child: ImageView
-                                                                    .svg(
-                                                                  AppImages
-                                                                      .tick,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Cholesterol',
-                                                          style: GoogleFonts
-                                                              .getFont(
-                                                            'Inter',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 13,
-                                                            height: 1.5,
-                                                            color: const Color(
-                                                                0xFF131316),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                              // (appointmentDetails?.healthConditions == null)
+                              //     ? const SizedBox.shrink()
+                              //     : Container(
+                              //         decoration: const BoxDecoration(
+                              //           color: Color(0xFFFFFFFF),
+                              //           border: Border(
+                              //             bottom: BorderSide(
+                              //               color: Color(0xFFE5E7EB),
+                              //               width: 1,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         child: Container(
+                              //           padding: const EdgeInsets.fromLTRB(
+                              //               16, 16, 0, 15),
+                              //           child: Column(
+                              //             mainAxisAlignment:
+                              //                 MainAxisAlignment.start,
+                              //             crossAxisAlignment:
+                              //                 CrossAxisAlignment.start,
+                              //             children: [
+                              //               Container(
+                              //                 margin: const EdgeInsets.fromLTRB(
+                              //                     0, 0, 0, 8),
+                              //                 child: Align(
+                              //                   alignment: Alignment.topLeft,
+                              //                   child: Text(
+                              //                     'Current Health Conditions',
+                              //                     style: GoogleFonts.getFont(
+                              //                       'Inter',
+                              //                       fontWeight: FontWeight.w400,
+                              //                       fontSize: 14,
+                              //                       height: 1.4,
+                              //                       color:
+                              //                           const Color(0xFF6B7280),
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //               Align(
+                              //                 alignment: Alignment.topLeft,
+                              //                 child: Column(
+                              //                   mainAxisAlignment:
+                              //                       MainAxisAlignment.start,
+                              //                   crossAxisAlignment:
+                              //                       CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Container(
+                              //                       margin: const EdgeInsets
+                              //                           .fromLTRB(0, 0, 0, 8),
+                              //                       child: Align(
+                              //                         alignment:
+                              //                             Alignment.topLeft,
+                              //                         child: Row(
+                              //                           mainAxisAlignment:
+                              //                               MainAxisAlignment
+                              //                                   .start,
+                              //                           crossAxisAlignment:
+                              //                               CrossAxisAlignment
+                              //                                   .start,
+                              //                           children: [
+                              //                             Container(
+                              //                               margin:
+                              //                                   const EdgeInsets
+                              //                                       .fromLTRB(
+                              //                                       0, 1, 8, 1),
+                              //                               child: Container(
+                              //                                 decoration:
+                              //                                     const BoxDecoration(
+                              //                                   color: Color(
+                              //                                       0xFFFFFFFF),
+                              //                                 ),
+                              //                                 child: Container(
+                              //                                   width: 23,
+                              //                                   height: 23,
+                              //                                   padding:
+                              //                                       const EdgeInsets
+                              //                                           .fromLTRB(
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5),
+                              //                                   child:
+                              //                                       const SizedBox(
+                              //                                     width: 20,
+                              //                                     height: 20,
+                              //                                     child:
+                              //                                         ImageView
+                              //                                             .svg(
+                              //                                       AppImages
+                              //                                           .tick,
+                              //                                     ),
+                              //                                   ),
+                              //                                 ),
+                              //                               ),
+                              //                             ),
+                              //                             Text(
+                              //                               'Vitamin Deficiency',
+                              //                               style: GoogleFonts
+                              //                                   .getFont(
+                              //                                 'Inter',
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w400,
+                              //                                 fontSize: 13,
+                              //                                 height: 1.5,
+                              //                                 color: const Color(
+                              //                                     0xFF131316),
+                              //                               ),
+                              //                             ),
+                              //                           ],
+                              //                         ),
+                              //                       ),
+                              //                     ),
+                              //                     Container(
+                              //                       margin: const EdgeInsets
+                              //                           .fromLTRB(0, 0, 0, 8),
+                              //                       child: Align(
+                              //                         alignment:
+                              //                             Alignment.topLeft,
+                              //                         child: Row(
+                              //                           mainAxisAlignment:
+                              //                               MainAxisAlignment
+                              //                                   .start,
+                              //                           crossAxisAlignment:
+                              //                               CrossAxisAlignment
+                              //                                   .start,
+                              //                           children: [
+                              //                             Container(
+                              //                               margin:
+                              //                                   const EdgeInsets
+                              //                                       .fromLTRB(
+                              //                                       0, 1, 8, 1),
+                              //                               child: Container(
+                              //                                 decoration:
+                              //                                     const BoxDecoration(
+                              //                                   color: Color(
+                              //                                       0xFFFFFFFF),
+                              //                                 ),
+                              //                                 child: Container(
+                              //                                   width: 23,
+                              //                                   height: 23,
+                              //                                   padding:
+                              //                                       const EdgeInsets
+                              //                                           .fromLTRB(
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5),
+                              //                                   child:
+                              //                                       const SizedBox(
+                              //                                     width: 20,
+                              //                                     height: 20,
+                              //                                     child:
+                              //                                         ImageView
+                              //                                             .svg(
+                              //                                       AppImages
+                              //                                           .tick,
+                              //                                     ),
+                              //                                   ),
+                              //                                 ),
+                              //                               ),
+                              //                             ),
+                              //                             Text(
+                              //                               'Osteoporosis',
+                              //                               style: GoogleFonts
+                              //                                   .getFont(
+                              //                                 'Inter',
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w400,
+                              //                                 fontSize: 13,
+                              //                                 height: 1.5,
+                              //                                 color: const Color(
+                              //                                     0xFF131316),
+                              //                               ),
+                              //                             ),
+                              //                           ],
+                              //                         ),
+                              //                       ),
+                              //                     ),
+                              //                     Container(
+                              //                       margin: const EdgeInsets
+                              //                           .fromLTRB(0, 0, 0, 8),
+                              //                       child: Row(
+                              //                         mainAxisAlignment:
+                              //                             MainAxisAlignment
+                              //                                 .start,
+                              //                         crossAxisAlignment:
+                              //                             CrossAxisAlignment
+                              //                                 .start,
+                              //                         children: [
+                              //                           Container(
+                              //                             margin:
+                              //                                 const EdgeInsets
+                              //                                     .fromLTRB(
+                              //                                     0, 1, 8, 1),
+                              //                             child: Container(
+                              //                               decoration:
+                              //                                   const BoxDecoration(
+                              //                                 color: Color(
+                              //                                     0xFFFFFFFF),
+                              //                               ),
+                              //                               child: Container(
+                              //                                 width: 23,
+                              //                                 height: 23,
+                              //                                 padding:
+                              //                                     const EdgeInsets
+                              //                                         .fromLTRB(
+                              //                                         1.5,
+                              //                                         1.5,
+                              //                                         1.5,
+                              //                                         1.5),
+                              //                                 child:
+                              //                                     const SizedBox(
+                              //                                   width: 20,
+                              //                                   height: 20,
+                              //                                   child: ImageView
+                              //                                       .svg(
+                              //                                     AppImages
+                              //                                         .tick,
+                              //                                   ),
+                              //                                 ),
+                              //                               ),
+                              //                             ),
+                              //                           ),
+                              //                           Text(
+                              //                             'Dermatological Problems',
+                              //                             style: GoogleFonts
+                              //                                 .getFont(
+                              //                               'Inter',
+                              //                               fontWeight:
+                              //                                   FontWeight.w400,
+                              //                               fontSize: 13,
+                              //                               height: 1.5,
+                              //                               color: const Color(
+                              //                                   0xFF131316),
+                              //                             ),
+                              //                           ),
+                              //                         ],
+                              //                       ),
+                              //                     ),
+                              //                     Container(
+                              //                       margin: const EdgeInsets
+                              //                           .fromLTRB(0, 0, 0, 8),
+                              //                       child: Align(
+                              //                         alignment:
+                              //                             Alignment.topLeft,
+                              //                         child: Row(
+                              //                           mainAxisAlignment:
+                              //                               MainAxisAlignment
+                              //                                   .start,
+                              //                           crossAxisAlignment:
+                              //                               CrossAxisAlignment
+                              //                                   .start,
+                              //                           children: [
+                              //                             Container(
+                              //                               margin:
+                              //                                   const EdgeInsets
+                              //                                       .fromLTRB(
+                              //                                       0, 1, 8, 1),
+                              //                               child: Container(
+                              //                                 decoration:
+                              //                                     const BoxDecoration(
+                              //                                   color: Color(
+                              //                                       0xFFFFFFFF),
+                              //                                 ),
+                              //                                 child: Container(
+                              //                                   width: 23,
+                              //                                   height: 23,
+                              //                                   padding:
+                              //                                       const EdgeInsets
+                              //                                           .fromLTRB(
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5,
+                              //                                           1.5),
+                              //                                   child:
+                              //                                       const SizedBox(
+                              //                                     width: 20,
+                              //                                     height: 20,
+                              //                                     child:
+                              //                                         ImageView
+                              //                                             .svg(
+                              //                                       AppImages
+                              //                                           .tick,
+                              //                                     ),
+                              //                                   ),
+                              //                                 ),
+                              //                               ),
+                              //                             ),
+                              //                             Text(
+                              //                               'Athritis',
+                              //                               style: GoogleFonts
+                              //                                   .getFont(
+                              //                                 'Inter',
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w400,
+                              //                                 fontSize: 13,
+                              //                                 height: 1.5,
+                              //                                 color: const Color(
+                              //                                     0xFF131316),
+                              //                               ),
+                              //                             ),
+                              //                           ],
+                              //                         ),
+                              //                       ),
+                              //                     ),
+                                                 
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       ),
                               Container(
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFFFFFFF),
@@ -1244,32 +1189,30 @@ class _RescheduleState extends State<Reschedule> {
                                             0, 0, 0, 8),
                                         child: Align(
                                           alignment: Alignment.topLeft,
-                                          child: Container(
-                                            child: RichText(
-                                              text: TextSpan(
-                                                text: 'Next Appointment: ',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 13,
-                                                  height: 1.5,
-                                                  color:
-                                                      const Color(0xFF131316),
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                    text:
-                                                        'May 18, 2024, 10:00 AM',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 13,
-                                                      height: 1.3,
-                                                    ),
-                                                  ),
-                                                ],
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'Next Appointment: ',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 13,
+                                                height: 1.5,
+                                                color:
+                                                    const Color(0xFF131316),
                                               ),
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      ' N/A',
+                                                  style: GoogleFonts.getFont(
+                                                    'Inter',
+                                                    fontWeight:
+                                                        FontWeight.w500,
+                                                    fontSize: 13,
+                                                    height: 1.3,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -1292,7 +1235,7 @@ class _RescheduleState extends State<Reschedule> {
                                               children: [
                                                 TextSpan(
                                                   text:
-                                                      'April 15, 2024, 11:00 AM',
+                                                      ' N/A',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w500,
@@ -1322,7 +1265,7 @@ class _RescheduleState extends State<Reschedule> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: '2',
+                                                  text: ' N/A',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w600,
@@ -1349,7 +1292,7 @@ class _RescheduleState extends State<Reschedule> {
                                             ),
                                             children: [
                                               TextSpan(
-                                                text: '5',
+                                                text: ' N/A',
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
@@ -1495,7 +1438,7 @@ class _RescheduleState extends State<Reschedule> {
 
       return age.toString();
     } catch (e) {
-      return 'Invalid date format';
+      return 'N/B';
     }
   }
 }
