@@ -146,7 +146,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
           //     leadingIcon: const ImageView.svg(AppImages.success),
           //     title: AppStrings.successTitle,
           //     subtitle: state.qualification.message?.message ?? '');
-          setState(() {});
+           
 
               
         } else {
@@ -407,8 +407,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 borderWidth: 0.5,
                                                 hintText: 'MBBS, MCPS, MD',
                                                 suffixIcon:   SizedBox(
-                                                  width: 60,
+                                                   
                                                   child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
                                                     if(validated)...[
                                                       const ImageView.svg(AppImages.successIcon, color: Colors.green,)
@@ -420,7 +422,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                         padding: EdgeInsets.only(left:8.0, right: 12),
                                                         child: ImageView.svg(
                                                           AppImages.dropDown,
-                                                          scale: 0.8,
+                                                          scale: 0.9,
                                                         ),
                                                       ),
                                                     ],

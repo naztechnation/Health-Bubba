@@ -275,16 +275,22 @@ class _HomeState extends State<Home> {
                                             0, 0, 0, 8),
                                         child: Align(
                                           alignment: Alignment.topLeft,
-                                          child: Text(
-                                            (name != null && name.isNotEmpty)
-                                                ? 'Hi, $title $name'
-                                                : 'Hi',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                              height: 1.3,
-                                              color: const Color(0xFF0A0D14),
+                                          child: SizedBox(
+                                            width: MediaQuery.sizeOf(context).width * 0.5,
+                                            child: Text(
+                                              (name != null && name.isNotEmpty)
+                                                  ? 'Hi, $title $name$title $name'
+                                                  : 'Hi',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                              style: GoogleFonts.getFont(
+                                                
+                                                'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16,
+                                                height: 1.3,
+                                                color: const Color(0xFF0A0D14),
+                                              ),
                                             ),
                                           ),
                                         ),
