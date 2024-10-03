@@ -21,7 +21,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Consumer<BookAppointmentViewModel>(
       builder: (context, calendarProvider, child) {
         return Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300,width: 1), borderRadius: BorderRadius.circular(8)),
+          decoration: BoxDecoration(border: Border.all(color: Colors.grey.shade300,width: 1), ),
           child: TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
@@ -35,21 +35,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),  
-              todayDecoration:     BoxDecoration(
-                color: const Color(0xFF40A758),
-                shape: BoxShape.rectangle,
+              todayDecoration:     const BoxDecoration(
+                color:   Colors.grey,
+                shape: BoxShape.circle,
                 
-                borderRadius: BorderRadius.circular(8)
+               // borderRadius: BorderRadius.circular(8)
               ),
               selectedTextStyle: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ), 
-              selectedDecoration:     BoxDecoration(
-                color: const Color(0xFF40A758),
-                shape: BoxShape.rectangle,
+              selectedDecoration:     const BoxDecoration(
+                color: Color(0xFF40A758),
+                shape: BoxShape.circle,
                 
-                borderRadius: BorderRadius.circular(8)
+               // borderRadius: BorderRadius.circular(8)
               ),
           
               outsideTextStyle: const TextStyle(color: Colors.grey),  
@@ -57,7 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               holidayTextStyle: const TextStyle(color: Colors.orange),  
               markerDecoration: const BoxDecoration(
                 color: Colors.black,
-                shape: BoxShape.rectangle,
+                shape: BoxShape.circle,
               ),
             ),
             daysOfWeekHeight: 50.0,

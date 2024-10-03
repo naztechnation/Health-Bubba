@@ -40,7 +40,7 @@ class ConsultationFee extends StatefulWidget {
 }
 
 class _ConsultationFeeState extends State<ConsultationFee> {
-  List<String> duration = ['M', 'H'];
+  List<String> duration = ['Minute', 'Hour'];
 
   late UserCubit _userCubit;
   final _formKey = GlobalKey<FormState>();

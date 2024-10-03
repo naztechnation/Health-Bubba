@@ -170,7 +170,12 @@ void _filterMedications() {
   Future<void> savePatietList(
     PatientsLists filteredPatientsLists,
   ) async {
-    _filteredPatientsLists = filteredPatientsLists.data.patients;
+     List<Patients> newPatients = filteredPatientsLists.data.patients
+      .where((patient) => !_filteredPatientsLists.any((existingPatient) => existingPatient.id == patient.id))
+      .toList();
+
+   
+  _filteredPatientsLists.addAll(newPatients);
     _patients = filteredPatientsLists;
 
     setViewState(ViewState.success);

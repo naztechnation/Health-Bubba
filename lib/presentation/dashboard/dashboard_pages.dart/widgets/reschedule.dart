@@ -639,7 +639,7 @@ class _RescheduleState extends State<Reschedule> {
                                   ],
                                 ),
                               ),
-                              if (widget.isSchedule)
+                              if (widget.isSchedule &&  widget.appointment.images!.isNotEmpty)
                                 GestureDetector(
                                   onTap: () {
                                     AppNavigator.pushAndStackPage(context,

@@ -224,12 +224,18 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                       )
                                     : null,
                                 child: Text('Upcoming',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: upComing ? FontWeight.w800:  FontWeight.w600,
+                                style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontSize: 14,
+                                        fontWeight: upComing ? FontWeight.w800:  FontWeight.w800,
                                         color: upComing
                                             ? Colors.black
-                                            : Colors.grey)),
+                                            : const Color(0xFF6B7280),
+                                             
+                                            height: 1.7,
+                                            
+                                          ),
+                                    ),
                               ),
                             ),
                             Container(
@@ -266,12 +272,18 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                       )
                                     : null,
                                 child: Text('Completed',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: completed ? FontWeight.w800: FontWeight.w600,
+                                 style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontSize: 14,
+                                        fontWeight: completed ? FontWeight.w800:  FontWeight.w800,
                                         color: completed
                                             ? Colors.black
-                                            : Colors.grey)),
+                                            : const Color(0xFF6B7280),
+                                             
+                                            height: 1.7,
+                                            
+                                          ),
+                                     ),
                               ),
                             ),
                             Container(
@@ -308,12 +320,18 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                       )
                                     : null,
                                 child: Text('Cancelled',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: cancelled ? FontWeight.w800: FontWeight.w600,
+                                style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontSize: 14,
+                                        fontWeight: cancelled ? FontWeight.w800:  FontWeight.w800,
                                         color: cancelled
                                             ? Colors.black
-                                            : Colors.grey)),
+                                            : const Color(0xFF6B7280),
+                                             
+                                            height: 1.7,
+                                            
+                                          ),
+                                    ),
                               ),
                             ),
                           ],
