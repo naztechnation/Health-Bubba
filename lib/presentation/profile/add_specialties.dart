@@ -98,9 +98,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
           if (state.selectSpecialties.ok ?? false) {
             ToastService().showToast(
               context,
-              leadingIcon: const ImageView.svg(AppImages.success,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.success,
+                height: 25,
               ),
               title: 'Success!!!',
               subtitle: state.selectSpecialties.message?.message ?? '',
@@ -112,9 +112,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
           } else {
             ToastService().showToast(
               context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.selectSpecialties.message ?? '',
@@ -147,7 +147,6 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
               )
             : Scaffold(
                 backgroundColor: Colors.white,
-
                 appBar: AppBar(
                   title: const Text(
                     'Add Specialties',
@@ -178,8 +177,7 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                               );
                             },
                             primaryBgColor: const Color(0xFFF70000),
-                            
-              secondaryBgColor: AppColors.lightPrimary,
+                            secondaryBgColor: AppColors.lightPrimary,
                             secondaryAction: () {
                               uploadQualifications(
                                 selectSpecialtiesId: context
@@ -253,11 +251,11 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(width: 0),
-                                  ImageView.svg(
-                                    AppImages.searchIcon,
-                                    height: 19,
-                                  ),
-                                  SizedBox(width: 0),
+                              ImageView.svg(
+                                AppImages.searchIcon,
+                                height: 19,
+                              ),
+                              SizedBox(width: 0),
                             ],
                           ),
                         ),
@@ -295,13 +293,14 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                                     ? Colors.lightGreen.withOpacity(0.12)
                                     : null,
                                 onTap: () {
-                                   if (provider.selectedSpecialties.length < 3 || provider.selectedSpecialties.contains(specialty)) {
-    provider.toggleSpecialty(
-      specialty: specialty,
-      specialtiesId: specialtiesId,
-    );
-  }
-                                  
+                                  if (provider.selectedSpecialties.length < 3 ||
+                                      provider.selectedSpecialties
+                                          .contains(specialty)) {
+                                    provider.toggleSpecialty(
+                                      specialty: specialty,
+                                      specialtiesId: specialtiesId,
+                                    );
+                                  }
                                 },
                               );
                             },
@@ -323,10 +322,9 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
     } else {
       ToastService().showToast(
         context,
-        leadingIcon: const ImageView.svg(AppImages.error,
-        
-                                                        height: 25,
-        
+        leadingIcon: const ImageView.svg(
+          AppImages.error,
+          height: 25,
         ),
         title: 'Error',
         subtitle: 'Select at least one specialty to continue',

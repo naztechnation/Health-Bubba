@@ -440,7 +440,7 @@ String _successMessage = '';
     setViewState(ViewState.success);
   }
 
-  signInWithGoogle1() async {
+  signInWithGoogle() async {
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
     await gUser!.authentication;

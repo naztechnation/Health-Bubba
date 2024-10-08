@@ -497,7 +497,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       isLoading = true;
                                     });
                                     String email =
-                                        await userAuth.signInWithGoogle1();
+                                        await userAuth.signInWithGoogle();
 
                                     if (email.isNotEmpty) {
                                       await context

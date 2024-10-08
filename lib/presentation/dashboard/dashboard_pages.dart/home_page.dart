@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
     imageUrl = await StorageHandler.getUserPicture();
     name = await StorageHandler.getFirstName();
     lastName = await StorageHandler.getLastName();
-    
+
     title = await StorageHandler.getUserTitle();
     userId = await StorageHandler.getUserId();
     doctorsId = int.parse(userId ?? '0');
@@ -142,9 +142,9 @@ class _HomeState extends State<Home> {
           );
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.userData.message ?? '');
@@ -155,9 +155,9 @@ class _HomeState extends State<Home> {
               _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.appointmentLists.message?.message ?? '');
@@ -196,15 +196,17 @@ class _HomeState extends State<Home> {
         }
       } else if (state is UserApiErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error,
-             height: 25,
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
             ),
             title: 'Error!!!',
             subtitle: "Network Error");
       } else if (state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error,
-             height: 25,
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
             ),
             title: 'Error!!!',
             subtitle: "Network Error");
@@ -276,15 +278,16 @@ class _HomeState extends State<Home> {
                                         child: Align(
                                           alignment: Alignment.topLeft,
                                           child: SizedBox(
-                                            width: MediaQuery.sizeOf(context).width * 0.5,
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.5,
                                             child: Text(
                                               (name != null && name.isNotEmpty)
                                                   ? 'Hi, $title $name$title $name'
                                                   : 'Hi',
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
                                               style: GoogleFonts.getFont(
-                                                
                                                 'Inter',
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 16,
@@ -296,16 +299,17 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       if (_completedCount() == 5) ...[
-                                        Text(
-                                          'What do you want to do today?',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF6B7280),
-                                          )),
-                                          const SizedBox(height: 8,)
+                                        Text('What do you want to do today?',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF6B7280),
+                                            )),
+                                        const SizedBox(
+                                          height: 8,
+                                        )
                                       ] else ...[
                                         Text(
                                           'Finish setting up your account',
@@ -317,8 +321,9 @@ class _HomeState extends State<Home> {
                                             color: const Color(0xFF6B7280),
                                           ),
                                         ),
-                                          const SizedBox(height: 8,)
-
+                                        const SizedBox(
+                                          height: 8,
+                                        )
                                       ]
                                     ],
                                   ),
@@ -579,7 +584,10 @@ class _HomeState extends State<Home> {
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const WorkInformation(isEdit: true,));
+                                                                              const WorkInformation(
+                                                                            isEdit:
+                                                                                true,
+                                                                          ));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -736,11 +744,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const WorkInformation(isEdit: true));
+                                                                  AppNavigator.pushAndStackPage(
+                                                                      context,
+                                                                      page: const WorkInformation(
+                                                                          isEdit:
+                                                                              true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -902,11 +910,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const WorkInformation(isEdit: true));
+                                                                  AppNavigator.pushAndStackPage(
+                                                                      context,
+                                                                      page: const WorkInformation(
+                                                                          isEdit:
+                                                                              true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1071,11 +1079,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const WorkInformation(isEdit: true));
+                                                                  AppNavigator.pushAndStackPage(
+                                                                      context,
+                                                                      page: const WorkInformation(
+                                                                          isEdit:
+                                                                              true));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1413,11 +1421,15 @@ class _HomeState extends State<Home> {
                                         )
                                       ],
                                       if (upcomingAppointment.isNotEmpty) ...[
-                                          const SizedBox(
-                                                      height: 14,
-                                                    ),
-                                        appointmentCard(upcomingAppointment,
-                                            doctorsId, context,  lastName, userId),
+                                        const SizedBox(
+                                          height: 14,
+                                        ),
+                                        appointmentCard(
+                                            upcomingAppointment,
+                                            doctorsId,
+                                            context,
+                                            lastName,
+                                            userId),
                                       ],
                                       Column(
                                         mainAxisAlignment:
@@ -1429,8 +1441,9 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page:
-                                                        AppointmentTabView(isDashboard: false,));
+                                                  page: AppointmentTabView(
+                                                    isDashboard: false,
+                                                  ));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
@@ -1565,7 +1578,8 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page:   const MedicationPage(false));
+                                                  page: const MedicationPage(
+                                                      false));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
@@ -1717,7 +1731,9 @@ class _HomeState extends State<Home> {
                                             onTap: () {
                                               AppNavigator.pushAndStackPage(
                                                   context,
-                                                  page: const PatientPage(isDashboard: false,));
+                                                  page: const PatientPage(
+                                                    isDashboard: false,
+                                                  ));
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(

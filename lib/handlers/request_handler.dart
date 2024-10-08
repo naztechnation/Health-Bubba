@@ -14,7 +14,8 @@ class RequestHandler {
 
     switch (response.statusCode) {
       case 201:
-        return response.body;
+        throw NetworkException("${response.statusCode}");
+        
       case 200:
         return response.body;
       case 400:

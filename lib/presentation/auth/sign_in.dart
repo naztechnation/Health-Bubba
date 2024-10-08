@@ -363,7 +363,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           GoogleSignIn();
                                       await googleSignIn.signOut();
                                       String email =
-                                          await userAuth.signInWithGoogle1();
+                                          await userAuth.signInWithGoogle();
 
                                       if (email.isNotEmpty) {
                                         await context

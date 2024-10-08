@@ -112,7 +112,6 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
               }
             } else if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
-                 
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -142,11 +141,8 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   subtitle: state.google.message ?? '',
                 );
               }
-            }else if(state is AppleLoginLoaded){
+            } else if (state is AppleLoginLoaded) {
               if (state.google.ok ?? false) {
-               
-               
-
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -516,31 +512,32 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                     ],
                                   ),
                                 ),
-                                  const SizedBox(
-                                height: 30,
-                              ),
-                          GestureDetector(
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                GestureDetector(
                                   onTap: () async {
-                                      try {
+                                    try {
                                       final GoogleSignIn googleSignIn =
                                           GoogleSignIn();
-                                      await googleSignIn.signOut();           
+                                      await googleSignIn.signOut();
 
                                       String email =
-                                          await userAuth.signInWithGoogle1();
+                                          await userAuth.signInWithGoogle();
 
                                       if (email.isNotEmpty) {
-                                       await context
+                                        await context
                                             .read<AccountCubit>()
                                             .loginWithGoogle(
-                                              email: email ,
+                                              email: email,
                                             );
-                                      }else{
+                                      } else {
                                         ToastService().showToast(
                                           context,
                                           leadingIcon: const ImageView.svg(
-                                                        height: 25,
-                                              AppImages.error, ),
+                                            height: 25,
+                                            AppImages.error,
+                                          ),
                                           title: AppStrings.errorTitle,
                                           subtitle: 'verification failed',
                                         );
@@ -548,7 +545,6 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                     } catch (error) {
                                       print(error);
                                     }
-                                   
                                   },
                                   child: Container(
                                       width: MediaQuery.sizeOf(context).width,
@@ -582,12 +578,14 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                         ),
                                       )),
                                 ),
-                          if(Platform.isIOS)      const SizedBox(
-                                  height: 20,
-                                ),
-                              if(Platform.isIOS)  GestureDetector(
-                                  onTap: () async{
-                                    final credential = await SignInWithApple
+                                if (Platform.isIOS)
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                if (Platform.isIOS)
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final credential = await SignInWithApple
                                           .getAppleIDCredential(
                                         scopes: [
                                           AppleIDAuthorizationScopes.email,
@@ -595,7 +593,6 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                         ],
                                       );
                                       if (credential.userIdentifier != null) {
-                                          
                                         context
                                             .read<AccountCubit>()
                                             .loginWithApple(
@@ -613,42 +610,43 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                           subtitle: 'verification failed',
                                         );
                                       }
-                                  },
-                                  child: Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      height: 45,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            100,
+                                    },
+                                    child: Container(
+                                        width: MediaQuery.sizeOf(context).width,
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              100,
+                                            ),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: const Color(0xFFE9E9E9),
+                                                width: 0.8)),
+                                        child: const Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ImageView.svg(
+                                                AppImages.appleLogo,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text(
+                                                'Continue with Apple',
+                                                style: TextStyle(
+                                                    color: AppColors
+                                                        .lightSecondary,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
                                           ),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: const Color(0xFFE9E9E9),
-                                              width: 0.8)),
-                                      child: const Center(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            ImageView.svg(
-                                              AppImages.appleLogo,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Text(
-                                              'Continue with Apple',
-                                              style: TextStyle(
-                                                  color:
-                                                      AppColors.lightSecondary,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                ),
+                                        )),
+                                  ),
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -705,9 +703,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                       ),
                     ),
                   )),
-              if (state is AccountLoading ||
-                   
-                  state is GoogleLoginLoading)
+              if (state is AccountLoading || state is GoogleLoginLoading)
                 Container(
                   color: AppColors.indicatorBgColor,
                   child: Center(
