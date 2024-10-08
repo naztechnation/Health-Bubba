@@ -115,9 +115,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   subtitle: state.verifyOtp.message ?? '',
                 );
               }
-            } else if (state is OTPResent) {
+            } else if (state is ResendOtpLoaded) {
               // Modals.showToast(state.userData.message!,
               //     messageType: MessageType.success);
+
+              ToastService().showToast(
+                context,
+                leadingIcon: const ImageView.svg(
+                  AppImages.success,
+                  height: 25,
+                ),
+                title: AppStrings.successTitle,
+                subtitle: state.otp.message ?? '',
+              );
 
               isCountdownComplete = false;
               startCountdown();
@@ -273,6 +283,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                         onPressed: () {
                                           _verifyCode(context);
                                         },
+                                        processin: state is ResendOtpLoading,
                                         borderRadius: 100,
                                         color: AppColors.lightSecondary,
                                         child: const Text(
@@ -310,9 +321,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              if (isCountdownComplete)
+                              if (!isCountdownComplete || state is ResendOtpLoading)...[
+
+                              ]else...[
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.read<AccountCubit>().resendOtp(email: widget.email);
+                                  },
                                   child: Text(
                                     'Resend Code',
                                     style: GoogleFonts.getFont(
@@ -326,6 +341,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                     ),
                                   ),
                                 ),
+                              ]
+                                
                             ],
                           ),
                         ],

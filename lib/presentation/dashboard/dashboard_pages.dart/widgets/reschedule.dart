@@ -64,15 +64,15 @@ class Reschedule extends StatefulWidget {
 
 class _RescheduleState extends State<Reschedule> {
   late UserCubit _userCubit;
-  AppointmentDetailsData? appointmentDetails;
+  // AppointmentDetailsData? appointmentDetails;
 
   @override
   void initState() {
     super.initState();
     _userCubit = context.read<UserCubit>();
 
-    _userCubit.getAppointmentDetails(
-        appointmentId: widget.appointment.appointmentId.toString());
+    // _userCubit.getAppointmentDetails(
+    //     appointmentId: widget.appointment.appointmentId.toString());
   }
 
   @override
@@ -80,21 +80,21 @@ class _RescheduleState extends State<Reschedule> {
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is AppointmentDetailsLoaded) {
         if (state.appointmentDetails.ok ?? false) {
-          appointmentDetails = state.appointmentDetails.message?.data;
+          // appointmentDetails = state.appointmentDetails.message?.data;
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.appointmentDetails.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-            
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
             ),
             title: 'Error!!!',
             subtitle: "Network Error");
@@ -334,9 +334,9 @@ class _RescheduleState extends State<Reschedule> {
                                                 ),
                                               ),
                                               Text(
-                                                calculateAge(
-                                                    appointmentDetails?.dob ??
-                                                        'N/B'),
+                                                calculateAge(widget.appointment
+                                                        .patientDob ??
+                                                    'N/B'),
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w400,
@@ -395,8 +395,8 @@ class _RescheduleState extends State<Reschedule> {
                                                     const EdgeInsets.fromLTRB(
                                                         0, 0, 15.8, 0),
                                                 child: Text(
-                                                  appointmentDetails?.weight
-                                                           ??
+                                                  widget.appointment
+                                                          .patientWeight ??
                                                       'N/B',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
@@ -455,7 +455,9 @@ class _RescheduleState extends State<Reschedule> {
                                               Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  appointmentDetails?.sex ?? 'N/B',
+                                                  widget.appointment
+                                                          .patientSex ??
+                                                      'N/B',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w400,
@@ -639,7 +641,8 @@ class _RescheduleState extends State<Reschedule> {
                                   ],
                                 ),
                               ),
-                              if (widget.isSchedule &&  widget.appointment.images!.isNotEmpty)
+                              if (widget.isSchedule &&
+                                  widget.appointment.images!.isNotEmpty)
                                 GestureDetector(
                                   onTap: () {
                                     AppNavigator.pushAndStackPage(context,
@@ -779,8 +782,13 @@ class _RescheduleState extends State<Reschedule> {
                                           ),
                                         ),
                                       ),
-                                   (appointmentDetails?.healthConditions == null || appointmentDetails?.healthConditions == '' ) ? Text(
-                                               'None',
+                                      (widget.appointment.healthConditions ==
+                                                  null ||
+                                              widget.appointment
+                                                      .healthConditions ==
+                                                  '')
+                                          ? Text(
+                                              'None',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w400,
@@ -788,46 +796,52 @@ class _RescheduleState extends State<Reschedule> {
                                                 height: 1.5,
                                                 color: const Color(0xFF131316),
                                               ),
-                                            ): Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 23,
-                                              height: 23,
-                                                margin: const EdgeInsets.fromLTRB(
-                                              0, 1, 8, 1),
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xFFFFFFFF),
-                                            ),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      1.5, 1.5, 1.5, 1.5),
-                                              child: const SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child: ImageView.svg(
-                                                  AppImages.tick,
-                                                ),
+                                            )
+                                          : Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: 23,
+                                                    height: 23,
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 1, 8, 1),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color(0xFFFFFFFF),
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(
+                                                        1.5, 1.5, 1.5, 1.5),
+                                                    child: const SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: ImageView.svg(
+                                                        AppImages.tick,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    widget.appointment
+                                                            .healthConditions ??
+                                                        '',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 13,
+                                                      height: 1.5,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Text(
-                                              appointmentDetails?.healthConditions ?? '',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 13,
-                                                height: 1.5,
-                                                color: const Color(0xFF131316),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -1141,7 +1155,7 @@ class _RescheduleState extends State<Reschedule> {
                               //                         ),
                               //                       ),
                               //                     ),
-                                                 
+
                               //                   ],
                               //                 ),
                               //               ),
@@ -1197,17 +1211,21 @@ class _RescheduleState extends State<Reschedule> {
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 13,
                                                 height: 1.5,
-                                                color:
-                                                    const Color(0xFF131316),
+                                                color: const Color(0xFF131316),
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text:
-                                                      ' N/A',
+                                                  text: (widget.appointment
+                                                              .nextAppointmentDate ==
+                                                          null)
+                                                      ? ' N/A'
+                                                      : formatDateTime(widget
+                                                          .appointment
+                                                          .nextAppointmentDate
+                                                          .toString()),
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
-                                                    fontWeight:
-                                                        FontWeight.w500,
+                                                    fontWeight: FontWeight.w500,
                                                     fontSize: 13,
                                                     height: 1.3,
                                                   ),
@@ -1234,8 +1252,14 @@ class _RescheduleState extends State<Reschedule> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text:
-                                                      ' N/A',
+                                                  text: (widget.appointment
+                                                              .lastAppointmentDate ==
+                                                          null)
+                                                      ? ' N/A'
+                                                      : formatDateTime(widget
+                                                          .appointment
+                                                          .lastAppointmentDate
+                                                          .toString()),
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w500,
@@ -1265,7 +1289,13 @@ class _RescheduleState extends State<Reschedule> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: ' N/A',
+                                                  text: (widget.appointment
+                                                              .upcomingAppointmentsCount ==
+                                                          null)
+                                                      ? 'N/A'
+                                                      : widget.appointment
+                                                          .upcomingAppointmentsCount
+                                                          .toString(),
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w600,
@@ -1292,7 +1322,13 @@ class _RescheduleState extends State<Reschedule> {
                                             ),
                                             children: [
                                               TextSpan(
-                                                text: ' N/A',
+                                                text: (widget.appointment
+                                                            .consultationsCount ==
+                                                        null)
+                                                    ? 'N/A'
+                                                    : widget.appointment
+                                                        .consultationsCount
+                                                        .toString(),
                                                 style: GoogleFonts.getFont(
                                                   'Inter',
                                                   fontWeight: FontWeight.w500,
@@ -1440,5 +1476,12 @@ class _RescheduleState extends State<Reschedule> {
     } catch (e) {
       return 'N/B';
     }
+  }
+
+  String formatDateTime(String dateTimeString) {
+    final DateTime dateTime = DateTime.parse(dateTimeString);
+    final DateFormat formatter = DateFormat('MMMM d, yyyy, h:mm a');
+
+    return formatter.format(dateTime.toLocal());
   }
 }

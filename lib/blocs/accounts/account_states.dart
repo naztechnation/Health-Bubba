@@ -368,6 +368,18 @@ class AppleLoginLoaded extends AccountStates {
   List<Object> get props => [google];
 }
 
+class ResendOtpLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class ResendOtpLoaded extends AccountStates {
+  final VerifyOtp otp;
+  const ResendOtpLoaded(this.otp);
+  @override
+  List<Object> get props => [otp];
+}
+
 class AccountNetworkErr extends AccountStates {
   final String? message;
   const AccountNetworkErr(this.message);

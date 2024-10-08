@@ -61,6 +61,7 @@ class _HomeState extends State<Home> {
   String lastName = "";
   String userId = "";
   String title = "";
+  String doctorState = "1";
 
   String totalConsultation = '0';
   String totalPrescription = '0';
@@ -79,12 +80,14 @@ class _HomeState extends State<Home> {
 
     title = await StorageHandler.getUserTitle();
     userId = await StorageHandler.getUserId();
-    doctorsId = int.parse(userId ?? '0');
+    userId = await StorageHandler.getUserId();
+    doctorState = await StorageHandler.getDoctorState() ?? '1';
     await _userCubit.getProfileStatus();
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
     await _userCubit.userData();
     await _userCubit.getAppointmentList();
+
   }
 
   @override
@@ -127,6 +130,7 @@ class _HomeState extends State<Home> {
           title = state.userData.data?.first.title ?? '';
 
           StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
+          StorageHandler.saveDoctorState(state.userData.data?.first.isDoctorVerified.toString() ?? '0');
           StorageHandler.saveUserFirstName(
               state.userData.data?.first.firstName ?? '');
           StorageHandler.saveUserPicture(
@@ -283,7 +287,7 @@ class _HomeState extends State<Home> {
                                                 0.5,
                                             child: Text(
                                               (name != null && name.isNotEmpty)
-                                                  ? 'Hi, $title $name$title $name'
+                                                  ? 'Hi, $title $name'
                                                   : 'Hi',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
@@ -298,7 +302,23 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                       ),
-                                      if (_completedCount() == 5) ...[
+                                        if(doctorState == '0')...[
+                                        Container(height: 22,
+                                         decoration: BoxDecoration(
+                                          color: const Color(0xFFFDCFB6),
+                                          borderRadius: 
+                                         BorderRadius.circular(20)),
+                                         child: Text('Pending Verification',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFFE86620),
+                                            )),
+                                         )
+                                      ]else...[
+                                        if (_completedCount() == 5) ...[
                                         Text('What do you want to do today?',
                                             style: GoogleFonts.getFont(
                                               'Inter',
@@ -325,6 +345,8 @@ class _HomeState extends State<Home> {
                                           height: 8,
                                         )
                                       ]
+                                      ],
+                                      
                                     ],
                                   ),
                                   Container(

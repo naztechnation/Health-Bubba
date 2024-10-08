@@ -596,18 +596,18 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-   Future<void> regWithGoogle(
-    {required String dob, 
-  required String sex, required String firstname,
-   required String email, required String fcm}
-     ) async {
+  Future<void> regWithGoogle(
+      {required String dob,
+      required String sex,
+      required String firstname,
+      required String email,
+      required String fcm}) async {
     try {
       emit(GoogleRegLoading());
 
-      final google = await accountRepository.regWithGoogleA(dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm 
-           );
+      final google = await accountRepository.regWithGoogleA(
+          dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm);
 
-            
       emit(GoogleRegLoaded(google));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
@@ -624,17 +624,14 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-     Future<void> loginWithGoogle(
-    { 
-   required String email}
-     ) async {
+  Future<void> loginWithGoogle({required String email}) async {
     try {
       emit(GoogleLoginLoading());
 
-      final google = await accountRepository.loginWithGoogleA(email: email,   
-           );
+      final google = await accountRepository.loginWithGoogleA(
+        email: email,
+      );
 
-            
       emit(GoogleLoginLoaded(google));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
@@ -651,22 +648,25 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> regWithApple(
-    {required String dob, 
-  required String sex,
-   required String firstname,
-   required String email,
+  Future<void> regWithApple({
+    required String dob,
+    required String sex,
+    required String firstname,
+    required String email,
     required String fcm,
     required String appleId,
-    }
-     ) async {
+  }) async {
     try {
       emit(AppleRegLoading());
 
-      final apple = await accountRepository.regWithAppleA(dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm, appleId: appleId 
-  );
+      final apple = await accountRepository.regWithAppleA(
+          dob: dob,
+          sex: sex,
+          firstname: firstname,
+          email: email,
+          fcm: fcm,
+          appleId: appleId);
 
-            
       emit(AppleRegLoaded(apple));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
@@ -683,19 +683,44 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-     Future<void> loginWithApple(
-    { 
-   required String email,
-   required String appleId,
-   }
-     ) async {
+  Future<void> resendOtp({
+    required String email,
+  }) async {
+    try {
+      emit(ResendOtpLoading());
+
+      final apple = await accountRepository.resendOtp(
+        email: email,
+      );
+
+      emit(ResendOtpLoaded(apple));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> loginWithApple({
+    required String email,
+    required String appleId,
+  }) async {
     try {
       emit(AppleLoginLoading());
 
-      final google = await accountRepository.loginWithAppleA(email: email, appleId: appleId,   
-           );
+      final google = await accountRepository.loginWithAppleA(
+        email: email,
+        appleId: appleId,
+      );
 
-            
       emit(AppleLoginLoaded(google));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));

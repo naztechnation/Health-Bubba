@@ -70,6 +70,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
   Map<String, List<Map<String, String>>> availabilities = {};
 
+  List<int> isAvailable = [];
+
   List<String> daysOfWeek = [
     'Monday',
     'Tuesday',
@@ -122,9 +124,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
       } else if (state is UpdateBioLoaded) {
         if (state.bio.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.success,
+                height: 25,
               ),
               title: 'Success!!!',
               subtitle: state.bio.message ?? '');
@@ -144,17 +146,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
           _accountCubit.userData();
 
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.success,
+                height: 25,
               ),
               title: 'Success!!!',
               subtitle: state.uploadImage.message ?? '');
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-              
-                                                        height: 25,
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.uploadImage.error ?? '');
@@ -169,12 +171,22 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             String startTime = entry.startTime ?? '';
             String endTime = entry.endTime ?? '';
 
+            isAvailable.add(entry.availabilty ?? 0);
+
             if (!availabilities.containsKey(day)) {
               availabilities[day] = [];
             }
             availabilities[day]!
                 .add({'start_time': startTime, 'end_time': endTime});
+
+               
           }
+
+//           for (int i = 0; i < isAvailable.length; i++) {
+//   Modals.showToast('isAvailable[$i]: ${isAvailable[i]}', context);
+// }
+
+          
         } else {}
       } else if (state is AccountApiErr) {
       } else if (state is AccountNetworkErr) {}
@@ -700,10 +712,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                         );
                                                                       }).toList(),
                                                                     )
-                                                                  : const Text(
-                                                                      'Closed',
+                                                                  :   Text(
+                                                                   //  (isAvailable[1] == 1) ? 'Opened':
+                                                                     'Closed',
                                                                       style:
-                                                                          TextStyle(
+                                                                        const  TextStyle(
                                                                         fontSize:
                                                                             14,
                                                                         color: Color(
@@ -1037,7 +1050,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               'Are you sure you want to continue with this action?',
                                           primaryText: 'Continue',
                                           secondaryText: 'Cancel',
-                                          primaryAction: () { 
+                                          primaryAction: () {
                                             if (widget.isEdit) {
                                               AppNavigator.pushAndStackPage(
                                                   context,
@@ -1048,7 +1061,6 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                   page:
                                                       const CompleteSetUpScreen());
                                             }
-                                           
                                           },
                                           primaryBgColor:
                                               const Color(0xFF093126),

@@ -56,6 +56,7 @@ class MyData {
   String? relationship;
   String? type;
   int? isAdmin;
+  int? isDoctorVerified;
   List<CurrentMedications>? currentMedications;
   List<HealthConditions>? healthConditions;
   String? lastAppointmentDate;
@@ -75,6 +76,7 @@ class MyData {
       this.lastName,
       this.fcmToken,
       this.phone,
+      this.isDoctorVerified,
       this.dob,
       this.sex,
       this.address,
@@ -108,6 +110,7 @@ class MyData {
     firstName = json['first_name'];
     lastName = json['last_name'];
     fcmToken = json['fcm_token'];
+    isDoctorVerified = json['is_doctor_verified'];
     phone = json['phone'];
     dob = json['dob'];
     sex = json['sex'];

@@ -160,6 +160,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
         availabilityList.add({
           "day_of_week": scheduleData.day,
+          "is_available": (scheduleData.isOpen) ? 1: 0,
           "start_time": start.format(context),
           "end_time": end.format(context),
         });
@@ -394,5 +395,17 @@ class AccountRepositoryImpl implements AccountRepository {
     
     );
     return RegWithGoogle.fromJson(map);
+  }
+  
+  @override
+  Future<VerifyOtp> resendOtp({required String email}) async {
+    final map = await Requests().post(
+      AppStrings.resendOtpUrl,
+      body: {
+        "email": email,
+        
+      },
+    );
+    return VerifyOtp.fromJson(map);
   }
 }

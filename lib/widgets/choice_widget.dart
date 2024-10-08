@@ -27,14 +27,23 @@ class _ChoiceSelectorState extends State<ChoiceSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8.0,  
-      runSpacing: 8.0,  
-      children: List<Widget>.generate(widget.items.length, (index) {
-        bool isSelected = _selectedIndex == index;
-        return GestureDetector(
-          onTap: () => _onDaySelected(index),
-          child: FittedBox(
+    return 
+    
+    GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 3,
+                    ),
+                    itemCount: widget.items.length,
+                    itemBuilder: (context, index) {
+                      final time = widget.items[index];
+                       bool isSelected = _selectedIndex == index;
+                      return GestureDetector(
+                        onTap: () => _onDaySelected(index),
+                        child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 9.0),  
@@ -70,8 +79,16 @@ class _ChoiceSelectorState extends State<ChoiceSelector> {
               ),
             ),
           ),
-        );
-      }),
-    );
+                      );
+                    },
+                  );
+    
+    
+    
+    
+    
+    
+    
+   
   }
 }

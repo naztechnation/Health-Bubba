@@ -55,8 +55,6 @@ class _SignInScreenState extends State<SignInScreen> {
           listener: (context, state) {
             if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
-                 
-
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -81,9 +79,9 @@ class _SignInScreenState extends State<SignInScreen> {
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-                  
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
                   ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
@@ -91,7 +89,6 @@ class _SignInScreenState extends State<SignInScreen> {
               }
             } else if (state is AppleLoginLoaded) {
               if (state.google.ok ?? false) {
-                
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -116,9 +113,9 @@ class _SignInScreenState extends State<SignInScreen> {
               } else {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-                  
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
                   ),
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
@@ -127,9 +124,9 @@ class _SignInScreenState extends State<SignInScreen> {
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
-                leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-                
+                leadingIcon: const ImageView.svg(
+                  AppImages.error,
+                  height: 25,
                 ),
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
@@ -138,9 +135,9 @@ class _SignInScreenState extends State<SignInScreen> {
               if (state.message != null) {
                 ToastService().showToast(
                   context,
-                  leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-                  
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
                   ),
                   title: AppStrings.errorTitle,
                   subtitle: state.message ?? '',
@@ -293,8 +290,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           ),
                                           ButtonView(
                                               onPressed: () {
-                                                
-                                                 _loginUser(context);
+                                                _loginUser(context);
                                               },
                                               borderRadius: 100,
                                               color: AppColors.lightSecondary,

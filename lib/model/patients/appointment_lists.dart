@@ -55,16 +55,24 @@ class AppointmentListsData {
   String? complain;
   int? status;
   String? patientFirstName;
-  String? patientName;
-  String? doctorName;
-  String? doctorPicture;
   String? patientLastName;
   String? patientEmail;
+  String? patientDob;
+  String? patientWeight;
+  String? patientHeight;
+  String? patientsPhone;
+  String? patientSex;
+  String? healthConditions;
   String? patientPicture;
   List<String>? images;
+  String? lastAppointmentDate;
+  String? nextAppointmentDate;
+  int? consultationsCount;
+  int? upcomingAppointmentsCount;
 
   AppointmentListsData(
-      {this.appointmentId,
+      {
+      this.appointmentId,
       this.patientId,
       this.doctorId,
       this.date,
@@ -72,16 +80,23 @@ class AppointmentListsData {
       this.complain,
       this.status,
       this.patientFirstName,
-      this.patientName,
-      this.doctorName,
-      this.doctorPicture,
       this.patientLastName,
       this.patientEmail,
+      this.patientDob,
+      this.patientWeight,
+      this.patientHeight,
+      this.patientsPhone,
+      this.patientSex,
+      this.healthConditions,
       this.patientPicture,
-      this.images});
+      this.images,
+      this.lastAppointmentDate,
+      this.nextAppointmentDate,
+      this.consultationsCount,
+      this.upcomingAppointmentsCount});
 
   AppointmentListsData.fromJson(Map<String, dynamic> json) {
-    appointmentId = json['appointment_id'];
+   appointmentId = json['appointment_id'];
     patientId = json['patient_id'];
     doctorId = json['doctor_id'];
     date = json['date'];
@@ -89,16 +104,20 @@ class AppointmentListsData {
     complain = json['complain'];
     status = json['status'];
     patientFirstName = json['patient_first_name'];
-    doctorName = json['doctor_name'];
-    patientName = json['patient_name'];
-    doctorPicture = json['doctor_picture'];
     patientLastName = json['patient_last_name'];
     patientEmail = json['patient_email'];
+    patientDob = json['patient_dob'];
+    patientWeight = json['patient_weight'];
+    patientHeight = json['patient_height'];
+    patientsPhone = json['patients_phone'];
+    patientSex = json['patient_sex'];
+    healthConditions = json['health_conditions'];
     patientPicture = json['patient_picture'];
-    if (json['images'] != null) {
     images = json['images'].cast<String>();
-      
-    }
+    lastAppointmentDate = json['last_appointment_date'];
+    nextAppointmentDate = json['next_appointment_date'];
+    consultationsCount = json['consultations_count'];
+    upcomingAppointmentsCount = json['upcoming_appointments_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -113,8 +132,18 @@ class AppointmentListsData {
     data['patient_first_name'] = patientFirstName;
     data['patient_last_name'] = patientLastName;
     data['patient_email'] = patientEmail;
+    data['patient_dob'] = patientDob;
+    data['patient_weight'] = patientWeight;
+    data['patient_height'] = patientHeight;
+    data['patients_phone'] = patientsPhone;
+    data['patient_sex'] = patientSex;
+    data['health_conditions'] = healthConditions;
     data['patient_picture'] = patientPicture;
     data['images'] = images;
+    data['last_appointment_date'] = lastAppointmentDate;
+    data['next_appointment_date'] = nextAppointmentDate;
+    data['consultations_count'] = consultationsCount;
+    data['upcoming_appointments_count'] = upcomingAppointmentsCount;
     return data;
   }
 }

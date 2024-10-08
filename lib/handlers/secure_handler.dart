@@ -17,6 +17,10 @@ class StorageHandler {
     if (title != null) await storage.write(key: 'TITLE', value: title);
   }
 
+  static Future<void> saveDoctorState([String? state]) async {
+    if (state != null) await storage.write(key: 'DSTATE', value: state);
+  }
+
   static Future<void> saveEmail([String? username]) async {
     if (username != null) await storage.write(key: 'EMAIL', value: username);
   }
@@ -79,6 +83,17 @@ static Future<void> saveLastName([String? token]) async {
       username = '';
     }
     return username;
+  }
+  static Future<String> getDoctorState() async {
+    String? value = await storage.read(key: 'DSTATE');
+    String? state;
+    String? data = value;
+    if (data != null) {
+      state = data;
+    } else {
+      state = '';
+    }
+    return state;
   }
 
   static Future<String> getUserTitle() async {

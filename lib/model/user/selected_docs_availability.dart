@@ -30,16 +30,18 @@ class GetSelectedAvailability {
 class GetSelectedAvailabilityData {
   int? id;
   int? doctorId;
+  int? availabilty;
   String? dayOfWeek;
   String? startTime;
   String? endTime;
 
-  GetSelectedAvailabilityData({this.id, this.doctorId, this.dayOfWeek, this.startTime, this.endTime});
+  GetSelectedAvailabilityData({this.id, this.doctorId,this.availabilty, this.dayOfWeek, this.startTime, this.endTime});
 
   GetSelectedAvailabilityData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     doctorId = json['doctor_id'];
     dayOfWeek = json['day_of_week'];
+    availabilty = json['is_available'];
     startTime = json['start_time'];
     endTime = json['end_time'];
   }
@@ -50,6 +52,7 @@ class GetSelectedAvailabilityData {
     data['doctor_id'] = doctorId;
     data['day_of_week'] = dayOfWeek;
     data['start_time'] = startTime;
+    data['is_available'] = availabilty;
     data['end_time'] = endTime;
     return data;
   }

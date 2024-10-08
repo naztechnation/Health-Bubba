@@ -68,6 +68,7 @@ class Patients {
   String? phone;
   String? dob;
   String? sex;
+  dynamic weight;
   String? address;
   dynamic latitude;
   dynamic longitude;
@@ -102,6 +103,7 @@ class Patients {
       this.phone,
       this.dob,
       this.sex,
+      this.weight,
       this.address,
       this.latitude,
       this.longitude,
@@ -136,6 +138,7 @@ class Patients {
     phone = json['phone'];
     dob = json['dob'];
     sex = json['sex'];
+    weight = json['weight'];
     address = json['address'];
     latitude = json['latitude'];
     longitude = json['longitude'];
@@ -303,10 +306,10 @@ class UpcomingAppointments {
 }
 
 class Pagination {
-  int? total;
-  int? pages;
-  int? currentPage;
-  int? perPage;
+  dynamic total;
+  dynamic pages;
+  dynamic currentPage;
+  dynamic perPage;
 
   Pagination({this.total, this.pages, this.currentPage, this.perPage});
 

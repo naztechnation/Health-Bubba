@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +20,7 @@ import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/decision_widgets.dart';
 import '../../../../widgets/error_page.dart';
-import '../../../../widgets/image_view.dart'; 
+import '../../../../widgets/image_view.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../widgets/calender_widget.dart';
 
@@ -59,7 +59,7 @@ class BookAppointent extends StatefulWidget {
 }
 
 class _BookAppointentState extends State<BookAppointent> {
-  String _selectedDay = "";
+  String _selectedDay = "0.00";
 
   void _handleDaySelected(String selectedDay) {
     setState(() {
@@ -77,7 +77,7 @@ class _BookAppointentState extends State<BookAppointent> {
   void initState() {
     _userCubit = context.read<UserCubit>();
 
-    _handleDaySelected('9:00 AM');
+    _handleDaySelected('0:00 AM');
     super.initState();
   }
 
@@ -106,21 +106,21 @@ class _BookAppointentState extends State<BookAppointent> {
           AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: AppStrings.errorTitle,
               subtitle: state.createAppointment.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-            
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
             ),
-             title: AppStrings.errorTitle,
-            subtitle:   'Network Error');
+            title: AppStrings.errorTitle,
+            subtitle: 'Network Error');
       }
     }, builder: (context, state) {
       if (state is UserApiErr) {
@@ -229,7 +229,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                       vertical: 10, horizontal: 15),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -250,88 +251,92 @@ class _BookAppointentState extends State<BookAppointent> {
                                                 color: const Color(0xFF0A0D14),
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                final DateTime? picked =
-                                                    await showMonthYearPickerDialog(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                );
-                                                if (picked != null) {
-                                                  Provider.of<BookAppointmentViewModel>(
-                                                          context,
-                                                          listen: false)
-                                                      .setSelectedDate(picked);
-                                                }
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: const Color(
-                                                          0xFFE8E8E8)),
-                                                  borderRadius:
-                                                      BorderRadius.circular(100),
-                                                  color: const Color(0xFFFFFFFF),
-                                                  boxShadow: const [
-                                                    BoxShadow(
-                                                      color: Color(0xFFF2F2F2),
-                                                      offset: Offset(0, 1),
-                                                      blurRadius: 1,
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          5, 3, 13.2, 3),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .fromLTRB(
-                                                            0, 0, 8.7, 0),
-                                                        child: Consumer<
-                                                                BookAppointmentViewModel>(
-                                                            builder: (context,
-                                                                calendarProvider,
-                                                                child) {
-                                                          return Text(
-                                                            '${calendarProvider.formattedMonth}, ${calendarProvider.formattedYear}',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w400,
-                                                              fontSize: 14,
-                                                              color: const Color(
-                                                                  0xFF111827),
-                                                            ),
-                                                          );
-                                                        }),
-                                                      ),
-                                                      const Padding(
-                                                        padding: EdgeInsets.only(
-                                                            top: 5.0),
-                                                        child: Icon(
-                                                          Icons.arrow_forward_ios,
-                                                          size: 13,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            // GestureDetector(
+                                            //   onTap: () async {
+                                            //     final DateTime? picked =
+                                            //         await showMonthYearPickerDialog(
+                                            //       context: context,
+                                            //       initialDate: DateTime.now(),
+                                            //     );
+                                            //     if (picked != null) {
+                                            //       Provider.of<BookAppointmentViewModel>(
+                                            //               context,
+                                            //               listen: false)
+                                            //           .setSelectedDate(picked);
+                                            //     }
+                                            //   },
+                                            //   child: Container(
+                                            //     decoration: BoxDecoration(
+                                            //       border: Border.all(
+                                            //           color: const Color(
+                                            //               0xFFE8E8E8)),
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //               100),
+                                            //       color:
+                                            //           const Color(0xFFFFFFFF),
+                                            //       boxShadow: const [
+                                            //         BoxShadow(
+                                            //           color: Color(0xFFF2F2F2),
+                                            //           offset: Offset(0, 1),
+                                            //           blurRadius: 1,
+                                            //         ),
+                                            //       ],
+                                            //     ),
+                                            //     child: Container(
+                                            //       padding:
+                                            //           const EdgeInsets.fromLTRB(
+                                            //               5, 3, 13.2, 3),
+                                            //       child: Row(
+                                            //         mainAxisAlignment:
+                                            //             MainAxisAlignment.start,
+                                            //         crossAxisAlignment:
+                                            //             CrossAxisAlignment
+                                            //                 .start,
+                                            //         children: [
+                                            //           Container(
+                                            //             margin: const EdgeInsets
+                                            //                 .fromLTRB(
+                                            //                 0, 0, 8.7, 0),
+                                            //             child: Consumer<
+                                            //                     BookAppointmentViewModel>(
+                                            //                 builder: (context,
+                                            //                     calendarProvider,
+                                            //                     child) {
+                                            //               return Text(
+                                            //                 '${calendarProvider.formattedMonth}, ${calendarProvider.formattedYear}',
+                                            //                 style: GoogleFonts
+                                            //                     .getFont(
+                                            //                   'Inter',
+                                            //                   fontWeight:
+                                            //                       FontWeight
+                                            //                           .w400,
+                                            //                   fontSize: 14,
+                                            //                   color: const Color(
+                                            //                       0xFF111827),
+                                            //                 ),
+                                            //               );
+                                            //             }),
+                                            //           ),
+                                            //           const Padding(
+                                            //             padding:
+                                            //                 EdgeInsets.only(
+                                            //                     top: 5.0),
+                                            //             child: Icon(
+                                            //               Icons
+                                            //                   .arrow_forward_ios,
+                                            //               size: 13,
+                                            //             ),
+                                            //           ),
+                                            //         ],
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
+                                       
                                       CalendarScreen(),
                                       const SizedBox(
                                         height: 10,
@@ -351,11 +356,12 @@ class _BookAppointentState extends State<BookAppointent> {
                                   ),
                                 ),
                                 child: Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 16, 25.8, 15),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      16, 16, 25.8, 15),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.fromLTRB(
@@ -485,6 +491,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                   secondaryText: 'No, go back',
                                   primaryAction: () async {
                                     Navigator.pop(context);
+                                   
                                     _userCubit.createAppointment(
                                       patientsId: widget.patientsId,
                                       date: getFormattedDate(
@@ -494,7 +501,10 @@ class _BookAppointentState extends State<BookAppointent> {
                                                   .selectedDate ??
                                               DateTime.now()),
                                       time: _selectedDay,
-                                      complaint: (_complaintController.text.isNotEmpty) ? _complaintController.text.trim() : 'none',
+                                      complaint:
+                                          (_complaintController.text.isNotEmpty)
+                                              ? _complaintController.text.trim()
+                                              : 'none',
                                       images:
                                           Provider.of<BookAppointmentViewModel>(
                                                   context,
@@ -503,7 +513,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                     );
                                   },
                                   primaryBgColor: const Color(0xFF093126),
-              secondaryBgColor: AppColors.lightPrimary,
+                                  secondaryBgColor: AppColors.lightPrimary,
                                   secondaryAction: () {
                                     Navigator.pop(context);
                                   }),

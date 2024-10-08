@@ -12,8 +12,8 @@ import '../../../../widgets/button_view.dart';
  
 
 class PatientDetails extends StatefulWidget {
-  final Patients patientsId;
-  const PatientDetails({Key? key, required this.patientsId})
+  final Patients patientsData;
+  const PatientDetails({Key? key, required this.patientsData})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class _PatientDetailsState extends State<PatientDetails> {
   void initState() {
     super.initState();
     
-  patientDetails = widget.patientsId;
+  patientDetails = widget.patientsData;
      
   }
 
@@ -281,7 +281,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'N/B',
+                                                 (patientDetails.weight == null) ? 'N/B':  patientDetails.weight.toString(),  
+                                                        
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
@@ -658,7 +659,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                                   .nextAppointmentDate
                                                                   .toString()
                                                                   .isEmpty)
-                                                          ? 'none'
+                                                          ? 'N/A'
                                                           : formatDateTime(
                                                               patientDetails.nextAppointmentDate
                                                                   .toString()),
@@ -856,11 +857,11 @@ class _PatientDetailsState extends State<PatientDetails> {
                             borderRadius: 100,
                             color: AppColors.lightSecondary,
                             child: const Text(
-                              'Schedule an Appointment',
+                              'Reschedule an Appointment',
                               style: TextStyle(
                                   color: AppColors.lightPrimary,
                                   fontSize: 14,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500,),
                             )),
                       ),
                     ),

@@ -39,6 +39,11 @@ abstract class AccountRepository {
     required String url,
   });
 
+  Future<VerifyOtp> resendOtp({
+    required String email,
+     
+  });
+
   Future<LoginData> loginUser({
     required String email,
     required String password,

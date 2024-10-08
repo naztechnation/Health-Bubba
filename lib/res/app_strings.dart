@@ -37,6 +37,7 @@ class AppStrings {
 
   static const String resetPasswordUrl = "${_baseUrl}reset-password";
   static const String languagesUrl = "${_baseUrl}languages";
+  static const String resendOtpUrl = "${_baseUrl}resent-otp";
   static const String initiatePasswordResetUrl =
       "${_baseUrl}initiate-password-reset";
   static const String qualificationsUrl = "${_baseUrl}qualifications";

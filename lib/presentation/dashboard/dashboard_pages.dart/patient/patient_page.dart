@@ -305,7 +305,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                                         .pushAndStackPage(
                                                       context,
                                                       page: PatientDetails(
-                                                        patientsId: _userCubit
+                                                        patientsData: _userCubit
                                                                 .viewModel
                                                                 .filteredPatientsLists[
                                                             index],
