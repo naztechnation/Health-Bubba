@@ -83,10 +83,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             email: widget.email, otp: _pinController.text));
                   });
                 } else {
-                  Future.delayed(const Duration(seconds: 2), () {
-                    AppNavigator.pushAndReplacePage(context,
+                   AppNavigator.pushAndReplacePage(context,
                         page: const VerificationSuccessScreen());
-                  });
                 }
               } else {
                 if (state.verifyOtp.message!.trim() ==

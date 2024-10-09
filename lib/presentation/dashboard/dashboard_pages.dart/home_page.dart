@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
   String lastName = "";
   String userId = "";
   String title = "";
-  String doctorState = "1";
+  String doctorState = "0";
 
   String totalConsultation = '0';
   String totalPrescription = '0';
@@ -82,13 +82,12 @@ class _HomeState extends State<Home> {
     title = await StorageHandler.getUserTitle();
     userId = await StorageHandler.getUserId();
     userId = await StorageHandler.getUserId();
-    doctorState = await StorageHandler.getDoctorState() ?? '1';
+    doctorState = await StorageHandler.getDoctorState() ?? '0';
     await _userCubit.getProfileStatus();
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
     await _userCubit.userData();
     await _userCubit.getAppointmentList();
-
   }
 
   @override
@@ -130,8 +129,11 @@ class _HomeState extends State<Home> {
           name = state.userData.data?.first.firstName ?? '';
           title = state.userData.data?.first.title ?? '';
 
+          doctorState = state.userData.data?.first.isDoctorVerified.toString() ?? '0';
+
           StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
-          StorageHandler.saveDoctorState(state.userData.data?.first.isDoctorVerified.toString() ?? '0');
+          StorageHandler.saveDoctorState(
+              state.userData.data?.first.isDoctorVerified.toString() ?? '0');
           StorageHandler.saveUserFirstName(
               state.userData.data?.first.firstName ?? '');
           StorageHandler.saveUserPicture(
@@ -303,58 +305,62 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                       ),
-                                        if(doctorState == '0')...[
+                                      if (doctorState == '0') ...[
                                         GestureDetector(
                                           onTap: () {
                                             // AppNavigator.pushAndReplacePage(context, page: const PendingVerification());
                                           },
-                                          child: Container(height: 30,
-                                          padding: const EdgeInsets.symmetric(horizontal:12, vertical: 4),
-                                           decoration: BoxDecoration(
-                                            color: const Color(0xFFFDCFB6),
-                                            borderRadius: 
-                                           BorderRadius.circular(20)),
-                                           child: Text('Pending Verification',
+                                          child: Container(
+                                            height: 30,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12, vertical: 4),
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFFDCFB6),
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Text('Pending Verification',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFFE86620),
+                                                )),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                      ] else ...[
+                                        if (_completedCount() == 5) ...[
+                                          Text('What do you want to do today?',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 14,
                                                 height: 1.4,
-                                                color: const Color(0xFFE86620),
+                                                color: const Color(0xFF6B7280),
                                               )),
-                                           ),
-                                        ),
-                                         const SizedBox(height: 10,),
-                                      ]else...[
-                                        if (_completedCount() == 5) ...[
-                                        Text('What do you want to do today?',
+                                          const SizedBox(
+                                            height: 8,
+                                          )
+                                        ] else ...[
+                                          Text(
+                                            'Finish setting up your account',
                                             style: GoogleFonts.getFont(
                                               'Inter',
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                               height: 1.4,
                                               color: const Color(0xFF6B7280),
-                                            )),
-                                        const SizedBox(
-                                          height: 8,
-                                        )
-                                      ] else ...[
-                                        Text(
-                                          'Finish setting up your account',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF6B7280),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        )
-                                      ]
+                                          const SizedBox(
+                                            height: 8,
+                                          )
+                                        ]
                                       ],
-                                      
                                     ],
                                   ),
                                   Container(
@@ -1469,21 +1475,18 @@ class _HomeState extends State<Home> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-  
-                                              if(doctorState == '0'){
-                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const PendingVerification(
-                                                    
-                                                  ));
-                                              }else{
-                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: AppointmentTabView(
-                                                    isDashboard: false,
-                                                  ));
+                                              if (doctorState == '0') {
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page:
+                                                        const PendingVerification());
+                                              } else {
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page: AppointmentTabView(
+                                                      isDashboard: false,
+                                                    ));
                                               }
-                                             
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
@@ -1616,19 +1619,17 @@ class _HomeState extends State<Home> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              if(doctorState == '0'){
-                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const PendingVerification(
-                                                    
-                                                  ));
-                                              }else{
+                                              if (doctorState == '0') {
                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const MedicationPage(
-                                                      false));
+                                                    context,
+                                                    page:
+                                                        const PendingVerification());
+                                              } else {
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page: const MedicationPage(
+                                                        false));
                                               }
-                                              
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
@@ -1778,21 +1779,18 @@ class _HomeState extends State<Home> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-
-                                               if(doctorState == '0'){
-                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const PendingVerification(
-                                                    
-                                                  ));
-                                              }else{
+                                              if (doctorState == '0') {
                                                 AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const PatientPage(
-                                                    isDashboard: false,
-                                                  ));
+                                                    context,
+                                                    page:
+                                                        const PendingVerification());
+                                              } else {
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page: const PatientPage(
+                                                      isDashboard: false,
+                                                    ));
                                               }
-                                              
                                             },
                                             child: Container(
                                               decoration: const BoxDecoration(
