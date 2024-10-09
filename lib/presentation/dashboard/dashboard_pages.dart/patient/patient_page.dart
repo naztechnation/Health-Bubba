@@ -5,6 +5,7 @@ import 'package:healthbubba/res/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../blocs/users/users.dart';
+import '../../../../handlers/secure_handler.dart';
 import '../../../../model/patients/patients_list.dart';
 import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
@@ -15,6 +16,7 @@ import '../../../../widgets/error_page.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../../dashboard.dart';
+import '../unverified_screen.dart';
 import '../widgets/patient_card.dart';
 import 'patient_details.dart';
 
@@ -56,6 +58,13 @@ class _PatientsScreenState extends State<PatientsScreen> {
   final ScrollController _scrollController = ScrollController();
   bool isLoading = false;
 
+  String doctorState = "1";
+
+getVerifiedKey()async{
+    doctorState = await StorageHandler.getDoctorState() ?? '1';
+
+}
+
   @override
   void dispose() {
     _scrollController.removeListener(_onScroll);
@@ -78,6 +87,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
     super.initState();
     _userCubit = context.read<UserCubit>();
     _scrollController.addListener(_onScroll);
+    getVerifiedKey();
     getPatientsLists();
   }
 
@@ -301,7 +311,17 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                               itemBuilder: (context, index) {
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    AppNavigator
+
+                                                    if (doctorState == '0') {
+                                                       AppNavigator
+                                                        .pushAndStackPage(
+                                                      context,
+                                                      page: const PendingVerification(
+                                                         
+                                                      ),
+                                                    );
+                                                    } else {
+                                                       AppNavigator
                                                         .pushAndStackPage(
                                                       context,
                                                       page: PatientDetails(
@@ -311,6 +331,8 @@ class _PatientsScreenState extends State<PatientsScreen> {
                                                             index],
                                                       ),
                                                     );
+                                                    }
+                                                   
                                                   },
                                                   child: patientCard(
                                                     context: context,

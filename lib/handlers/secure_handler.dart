@@ -1,4 +1,3 @@
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -25,9 +24,6 @@ class StorageHandler {
     if (username != null) await storage.write(key: 'EMAIL', value: username);
   }
 
-   
- 
-
   static Future<void> saveUserPicture([String? picture]) async {
     if (picture != null) await storage.write(key: 'DP', value: picture);
   }
@@ -39,8 +35,6 @@ class StorageHandler {
   static Future<void> saveUserId([String? userId]) async {
     if (userId != null) await storage.write(key: 'ID', value: userId);
   }
-
-   
 
   static Future<void> saveUserPassword([String? password]) async {
     if (password != null) await storage.write(key: 'PASSWORD', value: password);
@@ -56,18 +50,17 @@ class StorageHandler {
     }
   }
 
-   
-static Future<void> saveFcmToken([String? token]) async {
+  static Future<void> saveFcmToken([String? token]) async {
     if (token != null) {
       await storage.write(key: 'FCM', value: token);
     }
   }
-static Future<void> saveLastName([String? token]) async {
+
+  static Future<void> saveLastName([String? token]) async {
     if (token != null) {
       await storage.write(key: 'LASTNAME', value: token);
     }
   }
-
 
   static Future<void> saveUserToken([String? token]) async {
     if (token != null) await storage.write(key: 'TOKEN', value: token);
@@ -84,6 +77,7 @@ static Future<void> saveLastName([String? token]) async {
     }
     return username;
   }
+
   static Future<String> getDoctorState() async {
     String? value = await storage.read(key: 'DSTATE');
     String? state;
@@ -118,7 +112,7 @@ static Future<void> saveLastName([String? token]) async {
     return user;
   }
 
-   static Future<String> getUserToken() async {
+  static Future<String> getUserToken() async {
     String? value = await storage.read(key: 'TOKEN');
     String? token;
     String? data = value;
@@ -130,7 +124,7 @@ static Future<void> saveLastName([String? token]) async {
     return token;
   }
 
-   static Future<String> getFirstName() async {
+  static Future<String> getFirstName() async {
     String? value = await storage.read(key: 'FIRSTNAME');
     String? name;
     String? data = value;
@@ -154,7 +148,7 @@ static Future<void> saveLastName([String? token]) async {
     return name;
   }
 
-    static Future<String> getFirebaseToken() async {
+  static Future<String> getFirebaseToken() async {
     String? value = await storage.read(key: 'FIREBASETOKEN');
     String? token;
     String? data = value;
@@ -274,13 +268,10 @@ static Future<void> saveLastName([String? token]) async {
     return password;
   }
 
- 
-
   static Future<void> clearCache() async {
-     final GoogleSignIn googleSignIn =
-                                        GoogleSignIn();
-                                    await googleSignIn.signOut();
-    saveIsLoggedIn('');
-    await storage.delete(key:'LOGGEDIN');
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+
+    await storage.delete(key: 'LOGGEDIN');
   }
 }

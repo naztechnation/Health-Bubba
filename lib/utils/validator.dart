@@ -7,11 +7,11 @@ class Validator {
     }
   }
 
-  static String? validateEmail(String? value,  String name) {
+  static String? validateEmail(String value,  String name) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern as String);
-    if (value!.isEmpty) {
+    if (value.isEmpty) {
       return '$name Required.';
     }
     if (!regex.hasMatch(value)) {

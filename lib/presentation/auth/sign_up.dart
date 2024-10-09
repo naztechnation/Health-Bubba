@@ -26,6 +26,7 @@ import '../../widgets/button_view.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/password_checker.dart';
 import '../profile/profile_setup.dart';
+import 'otp_sent_screen.dart';
 import 'sign_in.dart';
 import 'verify_code.dart';
 
@@ -63,17 +64,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           listener: (context, state) {
             if (state is AccountLoaded) {
               if (state.userData.ok ?? false) {
-                ToastService().showToast(
-                  context,
-                  leadingIcon: const ImageView.svg(
-                    AppImages.tick,
-                    height: 25,
-                  ),
-                  title: AppStrings.successTitle,
-                  subtitle: state.userData.message ?? '',
-                );
+                 
                 AppNavigator.pushAndStackPage(context,
-                    page: VerifyCodeScreen(
+                    page: OTPSentScreen(
                       email: _emailController.text.trim(),
                       isForgetPassword: false,
                     ));
@@ -272,7 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderWidth: 0.5,
                                 validator: (value) {
                                   return Validator.validateEmail(
-                                      value, 'Email');
+                                      value ?? '', 'Email');
                                 },
                               ),
                               const SizedBox(
@@ -432,7 +425,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               ButtonView(
                                   onPressed: () {
-                                    registerUser(context: context);
+                                     registerUser(context: context);
+
+                               
                                   },
                                   borderRadius: 100,
                                   color: AppColors.lightSecondary,

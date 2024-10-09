@@ -6,7 +6,6 @@ import 'package:healthbubba/presentation/profile/work_information.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/help_support.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/notification_settings.dart';
 import 'package:healthbubba/presentation/settings/settings_pages/password_manager.dart';
-import 'package:healthbubba/presentation/settings/settings_pages/privacy_policy.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
@@ -17,6 +16,7 @@ import '../../handlers/secure_handler.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
+import '../dashboard/dashboard_pages.dart/unverified_screen.dart';
 import '../profile/profile_setup.dart';
 import 'settings_pages/delete_account.dart';
 import 'settings_pages/profile_details.dart';
@@ -32,6 +32,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final Uri _url = Uri.parse('https://healthbubba.com/privacy-policy');
+
+  String doctorState = "1";
+
+  getVerifiedKey() async {
+    doctorState = await StorageHandler.getDoctorState() ?? '1';
+  }
+
+  @override
+  void initState() {
+    getVerifiedKey();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,8 +214,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                         title: 'Payment Settings',
                                         icon: AppImages.paymentSettings,
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: PaymentDetails());
+                                          if (doctorState == '0') {
+                                            AppNavigator.pushAndStackPage(
+                                              context,
+                                              page: const PendingVerification(),
+                                            );
+                                          } else {
+                                            AppNavigator.pushAndStackPage(
+                                                context,
+                                                page: PaymentDetails());
+                                          }
                                         }),
                                   ],
                                 ),

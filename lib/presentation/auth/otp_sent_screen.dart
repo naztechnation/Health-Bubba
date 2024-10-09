@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/profile/profile_setup.dart';
 import 'package:provider/provider.dart';
 
 import '../../blocs/accounts/account.dart';
@@ -11,53 +12,33 @@ import '../../res/app_colors.dart';
 import '../../res/app_images.dart';
 import '../../res/app_strings.dart';
 import '../../utils/navigator/page_navigator.dart';
-import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
-import '../../widgets/pin_code_view.dart';
 import 'create_new_password.dart';
-import 'verification_successfull.dart';
+import 'verify_code.dart';
 
-class VerifyCodeScreen extends StatefulWidget {
+class OTPSentScreen extends StatefulWidget {
   final String email;
   final bool isForgetPassword;
 
-  const VerifyCodeScreen(
+  const OTPSentScreen(
       {super.key, required this.email, required this.isForgetPassword});
 
   @override
-  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+  State<OTPSentScreen> createState() => _OTPScreenState();
 }
 
-class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
+class _OTPScreenState extends State<OTPSentScreen> {
   final _pinController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
-  int countdown = 90;
-
-  bool isCountdownComplete = false;
 
   bool isVerificationFailed = false;
 
   @override
   void initState() {
-    startCountdown();
-
     super.initState();
-  }
-
-  Future<void> startCountdown() async {
-    for (int i = 60; i >= 0; i--) {
-      await Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        countdown = i;
-      });
-    }
-    setState(() {
-      isCountdownComplete = true;
-    });
   }
 
   @override
@@ -71,6 +52,15 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
           listener: (context, state) {
             if (state is VerifyOtpLoaded) {
               if (state.verifyOtp.ok!) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(
+                    AppImages.tick,
+                    height: 25,
+                  ),
+                  title: AppStrings.successTitle,
+                  subtitle: state.verifyOtp.message ?? '',
+                );
                 if (state.verifyOtp.data is String) {
                 } else {
                   StorageHandler.saveUserToken(
@@ -85,7 +75,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 } else {
                   Future.delayed(const Duration(seconds: 2), () {
                     AppNavigator.pushAndReplacePage(context,
-                        page: const VerificationSuccessScreen());
+                        page: const ProfileSetup(
+                          isEdit: false,
+                        ));
                   });
                 }
               } else {
@@ -117,9 +109,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 title: AppStrings.successTitle,
                 subtitle: state.otp.message ?? '',
               );
-
-              isCountdownComplete = false;
-              startCountdown();
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -174,7 +163,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 24),
+                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 2),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +181,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                             margin: const EdgeInsets.fromLTRB(
                                                 0, 0, 9, 8),
                                             child: Text(
-                                              'Enter Verification Code',
+                                              'OTP Sent!',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w600,
@@ -202,116 +191,77 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                               ),
                                             ),
                                           ),
-                                          RichText(
-                                            textAlign: TextAlign.center,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            text: TextSpan(
-                                              text: 'We’ve sent a code to ',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                height: 1.6,
-                                                color: const Color(0xFF6B7280),
-                                              ),
-                                              children: [
-                                                TextSpan(
-                                                  text:
-                                                      'your email and phone number',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 14,
-                                                    height: 1.6,
-                                                    color: AppColors
-                                                        .lightSecondary,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
                                           const SizedBox(
-                                            height: 40,
+                                            height: 30,
                                           ),
-                                          Form(
-                                            key: _formKey,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 20.0),
-                                              child: PinCodeView(
-                                                length: 4,
-                                                controller: _pinController,
-                                                activeState:
-                                                    isVerificationFailed,
-                                                onChanged: (_) {
-                                                  isVerificationFailed = false;
-
-                                                  setState(() {});
-                                                },
-                                                onCompleted: (_) {
-                                                  _formKey.currentState!
-                                                      .validate();
-                                                },
-                                                validator: (value) {
-                                                  return Validator.validate(
-                                                      value, 'Otp');
-                                                },
+                                          const ImageView.asset(
+                                              AppImages.bellAnim,
+                                              color: Color.fromARGB(255, 172, 212, 172),
                                               ),
-                                            ),
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                          if (!isCountdownComplete)
-                                            Text(
-                                              "Resend code in $countdown secs",
-                                            ),
                                         ],
                                       ),
                                     ),
-                                    ButtonView(
-                                        onPressed: () {
-                                          _verifyCode(context);
-                                        },
-                                        processin: state is ResendOtpLoading,
-                                        borderRadius: 100,
-                                        title: 'processing...',
-                                        color: AppColors.lightSecondary,
-                                        child: const Text(
-                                          'Continue',
-                                          style: TextStyle(
-                                              color: AppColors.lightPrimary,
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    RichText(
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      text: TextSpan(
+                                        text: 'We’ve sent a code to  ',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          height: 1.6,
+                                          color: const Color(0xFF6B7280),
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'your email and phone number',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w600,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w500),
-                                        )),
+                                              height: 1.6,
+                                              color: AppColors.lightSecondary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              if (isCountdownComplete)
-                                Opacity(
-                                  opacity: 0.8,
-                                  child: Text(
-                                    'Experiencing issues receiving the code?',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: const Color(0xFF6B7280),
-                                    ),
-                                  ),
-                                ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              if (!isCountdownComplete ||
-                                  state is ResendOtpLoading)
-                                ...[]
-                              else ...[
+                              Opacity(
+                                opacity: 0.8,
+                                child: Text(
+                                  'Experiencing issues receiving the code?',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    height: 1.4,
+                                    color: const Color(0xFF6B7280),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                                if ( state is ResendOtpLoading)...[
+
+                              ]else...[
                                 GestureDetector(
                                   onTap: () {
-                                    context
-                                        .read<AccountCubit>()
-                                        .resendOtp(email: widget.email);
+                                    context.read<AccountCubit>().resendOtp(email: widget.email);
                                   },
                                   child: Text(
                                     'Resend Code',
@@ -326,22 +276,32 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                     ),
                                   ),
                                 ),
-                              ]
+                              ],
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              ButtonView(
+                                  onPressed: () {
+                                   AppNavigator.pushAndStackPage(context, page:   VerifyCodeScreen(email: widget.email,
+                      isForgetPassword: false,));
+                                  },
+                                  processin: state is ResendOtpLoading,
+                                  borderRadius: 100,
+                                  color: AppColors.lightSecondary,
+                                  title: 'processing...',
+                                  child: const Text(
+                                    'Continue to Enter OTP',
+                                    style: TextStyle(
+                                        color: AppColors.lightPrimary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  )),
                             ],
                           ),
                         ],
                       ),
                     ),
                   )),
-              if (state is VerifyOtpLoading)
-                Container(
-                  color: AppColors.indicatorBgColor,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.indicatorColor,
-                    ),
-                  ),
-                ),
             ],
           ),
         ));

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../blocs/users/users.dart';
+import '../../../../handlers/secure_handler.dart';
 import '../../../../model/view_model/user_view_model.dart';
 import '../../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../../res/app_colors.dart';
@@ -18,6 +19,7 @@ import '../../../../widgets/image_view.dart';
 import '../../../../widgets/loading_screen.dart';
 import '../../../../widgets/text_edit_view.dart';
 import '../../dashboard.dart';
+import '../unverified_screen.dart';
 import '../widgets/medication_card.dart';
 import 'create_new_medication.dart';
 
@@ -57,9 +59,19 @@ class _MedicationsState extends State<Medications> {
     _userCubit.getMedications();
   }
 
+  String doctorState = "1";
+
+
+getVerifiedKey()async{
+    doctorState = await StorageHandler.getDoctorState() ?? '1';
+
+}
+
   @override
   void initState() {
     getUserData();
+
+    getVerifiedKey();
 
     super.initState();
   }
@@ -278,8 +290,19 @@ class _MedicationsState extends State<Medications> {
                     left: 20,
                     child: ButtonView(
                         onPressed: () {
-                          AppNavigator.pushAndStackPage(context,
+                          if (doctorState == '0') {
+                                                       AppNavigator
+                                                        .pushAndStackPage(
+                                                      context,
+                                                      page: const PendingVerification(
+                                                         
+                                                      ),
+                                                    );
+                                                    }else{
+                                                       AppNavigator.pushAndStackPage(context,
                               page: const CreateNewMedication());
+                                                    }
+                         
                         },
                         borderRadius: 100,
                         color: AppColors.lightSecondary,

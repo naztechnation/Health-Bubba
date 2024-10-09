@@ -1,7 +1,6 @@
  
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/widgets/modals.dart';
 
 import '../../../../res/app_images.dart';
 import '../../../../widgets/choice_widget.dart';
@@ -273,12 +272,15 @@ class _AnalyticsDataState extends State<AnalyticsData> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ChoiceSelector(
-                  items: const ["1 Day", "7 Days", "30 Days"],
-                  onSelected: (value){
-                    int number = extractNumber(value);
-                    _handleDaySelected(value,context, number.toString());
-                  } ,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ChoiceSelector(
+                    items: const ["1 Day", "7 Days", "30 Days"],
+                    onSelected: (value){
+                      int number = extractNumber(value);
+                      _handleDaySelected(value,context, number.toString());
+                    } ,
+                  ),
                 ),
                 const SizedBox(
                   height: 15,

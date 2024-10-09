@@ -95,6 +95,10 @@ class AppImages {
   static const googleLogo = '${_baseUrl}google.svg';
    static const playStoreLogo = '${_baseUrl}playstore.png';
   static const appleStoreLogo = '${_baseUrl}apple_store.png';
+  static const verifyIcon = '${_baseUrl}verify_icon.png';
+  static const verifySuccessIcon = '${_baseUrl}verify_success.png';
+  static const bellIcon = '${_baseUrl}bell_icon.png';
+  static const bellAnim = '${_baseUrl}bell_anim.gif';
  
 
 
