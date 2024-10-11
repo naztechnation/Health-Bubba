@@ -300,6 +300,10 @@ class _SpecialtyListPageScreenState extends State<SpecialtyListPageScreen> {
                                       specialty: specialty,
                                       specialtiesId: specialtiesId,
                                     );
+
+                                    setState(() {
+                                      
+                                    });
                                   }
                                 },
                               );

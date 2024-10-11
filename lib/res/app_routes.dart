@@ -5,6 +5,7 @@ import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import '../message.dart';
 import '../presentation/auth/forgot_password.dart';
 import '../presentation/auth/sign_in.dart';
+import '../presentation/auth/sign_up.dart';
 import '../splash_screen.dart';
 import '../update_page.dart';
 
@@ -27,6 +28,7 @@ class AppRoutes {
     forgetPassword: (context) => ForgotPassword(),
     dashboardScreen: (context) => const Dashboard(),
     signInScreen: (context) => SignInScreen(),
+    signUpScreen: (context) => SignUpScreen(),
     message: (context) => const Messages(),
     updateScreen: (context) => const UpdateScreen(),
   };
@@ -45,6 +47,10 @@ class AppRoutes {
       case signInScreen:
         return MaterialPageRoute(
           builder: (context) => SignInScreen(),
+        );
+         case signUpScreen:
+        return MaterialPageRoute(
+          builder: (context) => SignUpScreen(),
         );
       case dashboardScreen:
         return MaterialPageRoute(

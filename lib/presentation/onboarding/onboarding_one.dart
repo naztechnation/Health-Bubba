@@ -11,6 +11,7 @@ import '../../handlers/secure_handler.dart';
 import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_routes.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../auth/sign_up.dart';
 
 class OnboardingOne extends StatelessWidget {
   @override
@@ -180,8 +181,8 @@ class OnboardingOne extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            AppNavigator.pushAndReplaceName(context,
-                                name: AppRoutes.signInScreen);
+                                                              AppNavigator.pushAndReplacePage(context, page: SignUpScreen());
+
                             StorageHandler.saveOnboardState('true');
                           },
                           child: Container(

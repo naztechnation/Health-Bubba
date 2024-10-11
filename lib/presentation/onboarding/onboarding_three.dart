@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/presentation/auth/sign_up.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/res/app_routes.dart';
 import 'package:healthbubba/widgets/button_view.dart';
@@ -156,8 +157,8 @@ class OnboardingThree extends StatelessWidget {
                     children: [
                       ButtonView(
                           onPressed: () {
-                            AppNavigator.pushAndReplaceName(context,
-                                name: AppRoutes.signUpScreen);
+                                  AppNavigator.pushAndReplacePage(context, page: SignUpScreen());
+
                             StorageHandler.saveOnboardState('true');
                           },
                           borderRadius: 100,

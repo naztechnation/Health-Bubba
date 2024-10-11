@@ -16,7 +16,7 @@ import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_strings.dart';
 import '../../../utils/validator.dart';
 import '../../../widgets/custom_toast.dart';
-import '../../../widgets/error_page.dart'; 
+import '../../../widgets/error_page.dart';
 import '../../../widgets/modals.dart';
 
 class ConsultationFeePage extends StatelessWidget {
@@ -67,7 +67,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
   void initState() {
     _userCubit = context.read<UserCubit>();
 
-    _userCubit.checkConsultationStatus(url: AppStrings.checkConsultationStatusUrl);
+    _userCubit.checkConsultationStatus(
+        url: AppStrings.checkConsultationStatusUrl);
 
     super.initState();
   }
@@ -78,35 +79,34 @@ class _ConsultationFeeState extends State<ConsultationFee> {
       if (state is ConsultaionFeeLoaded) {
         if (state.fee.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.success,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.success,
+                height: 25,
               ),
               title: AppStrings.successTitle,
               subtitle: state.fee.message?.message ?? '');
 
-              AppNavigator.pushAndReplacePage(context, page: const Dashboard());
-        }  else {
+          AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+        } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.fee.message?.message ?? '');
         }
-      }else if (state is CheckConsultaionStatusLoaded) {
-          if (state.fee.ok ?? false) {
-            setState(() {
-              isSavedBefore = true;
-            });
-          } else {
-            setState(() {
-              isSavedBefore = false;
-            });
-          }
-
-        } else if (state is UserApiErr || state is UserNetworkErr) {}
+      } else if (state is CheckConsultaionStatusLoaded) {
+        if (state.fee.ok ?? false) {
+          setState(() {
+            isSavedBefore = true;
+          });
+        } else {
+          setState(() {
+            isSavedBefore = false;
+          });
+        }
+      } else if (state is UserApiErr || state is UserNetworkErr) {}
     }, builder: (context, state) {
       if (state is UserApiErr) {
         return ErrorPage(
@@ -115,8 +115,9 @@ class _ConsultationFeeState extends State<ConsultationFee> {
               _userCubit.addConsultationFee(
                   rate: rateController.text.trim(),
                   duration: durationController.text.trim(),
-                   url: (isSavedBefore) ? AppStrings.addConsultationUrl : AppStrings.editConsultationUrl
-                  );
+                  url: (isSavedBefore)
+                      ? AppStrings.addConsultationUrl
+                      : AppStrings.editConsultationUrl);
             });
       } else if (state is UserNetworkErr) {
         return ErrorPage(
@@ -124,161 +125,157 @@ class _ConsultationFeeState extends State<ConsultationFee> {
             onTap: () {
               _userCubit.addConsultationFee(
                   rate: rateController.text.trim(),
-                  duration: durationController.text.trim(), url: (isSavedBefore) ? AppStrings.addConsultationUrl : AppStrings.editConsultationUrl);
+                  duration: durationController.text.trim(),
+                  url: (isSavedBefore)
+                      ? AppStrings.addConsultationUrl
+                      : AppStrings.editConsultationUrl);
             });
       }
-      return   Stack(
+      return Stack(
         children: [
           Scaffold(
-                  backgroundColor: Colors.white,
-                  appBar: AppBar(
-                    title: const Text(
-                      'Consultation Fee',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                    centerTitle: true,
-                    leading: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
-                        child: SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: ImageView.svg(
-                            AppImages.backBtn,
-                            height: 15,
-                          ),
-                        ),
-                      ),
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              title: const Text(
+                'Consultation Fee',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              centerTitle: true,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+                  child: SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: ImageView.svg(
+                      AppImages.backBtn,
+                      height: 15,
                     ),
                   ),
-                  body: Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFFFFF),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
+                ),
+              ),
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFFFF),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 23),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const Divider(
+                                color: Color(
+                                  0xFF40B93C,
+                                ),
+                              ),
                               Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 15),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Divider(
-                                      color: Color(
-                                        0xFF40B93C,
-                                      ),
-                                    ),
                                     Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 16),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 16),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 8),
-                                                  child: Align(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Text(
-                                                      'Rate',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color:
-                                                            const Color(0xFF131316),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                0, 0, 0, 8),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Rate',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
                                                 ),
-                                                TextEditView(
-                                                  controller: rateController,
-                                                  borderColor: Colors.grey.shade200,
-                                                  borderWidth: 0.5,
-                                                  hintText: 'Enter rate in NGN',
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                      validator: (value) {
-                                                                return Validator
-                                                                    .validate(value,
-                                                                        'Rate');
-                                                              },
-                                                ),
-                                              ],
+                                              ),
                                             ),
                                           ),
+                                          TextEditView(
+                                            controller: rateController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            hintText: 'Enter rate in NGN',
+                                            keyboardType: TextInputType.number,
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'Rate');
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 16),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
                                           Container(
                                             margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 16),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 0, 0, 8),
-                                                  child: Align(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Text(
-                                                      'Duration',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color:
-                                                            const Color(0xFF131316),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                0, 0, 0, 8),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                'Duration',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
                                                 ),
-                                                TextEditView(
-                                                  controller: durationController,
-                                                  borderColor: Colors.grey.shade200,
-                                                  borderWidth: 0.5,
-                                                  readOnly: true,
-                                                  hintText: 'Select',
-                                                  suffixIcon: const Padding(
-                                                    padding: EdgeInsets.all(17.0),
-                                                    child: ImageView.svg(
-                                                      AppImages.dropDown,
-                                                      scale: 0.8,
-                                                    ),
-                                                  ),
-                                                   
-                                                  onTap: () {
-                                                    Modals.showDialogModal(context,
-                                                        page: durationModalContent(
-                                                            context));
-                                                  },
-                                                ),
-                                              ],
+                                              ),
                                             ),
+                                          ),
+                                          TextEditView(
+                                            controller: durationController,
+                                            borderColor: Colors.grey.shade200,
+                                            borderWidth: 0.5,
+                                            readOnly: true,
+                                            hintText: 'Select',
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(17.0),
+                                              child: ImageView.svg(
+                                                AppImages.dropDown,
+                                                scale: 0.8,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Modals.showDialogModal(context,
+                                                  page: durationModalContent(
+                                                      context));
+                                            },
                                           ),
                                         ],
                                       ),
@@ -289,100 +286,102 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                             ],
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  bottomNavigationBar: Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFFFFF),
-                      border: Border(
-                        top: BorderSide(
-                          color: Color(0xFFE5E7EB),
-                          width: 1,
-                        ),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x14000000),
-                          offset: Offset(0, -4),
-                          blurRadius: 8.8999996185,
-                        ),
                       ],
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: const Color(0xFF093126),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x33212126),
-                              offset: Offset(0, 1),
-                              blurRadius: 1.5,
-                            ),
-                            BoxShadow(
-                              color: Color(0xFF083025),
-                              offset: Offset(0, 0),
-                              blurRadius: 0,
-                            ),
-                          ],
-                        ),
-                        child: SizedBox(
-                          height: 50,
-                          child: ButtonView(
-                               
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-          
-                                  if(durationController.text.trim().isNotEmpty){
-                                    if(isSavedBefore){
-                                     _userCubit.addConsultationFee(
-                                      rate: rateController.text.trim(),
-                                      duration: durationController.text.trim(),
-                                       url: AppStrings.editConsultationUrl);
-                                  }else{
-                                     _userCubit.addConsultationFee(
-                                      rate: rateController.text.trim(),
-                                      duration: durationController.text.trim(),
-                                       url: AppStrings.addConsultationUrl);
-          
-                                  }
-                                  }else{
-                                     ToastService().showToast(context,
-                  leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-                  
-                  ),
-                  title: 'Error!!!',
-                  subtitle:   'Select Duration');
-                                  }
-                                 
-                                }
-                                FocusScope.of(context).unfocus();
-                              },
-                              borderRadius: 100,
-                              color: AppColors.lightSecondary,
-                              child: Text(
-                                (isSavedBefore) ? 'Update' : 'Save',
-                                style: const TextStyle(
-                                    color: AppColors.lightPrimary,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                        ),
-                      ),
                     ),
                   ),
                 ),
-                if(state is CheckConsultaionStatusLoading || state is ConsultaionFeeLoading)...[
-                  Container(
-              color: AppColors.indicatorBgColor,
-              child:   Center(
-                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
               ),
             ),
-                ]
+            bottomNavigationBar: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFFFFFFF),
+                border: Border(
+                  top: BorderSide(
+                    color: Color(0xFFE5E7EB),
+                    width: 1,
+                  ),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x14000000),
+                    offset: Offset(0, -4),
+                    blurRadius: 8.8999996185,
+                  ),
+                ],
+              ),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: const Color(0xFF093126),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x33212126),
+                        offset: Offset(0, 1),
+                        blurRadius: 1.5,
+                      ),
+                      BoxShadow(
+                        color: Color(0xFF083025),
+                        offset: Offset(0, 0),
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                    height: 50,
+                    child: ButtonView(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            if (durationController.text.trim().isNotEmpty) {
+                              if (isSavedBefore) {
+                                _userCubit.addConsultationFee(
+                                    rate: rateController.text.trim(),
+                                    duration:  (durationController.text.trim() == 'Minute'? 'M' : 'H'),
+                                    url: AppStrings.editConsultationUrl);
+                              } else {
+                                _userCubit.addConsultationFee(
+                                    rate: rateController.text.trim(),
+                                    duration: (durationController.text.trim() == 'Minute'? 'M' : 'H'),
+                                    url: AppStrings.addConsultationUrl);
+                              }
+                            } else {
+                              ToastService().showToast(context,
+                                  leadingIcon: const ImageView.svg(
+                                    AppImages.error,
+                                    height: 25,
+                                  ),
+                                  title: 'Error!!!',
+                                  subtitle: 'Select Duration');
+                            }
+                          }
+                          FocusScope.of(context).unfocus();
+                        },
+                        borderRadius: 100,
+                        color: AppColors.lightSecondary,
+                        child: Text(
+                          (isSavedBefore) ? 'Update' : 'Save',
+                          style: const TextStyle(
+                              color: AppColors.lightPrimary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        )),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (state is CheckConsultaionStatusLoading ||
+              state is ConsultaionFeeLoading) ...[
+            Container(
+              color: AppColors.indicatorBgColor,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.indicatorColor,
+                ),
+              ),
+            ),
+          ]
         ],
       );
     });

@@ -19,7 +19,7 @@
 
    
     <application
-        android:label="HealthBubba Specialists"
+        android:label="HealthBubba Consultants"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true"

@@ -1,4 +1,4 @@
-package com.healthbubba.doctor
+package com.healthbubba.doctorsapp
 
 import io.flutter.embedding.android.FlutterActivity
 

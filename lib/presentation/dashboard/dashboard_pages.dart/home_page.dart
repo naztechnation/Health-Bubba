@@ -148,7 +148,8 @@ class _HomeState extends State<Home> {
             plugins: [ZegoUIKitSignalingPlugin()],
           );
         } else {
-          ToastService().showToast(context,
+          ToastService().showToast(
+              context,
               leadingIcon: const ImageView.svg(
                 AppImages.error,
                 height: 25,

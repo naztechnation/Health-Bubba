@@ -194,10 +194,16 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                           const SizedBox(
                                             height: 30,
                                           ),
-                                          const ImageView.asset(
+                                          Transform.rotate(
+                                             angle: 40 * (3.141592653589793 / 180),
+                                            child: const ImageView.asset(
                                               AppImages.bellAnim,
-                                              color: Color.fromARGB(255, 172, 212, 172),
-                                              ),
+                                              fit: BoxFit.cover,
+                                              height: 190,
+                                              color: Color.fromARGB(
+                                                  255, 172, 212, 172),
+                                            ),
+                                          ),
                                           const SizedBox(
                                             height: 10,
                                           ),
@@ -256,12 +262,14 @@ class _OTPScreenState extends State<OTPSentScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                                if ( state is ResendOtpLoading)...[
-
-                              ]else...[
+                              if (state is ResendOtpLoading)
+                                ...[]
+                              else ...[
                                 GestureDetector(
                                   onTap: () {
-                                    context.read<AccountCubit>().resendOtp(email: widget.email);
+                                    context
+                                        .read<AccountCubit>()
+                                        .resendOtp(email: widget.email);
                                   },
                                   child: Text(
                                     'Resend Code',
@@ -282,8 +290,11 @@ class _OTPScreenState extends State<OTPSentScreen> {
                               ),
                               ButtonView(
                                   onPressed: () {
-                                   AppNavigator.pushAndStackPage(context, page:   VerifyCodeScreen(email: widget.email,
-                      isForgetPassword: false,));
+                                    AppNavigator.pushAndStackPage(context,
+                                        page: VerifyCodeScreen(
+                                          email: widget.email,
+                                          isForgetPassword: false,
+                                        ));
                                   },
                                   processin: state is ResendOtpLoading,
                                   borderRadius: 100,

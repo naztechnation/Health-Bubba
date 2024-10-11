@@ -248,6 +248,8 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                             primaryBgColor: const Color(0xFFF70000),
                             secondaryBgColor: AppColors.lightPrimary,
                             secondaryAction: () {
+                              Navigator.pop(context);
+
                               if (context
                                   .read<OnboardViewModel>()
                                   .selectedLanguages
@@ -313,35 +315,36 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               body: Column(
                 children: [
                   const Divider(
-                      color: Color(
-                        0xFF40B93C,
-                      ),
-                      height: 0.5,
-                      thickness: 1,
+                    color: Color(
+                      0xFF40B93C,
                     ),
+                    height: 0.5,
+                    thickness: 1,
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          
                           Consumer<OnboardViewModel>(
                             builder: (context, provider, child) {
                               return Container(
                                 padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.all(4.0),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
-                                    children:
-                                        provider.selectedLanguages.map((language) {
+                                    children: provider.selectedLanguages
+                                        .map((language) {
                                       return Container(
                                         margin: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
+                                            horizontal: 4.0, vertical: 5),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5, horizontal: 12),
                                         decoration: BoxDecoration(
                                           color: const Color(0xFFE5E7EB),
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           boxShadow: const [
                                             BoxShadow(
                                               color: Color(0x0A000000),
@@ -366,7 +369,8 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                           ],
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Text(language.language),
                                             const SizedBox(
@@ -377,6 +381,9 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                                   provider.removeLanguage(
                                                       language.language,
                                                       language.languageId);
+                                                      setState(() {
+                                                        
+                                                      });
                                                 },
                                                 child: Icon(
                                                   Icons.close,
@@ -407,18 +414,28 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                               return GestureDetector(
                                 onTap: () {
                                   context.read<OnboardViewModel>().addLanguage(
-                                      _accountCubit.viewModel.plaformLanguages[index]
+                                      _accountCubit
+                                              .viewModel
+                                              .plaformLanguages[index]
                                               .languageName ??
                                           '',
-                                      _accountCubit.viewModel.plaformLanguages[index]
+                                      _accountCubit
+                                              .viewModel
+                                              .plaformLanguages[index]
                                               .languageId ??
                                           0);
+
+                                          setState(() {
+                                            
+                                          });
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 8),
-                                  child: Text(_accountCubit.viewModel
-                                          .plaformLanguages[index].languageName ??
+                                  child: Text(_accountCubit
+                                          .viewModel
+                                          .plaformLanguages[index]
+                                          .languageName ??
                                       ''),
                                 ),
                               );
@@ -427,7 +444,6 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                           Divider(
                             color: Colors.grey.shade300,
                           ),
-                          
                           const SizedBox(
                             height: 40,
                           )
@@ -437,38 +453,39 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                   ),
                 ],
               ),
-              bottomNavigationBar:  SafeArea(
+              bottomNavigationBar: SafeArea(
                 child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            Modals.showBottomSheetModal(context,
-                                isDissmissible: true,
-                                isScrollControlled: true,
-                                heightFactor: 0.6,
-                                page: _showAddLanguageSheet(context));
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Modals.showBottomSheetModal(context,
+                          isDissmissible: true,
+                          isScrollControlled: true,
+                          heightFactor: 0.6,
+                          page: _showAddLanguageSheet(context));
+                    },
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: Color(
+                            0xFF40B93C,
+                          ),
+                        ),
+                        SizedBox(width: 8.0),
+                        Text('Add Language',
+                            style: TextStyle(
                                 color: Color(
                                   0xFF40B93C,
                                 ),
-                              ),
-                              SizedBox(width: 8.0),
-                              Text('Add Language',
-                                  style: TextStyle(
-                                      color: Color(
-                                        0xFF40B93C,
-                                      ),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500)),
-                            ],
-                          ),
-                        ),
-                      ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500)),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             );
     });

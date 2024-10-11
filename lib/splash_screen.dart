@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:healthbubba/presentation/auth/sign_in.dart';
 
 import '../../res/app_images.dart';
 import '../res/app_routes.dart';
@@ -46,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
       AppNavigator.pushAndReplacePage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
 
-      AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+      AppNavigator.pushAndReplacePage(context, page: SignInScreen());
     } else {
       
 

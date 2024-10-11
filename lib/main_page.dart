@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/widgets/modals.dart';
-import 'package:provider/provider.dart';
-
-import 'model/view_model/account_view_model.dart';
+import 'package:google_fonts/google_fonts.dart'; 
 import 'res/app_routes.dart';
 import 'res/app_strings.dart';
 import 'res/app_theme.dart';

@@ -10,6 +10,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_images.dart';
 import '../../res/app_routes.dart';
 import '../../utils/navigator/page_navigator.dart';
+import '../auth/sign_up.dart';
 
  
 
@@ -177,7 +178,8 @@ class OnboardingTwo extends StatelessWidget {
                  
                   GestureDetector(
                       onTap: () {
-                        AppNavigator.pushAndReplaceName(context, name: AppRoutes.signInScreen);
+                                                         AppNavigator.pushAndReplacePage(context, page: SignUpScreen());
+
                      StorageHandler.saveOnboardState('true');
                       },
                       child: Container(

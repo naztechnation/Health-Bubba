@@ -77,11 +77,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                       state.verifyOtp.data?.token?.accessToken ?? '');
                 }
                 if (widget.isForgetPassword) {
-                  Future.delayed(const Duration(seconds: 2), () {
+                   
                     AppNavigator.pushAndStackPage(context,
                         page: CreateNewPasswordScreen(
                             email: widget.email, otp: _pinController.text));
-                  });
+                  
                 } else {
                    AppNavigator.pushAndReplacePage(context,
                         page: const VerificationSuccessScreen());
