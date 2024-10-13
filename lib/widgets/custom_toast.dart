@@ -18,60 +18,54 @@ class CustomToast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Container(
-
-            margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0.0),
-
+        margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 0.0),
         decoration: BoxDecoration(
-                  color: AppColors.lightPrimary,  
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: const [
-                            BoxShadow(
-                              color: Color(0xFFF0F0F0),
-                              offset: Offset(0, 0),
-                              blurRadius: 0,
-                            ),
-                            BoxShadow(
-                              color: Color(0x409F9E9E),
-                              offset: Offset(0, 1),
-                              blurRadius: 1,
-                            ),
-                          ],
-                ),
+          color: AppColors.lightPrimary,
+          borderRadius: BorderRadius.circular(16.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0xFFF0F0F0),
+              offset: Offset(0, 0),
+              blurRadius: 0,
+            ),
+            BoxShadow(
+              color: Color(0x409F9E9E),
+              offset: Offset(0, 1),
+              blurRadius: 1,
+            ),
+          ],
+        ),
         child: Material(
           elevation: 3,
           borderRadius: BorderRadius.circular(16),
           type: MaterialType.card,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-            
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
             decoration: BoxDecoration(
-              color: AppColors.lightPrimary,  
+              color: AppColors.lightPrimary,
               borderRadius: BorderRadius.circular(16.0),
               boxShadow: const [
-                        BoxShadow(
-                          color: Color(0xFFF0F0F0),
-                          offset: Offset(0, 0),
-                          blurRadius: 0,
-                        ),
-                        BoxShadow(
-                          color: Color(0x409F9E9E),
-                          offset: Offset(0, 1),
-                          blurRadius: 1,
-                        ),
-                      ],
+                BoxShadow(
+                  color: Color(0xFFF0F0F0),
+                  offset: Offset(0, 0),
+                  blurRadius: 0,
+                ),
+                BoxShadow(
+                  color: Color(0x409F9E9E),
+                  offset: Offset(0, 1),
+                  blurRadius: 1,
+                ),
+              ],
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              
               children: [
-               
-                  
                 Padding(
-                  padding: const EdgeInsets.only(bottom:18.0),
+                  padding: const EdgeInsets.only(bottom: .0),
                   child: leadingIcon,
                 ),
                 const SizedBox(width: 10.0),
@@ -81,22 +75,22 @@ class CustomToast extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          color: AppColors
-                              .lightSecondary,  
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      // Text(
+                      //   title,
+                      //   style: const TextStyle(
+                      //     color: AppColors
+                      //         .lightSecondary,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
                       Text(
                         subtitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             color: Color(0xFF4B5563),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -122,8 +116,6 @@ class CustomToast extends StatelessWidget {
                     ),
                   ),
                 ),
-                
-                  
               ],
             ),
           ),

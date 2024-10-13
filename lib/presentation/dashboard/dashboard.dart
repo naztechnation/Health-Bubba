@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../handlers/secure_handler.dart';
+import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_images.dart';
 import '../../res/app_strings.dart';
 import '../../update_page.dart';
@@ -13,6 +15,7 @@ import 'dashboard_pages.dart/appointment_tabs.dart';
 import 'dashboard_pages.dart/home_page.dart';
 import 'dashboard_pages.dart/medication/medication_page.dart';
 import 'dashboard_pages.dart/patient/patient_page.dart';
+import 'dashboard_pages.dart/unverified_screen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({
@@ -25,6 +28,10 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardBottomNavigationState extends State<Dashboard> {
   int index = 0;
+
+  String doctorState = "0";
+
+  
 
   List<BottomNavigationBarItem> get tabs => [
         const BottomNavigationBarItem(
@@ -56,65 +63,50 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
         )
       ];
 
-  final pages = [
-    const HomePage(),
-    const PatientPage(
-      isDashboard: true,
-    ),
-    AppointmentTabView(
-      isDashboard: true,
-    ),
-    const MedicationPage(true)
-  ];
+  var pages = [];
 
   void _checkVersionAndNavigate() {
-     
-if (Platform.isAndroid) {
-  FirebaseFirestore.instance
-        .collection('app_version_android')
-        .doc('version_number_android')
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        final versionNumber = snapshot.data()?['current_version_android'] ?? '';
-        if (versionNumber as int > AppStrings.appVersionAndroid) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const UpdateScreen()),
-          );
-        } else {
-          
+    if (Platform.isAndroid) {
+      FirebaseFirestore.instance
+          .collection('app_version_android')
+          .doc('version_number_android')
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final versionNumber =
+              snapshot.data()?['current_version_android'] ?? '';
+          if (versionNumber as int > AppStrings.appVersionAndroid) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const UpdateScreen()),
+            );
+          } else {}
         }
-      }
-    });
-} else if (Platform.isIOS) {
-  FirebaseFirestore.instance
-        .collection('app_version_ios')
-        .doc('version_number_ios')
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        final versionNumber = snapshot.data()?['current_version_ios'] ?? '';
-        if (versionNumber as int > AppStrings.appVersionIos) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const UpdateScreen()),
-          );
-        } else {
-          
+      });
+    } else if (Platform.isIOS) {
+      FirebaseFirestore.instance
+          .collection('app_version_ios')
+          .doc('version_number_ios')
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final versionNumber = snapshot.data()?['current_version_ios'] ?? '';
+          if (versionNumber as int > AppStrings.appVersionIos) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const UpdateScreen()),
+            );
+          } else {}
         }
-      }
-    });
-}
-
-
-     
+      });
+    }
   }
-
 
   @override
   void initState() {
     _checkVersionAndNavigate();
+     
+    
     super.initState();
   }
 
@@ -122,8 +114,21 @@ if (Platform.isAndroid) {
   Widget build(BuildContext context) {
     StorageHandler.saveIsLoggedIn('true');
 
+
+    final doctorsState =
+        Provider.of<OnboardViewModel>(context, listen: true).doctorsState;
+
+    List<Widget> pages = [
+      const HomePage(),
+      doctorsState == '0' ? const PendingVerification() : const PatientPage(isDashboard: true),
+      doctorsState == '0' ? const PendingVerification() : AppointmentTabView(isDashboard: true),
+      doctorsState == '0' ? const PendingVerification() : const MedicationPage(true),
+    ];
+
     return Scaffold(
       body: pages[index],
+
+    
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => selectedTab(index),
         currentIndex: index,

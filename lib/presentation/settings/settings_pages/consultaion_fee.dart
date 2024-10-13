@@ -114,7 +114,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
             onTap: () {
               _userCubit.addConsultationFee(
                   rate: rateController.text.trim(),
-                  duration: durationController.text.trim(),
+                    duration: 'H',
+                  // duration: durationController.text.trim(),
                   url: (isSavedBefore)
                       ? AppStrings.addConsultationUrl
                       : AppStrings.editConsultationUrl);
@@ -125,7 +126,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
             onTap: () {
               _userCubit.addConsultationFee(
                   rate: rateController.text.trim(),
-                  duration: durationController.text.trim(),
+                  duration: 'H',
+                  // duration: durationController.text.trim(),
                   url: (isSavedBefore)
                       ? AppStrings.addConsultationUrl
                       : AppStrings.editConsultationUrl);
@@ -231,55 +233,55 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 16),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 8),
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                'Duration',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF131316),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          TextEditView(
-                                            controller: durationController,
-                                            borderColor: Colors.grey.shade200,
-                                            borderWidth: 0.5,
-                                            readOnly: true,
-                                            hintText: 'Select',
-                                            suffixIcon: const Padding(
-                                              padding: EdgeInsets.all(17.0),
-                                              child: ImageView.svg(
-                                                AppImages.dropDown,
-                                                scale: 0.8,
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              Modals.showDialogModal(context,
-                                                  page: durationModalContent(
-                                                      context));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   margin: const EdgeInsets.fromLTRB(
+                                    //       0, 0, 0, 16),
+                                    //   child: Column(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.start,
+                                    //     crossAxisAlignment:
+                                    //         CrossAxisAlignment.start,
+                                    //     children: [
+                                    //       Container(
+                                    //         margin: const EdgeInsets.fromLTRB(
+                                    //             0, 0, 0, 8),
+                                    //         child: Align(
+                                    //           alignment: Alignment.topLeft,
+                                    //           child: Text(
+                                    //             'Duration',
+                                    //             style: GoogleFonts.getFont(
+                                    //               'Inter',
+                                    //               fontWeight: FontWeight.w500,
+                                    //               fontSize: 14,
+                                    //               height: 1.4,
+                                    //               color:
+                                    //                   const Color(0xFF131316),
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //       TextEditView(
+                                    //         controller: durationController,
+                                    //         borderColor: Colors.grey.shade200,
+                                    //         borderWidth: 0.5,
+                                    //         readOnly: true,
+                                    //         hintText: 'Select',
+                                    //         suffixIcon: const Padding(
+                                    //           padding: EdgeInsets.all(17.0),
+                                    //           child: ImageView.svg(
+                                    //             AppImages.dropDown,
+                                    //             scale: 0.8,
+                                    //           ),
+                                    //         ),
+                                    //         onTap: () {
+                                    //           Modals.showDialogModal(context,
+                                    //               page: durationModalContent(
+                                    //                   context));
+                                    //         },
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -333,27 +335,28 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                     child: ButtonView(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            if (durationController.text.trim().isNotEmpty) {
+                            //if (durationController.text.trim().isNotEmpty) {
                               if (isSavedBefore) {
                                 _userCubit.addConsultationFee(
                                     rate: rateController.text.trim(),
-                                    duration:  (durationController.text.trim() == 'Minute'? 'M' : 'H'),
+                                    duration:  'H',
+                                    // duration:  (durationController.text.trim() == 'Minute'? 'M' : 'H'),
                                     url: AppStrings.editConsultationUrl);
                               } else {
                                 _userCubit.addConsultationFee(
                                     rate: rateController.text.trim(),
-                                    duration: (durationController.text.trim() == 'Minute'? 'M' : 'H'),
+                                    duration: 'H',
                                     url: AppStrings.addConsultationUrl);
                               }
-                            } else {
-                              ToastService().showToast(context,
-                                  leadingIcon: const ImageView.svg(
-                                    AppImages.error,
-                                    height: 25,
-                                  ),
-                                  title: 'Error!!!',
-                                  subtitle: 'Select Duration');
-                            }
+                           // } else {
+                            //   ToastService().showToast(context,
+                            //       leadingIcon: const ImageView.svg(
+                            //         AppImages.error,
+                            //         height: 25,
+                            //       ),
+                            //       title: 'Error!!!',
+                            //       subtitle: 'Select Duration');
+                            // }
                           }
                           FocusScope.of(context).unfocus();
                         },

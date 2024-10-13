@@ -83,11 +83,13 @@ class _HomeState extends State<Home> {
     userId = await StorageHandler.getUserId();
     userId = await StorageHandler.getUserId();
     doctorState = await StorageHandler.getDoctorState() ?? '0';
-    await _userCubit.getProfileStatus();
-    await _userCubit.doctorsAnalyticsAccount(days: '1');
 
-    await _userCubit.userData();
-    await _userCubit.getAppointmentList();
+      _userCubit.userData();
+        _userCubit.getAppointmentList();
+    await _userCubit.getProfileStatus();
+     _userCubit.doctorsAnalyticsAccount(days: '1');
+
+    
   }
 
   @override
@@ -128,8 +130,11 @@ class _HomeState extends State<Home> {
           imageUrl = state.userData.data?.first.picture ?? "";
           name = state.userData.data?.first.firstName ?? '';
           title = state.userData.data?.first.title ?? '';
-
-          doctorState = state.userData.data?.first.isDoctorVerified.toString() ?? '0';
+             
+             Provider.of<OnboardViewModel>(context, listen: false)
+              .saveDoctorState(   '1');
+          doctorState =
+              state.userData.data?.first.isDoctorVerified.toString() ?? '0';
 
           StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
           StorageHandler.saveDoctorState(
@@ -137,7 +142,7 @@ class _HomeState extends State<Home> {
           StorageHandler.saveUserFirstName(
               state.userData.data?.first.firstName ?? '');
           StorageHandler.saveUserPicture(
-              "${AppStrings.imageBaseUrl}${state.userData.data?.first.picture ?? ''}");
+              state.userData.data?.first.picture ?? '');
           StorageHandler.saveUserId(
               state.userData.data?.first.id.toString() ?? '');
           ZegoUIKitPrebuiltCallInvitationService().init(
@@ -148,8 +153,7 @@ class _HomeState extends State<Home> {
             plugins: [ZegoUIKitSignalingPlugin()],
           );
         } else {
-          ToastService().showToast(
-              context,
+          ToastService().showToast(context,
               leadingIcon: const ImageView.svg(
                 AppImages.error,
                 height: 25,
@@ -306,63 +310,63 @@ class _HomeState extends State<Home> {
                                           ),
                                         ),
                                       ),
-                                      if (doctorState == '0') ...[
-                                        GestureDetector(
-                                          onTap: () {
-                                            // AppNavigator.pushAndReplacePage(context, page: const PendingVerification());
-                                          },
-                                          child: Container(
-                                            height: 30,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12, vertical: 4),
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xFFFDCFB6),
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Text('Pending Verification',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFFE86620),
-                                                )),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                      ] else ...[
-                                        if (_completedCount() == 5) ...[
-                                          Text('What do you want to do today?',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                                color: const Color(0xFF6B7280),
-                                              )),
-                                          const SizedBox(
-                                            height: 8,
-                                          )
-                                        ] else ...[
-                                          Text(
-                                            'Finish setting up your account',
+                                      // if (doctorState == '0') ...[
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     // AppNavigator.pushAndReplacePage(context, page: const PendingVerification());
+                                      //   },
+                                      //   child: Container(
+                                      //     height: 30,
+                                      //     padding: const EdgeInsets.symmetric(
+                                      //         horizontal: 12, vertical: 4),
+                                      //     decoration: BoxDecoration(
+                                      //         color: const Color(0xFFFDCFB6),
+                                      //         borderRadius:
+                                      //             BorderRadius.circular(20)),
+                                      //     child: Text('Pending Verification',
+                                      //         style: GoogleFonts.getFont(
+                                      //           'Inter',
+                                      //           fontWeight: FontWeight.w400,
+                                      //           fontSize: 14,
+                                      //           height: 1.4,
+                                      //           color:
+                                      //               const Color(0xFFE86620),
+                                      //         )),
+                                      //   ),
+                                      // ),
+                                      // const SizedBox(
+                                      //   height: 10,
+                                      // ),
+                                      //     ] else ...[
+                                      if (_completedCount() == 5) ...[
+                                        Text('What do you want to do today?',
                                             style: GoogleFonts.getFont(
                                               'Inter',
                                               fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                               height: 1.4,
                                               color: const Color(0xFF6B7280),
-                                            ),
+                                            )),
+                                        const SizedBox(
+                                          height: 8,
+                                        )
+                                      ] else ...[
+                                        Text(
+                                          'Finish setting up your account',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color: const Color(0xFF6B7280),
                                           ),
-                                          const SizedBox(
-                                            height: 8,
-                                          )
-                                        ]
-                                      ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        )
+                                      ]
                                     ],
+                                    // ],
                                   ),
                                   Container(
                                     margin: const EdgeInsets.fromLTRB(
@@ -1282,11 +1286,18 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const ConsultationFeePage());
+                                                                  if (doctorState ==
+                                                                      '0') {
+                                                                    AppNavigator.pushAndStackPage(
+                                                                        context,
+                                                                        page:
+                                                                            const PendingVerification());
+                                                                  } else {
+                                                                    AppNavigator.pushAndStackPage(
+                                                                        context,
+                                                                        page:
+                                                                            const ConsultationFeePage());
+                                                                  }
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1973,9 +1984,10 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              if (((_userCubit.viewModel.analytics == null)
-                      ? state is AnalyticsLoading
-                      : false) ||
+              if (
+                // ((_userCubit.viewModel.analytics == null)
+                //       ? state is AnalyticsLoading
+                //       : false) ||
                   ((_userCubit.viewModel.status == null)
                       ? state is ProfileStatusLoading
                       : false))

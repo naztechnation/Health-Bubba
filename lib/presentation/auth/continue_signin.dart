@@ -31,6 +31,9 @@ import '../dashboard/dashboard.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as u;
 
+import '../profile/profile_setup.dart';
+import 'otp_sent_screen.dart';
+
 class ContinueSignInScreen extends StatefulWidget {
   final String emailAddress;
 
@@ -66,10 +69,12 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
             if (state is LoginLoaded) {
               if (state.loginData.ok ?? false) {
                 if (state.loginData.message!.toLowerCase().trim() ==
-                    'Operation successful. An OTP code was sent to your email address.'
+                    'An OTP code was sent to your email address.'
                         .toLowerCase()) {
+                    StorageHandler.saveIsLoggedIn('');
+
                   AppNavigator.pushAndStackPage(context,
-                      page: VerifyCodeScreen(
+                      page: OTPSentScreen(
                         email: widget.emailAddress.trim(),
                         isForgetPassword: false,
                       ));
@@ -99,10 +104,19 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                     userName: state.loginData.data?.user?.lastName ?? '',
                     plugins: [ZegoUIKitSignalingPlugin()],
                   );
-                  AppNavigator.pushAndStackPage(context,
-                      page: const Dashboard());
+                  if(state.loginData.data?.user?.firstName == null  || state.loginData.data?.user?.firstName == ''){
+                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
+                    StorageHandler.saveIsLoggedIn('');
+
+                  
+                }else{
+                AppNavigator.pushAndStackPage(context, page: const Dashboard());
+
+                }
                 }
               } else {
+                    StorageHandler.saveIsLoggedIn('');
+
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(AppImages.error),
@@ -122,7 +136,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                 StorageHandler.saveLastName(
                     state.google.data?.user?.firstName ?? '');
                 StorageHandler.saveUserPicture(
-                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+                    state.google.data?.user?.picture ?? '');
 
                 StorageHandler.saveIsLoggedIn('true');
                 ZegoUIKitPrebuiltCallInvitationService().init(
@@ -132,8 +146,16 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+               if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
+                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
+                  
+                }else{
                 AppNavigator.pushAndStackPage(context, page: const Dashboard());
+
+                }
               } else {
+                    StorageHandler.saveIsLoggedIn('');
+
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(AppImages.error),
@@ -153,7 +175,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                 StorageHandler.saveLastName(
                     state.google.data?.user?.firstName ?? '');
                 StorageHandler.saveUserPicture(
-                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+                    state.google.data?.user?.picture ?? '');
 
                 StorageHandler.saveIsLoggedIn('true');
                 ZegoUIKitPrebuiltCallInvitationService().init(
@@ -163,8 +185,16 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+               if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
+                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
+                  
+                }else{
                 AppNavigator.pushAndStackPage(context, page: const Dashboard());
+
+                }
               } else {
+                    StorageHandler.saveIsLoggedIn('');
+
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(AppImages.error),
@@ -173,6 +203,8 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                 );
               }
             } else if (state is AccountApiErr) {
+                    StorageHandler.saveIsLoggedIn('');
+
               ToastService().showToast(
                 context,
                 leadingIcon: const ImageView.svg(AppImages.error),
@@ -180,6 +212,8 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                 subtitle: state.message ?? '',
               );
             } else if (state is AccountNetworkErr) {
+                    StorageHandler.saveIsLoggedIn('');
+
               if (state.message != null) {
                 ToastService().showToast(
                   context,

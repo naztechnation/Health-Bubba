@@ -28,6 +28,8 @@ class OnboardViewModel extends BaseViewModel {
 
   String _workBio = '';
 
+  String _doctorState = '0';
+
   final PageController _pageController = PageController();
 
 
@@ -97,7 +99,11 @@ String _successMessage = '';
     setViewState(ViewState.success);
   }
 
-  void saveLanguages() {}
+  void saveDoctorState(String state) {
+    _doctorState = state;
+    setViewState(ViewState.success);
+
+  }
 
   void nextPage() {
     if (_pageController.page != 2) {
@@ -475,6 +481,7 @@ String _successMessage = '';
   File? get imageURl => _imageURl;
 
   String get successMessage => _successMessage;
+  String get doctorsState => _doctorState;
   bool get status => _status;
 }
 

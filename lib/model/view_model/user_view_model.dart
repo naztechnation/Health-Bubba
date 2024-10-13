@@ -17,6 +17,8 @@ class UserViewModel extends BaseViewModel {
   searchController.addListener(_filterPatients);
   medSearchController = TextEditingController();
     medSearchController.addListener(_filterMedications);
+
+    _titleController.text = 'Dr.';
   }
 
     @override
@@ -218,7 +220,7 @@ void _filterMedications() {
     setViewState(ViewState.success);
   }
 
-  updateIndex(int index) async {
+  updateInde(int index) async {
     _currentIndex = index;
 
     setViewState(ViewState.success);

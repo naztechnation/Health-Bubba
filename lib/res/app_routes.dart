@@ -6,6 +6,7 @@ import '../message.dart';
 import '../presentation/auth/forgot_password.dart';
 import '../presentation/auth/sign_in.dart';
 import '../presentation/auth/sign_up.dart';
+import '../presentation/profile/profile_setup.dart';
 import '../splash_screen.dart';
 import '../update_page.dart';
 
@@ -19,6 +20,7 @@ class AppRoutes {
   static const String forgetPassword = 'forgetPassword';
   static const String resetPassword = 'resetPassword';
   static const String dashboardScreen = 'dashboardScreen';
+  static const String updateInfoScreen = 'updateInfoScreen';
   static const String updateScreen = 'updateScreen';
   static const String message = '/message';
 
@@ -30,6 +32,7 @@ class AppRoutes {
     signInScreen: (context) => SignInScreen(),
     signUpScreen: (context) => SignUpScreen(),
     message: (context) => const Messages(),
+    updateInfoScreen: (context) =>  const ProfileSetup(isEdit: false,),
     updateScreen: (context) => const UpdateScreen(),
   };
 
@@ -47,6 +50,10 @@ class AppRoutes {
       case signInScreen:
         return MaterialPageRoute(
           builder: (context) => SignInScreen(),
+        );
+          case updateInfoScreen:
+        return MaterialPageRoute(
+          builder: (context) => const ProfileSetup(isEdit: false,),
         );
          case signUpScreen:
         return MaterialPageRoute(

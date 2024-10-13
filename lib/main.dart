@@ -19,6 +19,7 @@ import 'model/view_model/onboard_view_model.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
 
 String userLoggedIn = '';
+String userFirstname = '';
 
 //final navigatorKey = GlobalKey();
 
@@ -32,6 +33,7 @@ Future<void> main() async {
   
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     userLoggedIn = await StorageHandler.getLoggedInState();
+    userFirstname = await StorageHandler.getFirstName();
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     if (message.notification != null) {
@@ -79,7 +81,7 @@ Future<void> main() async {
         ChangeNotifierProvider(
             create: (_) => BookAppointmentViewModel(), lazy: false),
       ],
-      child: HealthBubba(navigatorKey: navigatorKey, userLoggedIn: userLoggedIn,),
+      child: HealthBubba(navigatorKey: navigatorKey, userLoggedIn: userLoggedIn, userFirstname: userFirstname,),
     ));
   });
 

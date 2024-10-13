@@ -7,12 +7,13 @@ import 'res/app_theme.dart';
 
 class HealthBubba extends StatefulWidget {
   final String userLoggedIn;
+  final String userFirstname;
 
   final GlobalKey<NavigatorState> navigatorKey;
   const HealthBubba({
     Key? key,
     required this.navigatorKey,
-    required this.userLoggedIn,
+    required this.userLoggedIn, required this.userFirstname,
   }) : super(key: key);
 
   @override
@@ -42,8 +43,9 @@ class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver {
       routes: AppRoutes.routes,
       initialRoute:
             (widget.userLoggedIn.isEmpty || widget.userLoggedIn == '')
-                  ? AppRoutes.splashScreen
-                  : AppRoutes.dashboardScreen,
+                  ? AppRoutes.splashScreen:
+                //  : (widget.userFirstname.isEmpty || widget.userFirstname == '') ? AppRoutes.updateInfoScreen: 
+                  AppRoutes.dashboardScreen,
       onGenerateRoute: AppRoutes.generateRoute,
     );
   }

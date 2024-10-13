@@ -29,6 +29,7 @@ import '../../widgets/custom_toast.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/loading_screen.dart';
 import 'complete_setup.dart';
+import 'profile_setup.dart';
 import 'widget/work_bio_textfield.dart';
 import 'working_hours.dart';
 
@@ -72,15 +73,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
   List<int> isAvailable = [];
 
-  List<String> daysOfWeek = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
+  List<String> daysOfWeek = [];
 
   getDoctorsDetails() async {
     _accountCubit = context.read<AccountCubit>();
@@ -171,6 +164,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             String startTime = entry.startTime ?? '';
             String endTime = entry.endTime ?? '';
 
+            daysOfWeek.add(day);
+
             isAvailable.add(entry.availabilty ?? 0);
 
             if (!availabilities.containsKey(day)) {
@@ -178,15 +173,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             }
             availabilities[day]!
                 .add({'start_time': startTime, 'end_time': endTime});
-
-               
           }
-
-//           for (int i = 0; i < isAvailable.length; i++) {
-//   Modals.showToast('isAvailable[$i]: ${isAvailable[i]}', context);
-// }
-
-          
         } else {}
       } else if (state is AccountApiErr) {
       } else if (state is AccountNetworkErr) {}
@@ -504,7 +491,10 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const ImageView.svg(AppImages.person),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 4.0),
+                                        child: ImageView.svg(AppImages.person),
+                                      ),
                                       const SizedBox(
                                         width: 10,
                                       ),
@@ -637,18 +627,24 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                       Expanded(
                                           flex: 8,
                                           child: (availabilities.isEmpty)
-                                              ? Text(
-                                                  'Working hours or availabiilty',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF6B7280),
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 0.0),
+                                                  child: Text(
+                                                    'Working hours or availabiilty',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF6B7280),
+                                                    ),
                                                   ),
                                                 )
                                               : Consumer<OnboardViewModel>(
@@ -659,8 +655,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                           daysOfWeek.length,
                                                       shrinkWrap: true,
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              top: 0),
+                                                          const EdgeInsets.all(
+                                                              0),
                                                       physics:
                                                           const NeverScrollableScrollPhysics(),
                                                       itemBuilder:
@@ -688,35 +684,43 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                           ),
                                                           trailing:
                                                               daySlots != null
-                                                                  ? Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children:
-                                                                          daySlots
-                                                                              .map((slot) {
-                                                                        return Expanded(
-                                                                          child:
-                                                                              Text(
-                                                                            '${slot['start_time']} - ${slot['end_time']}',
-                                                                            style:
-                                                                                const TextStyle(
-                                                                              fontSize: 13,
-                                                                              color: Color(0xFF0A0D14),
-                                                                              fontWeight: FontWeight.w500,
+                                                                  ? Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          top:
+                                                                              20.0),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children:
+                                                                            daySlots.map((slot) {
+                                                                          return Expanded(
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.only(top: 0.0),
+                                                                              child: Text(
+                                                                                '${slot['start_time']} - ${slot['end_time']}',
+                                                                                style: const TextStyle(
+                                                                                  fontSize: 13,
+                                                                                  color: Color(0xFF0A0D14),
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                        );
-                                                                      }).toList(),
+                                                                          );
+                                                                        }).toList(),
+                                                                      ),
                                                                     )
-                                                                  :   Text(
-                                                                   //  (isAvailable[1] == 1) ? 'Opened':
-                                                                     'Closed',
+                                                                  : Text(
+                                                                      (isAvailable[index] ==
+                                                                              1)
+                                                                          ? 'Opened'
+                                                                          : 'Closed',
                                                                       style:
-                                                                        const  TextStyle(
+                                                                          const TextStyle(
                                                                         fontSize:
                                                                             14,
                                                                         color: Color(
@@ -739,6 +743,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                         child: Container(
                                           width: 31.5,
                                           height: 31.5,
+                                          margin:
+                                              const EdgeInsets.only(top: 16),
                                           padding: const EdgeInsets.fromLTRB(
                                               6.5, 6.5, 7.5, 7.5),
                                           decoration: const BoxDecoration(
@@ -1042,34 +1048,35 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                             children: [
                               ButtonView(
                                   onPressed: () {
-                                    Modals.showDialogModal(
-                                      context,
-                                      page: destructiveActions(
-                                          context: context,
-                                          message:
-                                              'Are you sure you want to continue with this action?',
-                                          primaryText: 'Continue',
-                                          secondaryText: 'Cancel',
-                                          primaryAction: () {
-                                            if (widget.isEdit) {
-                                              AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: const Dashboard());
-                                            } else {
-                                              AppNavigator.pushAndStackPage(
+                                    if (widget.isEdit) {
+                                      AppNavigator.pushAndReplacePage(context,
+                                          page: ProfileSetup(
+                                            isEdit: widget.isEdit,
+                                          ));
+                                    } else {
+                                      Modals.showDialogModal(
+                                        context,
+                                        page: destructiveActions(
+                                            context: context,
+                                            message:
+                                                'Are you sure you want to continue with this action?',
+                                            primaryText: 'Continue',
+                                            secondaryText: 'Cancel',
+                                            primaryAction: () {
+                                              AppNavigator.pushAndReplacePage(
                                                   context,
                                                   page:
                                                       const CompleteSetUpScreen());
-                                            }
-                                          },
-                                          primaryBgColor:
-                                              const Color(0xFF093126),
-                                          secondaryBgColor:
-                                              AppColors.lightPrimary,
-                                          secondaryAction: () {
-                                            Navigator.pop(context);
-                                          }),
-                                    );
+                                            },
+                                            primaryBgColor:
+                                                const Color(0xFF093126),
+                                            secondaryBgColor:
+                                                AppColors.lightPrimary,
+                                            secondaryAction: () {
+                                              Navigator.pop(context);
+                                            }),
+                                      );
+                                    }
                                   },
                                   borderRadius: 100,
                                   color: AppColors.lightSecondary,

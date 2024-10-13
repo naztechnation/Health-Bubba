@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/continue_signin.dart';
 import 'package:healthbubba/presentation/auth/sign_up.dart';
+import 'package:healthbubba/presentation/profile/profile_setup.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -41,6 +42,12 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+                    StorageHandler.saveIsLoggedIn('');
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +62,8 @@ class _SignInScreenState extends State<SignInScreen> {
           listener: (context, state) {
             if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
+
+                
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -75,7 +84,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+
+                if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
+                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
+                  
+                }else{
                 AppNavigator.pushAndStackPage(context, page: const Dashboard());
+
+                }
               } else {
                 ToastService().showToast(
                   context,
@@ -86,6 +102,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
+
+                StorageHandler.saveIsLoggedIn('');
+
               }
             } else if (state is AppleLoginLoaded) {
               if (state.google.ok ?? false) {
@@ -99,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 StorageHandler.saveLastName(
                     state.google.data?.user?.firstName ?? '');
                 StorageHandler.saveUserPicture(
-                    "${AppStrings.imageBaseUrl}${state.google.data?.user?.picture ?? ''}");
+                    state.google.data?.user?.picture ?? '');
 
                 StorageHandler.saveIsLoggedIn('true');
                 ZegoUIKitPrebuiltCallInvitationService().init(
@@ -109,8 +128,16 @@ class _SignInScreenState extends State<SignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+               if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
+                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
+                  
+                }else{
                 AppNavigator.pushAndStackPage(context, page: const Dashboard());
+
+                }
               } else {
+                StorageHandler.saveIsLoggedIn('');
+
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(
@@ -122,6 +149,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 );
               }
             } else if (state is AccountApiErr) {
+                StorageHandler.saveIsLoggedIn('');
+
               ToastService().showToast(
                 context,
                 leadingIcon: const ImageView.svg(
@@ -132,6 +161,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 subtitle: state.message ?? '',
               );
             } else if (state is AccountNetworkErr) {
+                StorageHandler.saveIsLoggedIn('');
+
               if (state.message != null) {
                 ToastService().showToast(
                   context,

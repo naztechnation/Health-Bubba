@@ -36,13 +36,23 @@ class _OTPScreenState extends State<OTPSentScreen> {
 
   bool isVerificationFailed = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+    
+
+   
+
+  
 
   @override
   Widget build(BuildContext context) {
+
+    final auth = Provider.of<AccountViewModel>(context, listen: true);
+    if(auth.callOnce){
+      auth.startCountdown();
+
+      setState(() {
+        auth.setCallOnce(call: false);
+      });
+    }
     return BlocProvider<AccountCubit>(
         lazy: false,
         create: (_) => AccountCubit(
@@ -51,7 +61,8 @@ class _OTPScreenState extends State<OTPSentScreen> {
         child: BlocConsumer<AccountCubit, AccountStates>(
           listener: (context, state) {
             if (state is VerifyOtpLoaded) {
-              if (state.verifyOtp.ok!) {
+              if (state.verifyOtp.ok ?? false) {
+             
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(
@@ -61,6 +72,7 @@ class _OTPScreenState extends State<OTPSentScreen> {
                   title: AppStrings.successTitle,
                   subtitle: state.verifyOtp.message ?? '',
                 );
+               
                 if (state.verifyOtp.data is String) {
                 } else {
                   StorageHandler.saveUserToken(
@@ -97,8 +109,8 @@ class _OTPScreenState extends State<OTPSentScreen> {
                 );
               }
             } else if (state is ResendOtpLoaded) {
-              // Modals.showToast(state.userData.message!,
-              //     messageType: MessageType.success);
+                  auth.setIsCompleted(isCompleted:false) ;
+              auth.startCountdown();
 
               ToastService().showToast(
                 context,
@@ -194,15 +206,12 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                           const SizedBox(
                                             height: 30,
                                           ),
-                                          Transform.rotate(
-                                             angle: 40 * (3.141592653589793 / 180),
-                                            child: const ImageView.asset(
-                                              AppImages.bellAnim,
-                                              fit: BoxFit.cover,
-                                              height: 190,
-                                              color: Color.fromARGB(
-                                                  255, 172, 212, 172),
-                                            ),
+                                          const ImageView.asset(
+                                            AppImages.bellAnim,
+                                            fit: BoxFit.cover,
+                                            height: 190,
+                                            color: Color.fromARGB(
+                                                255, 172, 212, 172),
                                           ),
                                           const SizedBox(
                                             height: 10,
@@ -246,23 +255,32 @@ class _OTPScreenState extends State<OTPSentScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Opacity(
-                                opacity: 0.8,
-                                child: Text(
-                                  'Experiencing issues receiving the code?',
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    height: 1.4,
-                                    color: const Color(0xFF6B7280),
+
+                              if (!auth.isCountdownComplete)
+                                            Text(
+                                              "Resend code in ${auth.countdown} secs",
+                                            ),
+                                             const SizedBox(
+                                height: 10,
+                              ),
+                               if (auth.isCountdownComplete)
+                                Opacity(
+                                  opacity: 0.8,
+                                  child: Text(
+                                    'Experiencing issues receiving the code?',
+                                    style: GoogleFonts.getFont(
+                                      'Inter',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                      height: 1.4,
+                                      color: const Color(0xFF6B7280),
+                                    ),
                                   ),
                                 ),
-                              ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              if (state is ResendOtpLoading)
+                              if (!auth.isCountdownComplete ||state is ResendOtpLoading)
                                 ...[]
                               else ...[
                                 GestureDetector(

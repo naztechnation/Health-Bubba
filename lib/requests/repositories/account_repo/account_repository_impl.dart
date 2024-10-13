@@ -169,6 +169,8 @@ class AccountRepositoryImpl implements AccountRepository {
 
     body["availabilities"] = availabilityList;
 
+    Modals.showToast(availabilityList.length.toString(), context);
+
     final map = await Requests()
         .post(AppStrings.addAvailabilityUrl, body: jsonEncode(body), headers: {
       'Content-Type': 'application/json',

@@ -15,12 +15,48 @@ class AccountViewModel extends BaseViewModel {
 
   bool _isUptoDate = true;
 
+  int _countdown = 90;
+  bool _callOnce = true;
+  bool _isCountdownComplete = false;
+
+    Future<void> startCountdown() async {
+    for (int i = 90; i >= 0; i--) {
+      await Future.delayed(const Duration(seconds: 1));
+      
+        _countdown = i;
+    setViewState(ViewState.success);
+      
+    }
+    
+      _isCountdownComplete = true;
+    
+
+    setViewState(ViewState.success);
+
+  }
+
+
   AccountViewModel() {
     getToken();
     
   }
 
   String _token = "";
+
+  setIsCompleted({required bool isCompleted}){
+
+    _isCountdownComplete = isCompleted;
+    setViewState(ViewState.success);
+
+  }
+
+   
+
+  setCallOnce({required bool call}){
+    _callOnce = call;
+    setViewState(ViewState.success);
+
+  }
 
   setToken(String token) async {
     _token = token;
@@ -49,5 +85,8 @@ class AccountViewModel extends BaseViewModel {
   List<GetSpecialtiesData> get platformSpecialties => _platformSpecialties;
 
   String get token => _token;
+  bool get isCountdownComplete => _isCountdownComplete;
+  int get countdown => _countdown;
   bool get isUptoDate => _isUptoDate;
+  bool get callOnce => _callOnce;
 }

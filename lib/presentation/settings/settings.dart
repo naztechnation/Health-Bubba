@@ -621,7 +621,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                margin: const EdgeInsets.fromLTRB(0, 2, 0, 5),
                 width: 4,
                 height: 10,
                 child: SizedBox(

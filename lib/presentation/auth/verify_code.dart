@@ -35,33 +35,22 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  int countdown = 90;
+  
 
-  bool isCountdownComplete = false;
 
   bool isVerificationFailed = false;
 
-  @override
-  void initState() {
-    startCountdown();
+  bool callOnce = true;
 
-    super.initState();
-  }
+   
 
-  Future<void> startCountdown() async {
-    for (int i = 60; i >= 0; i--) {
-      await Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        countdown = i;
-      });
-    }
-    setState(() {
-      isCountdownComplete = true;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
+
+    final auth = Provider.of<AccountViewModel>(context, listen: true);
+    
     return BlocProvider<AccountCubit>(
         lazy: false,
         create: (_) => AccountCubit(
@@ -116,8 +105,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 subtitle: state.otp.message ?? '',
               );
 
-              isCountdownComplete = false;
-              startCountdown();
+              auth.setIsCompleted(isCompleted:false) ;
+              auth.startCountdown();
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -157,12 +146,27 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height * 0.08,
                           ),
-                          const Align(
-                            child: ImageView.svg(
-                              AppImages.appLogo1,
-                              fit: BoxFit.fitWidth,
-                              height: 25.47,
-                            ),
+                            Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: const ImageView.svg(AppImages.backBtn,fit: BoxFit.cover,
+                                    height: 18,
+                                                                
+                                                                ),
+                                ),
+                              const Align(
+                                child: ImageView.svg(
+                                  AppImages.appLogo1,
+                                  fit: BoxFit.fitWidth,
+                                  height: 25.47,
+                                ),
+                              ),
+                              const SizedBox.shrink()
+                            ],
                           ),
                           const SizedBox(
                             height: 20,
@@ -259,9 +263,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                               ),
                                             ),
                                           ),
-                                          if (!isCountdownComplete)
+                                          if (!auth.isCountdownComplete)
                                             Text(
-                                              "Resend code in $countdown secs",
+                                              "Resend code in ${auth.countdown} secs",
                                             ),
                                         ],
                                       ),
@@ -284,7 +288,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                   ],
                                 ),
                               ),
-                              if (isCountdownComplete)
+                              if (auth.isCountdownComplete)
                                 Opacity(
                                   opacity: 0.8,
                                   child: Text(
@@ -301,7 +305,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              if (!isCountdownComplete ||
+                              if (!auth.isCountdownComplete ||
                                   state is ResendOtpLoading)
                                 ...[]
                               else ...[
