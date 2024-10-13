@@ -9,7 +9,6 @@ import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/presentation/profile/add_specialties.dart';
 import 'package:healthbubba/presentation/profile/language_spoken.dart';
 import 'package:healthbubba/res/app_images.dart';
-import 'package:healthbubba/res/app_strings.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
 import 'package:healthbubba/widgets/modals.dart';
@@ -18,10 +17,10 @@ import 'package:provider/provider.dart';
 import '../../blocs/accounts/account.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
-import '../../model/user/selected_qualifications.dart';
 import '../../model/user/selected_user_specialties.dart';
 import '../../model/view_model/account_view_model.dart';
 import '../../model/view_model/onboard_view_model.dart';
+import '../../model/working_hours.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/button_view.dart';
@@ -73,8 +72,6 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
   List<int> isAvailable = [];
 
-  List<String> daysOfWeek = [];
-
   getDoctorsDetails() async {
     _accountCubit = context.read<AccountCubit>();
     context.read<OnboardViewModel>().clearSpecialties();
@@ -90,6 +87,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
     getDoctorsDetails();
     super.initState();
   }
+
+  TimeOfDay stringToTimeOfDay(String time) {
+    final format = time.split(":");
+    int hour = int.parse(format[0]);
+    int minute = int.parse(format[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  List<DaySchedule> newSchedule = [];
+
+  Set<String> addedDays = {};
 
   @override
   Widget build(BuildContext context) {
@@ -161,11 +169,25 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
           for (var entry in data) {
             String day = entry.dayOfWeek ?? '';
+            bool isOpen = (entry.availabilty == 1) ? true : false;
             String startTime = entry.startTime ?? '';
             String endTime = entry.endTime ?? '';
 
-            daysOfWeek.add(day);
+            if (!addedDays.contains(day)) {
+              TimeOfDay start = stringToTimeOfDay(startTime);
+              TimeOfDay end = stringToTimeOfDay(endTime);
 
+              newSchedule.add(
+                DaySchedule(
+                  day: day,
+                  timeSlots: [
+                    {'start_time': start, 'end_time': end}
+                  ],
+                  isOpen: isOpen,
+                ),
+              );
+              addedDays.add(day);
+            }
             isAvailable.add(entry.availabilty ?? 0);
 
             if (!availabilities.containsKey(day)) {
@@ -174,6 +196,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
             availabilities[day]!
                 .add({'start_time': startTime, 'end_time': endTime});
           }
+
+          Provider.of<OnboardViewModel>(context, listen: false)
+              .updateSchedule(newSchedule);
         } else {}
       } else if (state is AccountApiErr) {
       } else if (state is AccountNetworkErr) {}
@@ -616,7 +641,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                         listen: false)
                                                     .schedule
                                                     .isEmpty)
-                                                ? 2
+                                                ? 20
                                                 : 20),
                                         child: const ImageView.svg(
                                             AppImages.clock),
@@ -630,7 +655,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               ? Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          top: 0.0),
+                                                          top: 20.0),
                                                   child: Text(
                                                     'Working hours or availabiilty',
                                                     overflow:
@@ -650,9 +675,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               : Consumer<OnboardViewModel>(
                                                   builder: (context,
                                                       scheduleProvider, child) {
+                                                         List<String> daysList =
+                                                            addedDays.toList();
                                                     return ListView.builder(
                                                       itemCount:
-                                                          daysOfWeek.length,
+                                                          addedDays.length,
                                                       shrinkWrap: true,
                                                       padding:
                                                           const EdgeInsets.all(
@@ -661,8 +688,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                           const NeverScrollableScrollPhysics(),
                                                       itemBuilder:
                                                           (context, index) {
+                                                       
                                                         String day =
-                                                            daysOfWeek[index];
+                                                            daysList[index];
                                                         List<
                                                                 Map<String,
                                                                     String>>?
@@ -670,66 +698,77 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                             availabilities[day];
 
                                                         return ListTile(
-                                                          title: Text(
-                                                            day,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 14,
-                                                              color: Color(
-                                                                  0xFF0A0D14),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                            title: Text(
+                                                              day,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                                color: Color(
+                                                                    0xFF0A0D14),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          trailing:
-                                                              daySlots != null
-                                                                  ? Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          top:
-                                                                              20.0),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        children:
-                                                                            daySlots.map((slot) {
-                                                                          return Expanded(
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.only(top: 0.0),
-                                                                              child: Text(
-                                                                                '${slot['start_time']} - ${slot['end_time']}',
-                                                                                style: const TextStyle(
-                                                                                  fontSize: 13,
-                                                                                  color: Color(0xFF0A0D14),
-                                                                                  fontWeight: FontWeight.w500,
+                                                            trailing:
+                                                                daySlots != null
+                                                                    ? Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            top:
+                                                                                20.0),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children:
+                                                                              daySlots.map((slot) {
+                                                                            if (slot['start_time']!.contains('00:00') &&
+                                                                                slot['end_time']!.contains('00:00')) {
+                                                                              return const Expanded(
+                                                                                child: Padding(
+                                                                                    padding: EdgeInsets.only(top: 0.0),
+                                                                                    child: Text(
+                                                                                      'Opened                  ',
+                                                                                      style: TextStyle(
+                                                                                        fontSize: 14,
+                                                                                        color: Color(0xFF6B7280),
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                      ),
+                                                                                    )),
+                                                                              );
+                                                                            } else {
+                                                                              return Expanded(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(top: 0.0),
+                                                                                  child: Text(
+                                                                                    '${slot['start_time']} - ${slot['end_time']}',
+                                                                                    style: const TextStyle(
+                                                                                      fontSize: 13,
+                                                                                      color: Color(0xFF0A0D14),
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        }).toList(),
-                                                                      ),
-                                                                    )
-                                                                  : Text(
-                                                                      (isAvailable[index] ==
-                                                                              1)
-                                                                          ? 'Opened'
-                                                                          : 'Closed',
-                                                                      style:
-                                                                          const TextStyle(
-                                                                        fontSize:
-                                                                            14,
-                                                                        color: Color(
-                                                                            0xFF6B7280),
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                      ),
-                                                                    ),
-                                                        );
+                                                                              );
+                                                                            }
+                                                                          }).toList(),
+                                                                        ),
+                                                                      )
+                                                                    : const Text(
+                                                                        'Opened',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              Color(0xFF6B7280),
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
+                                                                      ));
                                                       },
                                                     );
                                                   },

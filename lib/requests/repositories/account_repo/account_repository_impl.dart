@@ -155,22 +155,23 @@ class AccountRepositoryImpl implements AccountRepository {
 
     for (var scheduleData in schedule) {
       for (var timeSlots in scheduleData.timeSlots) {
-        final start = timeSlots['start']!;
-        final end = timeSlots['end']!;
+        
+          
+        TimeOfDay start = timeSlots['start']!;
+        TimeOfDay end = timeSlots['end']!;
 
         availabilityList.add({
           "day_of_week": scheduleData.day,
           "is_available": (scheduleData.isOpen) ? 1: 0,
-          "start_time": start.format(context),
-          "end_time": end.format(context),
+         if(start != null) "start_time": start.format(context),
+         if(end != null) "end_time": end.format(context),
         });
       }
     }
 
     body["availabilities"] = availabilityList;
 
-    Modals.showToast(availabilityList.length.toString(), context);
-
+    
     final map = await Requests()
         .post(AppStrings.addAvailabilityUrl, body: jsonEncode(body), headers: {
       'Content-Type': 'application/json',

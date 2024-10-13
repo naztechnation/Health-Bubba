@@ -59,32 +59,30 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
         Provider.of<OnboardViewModel>(context, listen: false).schedule;
 
     if (existingSchedule != null) {
-  setState(() {
-    for (var daySchedule in existingSchedule) {
-      _daySwitchState[daySchedule.day] = daySchedule.isOpen;
-      _dayTimeSlots[daySchedule.day] = daySchedule.timeSlots.map((slot) {
-        return {
-          'start': TimeOfDay(
-              hour: slot['start_time']!.hour,
-              minute: slot['start_time']!.minute),
-          'end': TimeOfDay(
-              hour: slot['end_time']!.hour,
-              minute: slot['end_time']!.minute),
-        };
-      }).toList();
+      setState(() {
+        for (var daySchedule in existingSchedule) {
+          _daySwitchState[daySchedule.day] = daySchedule.isOpen;
+          _dayTimeSlots[daySchedule.day] = daySchedule.timeSlots.map((slot) {
+            return {
+              'start': TimeOfDay(
+                  hour: slot['start_time']?.hour ?? 0,
+                  minute: slot['start_time']?.minute ?? 0),
+              'end': TimeOfDay(
+                  hour: slot['end_time']?.hour ?? 0,
+                  minute: slot['end_time']?.minute ?? 0),
+            };
+          }).toList();
 
-      // Ensure the open day is added to newSchedule
-      if (daySchedule.isOpen) {
-        newSchedule.add(DaySchedule(
-          day: daySchedule.day,
-          isOpen: daySchedule.isOpen,
-          timeSlots: daySchedule.timeSlots,
-        ));
-      }
+          if (daySchedule.isOpen) {
+            newSchedule.add(DaySchedule(
+              day: daySchedule.day,
+              isOpen: daySchedule.isOpen,
+              timeSlots: daySchedule.timeSlots,
+            ));
+          }
+        }
+      });
     }
-  });
-}
-
   }
 
   @override
@@ -280,10 +278,10 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
 
   void _addTimeSlot(String day, TimeOfDay start, TimeOfDay end) {
     setState(() {
-      // Ensure the time slot is added to the specific day
+      
       _dayTimeSlots[day]?.add({'start': start, 'end': end});
 
-      // Update the schedule for that day in newSchedule
+      
       DaySchedule daySchedule = newSchedule.firstWhere(
         (schedule) => schedule.day == day,
         orElse: () => DaySchedule(day: day, isOpen: true, timeSlots: []),
@@ -504,21 +502,27 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
 
                                           if (value) {
                                             // Add the day to newSchedule with isOpen true
-                                            DaySchedule daySchedule =
-                                                newSchedule.firstWhere(
-                                              (schedule) => schedule.day == day,
-                                              orElse: () => DaySchedule(
-                                                  day: day,
-                                                  isOpen: true,
-                                                  timeSlots: []),
-                                            );
+                                            _addTimeSlot(
+                                                day,
+                                                const TimeOfDay(
+                                                    hour: 0, minute: 0),
+                                                const TimeOfDay(
+                                                    hour: 0, minute: 0));
 
-                                            if (!newSchedule
-                                                .contains(daySchedule)) {
-                                              newSchedule.add(daySchedule);
-                                            }
+                                            // DaySchedule daySchedule =
+                                            //     newSchedule.firstWhere(
+                                            //   (schedule) => schedule.day == day,
+                                            //   orElse: () => DaySchedule(
+                                            //       day: day,
+                                            //       isOpen: true,
+                                            //       timeSlots: []),
+                                            // );
+
+                                            // if (!newSchedule
+                                            //     .contains(daySchedule)) {
+                                            //   newSchedule.add(daySchedule);
+                                            // }
                                           } else {
-                                            // Remove the day from newSchedule if toggled off
                                             newSchedule.removeWhere(
                                                 (schedule) =>
                                                     schedule.day == day);
@@ -542,11 +546,33 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                                     int idx = entry.key;
                                     TimeOfDay start = entry.value['start']!;
                                     TimeOfDay end = entry.value['end']!;
-                                    return ListTile(
+
+                                    
+
+                                    return (start.hour == 0 &&
+                                            start.minute == 0 &&
+                                            end.hour == 0 &&
+                                            end.minute == 0)
+                                        ? const Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left:20.0),
+                                            child: Text('Open for the day',
+                                            textAlign: TextAlign.left,
+                                            style:   TextStyle(
+                                              
+                                                  fontSize: 15,
+                                                  color:  Color(
+                                                    0xFF40B93C,
+                                                  ),
+                                                  fontWeight: FontWeight.w500)
+                                            ),
+                                          ),
+                                        )
+                                        :ListTile(
                                       dense: true,
                                       isThreeLine: false,
-                                      title: Text(
-                                          '${_formatTime(start)} - ${_formatTime(end)}',
+                                      title:  Text('${_formatTime(start)} - ${_formatTime(end)}',
                                           style: const TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF0A0D14),
@@ -563,8 +589,22 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                                   }),
                                   if (_dayTimeSlots[day]!.length < 2)
                                     TextButton(
-                                      onPressed: () =>
-                                          _showTimePickerModal(context, day),
+                                      onPressed: () {
+                                        // Remove any time slots that have start and end times set to 00:00.
+                                        setState(() {
+                                          _dayTimeSlots[day]
+                                              ?.removeWhere((timeSlot) {
+                                            TimeOfDay start =
+                                                timeSlot['start']!;
+                                            TimeOfDay end = timeSlot['end']!;
+                                            return start.hour == 0 &&
+                                                start.minute == 0 &&
+                                                end.hour == 0 &&
+                                                end.minute == 0;
+                                          });
+                                        });
+                                        _showTimePickerModal(context, day);
+                                      },
                                       child: const Row(
                                         children: <Widget>[
                                           Icon(

@@ -113,7 +113,8 @@ class AppointmentListsData {
     patientSex = json['patient_sex'];
     healthConditions = json['health_conditions'];
     patientPicture = json['patient_picture'];
-    images = json['images'].cast<String>();
+    images = (json['images'] ?? []).cast<String>();
+
     lastAppointmentDate = json['last_appointment_date'];
     nextAppointmentDate = json['next_appointment_date'];
     consultationsCount = json['consultations_count'];
