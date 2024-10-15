@@ -281,7 +281,7 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<SelectQualification> selectQualifications(
-      {required List<int> qualificationIds}) async {
+      {required List<dynamic> qualificationIds}) async {
     final accessToken = await StorageHandler.getUserToken() ?? '';
 
     final body = jsonEncode({'qualification_id': qualificationIds});

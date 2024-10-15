@@ -148,7 +148,7 @@ class _OTPScreenState extends State<OTPSentScreen> {
           builder: (context, state) => Stack(
             children: [
               Scaffold(
-                  backgroundColor: AppColors.lightPrimary,
+                  backgroundColor: const Color(0xfffafbfa),
                   body: Container(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                     child: SingleChildScrollView(
@@ -210,8 +210,7 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                             AppImages.bellAnim,
                                             fit: BoxFit.cover,
                                             height: 190,
-                                            color: Color.fromARGB(
-                                                255, 172, 212, 172),
+                                            
                                           ),
                                           const SizedBox(
                                             height: 10,

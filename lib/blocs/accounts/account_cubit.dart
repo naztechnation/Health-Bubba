@@ -255,7 +255,7 @@ class AccountCubit extends Cubit<AccountStates> {
   }
 
   Future<void> selectQualifications(
-      {required List<int> qualificationIds}) async {
+      {required List<dynamic> qualificationIds}) async {
     try {
       emit(SelectQualificationsLoading());
 

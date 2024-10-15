@@ -65,9 +65,10 @@ abstract class AccountRepository {
   Future<SelectedLanguages> chooseLanguages({required List<int> languageId});
   Future<Qualification> getQualifications();
   Future<SelectQualification> selectQualifications(
-      {required List<int> qualificationIds});
+      {required List<dynamic> qualificationIds});
   Future<LoginData> updateAvalaibility(
-      {required List<DaySchedule> schedule, required BuildContext context});
+      {required List<DaySchedule> schedule,
+       required BuildContext context});
   Future<SelectedUserSpecialties> getSelectedQualifications();
   Future<GetSelectedAvailability> getSelectedAvailability();
   Future<SelectSpecialties> selectSpecialties(

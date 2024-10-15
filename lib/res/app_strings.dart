@@ -1,11 +1,12 @@
  
 
 class AppStrings {
-  static const String appName = 'HEALTHBUBBA SPECIALISTS';
+  static const String appName = 'HEALTHBUBBA CONSULTANTS';
 
-  //zego details
+ 
 
-  static const String _baseUrl = 'https://api.healthbubba.com/api/';
+    static const String _baseUrl = 'https://api.healthbubba.com/api/';
+  // static const String _baseUrl = 'https://app.healthbubba.com/';
 
 
   ///base url

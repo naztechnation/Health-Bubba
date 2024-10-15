@@ -43,8 +43,8 @@ class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver {
       routes: AppRoutes.routes,
       initialRoute:
             (widget.userLoggedIn.isEmpty || widget.userLoggedIn == '')
-                  ? AppRoutes.splashScreen:
-                //  : (widget.userFirstname.isEmpty || widget.userFirstname == '') ? AppRoutes.updateInfoScreen: 
+                  ? AppRoutes.splashScreen
+                  : (widget.userFirstname.isEmpty || widget.userFirstname == '') ? AppRoutes.updateInfoScreen: 
                   AppRoutes.dashboardScreen,
       onGenerateRoute: AppRoutes.generateRoute,
     );
