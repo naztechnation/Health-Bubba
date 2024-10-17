@@ -141,6 +141,8 @@ class _HomeState extends State<Home> {
               state.userData.data?.first.isDoctorVerified.toString() ?? '0');
           StorageHandler.saveUserFirstName(
               state.userData.data?.first.firstName ?? '');
+              StorageHandler.saveLastName(
+              state.userData.data?.first.lastName ?? '');
           StorageHandler.saveUserPicture(
               state.userData.data?.first.picture ?? '');
           StorageHandler.saveUserId(

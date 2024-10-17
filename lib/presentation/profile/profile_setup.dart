@@ -63,19 +63,12 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
 
   bool validated = false;
 
-   String name = "";
+  String name = "";
   String lastName = "";
 
   getUserData() async {
-     
     name = await StorageHandler.getFirstName();
     lastName = await StorageHandler.getLastName();
-
-    
-
-      
-
-    
   }
 
   void _saveSelectedQualificationsIds() {
@@ -154,18 +147,13 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   Widget build(BuildContext context) {
     final profile = Provider.of<UserViewModel>(context, listen: true);
 
-
-    if (callOnce) {
-         if(name.isNotEmpty && lastName.isNotEmpty){
-      profile.updateFirstname(name);
-      profile.updateLastname(lastName);
-
-      setState(() {
-        callOnce = false;
-      });
+    if (widget.isEdit) {
+      if (name.isNotEmpty && lastName.isNotEmpty) {
+        profile.updateFirstname(name);
+        profile.updateLastname(lastName);
+      }
     }
-    }
-   
+
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
       if (state is QualificationsLoaded) {
@@ -296,14 +284,19 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                'Provide all the essential details below',
-                                style: GoogleFonts.getFont(
-                                  'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 13,
-                                  height: 1.7,
-                                  color: const Color(0xFF6B7280),
+                              GestureDetector(
+                                onTap: () {
+                                  Modals.showToast(name, context);
+                                },
+                                child: Text(
+                                  'Provide all the essential details below',
+                                  style: GoogleFonts.getFont(
+                                    'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 13,
+                                    height: 1.7,
+                                    color: const Color(0xFF6B7280),
+                                  ),
                                 ),
                               ),
                             ],
@@ -383,10 +376,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           controller:
                                               profile.firstnameController,
                                           borderColor: Colors.grey.shade200,
-                                          textColor:  (profile.firstnameController.text.isNotEmpty)? Colors.grey : Colors.black,
-
+                                          textColor: (name.isNotEmpty)
+                                              ? Colors.grey
+                                              : Colors.black,
                                           borderWidth: 0.5,
-                                          readOnly: (profile.firstnameController.text.isNotEmpty),
+                                          readOnly: (name.isNotEmpty),
                                           validator: (value) {
                                             return Validator.validate(
                                                 value, 'First name');
@@ -417,14 +411,15 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           controller:
                                               profile.lastnameController,
                                           borderColor: Colors.grey.shade200,
-                                          readOnly: (profile.lastnameController.text.isNotEmpty),
-
+                                          readOnly: (lastName.isNotEmpty),
                                           borderWidth: 0.5,
                                           validator: (value) {
                                             return Validator.validate(
                                                 value, 'Last name');
                                           },
-                                          textColor:  (profile.lastnameController.text.isNotEmpty)? Colors.grey : Colors.black,
+                                          textColor: (lastName.isNotEmpty)
+                                              ? Colors.grey
+                                              : Colors.black,
                                           onChanged: (value) {
                                             Provider.of<UserViewModel>(context,
                                                     listen: false)

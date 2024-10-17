@@ -273,5 +273,8 @@ class StorageHandler {
     await googleSignIn.signOut();
 
     await storage.delete(key: 'LOGGEDIN');
+    await storage.delete(key: 'FIRSTNAME');
+    await storage.delete(key: 'LASTNAME');
+    await storage.deleteAll();
   }
 }

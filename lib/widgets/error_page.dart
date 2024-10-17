@@ -125,7 +125,7 @@ class ErrorPage extends StatelessWidget {
                       ] else if (statusCode == "503") ...[
                         const ImageView.svg(AppImages.supportIcon),
                       ] else if (statusCode == "401") ...[
-                        const ImageView.svg(AppImages.closeIcon),
+                          ImageView.svg(AppImages.closeIcon),
                       ] else ...[
                         const ImageView.svg(AppImages.refreshIcon),
                       ],

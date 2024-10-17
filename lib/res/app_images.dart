@@ -1,29 +1,22 @@
-
 class AppImages {
-  
-  
   /// General image res
-  
-  static const String _baseUrl = 'assets/images/';
-  
 
-  
+  static const String _baseUrl = 'assets/images/';
+
   static const splashIcon = '${_baseUrl}splash_logo.png';
   static const logo = '${_baseUrl}logo1.jpg';
   static const onboardingOne = '${_baseUrl}onboard1.png';
   static const onboardingTwo = '${_baseUrl}onnboard2.png';
   static const profileBg = '${_baseUrl}profile_bg.png';
   static const onboardingThree = '${_baseUrl}onboard3.png';
-   static const scheduleAppointment = '${_baseUrl}schedule_appointment.jpeg';
+  static const scheduleAppointment = '${_baseUrl}schedule_appointment.jpeg';
   static const viewPatient = '${_baseUrl}view_patient.jpeg';
   static const createPrescriptionn = '${_baseUrl}create_prescription.jpeg';
   static const pdf = '${_baseUrl}pdf.png';
   static const settingsBg = '${_baseUrl}settings_bg.png';
   static const avatarIcon = '${_baseUrl}avatar.png';
 
-  
-
- static const appLogo = '${_baseUrl}logo1.svg';
+  static const appLogo = '${_baseUrl}logo1.svg';
   static const appLogo1 = '${_baseUrl}bubba_logo1.svg';
   static const good = '${_baseUrl}good.svg';
   static const bad = '${_baseUrl}bad.svg';
@@ -93,17 +86,10 @@ class AppImages {
   static const orderCompleted = '${_baseUrl}truck_tick.svg';
   static const appleLogo = '${_baseUrl}apple.svg';
   static const googleLogo = '${_baseUrl}google.svg';
-   static const playStoreLogo = '${_baseUrl}playstore.png';
+  static const playStoreLogo = '${_baseUrl}playstore.png';
   static const appleStoreLogo = '${_baseUrl}apple_store.png';
   static const verifyIcon = '${_baseUrl}verify_icon.png';
   static const verifySuccessIcon = '${_baseUrl}verify_success.png';
   static const bellIcon = '${_baseUrl}bell_icon.png';
   static const bellAnim = '${_baseUrl}bell_anim.gif';
- 
-
-
-
-
-
-   
 }
