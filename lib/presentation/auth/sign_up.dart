@@ -162,6 +162,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   title: AppStrings.errorTitle,
                   subtitle: state.google.message ?? '',
                 );
+
+                StorageHandler.saveIsLoggedIn('');
               }
             } else if (state is AccountApiErr) {
               if (state.message != null) {
@@ -175,6 +177,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   subtitle: state.message ?? '',
                 );
               }
+                StorageHandler.saveIsLoggedIn('');
+
             } else if (state is AccountNetworkErr) {
               ToastService().showToast(
                 context,
@@ -185,7 +189,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 title: AppStrings.errorTitle,
                 subtitle: state.message ?? '',
               );
+
+                StorageHandler.saveIsLoggedIn('');
+
             }
+
           },
           builder: (context, state) => Stack(
             children: [

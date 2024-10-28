@@ -13,6 +13,7 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import '../../../blocs/users/users.dart';
+import '../../../call_invitation.dart';
 import '../../../model/patients/appointment_lists.dart';
 import '../../../model/patients/get_profile_status.dart';
 import '../../../model/user/doctors_analytics.dart';
@@ -132,7 +133,7 @@ class _HomeState extends State<Home> {
           title = state.userData.data?.first.title ?? '';
              
              Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState(   '1');
+              .saveDoctorState( state.userData.data?.first.isDoctorVerified.toString() ?? '0');
           doctorState =
               state.userData.data?.first.isDoctorVerified.toString() ?? '0';
 
@@ -1127,6 +1128,23 @@ class _HomeState extends State<Home> {
                                                                       page: const WorkInformation(
                                                                           isEdit:
                                                                               true));
+
+                    //                                                ZegoUIKitPrebuiltCallInvitationService().init(
+                    //   appID: AppStrings.zigoAppIdUrl,
+                    //   appSign: AppStrings.zegoAppSign,
+                      
+                    //   userID:  userId,
+      
+                    //   userName:  'userName',
+                      
+                    //   plugins: [ZegoUIKitSignalingPlugin()],
+                    // );
+                        
+                    //   AppNavigator.pushAndStackPage(context, 
+                    //   page: CallInviteScreen(inviteeId: 
+                    //   '293', 
+                    //   inviteeName: 'Nelson',
+                    //   appointmentId: 'upcomingAppointment.appointmentId.toString()',));
                                                                 },
                                                                 child:
                                                                     Container(

@@ -135,7 +135,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setModalState) {
               return SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.25,
+                height: MediaQuery.sizeOf(context).height * 0.3,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

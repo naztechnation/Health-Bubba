@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'res/app_routes.dart';
 import 'res/app_strings.dart';
 import 'res/app_theme.dart';
+import 'widgets/modals.dart';
 
 class HealthBubba extends StatefulWidget {
   final String userLoggedIn;
@@ -33,6 +34,9 @@ class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver {
         overlays: SystemUiOverlay.values);
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+      
+    print(widget.userLoggedIn);
 
     return MaterialApp(
       navigatorKey: widget.navigatorKey,

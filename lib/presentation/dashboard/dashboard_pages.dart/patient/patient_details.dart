@@ -360,8 +360,8 @@ class _PatientDetailsState extends State<PatientDetails> {
                                       ),
                                     ),
                                   ),
-                                  if (patientDetails.currentMedications!
-                                      .isNotEmpty) ...[
+                                  if (patientDetails.currentMedications != null
+                                       ) ...[
                                     Container(
                                       decoration: const BoxDecoration(
                                         color: Color(0xFFFFFFFF),
@@ -399,7 +399,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 ),
                                               ),
                                             ),
-                                            Column(
+                                         if(patientDetails.currentMedications != null)   Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: patientDetails.currentMedications!
@@ -480,7 +480,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                       ),
                                     ),
                                   ],
-                                  if (patientDetails.healthConditions!.isNotEmpty)
+                                  if (patientDetails.healthConditions?.isNotEmpty ?? false)
                                     Container(
                                       decoration: const BoxDecoration(
                                         color: Color(0xFFFFFFFF),
@@ -518,7 +518,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                 ),
                                               ),
                                             ),
-                                            Column(
+                                         if(patientDetails.healthConditions != null)   Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: patientDetails.healthConditions!

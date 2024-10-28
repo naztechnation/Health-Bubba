@@ -5,8 +5,8 @@ class AppStrings {
 
  
 
-    static const String _baseUrl = 'https://api.healthbubba.com/api/';
-  // static const String _baseUrl = 'https://app.healthbubba.com/';
+ //static const String _baseUrl = 'https://api.healthbubba.com/api/';
+ static const String _baseUrl = 'https://app.healthbubba.com/api/';
 
 
   ///base url

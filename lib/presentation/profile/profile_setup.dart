@@ -154,6 +154,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       }
     }
 
+    StorageHandler.saveIsLoggedIn('true');
+
     return BlocConsumer<AccountCubit, AccountStates>(
         listener: (context, state) {
       if (state is QualificationsLoaded) {
@@ -211,18 +213,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         }
       }
     }, builder: (context, state) {
-      if (state is AccountApiErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-              _accountCubit.loadQualifications();
-            });
-      } else if (state is AccountNetworkErr) {
-        return ErrorPage(
-            statusCode: state.message ?? '',
-            onTap: () {
-              _accountCubit.loadQualifications();
-            });
+      if (widget.isEdit) {
+        if (state is AccountApiErr) {
+          return ErrorPage(
+              statusCode: state.message ?? '',
+              onTap: () {
+                _accountCubit.loadQualifications();
+              });
+        } else if (state is AccountNetworkErr) {
+          return ErrorPage(
+              statusCode: state.message ?? '',
+              onTap: () {
+                _accountCubit.loadQualifications();
+              });
+        }
       }
 
       return Stack(

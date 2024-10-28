@@ -388,6 +388,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       .clearCache();
                                                   StorageHandler
                                                       .saveOnboardState('true');
+                                                  StorageHandler.saveIsLoggedIn(
+                                                      '');
 
                                                   AppNavigator
                                                       .pushAndReplacePage(

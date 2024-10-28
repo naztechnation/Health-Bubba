@@ -31,7 +31,6 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
 
   String doctorState = "0";
 
-  
 
   List<BottomNavigationBarItem> get tabs => [
         const BottomNavigationBarItem(
