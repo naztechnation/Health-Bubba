@@ -1,21 +1,19 @@
 class CreateAppointment {
   bool? ok;
-  Message? message;
+  String? message;
 
   CreateAppointment({this.ok, this.message});
 
   CreateAppointment.fromJson(Map<String, dynamic> json) {
     ok = json['ok'];
     message =
-        json['message'] != null ? Message.fromJson(json['message']) : null;
+        json['message'] ;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['ok'] = ok;
-    if (message != null) {
-      data['message'] = message!.toJson();
-    }
+    data['message'] = message;
     return data;
   }
 }

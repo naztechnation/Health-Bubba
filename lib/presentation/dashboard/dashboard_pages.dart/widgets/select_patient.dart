@@ -175,6 +175,7 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
                     padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                     child: SingleChildScrollView(
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -238,9 +239,10 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ListView.builder(
+                                          padding: const EdgeInsets.all(0),
                                           itemCount:
                                               filteredPatientsLists.length,
                                           shrinkWrap: true,
@@ -305,7 +307,7 @@ class _SelectPatientScreenState extends State<SelectPatientScreen> {
                                 ),
                               ),
                             ),
-                          const SizedBox(height: 30),
+                          // const SizedBox(height: 30),
                         ],
                       ),
                     ),

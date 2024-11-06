@@ -138,9 +138,9 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
       } else if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
           Provider.of<OnboardViewModel>(context, listen: false)
-              .saveBio(state.userData.data?.first.bio ?? "");
+              .saveBio(state.userData.data?.bio ?? "");
 
-          imageUrl = state.userData.data?.first.picture ?? "";
+          imageUrl = state.userData.data?.picture ?? "";
         } else {}
       } else if (state is UploadImageLoaded) {
         if (state.uploadImage.ok ?? false) {

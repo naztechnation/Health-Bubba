@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../res/enum.dart';
 import '../res/app_colors.dart';
@@ -62,19 +63,20 @@ class Modals {
             title: Column(
               children: [
                 Text(title,
-                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600), ),
+                 style:   GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w600,), ),
                 const SizedBox(height: 10,),
                 const Divider()
               ],
             ),
-            content: Text(message),
+            content: Text(message,                 style:   GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w600), ),
+
             actions: [
               TextButton(
-                child: Text(buttonNoText,  style: const TextStyle( fontWeight: FontWeight.w600, color: Colors.red),),
+                child: Text(buttonNoText,  style: GoogleFonts.inter( fontWeight: FontWeight.w600, color: Colors.red),),
                 onPressed: () => Navigator.pop(context, false),
               ),
               TextButton(
-                child: Text(buttonYesText, style: const TextStyle( fontWeight: FontWeight.w600, color: Colors.black),),
+                child: Text(buttonYesText, style:   GoogleFonts.inter( fontWeight: FontWeight.w600, color: Colors.black),),
                 onPressed: (){
                   onTap();
                   Navigator.pop(context, false);

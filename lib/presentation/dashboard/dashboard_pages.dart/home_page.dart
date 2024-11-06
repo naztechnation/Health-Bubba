@@ -126,33 +126,39 @@ class _HomeState extends State<Home> {
       if (state is UserDataLoaded) {
         if (state.userData.ok ?? false) {
           Provider.of<OnboardViewModel>(context, listen: false)
-              .saveBio(state.userData.data?.first.bio ?? "");
+              .saveBio(state.userData.data?.bio ?? "");
 
-          imageUrl = state.userData.data?.first.picture ?? "";
-          name = state.userData.data?.first.firstName ?? '';
-          title = state.userData.data?.first.title ?? '';
+          imageUrl = state.userData.data?.picture ?? "";
+          name = state.userData.data?.firstName ?? '';
+          title = state.userData.data?.title ?? '';
              
              Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState( state.userData.data?.first.isDoctorVerified.toString() ?? '0');
+              .saveDoctorState( state.userData.data?.isDoctorVerified.toString() ?? '0');
           doctorState =
-              state.userData.data?.first.isDoctorVerified.toString() ?? '0';
+              state.userData.data?.isDoctorVerified.toString() ?? '0';
 
-          StorageHandler.saveUserTitle(state.userData.data?.first.title ?? '');
+          StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
+           StorageHandler.saveMedicalQualification('');
+          StorageHandler.saveMedicalLicenceNumber(state.userData.data?.licenceNumber ?? '');
+          StorageHandler.saveAffliate(state.userData.data?.clinicAffiliation ?? '');
+          StorageHandler.savePhone(state.userData.data?.phone ?? '');
+          StorageHandler.saveLocation(state.userData.data?.address ?? '');
+          StorageHandler.saveYear(state.userData.data?.yearsOfExperience.toString() ?? '');
           StorageHandler.saveDoctorState(
-              state.userData.data?.first.isDoctorVerified.toString() ?? '0');
+              state.userData.data?.isDoctorVerified.toString() ?? '0');
           StorageHandler.saveUserFirstName(
-              state.userData.data?.first.firstName ?? '');
+              state.userData.data?.firstName ?? '');
               StorageHandler.saveLastName(
-              state.userData.data?.first.lastName ?? '');
+              state.userData.data?.lastName ?? '');
           StorageHandler.saveUserPicture(
-              state.userData.data?.first.picture ?? '');
+              state.userData.data?.picture ?? '');
           StorageHandler.saveUserId(
-              state.userData.data?.first.id.toString() ?? '');
+              state.userData.data?.id.toString() ?? '');
           ZegoUIKitPrebuiltCallInvitationService().init(
             appID: AppStrings.zigoAppIdUrl,
             appSign: AppStrings.zegoAppSign,
-            userID: state.userData.data?.first.id.toString() ?? '',
-            userName: state.userData.data?.first.lastName ?? '',
+            userID: state.userData.data?.id.toString() ?? '',
+            userName: state.userData.data?.lastName ?? '',
             plugins: [ZegoUIKitSignalingPlugin()],
           );
         } else {

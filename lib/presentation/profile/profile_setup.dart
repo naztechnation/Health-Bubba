@@ -15,6 +15,7 @@ import '../../blocs/accounts/account.dart';
 import '../../handlers/secure_handler.dart';
 import '../../model/user/qualification.dart';
 import '../../model/view_model/account_view_model.dart';
+import '../../model/view_model/onboard_view_model.dart';
 import '../../model/view_model/user_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
@@ -22,6 +23,7 @@ import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/checkbox.dart';
 import '../../widgets/custom_toast.dart';
+import '../../widgets/decision_widgets.dart';
 import '../../widgets/error_page.dart';
 import '../../widgets/text_edit_view.dart';
 import 'work_information.dart';
@@ -64,11 +66,25 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   bool validated = false;
 
   String name = "";
+  String title = "";
   String lastName = "";
+  String medicalQualification = "";
+  String medicalLicence = "";
+  String yearsOfExperience = "";
+  String hospitalAffliated = "";
+  String phone = "";
+  String location = "";
 
   getUserData() async {
     name = await StorageHandler.getFirstName();
     lastName = await StorageHandler.getLastName();
+    medicalQualification = await StorageHandler.getMedicalQualification();
+    medicalLicence = await StorageHandler.getMedicalLicenceNumber();
+    yearsOfExperience = await StorageHandler.getYear();
+    hospitalAffliated = await StorageHandler.getAffliate();
+    phone = await StorageHandler.getPhone();
+    location = await StorageHandler.getLocation();
+    title = await StorageHandler.getTitle();
   }
 
   void _saveSelectedQualificationsIds() {
@@ -99,11 +115,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     super.initState();
   }
 
-  final _licenceNumberController = TextEditingController();
-  final _yearsOfExpController = TextEditingController();
-  final _hospitalAffliateController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _locationController = TextEditingController();
+  
 
   final _qualificationController = TextEditingController();
 
@@ -146,12 +158,24 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   @override
   Widget build(BuildContext context) {
     final profile = Provider.of<UserViewModel>(context, listen: true);
+ final doctorsState =
+        Provider.of<OnboardViewModel>(context, listen: true).doctorsState;
 
-    if (widget.isEdit) {
+    if (widget.isEdit && callOnce) {
       if (name.isNotEmpty && lastName.isNotEmpty) {
         profile.updateFirstname(name);
         profile.updateLastname(lastName);
+        _qualificationController.text = medicalQualification;
+        profile.updateLicenceNumber(medicalLicence);
+         
+        profile.updateYear(yearsOfExperience);
+        profile.updateHospital(hospitalAffliated);
+        profile.updatePhone(phone);
+        profile.updateLocation(location);
+        callOnce = false;
       }
+
+      
     }
 
     StorageHandler.saveIsLoggedIn('true');
@@ -170,11 +194,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                 title: profile.titleController.text.trim(),
                 firstname: profile.firstnameController.text.trim(),
                 lastname: profile.lastnameController.text.trim(),
-                licenceNumber: _licenceNumberController.text.trim(),
+                licenceNumber: profile.licenceNumberController.text.trim(),
                 experience:
-                    int.tryParse(_yearsOfExpController.text.trim()) ?? 0,
-                hospitalAffliated: _hospitalAffliateController.text.trim(),
-                phone: _phoneController.text.trim());
+                    int.tryParse(profile.yearsOfExpController.text.trim()) ?? 0,
+                hospitalAffliated: profile.hospitalAffliateController.text.trim(),
+                phone: profile.phoneController.text.trim());
           }
         } else {
           ToastService().showToast(context,
@@ -380,15 +404,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           controller:
                                               profile.firstnameController,
                                           borderColor: Colors.grey.shade200,
-                                          textColor: (name.isNotEmpty)
-                                              ? Colors.grey
-                                              : Colors.black,
+                                          textColor: 
+                                          // (name.isNotEmpty)
+                                              // ? Colors.grey
+                                              // : 
+                                              Colors.black,
                                           borderWidth: 0.5,
-                                          readOnly: (name.isNotEmpty),
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'First name');
-                                          },
+                                          // readOnly: (name.isNotEmpty),
+                                          // validator: (value) {
+                                          //   return Validator.validate(
+                                          //       value, 'First name');
+                                          // },
                                           onChanged: (value) {
                                             Provider.of<UserViewModel>(context,
                                                     listen: false)
@@ -415,15 +441,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           controller:
                                               profile.lastnameController,
                                           borderColor: Colors.grey.shade200,
-                                          readOnly: (lastName.isNotEmpty),
+                                          // readOnly: (lastName.isNotEmpty),
                                           borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Last name');
-                                          },
-                                          textColor: (lastName.isNotEmpty)
-                                              ? Colors.grey
-                                              : Colors.black,
+                                          // validator: (value) {
+                                          //   return Validator.validate(
+                                          //       value, 'Last name');
+                                          // },
+                                          textColor: 
+                                          // (lastName.isNotEmpty)
+                                          //     ? Colors.grey
+                                          //     :
+                                               Colors.black,
                                           onChanged: (value) {
                                             Provider.of<UserViewModel>(context,
                                                     listen: false)
@@ -527,13 +555,18 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           height: 8,
                                         ),
                                         TextEditView(
-                                          controller: _licenceNumberController,
+                                          controller: profile.licenceNumberController,
                                           borderColor: Colors.grey.shade200,
                                           keyboardType: TextInputType.number,
                                           borderWidth: 0.5,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'License Number');
+                                          // validator: (value) {
+                                          //   return Validator.validate(
+                                          //       value, 'License Number');
+                                          // },
+                                           onChanged: (value) {
+                                            Provider.of<UserViewModel>(context,
+                                                    listen: false)
+                                                .updateLicenceNumber(value);
                                           },
                                         ),
                                         const SizedBox(
@@ -553,21 +586,26 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           height: 8,
                                         ),
                                         TextEditView(
-                                          controller: _yearsOfExpController,
+                                          controller: profile.yearsOfExpController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
                                           hintText: '',
                                           keyboardType: TextInputType.number,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Years of Experience');
+                                          // validator: (value) {
+                                          //   return Validator.validate(
+                                          //       value, 'Years of Experience');
+                                          // },
+                                           onChanged: (value) {
+                                            Provider.of<UserViewModel>(context,
+                                                    listen: false)
+                                                .updateYear(value);
                                           },
                                         ),
                                         const SizedBox(
                                           height: 15,
                                         ),
                                         Text(
-                                          'Clinic/ Hospital Affiliation',
+                                          'Clinic / Hospital Affiliation',
                                           style: GoogleFonts.getFont(
                                             'Inter',
                                             fontWeight: FontWeight.w500,
@@ -581,13 +619,18 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                         ),
                                         TextEditView(
                                           controller:
-                                              _hospitalAffliateController,
+                                              profile.hospitalAffliateController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
                                           hintText: '',
-                                          validator: (value) {
-                                            return Validator.validate(value,
-                                                'Clinic/ Hospital Affiliation');
+                                          // validator: (value) {
+                                          //   return Validator.validate(value,
+                                          //       'Clinic/ Hospital Affiliation');
+                                          // },
+                                           onChanged: (value) {
+                                            Provider.of<UserViewModel>(context,
+                                                    listen: false)
+                                                .updateHospital(value);
                                           },
                                         ),
                                         const SizedBox(
@@ -607,14 +650,19 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           height: 8,
                                         ),
                                         TextEditView(
-                                          controller: _phoneController,
+                                          controller: profile.phoneController,
                                           borderColor: Colors.grey.shade200,
                                           keyboardType: TextInputType.number,
                                           borderWidth: 0.5,
                                           maxLength: 11,
-                                          validator: (value) {
-                                            return Validator.validate(
-                                                value, 'Phone Number');
+                                          // validator: (value) {
+                                          //   return Validator.validate(
+                                          //       value, 'Phone Number');
+                                          // },
+                                           onChanged: (value) {
+                                            Provider.of<UserViewModel>(context,
+                                                    listen: false)
+                                                .updatePhone(value);
                                           },
                                         ),
                                         const SizedBox(
@@ -634,7 +682,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           height: 8,
                                         ),
                                         TextEditView(
-                                          controller: _locationController,
+                                          controller: profile.locationController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
                                           hintText: 'Ikeja, Lagos, Nigeria',
@@ -644,6 +692,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               AppImages.location,
                                             ),
                                           ),
+                                           onChanged: (value) {
+                                            Provider.of<UserViewModel>(context,
+                                                    listen: false)
+                                                .updateLocation(value);
+                                          },
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -734,7 +787,14 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                               if (_formKey.currentState!.validate()) {
                                 if (profile.titleController.text
                                     .trim()
-                                    .isNotEmpty) {
+                                    .isNotEmpty && 
+                                    profile.firstnameController.text.trim().isNotEmpty && 
+                                    profile.lastnameController.text.trim().isNotEmpty  && 
+                                    profile.yearsOfExpController.text.trim().isNotEmpty&& 
+                                    profile.licenceNumberController.text.trim().isNotEmpty&& 
+                                    profile.hospitalAffliateController.text.trim().isNotEmpty&&
+                                     profile.phoneController.text.trim().isNotEmpty 
+                                     ) {
                                   if (isAgreed) {
                                     if (!isOtherSelected &&
                                         _qualificationController
@@ -746,7 +806,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           qualificationIds:
                                               _selectedQualificationsIds);
                                     } else {
-                                      _accountCubit.updateUserData(
+
+                                      if (doctorsState == '1') {
+
+                                         Modals.showDialogModal(
+                        context,
+                        page: destructiveActions(
+                            context: context,
+                            message:
+                                'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
+                            primaryText: 'I Admit',
+                            secondaryText: 'Exit Please',
+                            primaryAction: () async {
+                               Navigator.pop(context);
+                               _accountCubit.updateUserData(
                                           title: profile.titleController.text
                                               .trim(),
                                           firstname: profile
@@ -756,16 +829,49 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               .lastnameController.text
                                               .trim(),
                                           licenceNumber:
-                                              _licenceNumberController.text
+                                              profile.licenceNumberController.text
                                                   .trim(),
                                           experience: int.tryParse(
-                                                  _yearsOfExpController.text
+                                                  profile.yearsOfExpController.text
                                                       .trim()) ??
                                               0,
                                           hospitalAffliated:
-                                              _hospitalAffliateController.text
+                                              profile.hospitalAffliateController.text
                                                   .trim(),
-                                          phone: _phoneController.text.trim());
+                                          phone: profile.phoneController.text.trim());
+          
+                            },
+                            primaryBgColor:   const Color(0xFFF70000),
+                            secondaryBgColor: AppColors.lightPrimary,
+                            secondaryAction: () {
+                              Navigator.pop(context);
+                             
+                            }),
+                      );
+                                           
+                                      } else {
+                                         _accountCubit.updateUserData(
+                                          title: profile.titleController.text
+                                              .trim(),
+                                          firstname: profile
+                                              .firstnameController.text
+                                              .trim(),
+                                          lastname: profile
+                                              .lastnameController.text
+                                              .trim(),
+                                          licenceNumber:
+                                              profile.licenceNumberController.text
+                                                  .trim(),
+                                          experience: int.tryParse(
+                                                  profile.yearsOfExpController.text
+                                                      .trim()) ??
+                                              0,
+                                          hospitalAffliated:
+                                              profile.hospitalAffliateController.text
+                                                  .trim(),
+                                          phone: profile.phoneController.text.trim());
+                                      }
+                                     
                                     }
                                   } else {
                                     ToastService().showToast(context,
@@ -782,7 +888,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                       leadingIcon: const ImageView.svg(
                                           height: 25, AppImages.error),
                                       title: AppStrings.errorTitle,
-                                      subtitle: 'Select title please');
+                                      subtitle: 'Fill in all fields please');
                                 }
                               }
                             },
@@ -973,16 +1079,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                         bool isLastSelected = _selectedItems.any((item) =>
                             item.qualificationId ==
                             qualifications.last.qualificationId);
+                            _qualificationController.text = qualification.qualificationName ?? '';
 
-                        if (isLastSelected) {
-                          isOtherSelected = false;
-                          Navigator.pop(context);
+                        // if (isLastSelected) {
+                        //   // isOtherSelected = false;
+                        //   Navigator.pop(context);
 
-                          _qualificationController.clear();
-                          setState(() {});
-                        } else {
-                          isOtherSelected = true;
-                        }
+                        //   _qualificationController.clear();
+                        //   setState(() {});
+                        // } else {
+                        //   isOtherSelected = true;
+                        // }
                       },
                     ),
                     const SizedBox(

@@ -41,7 +41,11 @@ void dispose() {
   final _firstnameController = TextEditingController();
   final _lastnameController = TextEditingController();
   final _titleController = TextEditingController();
-
+  final _licenceNumberController = TextEditingController();
+  final _yearsOfExpController = TextEditingController();
+  final _hospitalAffliateController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _locationController = TextEditingController();
   GetMedications? _medications;
    List<GetMedicationsData> medicationLists = [];
 
@@ -123,6 +127,41 @@ void _filterMedications() {
     String fName,
   ) async {
     _firstnameController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updateLicenceNumber(
+    String number,
+  ) async {
+    _licenceNumberController.text = number;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updateYear(
+    String fName,
+  ) async {
+    _yearsOfExpController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updateHospital(
+    String fName,
+  ) async {
+    _hospitalAffliateController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updatePhone(
+    String fName,
+  ) async {
+    _phoneController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updateLocation(
+    String fName,
+  ) async {
+    _locationController.text = fName;
 
     setViewState(ViewState.success);
   }
@@ -309,4 +348,9 @@ void _filterMedications() {
   TextEditingController  get firstnameController => _firstnameController;
   TextEditingController  get lastnameController => _lastnameController;
   TextEditingController  get titleController => _titleController;
+  TextEditingController  get licenceNumberController => _licenceNumberController;
+  TextEditingController  get yearsOfExpController => _yearsOfExpController;
+  TextEditingController  get hospitalAffliateController => _hospitalAffliateController;
+  TextEditingController  get phoneController => _phoneController;
+  TextEditingController  get locationController => _locationController;
 }

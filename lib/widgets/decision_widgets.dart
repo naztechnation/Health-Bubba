@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/widgets/button_view.dart';
 import 'package:healthbubba/widgets/image_view.dart';
@@ -28,6 +29,7 @@ destructiveActions({
         Text(
           message,
           textAlign: TextAlign.center,
+          style: GoogleFonts.inter(fontSize: 16),
         ),
         const SizedBox(
           height: 30,

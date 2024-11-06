@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:healthbubba/widgets/custom_toast.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
@@ -23,6 +25,7 @@ import '../../res/app_images.dart';
 import '../../utils/navigator/page_navigator.dart';
 import '../../utils/validator.dart';
 import '../../widgets/button_view.dart';
+import '../../widgets/checkbox.dart';
 import '../../widgets/image_view.dart';
 import '../../widgets/password_checker.dart';
 import '../profile/profile_setup.dart';
@@ -43,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _phoneController = TextEditingController();
 
   final _confirmPasswordController = TextEditingController();
+  final _referralController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -50,6 +54,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _isVisible = false;
 
   bool isLoading = false;
+  bool isAgreed = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -429,6 +435,103 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                               const SizedBox(
+                                height: 20,
+                              ),
+                               Text(
+                                'Enter Referral code(Optional)',
+                                style: GoogleFonts.getFont(
+                                  'Inter',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  height: 1.4,
+                                  color: const Color(0xFF131316),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TextEditView(
+                                controller: _referralController,
+                                borderColor: Colors.grey.shade200,
+                                keyboardType: TextInputType.number,
+                                borderWidth: 0.5,
+                                maxLength: 11,
+                                validator: (value) {
+                                  return Validator.validate(
+                                      value, 'Phone Number');
+                                },
+                              ),
+                               const SizedBox(
+                                height: 12,
+                              ),
+                                Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0.0),
+                                child: Row(
+                                  children: [
+                                    CustomCheckbox(
+                                      isChecked: isAgreed,
+                                      onChanged: (value) {
+                                        isAgreed = value;
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: 'I agree to HealthBubba’s ',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color: const Color(0xFF131316),
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  _launchUrl(
+                                                      'https://healthbubba.com/terms');
+                                                },
+                                              text: 'Terms and Conditions',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                height: 1.3,
+                                                color: const Color(0xFF40B93C),
+                                              ),
+                                            ),
+                                            const TextSpan(
+                                              text: ' and ',
+                                            ),
+                                            TextSpan(
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  _launchUrl(
+                                                      'https://healthbubba.com/privacy-policy');
+                                                },
+                                              text: 'Privacy Policy',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                height: 1.3,
+                                                color: const Color(0xFF40B93C),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              
+                              const SizedBox(
                                 height: 35,
                               ),
                               ButtonView(
@@ -681,6 +784,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ))),
+
+                      //stephenagbo001@gmail.com  Scarface@06166 08098999999
               if (state is AppleRegLoading || state is AccountProcessing)
                 Container(
                   color: AppColors.indicatorBgColor,
@@ -711,11 +816,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 25,
             ),
             title: AppStrings.errorTitle,
-            subtitle: '',
+            subtitle: 'All fields required',
           );
         }
       }
     }
     FocusScope.of(context).unfocus();
+  }
+
+   Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

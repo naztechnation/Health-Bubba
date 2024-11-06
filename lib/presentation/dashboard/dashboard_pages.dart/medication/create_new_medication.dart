@@ -664,7 +664,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    patientId = '';
+                                                    patient.clearPatientDetails( );
+
                                                   });
                                                 },
                                                 child: Container(

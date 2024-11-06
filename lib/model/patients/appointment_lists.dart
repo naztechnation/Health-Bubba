@@ -58,8 +58,8 @@ class AppointmentListsData {
   String? patientLastName;
   String? patientEmail;
   String? patientDob;
-  String? patientWeight;
-  String? patientHeight;
+  var patientWeight;
+  var patientHeight;
   String? patientsPhone;
   String? patientSex;
   String? healthConditions;

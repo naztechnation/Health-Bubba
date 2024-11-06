@@ -102,6 +102,8 @@ class StorageHandler {
     return title;
   }
 
+ 
+
   static Future<String?> getUserFCM() async {
     Map<String, String> value = await storage.readAll();
     String? user;
@@ -136,6 +138,106 @@ class StorageHandler {
     return name;
   }
 
+static Future<String> getTitle() async {
+    String? value = await storage.read(key: 'TITLE');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+  static Future<String> getMedicalLicenceNumber() async {
+    String? value = await storage.read(key: 'MEDICAL');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+
+   static Future<void> saveMedicalLicenceNumber([String? username]) async {
+    if (username != null) await storage.write(key: 'MEDICAL', value: username);
+  }
+
+  static Future<String> getMedicalQualification() async {
+    String? value = await storage.read(key: 'QUALIFICATIONS');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+
+   static Future<void> saveMedicalQualification([String? username]) async {
+    if (username != null) await storage.write(key: 'QUALIFICATIONS', value: username);
+  }
+  
+  static Future<String> getYear() async {
+    String? value = await storage.read(key: 'YEAR');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+  static Future<void> saveYear([String? username]) async {
+    if (username != null) await storage.write(key: 'YEAR', value: username);
+  }
+  static Future<String> getAffliate() async {
+    String? value = await storage.read(key: 'AFFLIATE');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+  static Future<void> saveAffliate([String? username]) async {
+    if (username != null) await storage.write(key: 'AFFLIATE', value: username);
+  }
+  static Future<String> getPhone() async {
+    String? value = await storage.read(key: 'PHONE');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  }
+   static Future<void> savePhone([String? username]) async {
+    if (username != null) await storage.write(key: 'PHONE', value: username);
+  }
+  static Future<String> getLocation() async {
+    String? value = await storage.read(key: 'LOCATION');
+    String? name;
+    String? data = value;
+    if (data != null) {
+      name = data;
+    } else {
+      name = '';
+    }
+    return name;
+  } 
+
+  static Future<void> saveLocation([String? username]) async {
+    if (username != null) await storage.write(key: 'LOCATION', value: username);
+  }
   static Future<String> getLastName() async {
     String? value = await storage.read(key: 'LASTNAME');
     String? name;
