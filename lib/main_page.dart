@@ -36,7 +36,7 @@ class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
       
-    print(widget.userLoggedIn);
+     
 
     return MaterialApp(
       navigatorKey: widget.navigatorKey,
@@ -48,7 +48,7 @@ class _HealthBubbaState extends State<HealthBubba> with WidgetsBindingObserver {
       initialRoute:
             (widget.userLoggedIn.isEmpty || widget.userLoggedIn == '')
                   ? AppRoutes.splashScreen
-                  : (widget.userFirstname.isEmpty || widget.userFirstname == '') ? AppRoutes.updateInfoScreen: 
+                  : (widget.userFirstname.isEmpty || widget.userFirstname == '') ? AppRoutes.signInScreen: 
                   AppRoutes.dashboardScreen,
       onGenerateRoute: AppRoutes.generateRoute,
     );

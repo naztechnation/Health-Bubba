@@ -227,7 +227,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                 style: GoogleFonts.getFont(
                                             'Inter',
                                             fontSize: 14,
-                                        fontWeight: upComing ? FontWeight.w800:  FontWeight.w800,
+                                        fontWeight: upComing ? FontWeight.w600:  FontWeight.w600,
                                         color: upComing
                                             ? Colors.black
                                             : const Color(0xFF6B7280),
@@ -275,7 +275,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                  style: GoogleFonts.getFont(
                                             'Inter',
                                             fontSize: 14,
-                                        fontWeight: completed ? FontWeight.w800:  FontWeight.w800,
+                                        fontWeight: completed ? FontWeight.w600:  FontWeight.w600,
                                         color: completed
                                             ? Colors.black
                                             : const Color(0xFF6B7280),
@@ -323,7 +323,7 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                                 style: GoogleFonts.getFont(
                                             'Inter',
                                             fontSize: 14,
-                                        fontWeight: cancelled ? FontWeight.w800:  FontWeight.w800,
+                                        fontWeight: cancelled ? FontWeight.w600:  FontWeight.w600,
                                         color: cancelled
                                             ? Colors.black
                                             : const Color(0xFF6B7280),

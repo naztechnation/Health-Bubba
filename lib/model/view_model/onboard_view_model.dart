@@ -181,7 +181,7 @@ String _successMessage = '';
                       ),
                     ),
                   Text(
-                    'Choose from Gallery',
+                    'Gallery',
                     textAlign: TextAlign.left,
                     style: GoogleFonts.getFont(
                       'Inter',
@@ -322,7 +322,7 @@ String _successMessage = '';
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Take photo',
+                    'Photo',
                     textAlign: TextAlign.left,
                     style: GoogleFonts.getFont(
                       'Inter',

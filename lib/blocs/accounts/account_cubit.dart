@@ -20,13 +20,15 @@ class AccountCubit extends Cubit<AccountStates> {
   Future<void> registerUser({
     required String email,
     required String password,
+    required String phone,
+    required String referral,
   }) async {
     try {
       emit(AccountProcessing());
 
       final user = await accountRepository.registerUser(
         email: email,
-        password: password,
+        password: password, phone: phone, referral: referral,
       );
 
       emit(AccountLoaded(user));

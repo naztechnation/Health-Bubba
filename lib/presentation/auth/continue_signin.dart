@@ -49,6 +49,8 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
 
   bool _checkboxState = false;
 
+  
+
   void _handleCheckboxChanged(bool newValue) {
     setState(() {
       _checkboxState = newValue;
@@ -77,6 +79,18 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                       page: OTPSentScreen(
                         email: widget.emailAddress.trim(),
                         isForgetPassword: false,
+                      ));
+                }else if(state.loginData.data?.user?.firstName == null||state.loginData.data?.user?.firstName == ''  ){
+
+                    ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(AppImages.error),
+                  title: AppStrings.errorTitle,
+                  subtitle: 'Please complete profile to continue',
+                );
+                 AppNavigator.pushAndStackPage(context,
+                      page: const ProfileSetup(isEdit: false,
+                        
                       ));
                 } else {
                   StorageHandler.saveUserToken(
@@ -435,18 +449,23 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                                           const SizedBox(
                                                             width: 10,
                                                           ),
-                                                          Text(
-                                                            'Keep me logged in',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 14,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF131316),
+                                                          GestureDetector(
+                                                             onTap: (){
+                                                              _handleCheckboxChanged(!_checkboxState);
+                                                             } ,
+                                                            child: Text(
+                                                              'Keep me logged in',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontSize: 14,
+                                                                height: 1.4,
+                                                                color: const Color(
+                                                                    0xFF131316),
+                                                              ),
                                                             ),
                                                           ),
                                                         ],

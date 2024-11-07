@@ -36,12 +36,16 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<RegisterUser> registerUser({
     required String email,
     required String password,
+    required String phone,
+    required String referral,
   }) async {
     final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
 
     final map = await Requests().post(AppStrings.registerUserUrl, body: {
       "email": email,
       "password": password,
+      "referral_code": referral,
+      "phone": phone,
       "fcm_token": fcmToken,
     });
     return RegisterUser.fromJson(map);

@@ -26,6 +26,8 @@ import '../../../model/working_hours.dart';
 abstract class AccountRepository {
   Future<RegisterUser> registerUser({
     required String email,
+    required String phone,
+    required String referral,
     required String password,
   });
 

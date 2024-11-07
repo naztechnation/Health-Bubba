@@ -56,7 +56,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   bool isAgreed = false;
 
-
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<OnboardViewModel>(context, listen: true);
@@ -70,7 +69,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           listener: (context, state) {
             if (state is AccountLoaded) {
               if (state.userData.ok ?? false) {
-                 
                 AppNavigator.pushAndStackPage(context,
                     page: OTPSentScreen(
                       email: _emailController.text.trim(),
@@ -91,8 +89,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               }
             } else if (state is GoogleRegLoaded) {
               if (state.google.ok ?? false) {
-                 
-
                 StorageHandler.saveUserToken(
                     state.google.data?.token?.accessToken ?? '');
                 StorageHandler.saveUserId(
@@ -131,8 +127,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               }
             } else if (state is AppleRegLoaded) {
               if (state.google.ok ?? false) {
-                 
-
                 StorageHandler.saveUserToken(
                     state.google.data?.token?.accessToken ?? '');
                 StorageHandler.saveUserId(
@@ -183,8 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   subtitle: state.message ?? '',
                 );
               }
-                StorageHandler.saveIsLoggedIn('');
-
+              StorageHandler.saveIsLoggedIn('');
             } else if (state is AccountNetworkErr) {
               ToastService().showToast(
                 context,
@@ -196,10 +189,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 subtitle: state.message ?? '',
               );
 
-                StorageHandler.saveIsLoggedIn('');
-
+              StorageHandler.saveIsLoggedIn('');
             }
-
           },
           builder: (context, state) => Stack(
             children: [
@@ -437,7 +428,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               const SizedBox(
                                 height: 20,
                               ),
-                               Text(
+                              Text(
                                 'Enter Referral code(Optional)',
                                 style: GoogleFonts.getFont(
                                   'Inter',
@@ -453,20 +444,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               TextEditView(
                                 controller: _referralController,
                                 borderColor: Colors.grey.shade200,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.name,
                                 borderWidth: 0.5,
-                                maxLength: 11,
-                                validator: (value) {
-                                  return Validator.validate(
-                                      value, 'Phone Number');
-                                },
                               ),
-                               const SizedBox(
+                              const SizedBox(
                                 height: 12,
                               ),
-                                Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 0.0),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 0.0),
                                 child: Row(
                                   children: [
                                     CustomCheckbox(
@@ -530,15 +516,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ],
                                 ),
                               ),
-                              
                               const SizedBox(
                                 height: 35,
                               ),
                               ButtonView(
                                   onPressed: () {
-                                     registerUser(context: context);
-
-                               
+                                    registerUser(context: context);
                                   },
                                   borderRadius: 100,
                                   color: AppColors.lightSecondary,
@@ -785,7 +768,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ))),
 
-                      //stephenagbo001@gmail.com  Scarface@06166 08098999999
+              //stephenagbo001@gmail.com  Scarface@06166 08098999999
               if (state is AppleRegLoading || state is AccountProcessing)
                 Container(
                   color: AppColors.indicatorBgColor,
@@ -802,10 +785,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   registerUser({required BuildContext context}) async {
     if (_formKey.currentState!.validate()) {
-      if (_isVisible) {
-        if (_isStrong) {
+      if (_isStrong) {
+        if (isAgreed) {
           context.read<AccountCubit>().registerUser(
                 email: _emailController.text.trim(),
+                referral: _referralController.text.trim(),
+                phone: _phoneController.text.trim(),
                 password: _passwordController.text.trim(),
               );
         } else {
@@ -816,15 +801,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               height: 25,
             ),
             title: AppStrings.errorTitle,
-            subtitle: 'All fields required',
+            subtitle: 'Please agree with our terms to continue',
           );
         }
-      }
+      }else {
+         ToastService().showToast(
+            context,
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
+            ),
+            title: AppStrings.errorTitle,
+            subtitle: 'Password strength weak',
+          );
+         
+        }
     }
     FocusScope.of(context).unfocus();
   }
 
-   Future<void> _launchUrl(String url) async {
+  Future<void> _launchUrl(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
     }
