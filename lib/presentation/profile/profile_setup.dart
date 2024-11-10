@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard.dart';
 import 'package:healthbubba/res/app_images.dart';
@@ -167,104 +169,108 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       builder: (BuildContext context) {
         TextEditingController _searchController = TextEditingController();
 
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Search for a place',
-                    style: GoogleFonts.inter(
-                        fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextEditView(
-                  controller: _searchController,
-                  hintText: 'Enter a location',
-                  onChanged: (query) {
-                    setState(() {
-                      searchQuery = query;
-                      _placesFuture =
-                          query.isEmpty ? null : _fetchPlaces(query);
-                    });
-                  },
-                  suffixIcon: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: ImageView.svg(
-                      AppImages.searchIcon,
+        return StatefulBuilder(
+        
+        builder: (_, setState) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 15,
                     ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                FutureBuilder<List<Predictions>>(
-                  future: _placesFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Text('Error fetching places');
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return ListTile(
-                        dense: false,
-                        title: Text(
-                            searchQuery.isEmpty
-                                ? 'Enter a location'
-                                : 'Use "$searchQuery"',
-                            style: GoogleFonts.getFont(
-                              'Inter',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              height: 1.5,
-                              color: const Color(0xFF0A0D14),
-                            )),
-                        onTap: () {
-                          Navigator.pop(context, searchQuery);
-                        },
-                      );
-                    } else {
-                      final places = snapshot.data ?? [];
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(0),
-                        itemCount: places.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              ListTile(
-                                title: Text(places[index].description ?? '',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: const Color(0xFF0A0D14),
-                                    )),
-                                onTap: () {
-                                  Navigator.pop(
-                                      context, places[index].description);
-                                },
-                              ),
-                              Divider(
-                                height: 0.3,
-                                color: Colors.grey.shade300,
-                              ),
-                            ],
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Search for a place',
+                        style: GoogleFonts.inter(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextEditView(
+                      controller: _searchController,
+                      hintText: 'Enter a location',
+                      onChanged: (query) {
+                        setState(() {
+                          searchQuery = query;
+                          _placesFuture =
+                              query.isEmpty ? null : _fetchPlaces(query);
+                        });
+                      },
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: ImageView.svg(
+                          AppImages.searchIcon,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    FutureBuilder<List<Predictions>>(
+                      future: _placesFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return const Text('Error fetching places');
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context, searchQuery);
+                            },
+                            child: Text(
+                                searchQuery.isEmpty
+                                    ? 'Enter a location'
+                                    : 'Use "$searchQuery"',
+                                style: GoogleFonts.getFont(
+                                  'Inter',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  height: 1.5,
+                                  color: const Color(0xFF0A0D14),
+                                )),
                           );
-                        },
-                      );
-                    }
-                  },
+                        } else {
+                          final places = snapshot.data ?? [];
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(0),
+                            itemCount: places.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(places[index].description ?? '',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: const Color(0xFF0A0D14),
+                                        )),
+                                    onTap: () {
+                                      Navigator.pop(
+                                          context, places[index].description);
+                                    },
+                                  ),
+                                  Divider(
+                                    height: 0.3,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         );
       },
     ).then((selectedPlace) {
@@ -281,6 +287,55 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     await _accountCubit.searchPlaces(input: query);
 
     return predictions;
+  }
+
+  Future<String> getUserAddress() async {
+    try {
+      // Request location permission if needed
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return 'Location permission denied';
+        }
+      }
+
+      // Get current position
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Convert latitude and longitude to a human-readable address
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        final Placemark place = placemarks.first;
+        return '${place.locality}, ${place.country}';
+      } else {
+        return 'Address not found';
+      }
+    } catch (e) {
+      return 'Failed to get location: $e';
+    }
+  }
+
+  bool isLoading = false;
+
+  void _setUserLocation() async {
+    setState(() {
+      isLoading = true;
+    });
+    String address = await getUserAddress();
+    setState(() {
+      isLoading = false;
+    });
+    setState(() {
+      Provider.of<UserViewModel>(context, listen: false)
+          .updateLocation(address);
+    });
   }
 
   @override
@@ -831,13 +886,40 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 profile.locationController,
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
-                                            hintText: 'Ikeja, Lagos, Nigeria',
-                                            prefixIcon: const Padding(
-                                              padding: EdgeInsets.all(7.0),
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(19),
                                               child: ImageView.svg(
-                                                AppImages.location,
+                                                AppImages.dropDown,
+                                                scale: 0.9,
                                               ),
                                             ),
+                                            hintText: 'Ikeja, Lagos, Nigeria',
+                                            prefixIcon: (isLoading)
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.all(16.0),
+                                                    child: SizedBox(
+                                                        height: 20,
+                                                        width: 5,
+                                                        child:
+                                                            CircularProgressIndicator
+                                                                .adaptive(
+                                                          backgroundColor:
+                                                              Colors.grey,
+                                                        )),
+                                                  )
+                                                : GestureDetector(
+                                                    onTap: () {
+                                                      _setUserLocation();
+                                                    },
+                                                    child: const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(7.0),
+                                                      child: ImageView.svg(
+                                                        AppImages.location,
+                                                      ),
+                                                    ),
+                                                  ),
                                             onTap: _showPlacePickerBottomSheet,
                                             onChanged: (value) {
                                               Provider.of<UserViewModel>(

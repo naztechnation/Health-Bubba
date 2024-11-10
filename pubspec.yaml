@@ -41,6 +41,7 @@ dependencies:
   sign_in_with_apple: ^6.1.2
   cloud_firestore: ^5.4.2
   geolocator: ^13.0.1
+  geocoding: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

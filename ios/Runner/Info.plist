@@ -39,6 +39,9 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to your location to provide your current location for faster and more accurate search results.</string>
+
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to allow you to take and upload photos for your profile within the app.</string>
 	<key>NSMicrophoneUsageDescription</key>
