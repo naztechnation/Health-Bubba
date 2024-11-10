@@ -747,7 +747,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: SignInScreen());
+                                            page: SignInScreen(isFromMainPage: false));
                                       },
                                       child: Text(
                                         'Login',

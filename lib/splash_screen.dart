@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (isonBoarding == '') {
       AppNavigator.pushAndReplacePage(context, page: OnboardScreen());
     } else if (userLoggedIn == '') {
-      AppNavigator.pushAndReplacePage(context, page: SignInScreen());
+      AppNavigator.pushAndReplacePage(context, page: const SignInScreen(isFromMainPage: false));
     } else {
       AppNavigator.pushAndReplacePage(context, page: const Dashboard());
     }

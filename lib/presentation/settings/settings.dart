@@ -390,11 +390,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       .saveOnboardState('true');
                                                   StorageHandler.saveIsLoggedIn(
                                                       '');
+                                                      
 
                                                   AppNavigator
-                                                      .pushAndReplacePage(
+                                                      .pushAndRemovePreviousPages(
                                                           context,
-                                                          page: SignInScreen());
+                                                          page: SignInScreen(isFromMainPage: true,));
                                                 },
                                                 primaryBgColor:
                                                     const Color(0xFFF70000),

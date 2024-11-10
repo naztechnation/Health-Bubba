@@ -61,7 +61,7 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                   title: AppStrings.successTitle,
                   subtitle: state.userData.message ?? '',
                 );
-                AppNavigator.pushAndStackPage(context, page: SignInScreen());
+                AppNavigator.pushAndStackPage(context, page: SignInScreen(isFromMainPage: false));
               } else {
                 if (state.userData.errors != null) {
                   ToastService().showToast(

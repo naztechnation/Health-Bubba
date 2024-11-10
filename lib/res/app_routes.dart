@@ -29,7 +29,7 @@ class AppRoutes {
     splashScreen: (context) => const SplashScreen(),
     forgetPassword: (context) => ForgotPassword(),
     dashboardScreen: (context) => const Dashboard(),
-    signInScreen: (context) => SignInScreen(),
+    signInScreen: (context) => const SignInScreen(isFromMainPage: false),
     signUpScreen: (context) => SignUpScreen(),
     message: (context) => const Messages(),
     updateInfoScreen: (context) =>  const ProfileSetup(isEdit: false,),
@@ -49,7 +49,7 @@ class AppRoutes {
 
       case signInScreen:
         return MaterialPageRoute(
-          builder: (context) => SignInScreen(),
+          builder: (context) => const SignInScreen(isFromMainPage: false,),
         );
           case updateInfoScreen:
         return MaterialPageRoute(

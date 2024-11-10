@@ -74,7 +74,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           StorageHandler.clearCache();
           StorageHandler.saveOnboardState('true');
 
-          AppNavigator.pushAndReplacePage(context, page: SignInScreen());
+          AppNavigator.pushAndReplacePage(context, page: SignInScreen(isFromMainPage: true));
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(AppImages.error,
