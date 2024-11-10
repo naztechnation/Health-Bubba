@@ -785,7 +785,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   registerUser({required BuildContext context}) async {
     if (_formKey.currentState!.validate()) {
-      if (_isStrong) {
+      
         if (isAgreed) {
           context.read<AccountCubit>().registerUser(
                 email: _emailController.text.trim(),
@@ -804,18 +804,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             subtitle: 'Please agree with our terms to continue',
           );
         }
-      }else {
-         ToastService().showToast(
-            context,
-            leadingIcon: const ImageView.svg(
-              AppImages.error,
-              height: 25,
-            ),
-            title: AppStrings.errorTitle,
-            subtitle: 'Password strength weak',
-          );
-         
-        }
+      
     }
     FocusScope.of(context).unfocus();
   }

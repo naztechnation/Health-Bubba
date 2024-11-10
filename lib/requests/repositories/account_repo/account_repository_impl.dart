@@ -21,6 +21,7 @@ import 'package:healthbubba/widgets/modals.dart';
 import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/google_places.dart';
 import '../../../model/user/login_with_google.dart';
 import '../../../model/user/reg_with_google.dart';
 import '../../../model/user/select_specialties.dart';
@@ -414,5 +415,14 @@ class AccountRepositoryImpl implements AccountRepository {
       },
     );
     return VerifyOtp.fromJson(map);
+  }
+  
+  @override
+  Future<GooglePlaces> googlePlacesSearch({required String input}) async {
+    final map = await Requests().get(
+      AppStrings.googlePlaceApi(input: input),
+      
+    );
+    return GooglePlaces.fromJson(map);
   }
 }

@@ -738,4 +738,32 @@ class AccountCubit extends Cubit<AccountStates> {
       }
     }
   }
+
+   Future<void> searchPlaces({
+    required String input,
+    
+  }) async {
+    try {
+      emit(SearchPlacesLoading());
+
+      final places = await accountRepository.googlePlacesSearch(
+        input: input,
+        
+      );
+
+      emit(SearchPlacesLoaded(places));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../res/app_images.dart';
 import '../../../../widgets/choice_widget.dart';
+import '../../../../widgets/choices.dart';
 import '../../../../widgets/image_view.dart';
 
 
@@ -272,15 +273,12 @@ class _AnalyticsDataState extends State<AnalyticsData> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: ChoiceSelector(
-                    items: const ["1 Day", "7 Days", "30 Days"],
-                    onSelected: (value){
-                      int number = extractNumber(value);
-                      _handleDaySelected(value,context, number.toString());
-                    } ,
-                  ),
+                Choices(
+                  items: const ["1 Day", "7 Days", "30 Days"],
+                  onSelected: (value){
+                    int number = extractNumber(value);
+                    _handleDaySelected(value,context, number.toString());
+                  } ,
                 ),
                 const SizedBox(
                   height: 15,

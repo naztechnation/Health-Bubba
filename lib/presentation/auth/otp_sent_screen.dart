@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,8 +36,61 @@ class _OTPScreenState extends State<OTPSentScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+   bool isCountdownComplete = false;
+  
+
+
   bool isVerificationFailed = false;
 
+  bool callOnce = true;
+
+   
+
+ Timer? _timer;
+  int _secondsRemaining = 90; 
+
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    // Reset timer settings
+    _timer?.cancel(); // Cancel any existing timer
+    setState(() {
+      _secondsRemaining = 90;
+      isCountdownComplete = false;
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      } else {
+        setState(() {
+          isCountdownComplete = true;
+        });
+        timer.cancel();
+      }
+    });
+  }
+
+  String get timerText {
+    final minutes = (_secondsRemaining ~/ 60).toString();
+    final seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds secs';
+  }
+
+
+
+ @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
     
 
    
@@ -45,14 +100,7 @@ class _OTPScreenState extends State<OTPSentScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final auth = Provider.of<AccountViewModel>(context, listen: true);
-    if(auth.callOnce){
-      auth.startCountdown();
-
-      setState(() {
-        auth.setCallOnce(call: false);
-      });
-    }
+     
     return BlocProvider<AccountCubit>(
         lazy: false,
         create: (_) => AccountCubit(
@@ -109,8 +157,8 @@ class _OTPScreenState extends State<OTPSentScreen> {
                 );
               }
             } else if (state is ResendOtpLoaded) {
-                  auth.setIsCompleted(isCompleted:false) ;
-              auth.startCountdown();
+                 
+               startTimer();
 
               ToastService().showToast(
                 context,
@@ -255,33 +303,32 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                 height: 10,
                               ),
 
-                              if (!auth.isCountdownComplete)
+                              if (!isCountdownComplete)
                                             Text(
-                                              "Resend code in ${auth.countdown} secs",
+                                              "Resend code in $timerText",
                                             ),
-                                             const SizedBox(
-                                height: 10,
-                              ),
-                               if (auth.isCountdownComplete)
-                                Opacity(
-                                  opacity: 0.8,
-                                  child: Text(
-                                    'Experiencing issues receiving the code?',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      height: 1.4,
-                                      color: const Color(0xFF6B7280),
-                                    ),
-                                  ),
-                                ),
+                                          
+                             
+                               
                               const SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
-                              if (!auth.isCountdownComplete ||state is ResendOtpLoading)
+                              if (!isCountdownComplete ||state is ResendOtpLoading)
                                 ...[]
                               else ...[
+                                 Text(
+                                   'Experiencing issues receiving the code?',
+                                   style: GoogleFonts.getFont(
+                                     'Inter',
+                                     fontWeight: FontWeight.w400,
+                                     fontSize: 14,
+                                     height: 1.4,
+                                     color: const Color(0xFF6B7280),
+                                   ),
+                                 ),
+                                   const SizedBox(
+                                height: 10,
+                              ),
                                 GestureDetector(
                                   onTap: () {
                                     context

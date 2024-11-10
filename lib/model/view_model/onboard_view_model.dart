@@ -180,16 +180,153 @@ String _successMessage = '';
                         ),
                       ),
                     ),
-                  Text(
-                    'Gallery',
-                    textAlign: TextAlign.left,
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      height: 1.4,
-                      color: const Color(0xFF0A0D14),
-                    ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          Text(
+                            'Gallery',
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              height: 1.4,
+                              color: const Color(0xFF0A0D14),
+                            ),
+                          ),
+                           
+                           GestureDetector(
+                        onTap: () async {
+                          // Navigator.pop(context);
+
+                          final image = await ImagePicker().pickImage(
+                              source: ImageSource.gallery,
+                              imageQuality: 30,
+                              maxHeight: 500,
+                              maxWidth: 500);
+                          _imageURl = File(image!.path);
+                          setState(
+                            () {},
+                          );
+                          imageType = ImageSourceType.gallery;
+                          setViewState(ViewState.success);
+                        },
+                        child: Container(
+                            height: 69,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 2),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 1.5,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D2F3037),
+                                  offset: Offset(0, 24),
+                                  blurRadius: 34,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0A222A35),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 3,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 0.5,
+                                ),
+                              ],
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: ImageView.svg(AppImages.gallery),
+                            )),
+                      ),
+                        ],
+                        
+                      ),
+                          const SizedBox(width: 20,),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                                              'Photo',
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.getFont(
+                          'Inter',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          height: 1.4,
+                          color: const Color(0xFF0A0D14),
+                                              ),
+                                            ),
+                                             GestureDetector(
+                        onTap: () async {
+                          final image = await ImagePicker().pickImage(
+                              source: ImageSource.camera,
+                              imageQuality: 30,
+                              maxHeight: 500,
+                              maxWidth: 500);
+                          _imageURl = File(image!.path);
+                          imageType = ImageSourceType.camera;
+                          setState(
+                            () {},
+                          );
+                          setViewState(ViewState.success);
+                        },
+                        child: Container(
+                            height: 69,
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: Colors.grey.shade300, width: 2),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x0A000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 1.5,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D2F3037),
+                                  offset: Offset(0, 24),
+                                  blurRadius: 34,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0A222A35),
+                                  offset: Offset(0, 4),
+                                  blurRadius: 3,
+                                ),
+                                BoxShadow(
+                                  color: Color(0x0D000000),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 0.5,
+                                ),
+                              ],
+                            ),
+                            child: const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: Padding(
+                                  padding: EdgeInsets.all(15.0),
+                                  child: ImageView.svg(
+                                    AppImages.photo,
+                                  ),
+                                ))),
+                      ),
+                        ],
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -266,72 +403,11 @@ String _successMessage = '';
                       if (imageType == ImageSourceType.gallery &&
                           _imageURl != null)
                         const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () async {
-                          // Navigator.pop(context);
-
-                          final image = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 30,
-                              maxHeight: 500,
-                              maxWidth: 500);
-                          _imageURl = File(image!.path);
-                          setState(
-                            () {},
-                          );
-                          imageType = ImageSourceType.gallery;
-                          setViewState(ViewState.success);
-                        },
-                        child: Container(
-                            height: 69,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: Colors.grey.shade300, width: 2),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x0A000000),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 1.5,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0D2F3037),
-                                  offset: Offset(0, 24),
-                                  blurRadius: 34,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0A222A35),
-                                  offset: Offset(0, 4),
-                                  blurRadius: 3,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0D000000),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 0.5,
-                                ),
-                              ],
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(15.0),
-                              child: ImageView.svg(AppImages.gallery),
-                            )),
-                      ),
+                     
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Photo',
-                    textAlign: TextAlign.left,
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      height: 1.4,
-                      color: const Color(0xFF0A0D14),
-                    ),
-                  ),
+                  
+                  
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -378,61 +454,7 @@ String _successMessage = '';
                       if (imageType == ImageSourceType.camera &&
                           _imageURl != null)
                         const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () async {
-                          final image = await ImagePicker().pickImage(
-                              source: ImageSource.camera,
-                              imageQuality: 30,
-                              maxHeight: 500,
-                              maxWidth: 500);
-                          _imageURl = File(image!.path);
-                          imageType = ImageSourceType.camera;
-                          setState(
-                            () {},
-                          );
-                          setViewState(ViewState.success);
-                        },
-                        child: Container(
-                            height: 69,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: Colors.grey.shade300, width: 2),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x0A000000),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 1.5,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0D2F3037),
-                                  offset: Offset(0, 24),
-                                  blurRadius: 34,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0A222A35),
-                                  offset: Offset(0, 4),
-                                  blurRadius: 3,
-                                ),
-                                BoxShadow(
-                                  color: Color(0x0D000000),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 0.5,
-                                ),
-                              ],
-                            ),
-                            child: const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: Padding(
-                                  padding: EdgeInsets.all(15.0),
-                                  child: ImageView.svg(
-                                    AppImages.photo,
-                                  ),
-                                ))),
-                      ),
+                     
                     ],
                   ),
                 ],

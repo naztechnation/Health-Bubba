@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,6 +37,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+
+
+  
+  
+  bool isCountdownComplete = false;
   
 
 
@@ -44,12 +51,55 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
    
 
+ Timer? _timer;
+  int _secondsRemaining = 90; 
 
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    // Reset timer settings
+    _timer?.cancel(); // Cancel any existing timer
+    setState(() {
+      _secondsRemaining = 90;
+      isCountdownComplete = false;
+    });
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsRemaining > 0) {
+        setState(() {
+          _secondsRemaining--;
+        });
+      } else {
+        setState(() {
+          isCountdownComplete = true;
+        });
+        timer.cancel();
+      }
+    });
+  }
+
+  String get timerText {
+    final minutes = (_secondsRemaining ~/ 60).toString();
+    final seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds secs';
+  }
+
+
+
+ @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final auth = Provider.of<AccountViewModel>(context, listen: true);
     
     return BlocProvider<AccountCubit>(
         lazy: false,
@@ -92,8 +142,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 );
               }
             } else if (state is ResendOtpLoaded) {
-              // Modals.showToast(state.userData.message!,
-              //     messageType: MessageType.success);
+              
 
               ToastService().showToast(
                 context,
@@ -105,8 +154,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 subtitle: state.otp.message ?? '',
               );
 
-              auth.setIsCompleted(isCompleted:false) ;
-              auth.startCountdown();
+               startTimer();
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -263,9 +311,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                               ),
                                             ),
                                           ),
-                                          if (!auth.isCountdownComplete)
+                                          if (!isCountdownComplete)
                                             Text(
-                                              "Resend code in ${auth.countdown} secs",
+                                              "Resend code in $timerText",
                                             ),
                                         ],
                                       ),
@@ -288,7 +336,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                   ],
                                 ),
                               ),
-                              if (auth.isCountdownComplete)
+                              if (isCountdownComplete)
                                 Opacity(
                                   opacity: 0.8,
                                   child: Text(
@@ -305,12 +353,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              if (!auth.isCountdownComplete ||
+                              if (!isCountdownComplete ||
                                   state is ResendOtpLoading)
                                 ...[]
                               else ...[
                                 GestureDetector(
                                   onTap: () {
+                                    
                                     context
                                         .read<AccountCubit>()
                                         .resendOtp(email: widget.email);

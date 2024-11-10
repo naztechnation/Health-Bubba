@@ -6,6 +6,7 @@ class AppStrings {
  
 
  //static const String _baseUrl = 'https://api.healthbubba.com/api/';
+  static const String googleKey = 'AIzaSyAl73gnRt865JBHRFeDyfRCuS5oIJijzQM';
  static const String _baseUrl = 'https://app.healthbubba.com/api/';
 
 
@@ -14,7 +15,7 @@ class AppStrings {
   static const String zegoAppSign = 'e9816227c410458c0e4629ebb2244a40df41da81dce59b6df3cb9d43d3b356c3';
   static const String zegoResourceId = 'bubba_ios';
 
-
+  static    String googlePlaceApi({required String input,  }) => 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$googleKey&sessiontoken=123254251&components=country:ng';
   static const String imageBaseUrl =
       "http://api.healthbubba.com//uploads/profile_pics/";
 

@@ -19,6 +19,7 @@ import '../../../../utils/validator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/checkbox.dart';
 import '../../../../widgets/choice_widget.dart';
+import '../../../../widgets/choices.dart';
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/decision_widgets.dart';
 import '../../../../widgets/error_page.dart';
@@ -838,7 +839,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  ChoiceSelector(
+                                                  Choices(
                                                     items: const [
                                                       "Everyday",
                                                       "Specific days",
@@ -955,7 +956,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                 ),
                                               ),
                                             ),
-                                            ChoiceSelector(
+                                            Choices(
                                               items: const [
                                                 "After Food",
                                                 "Before Food",
@@ -1043,7 +1044,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                       borderColor: Colors.grey.shade200,
                                       borderWidth: 0.5,
                                       hintText: '',
-                                      maxLines: 4,
+                                      maxLines: 5,
                                     ),
                                   ],
                                 ),

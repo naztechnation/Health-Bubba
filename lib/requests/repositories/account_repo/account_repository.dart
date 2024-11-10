@@ -10,6 +10,7 @@ import 'package:healthbubba/model/user/user_data.dart';
 
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/google_places.dart';
 import '../../../model/user/bank_details.dart';
 import '../../../model/user/get_specialties.dart';
 import '../../../model/user/login_with_google.dart';
@@ -43,6 +44,10 @@ abstract class AccountRepository {
 
   Future<VerifyOtp> resendOtp({
     required String email,
+     
+  });
+  Future<GooglePlaces> googlePlacesSearch({
+    required String input,
      
   });
 

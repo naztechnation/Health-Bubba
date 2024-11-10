@@ -9,6 +9,7 @@ import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 
 import '../../model/auth_model/register.dart';
+import '../../model/google_places.dart';
 import '../../model/user/banks.dart';
 import '../../model/user/login_with_google.dart';
 import '../../model/user/reg_with_google.dart';
@@ -378,6 +379,17 @@ class ResendOtpLoaded extends AccountStates {
   const ResendOtpLoaded(this.otp);
   @override
   List<Object> get props => [otp];
+}
+class SearchPlacesLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SearchPlacesLoaded extends AccountStates {
+  final GooglePlaces googlePlaces;
+  const SearchPlacesLoaded(this.googlePlaces);
+  @override
+  List<Object> get props => [googlePlaces];
 }
 
 class AccountNetworkErr extends AccountStates {
