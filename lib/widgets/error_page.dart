@@ -178,6 +178,11 @@ class ErrorPage extends StatelessWidget {
                               name: AppRoutes.signInScreen);
 
                           break;
+                        case '500':
+                           AppNavigator.pushAndReplacePage(context,
+                              page: const Dashboard());
+
+                          break;
 
                         default:
                           onTap();

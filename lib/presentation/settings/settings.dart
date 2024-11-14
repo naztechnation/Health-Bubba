@@ -9,10 +9,12 @@ import 'package:healthbubba/presentation/settings/settings_pages/password_manage
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 import '../../handlers/secure_handler.dart';
+import '../../model/view_model/user_view_model.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
@@ -48,6 +50,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = Provider.of<UserViewModel>(context, listen: true);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -386,16 +390,44 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       .uninit();
                                                   await StorageHandler
                                                       .clearCache();
+
+                                                      profile.clearAllField();
                                                   StorageHandler
                                                       .saveOnboardState('true');
                                                   StorageHandler.saveIsLoggedIn(
                                                       '');
-                                                      
+                                                  StorageHandler.saveUserTitle(
+                                                      '');
+                                                  StorageHandler
+                                                      .saveMedicalQualification(
+                                                          '');
+                                                  StorageHandler
+                                                      .saveMedicalLicenceNumber(
+                                                          '');
+                                                  StorageHandler.saveAffliate(
+                                                      '');
+                                                  StorageHandler.savePhone('');
+                                                  StorageHandler.saveLocation(
+                                                      '');
+                                                  StorageHandler.saveYear('');
+                                                  StorageHandler
+                                                      .saveDoctorState('0');
+                                                  StorageHandler
+                                                      .saveUserFirstName('');
+                                                  StorageHandler.saveLastName(
+                                                      '');
+                                                  StorageHandler
+                                                      .saveUserPicture('');
+                                                  StorageHandler.saveUserId('');
 
                                                   AppNavigator
                                                       .pushAndRemovePreviousPages(
                                                           context,
-                                                          page: SignInScreen(isFromMainPage: true,));
+                                                          page:
+                                                              const SignInScreen(
+                                                            isFromMainPage:
+                                                                true,
+                                                          ));
                                                 },
                                                 primaryBgColor:
                                                     const Color(0xFFF70000),

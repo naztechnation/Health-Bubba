@@ -123,6 +123,20 @@ void _filterMedications() {
     setViewState(ViewState.success);
   }
 
+    clearAllField(){
+      _firstnameController.clear();
+      _lastnameController.clear();
+       
+      _licenceNumberController.clear();
+      _yearsOfExpController.clear();
+      _hospitalAffliateController.clear();
+      _phoneController.clear();
+      _locationController.clear();
+
+
+    setViewState(ViewState.success);
+
+    }
     Future<void> updateFirstname(
     String fName,
   ) async {

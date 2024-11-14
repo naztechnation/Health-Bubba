@@ -61,9 +61,12 @@ class BookAppointent extends StatefulWidget {
 class _BookAppointentState extends State<BookAppointent> {
   String _selectedDay = "0.00";
 
+  String realDay = "0.00 AM";
+
   void _handleDaySelected(String selectedDay) {
     setState(() {
       _selectedDay = selectedDay.replaceAll(RegExp(r' (AM|PM)$'), '');
+      realDay = selectedDay;
     });
   }
 
@@ -92,6 +95,27 @@ class _BookAppointentState extends State<BookAppointent> {
     }
     return timeSlots;
   }
+
+  bool isTimeSlotInPast(String timeSlot) {
+  // Get current date and time
+  DateTime now = DateTime.now();
+
+  // Parse the provided timeSlot
+  DateFormat format = DateFormat('HH:mm a');
+  DateTime parsedTime = format.parse(timeSlot);
+
+  // Set the parsed time to today's date
+  DateTime timeSlotDateTime = DateTime(
+    now.year,
+    now.month,
+    now.day,
+    parsedTime.hour,
+    parsedTime.minute,
+  );
+
+  // Check if the time slot is in the past
+  return timeSlotDateTime.isBefore(now);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -481,7 +505,11 @@ class _BookAppointentState extends State<BookAppointent> {
                       height: 45,
                       child: ButtonView(
                           onPressed: () {
-                            Modals.showDialogModal(
+
+                            if (isTimeSlotInPast(realDay)) {
+                              Modals.showToast('Please select a time that is in the future', context);
+                            } else {
+                             Modals.showDialogModal(
                               context,
                               page: destructiveActions(
                                   context: context,
@@ -518,6 +546,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                     Navigator.pop(context);
                                   }),
                             );
+                            }
+                            
                           },
                           borderRadius: 100,
                           color: AppColors.lightSecondary,

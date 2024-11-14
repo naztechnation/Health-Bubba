@@ -2,8 +2,10 @@ import 'dart:io' show Platform;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:healthbubba/res/app_colors.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:healthbubba/widgets/modals.dart';
 import 'package:provider/provider.dart';
 
 import '../../handlers/secure_handler.dart';
@@ -11,6 +13,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../res/app_images.dart';
 import '../../res/app_strings.dart';
 import '../../update_page.dart';
+import '../../widgets/decision_widgets.dart';
 import 'dashboard_pages.dart/appointment_tabs.dart';
 import 'dashboard_pages.dart/home_page.dart';
 import 'dashboard_pages.dart/medication/medication_page.dart';
@@ -30,7 +33,6 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
   int index = 0;
 
   String doctorState = "0";
-
 
   List<BottomNavigationBarItem> get tabs => [
         const BottomNavigationBarItem(
@@ -104,8 +106,7 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
   @override
   void initState() {
     _checkVersionAndNavigate();
-     
-    
+
     super.initState();
   }
 
@@ -113,21 +114,56 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
   Widget build(BuildContext context) {
     StorageHandler.saveIsLoggedIn('true');
 
-
     final doctorsState =
         Provider.of<OnboardViewModel>(context, listen: true).doctorsState;
 
     List<Widget> pages = [
       const HomePage(),
-      doctorsState == '0' ? const PendingVerification() : const PatientPage(isDashboard: true),
-      doctorsState == '0' ? const PendingVerification() : AppointmentTabView(isDashboard: true),
-      doctorsState == '0' ? const PendingVerification() : const MedicationPage(true),
+      doctorsState == '0'
+          ? const PendingVerification()
+          : const PatientPage(isDashboard: true),
+      doctorsState == '0'
+          ? const PendingVerification()
+          : AppointmentTabView(isDashboard: true),
+      doctorsState == '0'
+          ? const PendingVerification()
+          : const MedicationPage(true),
     ];
 
     return Scaffold(
-      body: pages[index],
+      body: PopScope(
+         canPop: false,
+          onPopInvokedWithResult: (value, result) async {
 
-    
+            if (index == 0) {
+              Modals.showDialogModal(
+                context,
+                page: destructiveActions(
+                    context: context,
+                    message: 'Do you want to exit the app?',
+                    primaryText: 'Yes, continue',
+                    secondaryText: 'Dismiss',
+                    primaryAction: () async {
+                      SystemNavigator.pop();
+                    },
+                    primaryBgColor: const Color(0xFFF70000),
+                    secondaryBgColor: AppColors.lightPrimary,
+                    secondaryAction: () {
+                      Navigator.pop(context);
+                    }),
+              );
+                
+            } else {
+              setState(() {
+                index = 0;
+              });
+
+                
+            }
+
+            
+          },
+          child: pages[index]),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => selectedTab(index),
         currentIndex: index,

@@ -936,76 +936,76 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: Row(
-                                    children: [
-                                      CustomCheckbox(
-                                        isChecked: isAgreed,
-                                        onChanged: (value) {
-                                          isAgreed = value;
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: RichText(
-                                          text: TextSpan(
-                                            text: 'I agree to HealthBubba’s ',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () {
-                                                        _launchUrl(
-                                                            'https://healthbubba.com/terms');
-                                                      },
-                                                text: 'Terms and Conditions',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.3,
-                                                  color:
-                                                      const Color(0xFF40B93C),
-                                                ),
-                                              ),
-                                              const TextSpan(
-                                                text: ' and ',
-                                              ),
-                                              TextSpan(
-                                                recognizer:
-                                                    TapGestureRecognizer()
-                                                      ..onTap = () {
-                                                        _launchUrl(
-                                                            'https://healthbubba.com/privacy-policy');
-                                                      },
-                                                text: 'Privacy Policy',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.3,
-                                                  color:
-                                                      const Color(0xFF40B93C),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(
+                                //       horizontal: 12.0),
+                                //   child: Row(
+                                //     children: [
+                                //       CustomCheckbox(
+                                //         isChecked: isAgreed,
+                                //         onChanged: (value) {
+                                //           isAgreed = value;
+                                //         },
+                                //       ),
+                                //       const SizedBox(
+                                //         width: 10,
+                                //       ),
+                                //       Expanded(
+                                //         child: RichText(
+                                //           text: TextSpan(
+                                //             text: 'I agree to HealthBubba’s ',
+                                //             style: GoogleFonts.getFont(
+                                //               'Inter',
+                                //               fontWeight: FontWeight.w400,
+                                //               fontSize: 14,
+                                //               height: 1.4,
+                                //               color: const Color(0xFF131316),
+                                //             ),
+                                //             children: [
+                                //               TextSpan(
+                                //                 recognizer:
+                                //                     TapGestureRecognizer()
+                                //                       ..onTap = () {
+                                //                         _launchUrl(
+                                //                             'https://healthbubba.com/terms');
+                                //                       },
+                                //                 text: 'Terms and Conditions',
+                                //                 style: GoogleFonts.getFont(
+                                //                   'Inter',
+                                //                   fontWeight: FontWeight.w500,
+                                //                   fontSize: 14,
+                                //                   height: 1.3,
+                                //                   color:
+                                //                       const Color(0xFF40B93C),
+                                //                 ),
+                                //               ),
+                                //               const TextSpan(
+                                //                 text: ' and ',
+                                //               ),
+                                //               TextSpan(
+                                //                 recognizer:
+                                //                     TapGestureRecognizer()
+                                //                       ..onTap = () {
+                                //                         _launchUrl(
+                                //                             'https://healthbubba.com/privacy-policy');
+                                //                       },
+                                //                 text: 'Privacy Policy',
+                                //                 style: GoogleFonts.getFont(
+                                //                   'Inter',
+                                //                   fontWeight: FontWeight.w500,
+                                //                   fontSize: 14,
+                                //                   height: 1.3,
+                                //                   color:
+                                //                       const Color(0xFF40B93C),
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -1041,7 +1041,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                       profile.phoneController.text
                                           .trim()
                                           .isNotEmpty) {
-                                    if (isAgreed) {
+                                    
                                       if (!isOtherSelected &&
                                           _qualificationController
                                               .text.isNotEmpty) {
@@ -1125,16 +1125,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   .trim());
                                         }
                                       }
-                                    } else {
-                                      ToastService().showToast(context,
-                                          leadingIcon: const ImageView.svg(
-                                            height: 25,
-                                            AppImages.error,
-                                          ),
-                                          title: AppStrings.errorTitle,
-                                          subtitle:
-                                              'Agree to our terms and conditions to continue');
-                                    }
+                                      
                                   } else {
                                     ToastService().showToast(context,
                                         leadingIcon: const ImageView.svg(

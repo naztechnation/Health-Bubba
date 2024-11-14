@@ -279,7 +279,10 @@ getVerifiedKey()async{
                                               .filteredMedicationsLists[index],
                                         );
                                       }),
-                                )
+                                ),
+                                  const SizedBox(
+                    height: 80,
+                  )
                         ],
                       ),
                     ),

@@ -111,13 +111,13 @@ class MedicationCard extends StatelessWidget {
                                           children: [
                                               
                                             SizedBox(
-                                              width: 251.4,
+                                              width: 240,
                                               child: Column(
                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    medications.medicationName ?? '',
+                                                    medications.medicationName?? '',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight: FontWeight.w500,

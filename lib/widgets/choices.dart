@@ -35,42 +35,40 @@ class _ChoicesState extends State<Choices> {
         int index = entry.key;
         String time = entry.value;
         bool isSelected = _selectedIndex == index;
-        return Expanded(
-          child: GestureDetector(
-            onTap: () => _onDaySelected(index),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 5.0, horizontal: 9.0),
-                decoration: isSelected
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.circular(9999),
-                        color: const Color(0xFF2F3037),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x4D2F3037),
-                            offset: Offset(0, 2),
-                            blurRadius: 2,
-                          ),
-                          BoxShadow(
-                            color: Color(0xFF2F3037),
-                            offset: Offset(0, 0),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      )
-                    : null,
-                child: Center(
-                  child: Text(
-                    time,
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      height: 1.4,
-                      color: isSelected ? Colors.white : Colors.black,
-                    ),
+        return GestureDetector(
+          onTap: () => _onDaySelected(index),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 5.0, horizontal: 9.0),
+              decoration: isSelected
+                  ? BoxDecoration(
+                      borderRadius: BorderRadius.circular(9999),
+                      color: const Color(0xFF2F3037),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x4D2F3037),
+                          offset: Offset(0, 2),
+                          blurRadius: 2,
+                        ),
+                        BoxShadow(
+                          color: Color(0xFF2F3037),
+                          offset: Offset(0, 0),
+                          blurRadius: 0,
+                        ),
+                      ],
+                    )
+                  : null,
+              child: Center(
+                child: Text(
+                  time,
+                  style: GoogleFonts.getFont(
+                    'Inter',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    height: 1.4,
+                    color: isSelected ? Colors.white : Colors.black,
                   ),
                 ),
               ),
