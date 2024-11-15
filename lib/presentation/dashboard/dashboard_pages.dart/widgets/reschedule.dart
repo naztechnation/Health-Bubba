@@ -254,7 +254,7 @@ class _RescheduleState extends State<Reschedule> {
                                                     height: 5,
                                                   ),
                                                   Text(
-                                                    '(123) 456-7890',
+                                                    ' ',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
@@ -395,8 +395,9 @@ class _RescheduleState extends State<Reschedule> {
                                                     const EdgeInsets.fromLTRB(
                                                         0, 0, 15.8, 0),
                                                 child: Text(
-                                                  widget.appointment
-                                                          .patientWeight ??
+                                                ( widget.appointment
+                                                          .patientWeight == null)? "N/B" : widget.appointment
+                                                          .patientWeight.toString() ??
                                                       'N/B',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',

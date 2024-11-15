@@ -49,14 +49,14 @@ class AppointmentPatientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     getUserDetails();
     return GestureDetector(
-       onTap: () {
-                          AppNavigator.pushAndStackPage(context,
-                              page: ReschedulePage(
-                                isSchedule: true,
-                                appointment: upcomingAppointment,
-                                isDue: true,
-                              ));
-                        },
+      onTap: () {
+        AppNavigator.pushAndStackPage(context,
+            page: ReschedulePage(
+              isSchedule: true,
+              appointment: upcomingAppointment,
+              isDue: true,
+            ));
+      },
       child: Stack(
         children: [
           Container(
@@ -117,22 +117,21 @@ class AppointmentPatientCard extends StatelessWidget {
                               // (!AppUtils.isPastDateTime(
                               //         upcomingAppointment.date ?? ''))
                               //     ? const SizedBox.shrink()
-                              //     : 
-                                  Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          0, 0, 20, 0),
-                                       width: 4,
-                                      height: 10,
-                                      child: SizedBox(
-                                        width: 4,
-                                        height: 5,
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.grey.shade600,
-                                          size: 17,
-                                        ),
-                                      ),
-                                    ),
+                              //     :
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                width: 4,
+                                height: 10,
+                                child: SizedBox(
+                                  width: 4,
+                                  height: 5,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.grey.shade600,
+                                    size: 17,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -170,14 +169,16 @@ class AppointmentPatientCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 12),
+                                  margin:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 12),
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
                                   child: Row(
                                     children: [
                                       Image.network(
                                         fit: BoxFit.cover,
-                                        upcomingAppointment.patientPicture ?? '',
+                                        upcomingAppointment.patientPicture ??
+                                            '',
                                         errorBuilder:
                                             (context, error, stackTrace) {
                                           return const ImageView.asset(
@@ -225,9 +226,9 @@ class AppointmentPatientCard extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            width:
-                                                MediaQuery.sizeOf(context).width *
-                                                    0.6,
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.6,
                                             child: Row(
                                               children: [
                                                 Text(
@@ -246,12 +247,14 @@ class AppointmentPatientCard extends StatelessWidget {
                                                 Flexible(
                                                   child: Text(
                                                     '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '', upcomingAppointment.time ?? ''))})',
+                                                    textAlign: TextAlign.end,
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       fontSize: 12,
-                                                      color:
-                                                          const Color(0xFF6B7280),
+                                                      color: const Color(
+                                                          0xFF6B7280),
                                                     ),
                                                   ),
                                                 )
@@ -302,13 +305,14 @@ class AppointmentPatientCard extends StatelessWidget {
                                                   }
                                                 },
                                                 child: Container(
-                                                    width:
-                                                        MediaQuery.sizeOf(context)
-                                                            .width,
+                                                    width: MediaQuery.sizeOf(
+                                                            context)
+                                                        .width,
                                                     height: 42,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius.circular(
+                                                            BorderRadius
+                                                                .circular(
                                                           100,
                                                         ),
                                                         color: AppColors
@@ -344,13 +348,13 @@ class AppointmentPatientCard extends StatelessWidget {
                                           ),
                                           Expanded(
                                             child: Opacity(
-                                              opacity:
-                                                  (!AppUtils.isWithinFiveMinutes(
+                                              opacity: (!AppUtils
+                                                      .isWithinFiveMinutes(
                                                           upcomingAppointment
                                                                   .date ??
                                                               ''))
-                                                      ? 1
-                                                      : 0.5,
+                                                  ? 1
+                                                  : 0.5,
                                               child: ButtonView(
                                                   expanded: false,
                                                   onPressed: () {
@@ -364,7 +368,8 @@ class AppointmentPatientCard extends StatelessWidget {
                                                     }
                                                   },
                                                   borderRadius: 100,
-                                                  color: AppColors.lightSecondary,
+                                                  color:
+                                                      AppColors.lightSecondary,
                                                   child: Text(
                                                     actionText,
                                                     style: const TextStyle(
@@ -396,20 +401,22 @@ class AppointmentPatientCard extends StatelessWidget {
                   right: 30,
                   child: GestureDetector(
                     onTap: () {
-                       ZegoUIKitPrebuiltCallInvitationService().init(
-                      appID: AppStrings.zigoAppIdUrl,
-                      appSign: AppStrings.zegoAppSign,
-                      
-                      userID:  userId,
-      
-                      userName:  userName,
-                      
-                      plugins: [ZegoUIKitSignalingPlugin()],
-                    );
-                        
-                      AppNavigator.pushAndStackPage(context, page: CallInviteScreen(inviteeId: 
-                      upcomingAppointment.patientId.toString(), 
-                      inviteeName: upcomingAppointment.patientLastName.toString(),appointmentId: upcomingAppointment.appointmentId.toString(),));
+                      ZegoUIKitPrebuiltCallInvitationService().init(
+                        appID: AppStrings.zigoAppIdUrl,
+                        appSign: AppStrings.zegoAppSign,
+                        userID: userId,
+                        userName: userName,
+                        plugins: [ZegoUIKitSignalingPlugin()],
+                      );
+
+                      AppNavigator.pushAndStackPage(context,
+                          page: CallInviteScreen(
+                            inviteeId: upcomingAppointment.patientId.toString(),
+                            inviteeName:
+                                upcomingAppointment.patientLastName.toString(),
+                            appointmentId:
+                                upcomingAppointment.appointmentId.toString(),
+                          ));
                     },
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),

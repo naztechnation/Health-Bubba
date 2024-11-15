@@ -59,7 +59,7 @@ class BookAppointent extends StatefulWidget {
 }
 
 class _BookAppointentState extends State<BookAppointent> {
-  String _selectedDay = "0.00";
+ String _selectedDay = "0.00";
 
   String realDay = "0.00 AM";
 
@@ -96,26 +96,48 @@ class _BookAppointentState extends State<BookAppointent> {
     return timeSlots;
   }
 
-  bool isTimeSlotInPast(String timeSlot) {
-  // Get current date and time
-  DateTime now = DateTime.now();
+  bool isTimeInPast(String time, String date) {
+  try {
+    // Parse the date input
+    DateTime parsedDate = DateTime.parse(date);
 
-  // Parse the provided timeSlot
-  DateFormat format = DateFormat('HH:mm a');
-  DateTime parsedTime = format.parse(timeSlot);
+    // Parse the time input
+    RegExp timeRegex = RegExp(r'^(\d{1,2}):(\d{1,2})\s?(AM|PM)$');
+    var match = timeRegex.firstMatch(time);
+    if (match == null) {
+      throw FormatException("Invalid time format");
+    }
 
-  // Set the parsed time to today's date
-  DateTime timeSlotDateTime = DateTime(
-    now.year,
-    now.month,
-    now.day,
-    parsedTime.hour,
-    parsedTime.minute,
-  );
+    int hour = int.parse(match.group(1)!);
+    int minute = int.parse(match.group(2)!);
+    String period = match.group(3)!;
 
-  // Check if the time slot is in the past
-  return timeSlotDateTime.isBefore(now);
+    // Convert to 24-hour format
+    if (period == 'PM' && hour != 12) {
+      hour += 12;
+    } else if (period == 'AM' && hour == 12) {
+      hour = 0;
+    }
+
+    // Combine parsed date and time into a DateTime object
+    DateTime inputDateTime =
+        DateTime(parsedDate.year, parsedDate.month, parsedDate.day, hour, minute);
+
+    // Get the current date and time
+    DateTime now = DateTime.now();
+
+    // Compare the input DateTime to the current DateTime
+    return inputDateTime.isBefore(now);
+  } catch (e) {
+    print("Error: $e");
+    return false; // Default to false if there's an error
+  }
 }
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +207,10 @@ class _BookAppointentState extends State<BookAppointent> {
       return Stack(
         children: [
           Scaffold(
+              backgroundColor: Colors.white,
+
             body: Scaffold(
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 title: Center(
                   child: Text(
@@ -506,9 +531,20 @@ class _BookAppointentState extends State<BookAppointent> {
                       child: ButtonView(
                           onPressed: () {
 
-                            if (isTimeSlotInPast(realDay)) {
-                              Modals.showToast('Please select a time that is in the future', context);
-                            } else {
+                               
+
+                               
+
+
+                            if (isTimeInPast(realDay, getFormattedDate(
+                                          Provider.of<BookAppointmentViewModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .selectedDate ??
+                                              DateTime.now()).toString())) {
+                                Modals.showToast('Please select a time that is in the future', context);
+                            } 
+                            else {
                              Modals.showDialogModal(
                               context,
                               page: destructiveActions(
@@ -519,26 +555,26 @@ class _BookAppointentState extends State<BookAppointent> {
                                   secondaryText: 'No, go back',
                                   primaryAction: () async {
                                     Navigator.pop(context);
-                                   
-                                    _userCubit.createAppointment(
-                                      patientsId: widget.patientsId,
-                                      date: getFormattedDate(
-                                          Provider.of<BookAppointmentViewModel>(
-                                                      context,
-                                                      listen: false)
-                                                  .selectedDate ??
-                                              DateTime.now()),
-                                      time: _selectedDay,
-                                      complaint:
-                                          (_complaintController.text.isNotEmpty)
-                                              ? _complaintController.text.trim()
-                                              : 'none',
-                                      images:
-                                          Provider.of<BookAppointmentViewModel>(
-                                                  context,
-                                                  listen: false)
-                                              .imageUrls,
-                                    );
+                                  
+                                    // _userCubit.createAppointment(
+                                    //   patientsId: widget.patientsId,
+                                    //   date: getFormattedDate(
+                                    //       Provider.of<BookAppointmentViewModel>(
+                                    //                   context,
+                                    //                   listen: false)
+                                    //               .selectedDate ??
+                                    //           DateTime.now()),
+                                    //   time: _selectedDay,
+                                    //   complaint:
+                                    //       (_complaintController.text.isNotEmpty)
+                                    //           ? _complaintController.text.trim()
+                                    //           : 'none',
+                                    //   images:
+                                    //       Provider.of<BookAppointmentViewModel>(
+                                    //               context,
+                                    //               listen: false)
+                                    //           .imageUrls,
+                                    // );
                                   },
                                   primaryBgColor: const Color(0xFF093126),
                                   secondaryBgColor: AppColors.lightPrimary,

@@ -200,7 +200,9 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                                                   TextSpan(
                                                     text:
                                                         '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))})',
+                                                    
                                                     style: GoogleFonts.getFont(
+                                                      
                                                       'Inter',
                                                       fontWeight: FontWeight.w400,
                                                       fontSize: 12,
