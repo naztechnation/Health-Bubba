@@ -97,9 +97,7 @@ getVerifiedKey()async{
   }
 
   void incrementPageAndValue() {
-    print('${currentPage < pages}');
-    print('${currentPage}');
-    print('${ pages}');
+     
     if (currentPage < pages) {
       setState(() {
         currentPage += 1;
@@ -331,6 +329,8 @@ getVerifiedKey()async{
                                                             index],
                                                       ),
                                                     );
+
+                                                  
                                                     }
                                                    
                                                   },

@@ -6,6 +6,7 @@ import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/res/app_images.dart';
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/image_view.dart';
+import 'package:healthbubba/widgets/modals.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
@@ -223,6 +224,9 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                               ),
                               GestureDetector(
                                 onTap: () {
+
+                                 
+
                                   ZegoUIKitPrebuiltCallInvitationService().init(
                                     appID: AppStrings.zigoAppIdUrl,
                                     appSign: AppStrings.zegoAppSign,

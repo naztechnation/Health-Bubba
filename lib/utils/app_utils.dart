@@ -120,7 +120,7 @@ class AppUtils {
   }
 
   static String getTimeDifference(String dateTimeString) {
-    print(dateTimeString);
+      
     final DateTime dateTime = DateTime.parse(dateTimeString);
     final DateTime now = DateTime.now().add(const Duration(hours: 1));
 

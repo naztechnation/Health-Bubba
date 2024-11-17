@@ -133,11 +133,19 @@ class _PatientDetailsState extends State<PatientDetails> {
                                                     child: SizedBox(
                                                         width: 62.6,
                                                         height: 64,
-                                                        child:
-                                                            ImageView.network(
-                                                          patientDetails.picture,
-                                                          fit: BoxFit.cover,
-                                                        )),
+                                                        child: Image.network(
+                        fit: BoxFit.cover,
+                        patientDetails.picture ?? '',
+                        errorBuilder: (context, error, stackTrace) {
+                          return const ImageView.asset(AppImages.avatarIcon);
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const ImageView.asset(AppImages.avatarIcon);
+                        },
+                      ),
+                                                            
+                                                        ),
                                                   ),
                                                 ),
                                                 Text(

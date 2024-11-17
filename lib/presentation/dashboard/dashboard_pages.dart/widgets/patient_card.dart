@@ -5,7 +5,7 @@ import '../../../../model/patients/patients_list.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 
-patientCard({required BuildContext context,required Patients patients}) {
+patientCard({required BuildContext context, required Patients patients}) {
   return Container(
     width: MediaQuery.sizeOf(context).width,
     margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
@@ -39,40 +39,27 @@ patientCard({required BuildContext context,required Patients patients}) {
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-             
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(40),
-                  child:   SizedBox(
-                    width: 42.1,
-                    height: 43,
-                    child:
-                    
-                    Image.network(
-                                                    fit: BoxFit.cover,
-                                                    patients.picture ?? '',
-                                                    errorBuilder: (context,
-                                                        error, stackTrace) {
-                                                      return const ImageView
-                                                          .asset(
-                                                          AppImages.avatarIcon);
-                                                    },
-                                                    loadingBuilder: (context,
-                                                        child,
-                                                        loadingProgress) {
-                                                      if (loadingProgress ==
-                                                          null) return child;
-                                                      return const ImageView
-                                                          .asset(
-                                                          AppImages.avatarIcon);
-                                                    },
-                                                  )
-                      
-                  ),
+                  child: SizedBox(
+                      width: 42.1,
+                      height: 43,
+                      child: Image.network(
+                        fit: BoxFit.cover,
+                        patients.picture ?? '',
+                        errorBuilder: (context, error, stackTrace) {
+                          return const ImageView.asset(AppImages.avatarIcon);
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const ImageView.asset(AppImages.avatarIcon);
+                        },
+                      )),
                 ),
                 const SizedBox(
                   width: 12,
@@ -108,7 +95,11 @@ patientCard({required BuildContext context,required Patients patients}) {
                 ),
               ],
             ),
-              Icon(Icons.arrow_forward_ios, size: 16,color: Colors.grey.shade500,)
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: Colors.grey.shade500,
+            )
           ],
         ),
       ),

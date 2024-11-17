@@ -25,8 +25,9 @@ class CallInviteScreen extends StatelessWidget {
   final String inviteeId;
   final String appointmentId;
   final String inviteeName;
+  final bool isVideoCall;
   const CallInviteScreen(
-      {super.key, required this.inviteeId, required this.inviteeName, required this.appointmentId});
+      {super.key, required this.inviteeId, required this.inviteeName, required this.appointmentId,   this.isVideoCall = true});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class CallInviteScreen extends StatelessWidget {
           viewModel: Provider.of<UserViewModel>(context, listen: false)),
       child: CallInvite(
         inviteeId: inviteeId,
+        isVideoCall: isVideoCall,
         inviteeName: inviteeName, appointmentId: appointmentId,
       ),
     );
@@ -45,10 +47,11 @@ class CallInviteScreen extends StatelessWidget {
 class CallInvite extends StatefulWidget {
   final String inviteeId;
   final String appointmentId;
+  final bool isVideoCall;
 
   final String inviteeName;
   const CallInvite(
-      {super.key, required this.inviteeId, required this.inviteeName, required this.appointmentId});
+      {super.key, required this.inviteeId, required this.inviteeName, required this.appointmentId, required this.isVideoCall});
 
   @override
   State<CallInvite> createState() => _CallInviteState();
@@ -152,7 +155,7 @@ class _CallInviteState extends State<CallInvite> {
                             name: widget.inviteeName,
                           ),
                         ],
-                        isVideoCall: true,
+                        isVideoCall:     widget.isVideoCall,
                         resourceID: AppStrings.zegoResourceId,
                       ),
                     ),

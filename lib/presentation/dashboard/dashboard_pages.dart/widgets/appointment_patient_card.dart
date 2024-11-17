@@ -175,25 +175,26 @@ class AppointmentPatientCard extends StatelessWidget {
                                       const EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
                                   child: Row(
                                     children: [
-                                      Image.network(
-                                        fit: BoxFit.cover,
-                                        upcomingAppointment.patientPicture ??
-                                            '',
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return const ImageView.asset(
-                                              AppImages.avatarIcon);
-                                        },
-                                        loadingBuilder:
-                                            (context, child, loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return const ImageView.asset(
-                                                AppImages.avatarIcon);
-                                          }
-                                          return const ImageView.asset(
-                                              AppImages.avatarIcon);
-                                        },
+                                      SizedBox(
+                                        height: 45,
+                                        width: 45 ,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(30),
+                                          child: Image.network(
+                                                                  fit: BoxFit.cover,
+                                                                  upcomingAppointment.patientPicture ??
+                                                '',
+                                                                  errorBuilder: (context, error, stackTrace) {
+                                                                    return const ImageView.asset(AppImages.avatarIcon);
+                                                                  },
+                                                                  loadingBuilder: (context, child, loadingProgress) {
+                                                                    if (loadingProgress == null) return child;
+                                                                    return const ImageView.asset(AppImages.avatarIcon);
+                                                                  },
+                                                                ),
+                                        ),
                                       ),
+                                       
                                       const SizedBox(
                                         width: 12,
                                       ),
@@ -394,10 +395,13 @@ class AppointmentPatientCard extends StatelessWidget {
               ),
             ),
           ),
-          (!AppUtils.isPastDateTime(upcomingAppointment.date ?? ''))
+          (!isWithinFiveMinutes(replaceTimeInDateTime(
+                                      upcomingAppointment.date ?? '',
+                                      upcomingAppointment.time ?? ''))
+                                  )
               ? const SizedBox.shrink()
               : Positioned(
-                  top: 35,
+                  top: 33,
                   right: 30,
                   child: GestureDetector(
                     onTap: () {
@@ -407,7 +411,7 @@ class AppointmentPatientCard extends StatelessWidget {
                         userID: userId,
                         userName: userName,
                         plugins: [ZegoUIKitSignalingPlugin()],
-                        // config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
+                         
                       );
 
                       AppNavigator.pushAndStackPage(context,
@@ -434,6 +438,24 @@ class AppointmentPatientCard extends StatelessWidget {
     );
   }
 
+ bool isWithinFiveMinutes(String dateTimeString) {
+  try {
+    DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
+
+    DateTime currentTime = DateTime.now().toUtc();
+
+    if (inputTime.isBefore(currentTime)) {
+      return false;
+    }
+
+    int differenceInMinutes = inputTime.difference(currentTime).inMinutes;
+
+    return differenceInMinutes <= 5;
+  } catch (e) {
+    
+    return false;
+  }}
+
   String replaceTimeInDateTime(String dateTimeString, String newTime) {
     if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
       return dateTimeString;
@@ -448,4 +470,7 @@ class AppointmentPatientCard extends StatelessWidget {
 
     return newDateTimeString;
   }
+
+
+  
 }
