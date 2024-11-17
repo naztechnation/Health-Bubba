@@ -407,6 +407,7 @@ class AppointmentPatientCard extends StatelessWidget {
                         userID: userId,
                         userName: userName,
                         plugins: [ZegoUIKitSignalingPlugin()],
+                        // config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
                       );
 
                       AppNavigator.pushAndStackPage(context,

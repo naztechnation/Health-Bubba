@@ -11,6 +11,7 @@ import 'package:healthbubba/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:zego_zimkit/zego_zimkit.dart';
 
 import '../../../blocs/users/users.dart';
 import '../../../call_invitation.dart';
@@ -90,6 +91,11 @@ class _HomeState extends State<Home> {
     await _userCubit.getProfileStatus();
      _userCubit.doctorsAnalyticsAccount(days: '1');
 
+     Future.delayed(const Duration(seconds: 2),(){
+      Provider.of<OnboardViewModel>(context, listen: false)
+              .saveDoctorState( doctorState);
+     });
+
     
   }
 
@@ -161,6 +167,7 @@ class _HomeState extends State<Home> {
             userName: state.userData.data?.lastName ?? '',
             plugins: [ZegoUIKitSignalingPlugin()],
           );
+           ZIMKit().connectUser(id: state.userData.data?.id.toString() ?? '', name:   state.userData.data?.firstName ?? '');
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(

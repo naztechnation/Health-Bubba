@@ -11,6 +11,7 @@ import 'package:healthbubba/model/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+ import 'package:zego_zimkit/zego_zimkit.dart';
 
 import 'firebase_options.dart';
 import 'handlers/secure_handler.dart';
@@ -30,6 +31,12 @@ Future _firebaseBackgroundMessage(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+    ZIMKit().init(
+                  appID: 1938588583,
+                  appSign:
+                      '5757c6364a17cdbe311f0413d5baccd70644d6ece0f031ce93d968d6d810ff7a',
+                );
   
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     userLoggedIn = await StorageHandler.getLoggedInState();

@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:zego_zimkit/zego_zimkit.dart';
 
 import '../../blocs/accounts/account.dart';
 import '../../handlers/secure_handler.dart';
@@ -28,7 +29,7 @@ import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart' as u;
+ 
 
 import '../dashboard/dashboard.dart';
 
@@ -132,6 +133,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+
+                 
+
                if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
                 AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
                   

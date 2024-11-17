@@ -1393,6 +1393,7 @@ class _RescheduleState extends State<Reschedule> {
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {
+                                        //Get this
                                         AppNavigator.pushAndStackPage(context,
                                             page: CancelAppointment(
                                                 appointmentId: widget

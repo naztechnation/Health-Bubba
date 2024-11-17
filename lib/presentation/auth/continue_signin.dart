@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:zego_zimkit/zego_zimkit.dart';
 
 import '../../blocs/accounts/account.dart';
 import '../../handlers/secure_handler.dart';
@@ -118,6 +119,11 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                     userName: state.loginData.data?.user?.lastName ?? '',
                     plugins: [ZegoUIKitSignalingPlugin()],
                   );
+                 
+                ZIMKit().connectUser(
+                    id: state.loginData.data?.user?.id.toString() ?? '',
+                    name: 'Support');
+
                   if(state.loginData.data?.user?.firstName == null  || state.loginData.data?.user?.firstName == ''){
                 AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
                     StorageHandler.saveIsLoggedIn('');
@@ -160,6 +166,11 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+                 
+                ZIMKit().connectUser(
+                    id: state.google.data?.user?.id.toString() ?? '',
+                    name: 'Support');
+
                if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
                 AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
                   
@@ -199,6 +210,11 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   userName: state.google.data?.user?.lastName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
+
+                
+                ZIMKit().connectUser(
+                    id: state.google.data?.user?.id.toString() ?? '',
+                    name: 'Support');
                if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
                 AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
                   

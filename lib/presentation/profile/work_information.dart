@@ -699,7 +699,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
                                                         return ListTile(
                                                             title: Text(
-                                                              day,
+                                                              reduceToThreeWords(day),
                                                               style:
                                                                   const TextStyle(
                                                                 fontSize: 14,
@@ -725,8 +725,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                               CrossAxisAlignment.start,
                                                                           children:
                                                                               daySlots.map((slot) {
-                                                                            if (slot['start_time']!.contains('00:00') &&
-                                                                                slot['end_time']!.contains('00:00')) {
+                                                                            if (slot['start_time']!.startsWith('00:00') && slot['end_time']!.startsWith('00:00')) {
                                                                               return const Expanded(
                                                                                 child: Padding(
                                                                                     padding: EdgeInsets.only(top: 0.0),
@@ -744,7 +743,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                                 child: Padding(
                                                                                   padding: const EdgeInsets.only(top: 0.0),
                                                                                   child: Text(
-                                                                                    '${slot['start_time']} - ${slot['end_time']}',
+                                                                                    '${formatTimeToAmPm(slot['start_time'] ?? '00:00')} - ${formatTimeToAmPm(slot['end_time'] ?? "")}',
                                                                                     style: const TextStyle(
                                                                                       fontSize: 13,
                                                                                       color: Color(0xFF0A0D14),
@@ -1183,4 +1182,33 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
               ));
     });
   }
+
+  String formatTimeToAmPm(String time24) {
+  try {
+    final parsedTime = DateTime.parse('1970-01-01T$time24');
+    
+    // Format to 12-hour format with AM/PMx
+    final hour = parsedTime.hour;
+    final minute = parsedTime.minute.toString().padLeft(2, '0');
+    final suffix = hour < 12 ? 'AM' : 'PM';
+    final formattedHour = hour == 0
+        ? 12 // Midnight is 12 AM
+        : hour > 12
+            ? hour - 12
+            : hour; // Convert to 12-hour format
+
+    return '$formattedHour:$minute $suffix';
+  } catch (e) {
+    throw const FormatException("Invalid time format. Ensure input is in HH:mm:ss.");
+  }
+}
+
+String reduceToThreeWords(String input) {
+  List<String> words = input.split(' ');
+
+  List<String> reducedWords = words.take(3).toList();
+
+  return reducedWords.join(' ');
+}
+
 }

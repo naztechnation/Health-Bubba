@@ -9,6 +9,7 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'blocs/users/user_cubit.dart';
 import 'blocs/users/users.dart';
 import 'model/view_model/user_view_model.dart';
+import 'presentation/dashboard/dashboard_pages.dart/widgets/cancel_appointment.dart';
 import 'requests/repositories/user_repo/user_repository_impl.dart';
 import 'res/app_colors.dart';
 import 'res/app_images.dart';
@@ -88,51 +89,30 @@ class _CallInviteState extends State<CallInvite> {
         return ErrorPage(statusCode: state.message ?? '', onTap: () {});
       } else if (state is UserNetworkErr) {
         return ErrorPage(statusCode: state.message ?? '', onTap: () {});
+
+        //  AppNavigator.pushAndStackPage(context,
+        //                   page: CancelAppointment(
+        //                     appointmentId: upcomingAppointment[index]
+        //                         .appointmentId
+        //                         .toString(),
+        //                   ));
       }
       return Stack(
         children: [
           Scaffold(
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: ZegoSendCallInvitationButton(
-                      invitees: [
-                        ZegoUIKitUser(
-                          id: widget.inviteeId,
-                          name: widget.inviteeName,
-                        ),
-                      ],
-                      isVideoCall: true,
-                      resourceID: AppStrings.zegoResourceId,
-                    ),
-                  ),
-                  Text(
-                    'Tap on Icon to Start Session',
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      height: 1.4,
-                      color: const Color(0xFF0A0D14),
-                    ),
-                  ),
-                ],
-              ),
-              bottomNavigationBar: Container(
-                width: 100,
-                margin: const EdgeInsets.only(bottom: 20, right: 50, left: 50),
-                child: ButtonView(
-                    expanded: false,
-                    onPressed: () {
-                      Modals.showDialogModal(
+            
+              body: PopScope(
+         canPop: false,
+          onPopInvokedWithResult: (value, result) async {
+
+               Modals.showDialogModal(
                         context,
-                        page: destructiveActions(
+                        page: destructiveActions1(
                             context: context,
                             message:
                                 'You are about to end this consultation Session.',
                             primaryText: 'Mark Session as Completed',
-                            secondaryText: 'Exit Session',
+                            secondaryText: 'Cancel Appointment',
                             primaryAction: () async {
                                Navigator.pop(context);
                               _userCubit.completeAppointment(appointmentId: widget.appointmentId);
@@ -142,9 +122,91 @@ class _CallInviteState extends State<CallInvite> {
                             primaryBgColor: const Color(0xFF093126),
                             secondaryBgColor: AppColors.lightPrimary,
                             secondaryAction: () {
+                               AppNavigator.pushAndStackPage(context,
+                          page: CancelAppointment(
+                            appointmentId: widget.appointmentId
+                                ,
+                          ));
+                            
+                            }, secondary2Text: 'Exit Session', 
+                            
+                              secondary2Action: () {
+                               
                               Navigator.pop(context);
                               AppNavigator.pushAndReplacePage(context, page: const Dashboard());
-                            }),
+                            },
+                            ),
+                          
+                      );
+
+            
+          },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: ZegoSendCallInvitationButton(
+                        invitees: [
+                          ZegoUIKitUser(
+                            id: widget.inviteeId,
+                            name: widget.inviteeName,
+                          ),
+                        ],
+                        isVideoCall: true,
+                        resourceID: AppStrings.zegoResourceId,
+                      ),
+                    ),
+                    Text(
+                      'Tap on Icon to Start Session',
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.4,
+                        color: const Color(0xFF0A0D14),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              bottomNavigationBar: Container(
+                width: 100,
+                margin: const EdgeInsets.only(bottom: 20, right: 50, left: 50),
+                child: ButtonView(
+                    expanded: false,
+                    onPressed: () {
+                      Modals.showDialogModal(
+                        context,
+                        page: destructiveActions1(
+                            context: context,
+                            message:
+                                'You are about to end this consultation Session.',
+                            primaryText: 'Mark Session as Completed',
+                            secondaryText: 'Cancel Appointment',
+                            primaryAction: () async {
+                               Navigator.pop(context);
+                              _userCubit.completeAppointment(appointmentId: widget.appointmentId);
+                             
+          
+                            },
+                            primaryBgColor: const Color(0xFF093126),
+                            secondaryBgColor: AppColors.lightPrimary,
+                            secondaryAction: () {
+                               AppNavigator.pushAndStackPage(context,
+                          page: CancelAppointment(
+                            appointmentId: widget.appointmentId
+                                ,
+                          ));
+                            
+                            }, secondary2Text: 'Exit Session', 
+                            
+                              secondary2Action: () {
+                               
+                              Navigator.pop(context);
+                              AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+                            },
+                            ),
+                          
                       );
                     },
                     borderRadius: 100,
