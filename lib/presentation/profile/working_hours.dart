@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -122,159 +123,201 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
   }
 
   Future<void> _showTimePickerModal(BuildContext context, String day) async {
-    TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
-    TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0);
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setModalState) {
-              return SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      day,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            TimeOfDay? pickedStart = await showTimePicker(
-                              context: context,
-                              initialTime: startTime,
-                            );
-                            if (pickedStart != null) {
-                              setModalState(() {
-                                startTime = pickedStart;
-                              });
-                            }
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Start Time:',
-                                style: TextStyle(
-                                  fontSize: 16,
+  TimeOfDay startTime = const TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay endTime = const TimeOfDay(hour: 0, minute: 0);
+
+  await showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.3,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    day,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          TimeOfDay? pickedStart = await showTimePicker(
+                            context: context,
+                            initialTime: startTime,
+                          );
+                          if (pickedStart != null) {
+                            setModalState(() {
+                              startTime = pickedStart;
+                            });
+                          }
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Start Time:',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_alarm),
+                                const SizedBox(
+                                  width: 6,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(Icons.access_alarm),
-                                  const SizedBox(
-                                    width: 6,
+                                Text(
+                                  _formatTime(startTime),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  Text(
-                                    _formatTime(startTime),
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 18,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            TimeOfDay? pickedEnd = await showTimePicker(
-                              context: context,
-                              initialTime: endTime,
-                            );
-                            if (pickedEnd != null) {
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          TimeOfDay? pickedEnd = await showTimePicker(
+                            context: context,
+                            initialTime: endTime,
+                          );
+                          if (pickedEnd != null) {
+                            // Check if end time is before or same as start time
+                            if (_isEndTimeValid(startTime, pickedEnd)) {
                               setModalState(() {
                                 endTime = pickedEnd;
                               });
+                            } else {
+                              _showInvalidTimeDialog(context);
                             }
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'End Time:',
-                                style: TextStyle(
-                                  fontSize: 16,
+                          }
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'End Time:',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Icon(Icons.access_alarm),
+                                const SizedBox(
+                                  width: 6,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  const Icon(Icons.access_alarm),
-                                  const SizedBox(
-                                    width: 6,
+                                Text(
+                                  '${_formatTime(endTime)} ',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                  Text(
-                                    '${_formatTime(endTime)} ',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 6,
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 18,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.lightSecondary),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _addTimeSlot(day, startTime, endTime);
-                      },
-                      child: const Text(
-                        'Enter',
-                        style: TextStyle(color: Colors.white),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.lightSecondary),
+                    onPressed: _isEndTimeValid(startTime, endTime)
+                        ? () {
+                            Navigator.pop(context);
+                            _addTimeSlot(day, startTime, endTime);
+                          }
+                        : null,
+                    child: const Text(
+                      'Enter',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
+
+// Helper function to compare start and end time
+bool _isEndTimeValid(TimeOfDay start, TimeOfDay end) {
+  if (end.hour < start.hour) {
+    return false;
+  } else if (end.hour == start.hour && end.minute <= start.minute) {
+    return false;
   }
+  return true;
+}
+
+
+void _showInvalidTimeDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title:   Text('Invalid Time Selection',style: GoogleFonts.inter(
+        fontSize: 16
+      )),
+      content:   Text('End time cannot be before or the same as the start time.',  style: GoogleFonts.inter(
+        fontSize: 14
+      ),),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
+
 
   void _addTimeSlot(String day, TimeOfDay start, TimeOfDay end) {
     setState(() {
@@ -395,7 +438,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
               appBar: AppBar(
                 title: const Text(
                   'Add Working Hours / Availability',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
                 centerTitle: false,
                 leading: GestureDetector(
@@ -499,7 +542,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                                       onChanged: (bool value) {
                                         setState(() {
                                           _daySwitchState[day] = value;
-
+                                         
                                           if (value) {
                                             // Add the day to newSchedule with isOpen true
                                             _addTimeSlot(
@@ -507,7 +550,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                                                 const TimeOfDay(
                                                     hour: 0, minute: 0),
                                                 const TimeOfDay(
-                                                    hour: 0, minute: 0));
+                                                    hour: 23, minute: 59));
 
                                             // DaySchedule daySchedule =
                                             //     newSchedule.firstWhere(
@@ -551,8 +594,8 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
 
                                     return (start.hour == 0 &&
                                             start.minute == 0 &&
-                                            end.hour == 0 &&
-                                            end.minute == 0)
+                                            end.hour == 23 &&
+                                            end.minute == 59)
                                         ? const Align(
                                           alignment: Alignment.centerLeft,
                                           child: Padding(

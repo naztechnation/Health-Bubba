@@ -743,7 +743,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                                 child: Padding(
                                                                                   padding: const EdgeInsets.only(top: 0.0),
                                                                                   child: Text(
-                                                                                    '${formatTimeToAmPm(slot['start_time'] ?? '00:00')} - ${formatTimeToAmPm(slot['end_time'] ?? "")}',
+                                                                                    '${formatTime(slot['start_time'] ?? "00:00")} - ${formatTime(slot['end_time'] ?? "00:00")}',
                                                                                     style: const TextStyle(
                                                                                       fontSize: 13,
                                                                                       color: Color(0xFF0A0D14),
@@ -1183,24 +1183,11 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
     });
   }
 
-  String formatTimeToAmPm(String time24) {
-  try {
-    final parsedTime = DateTime.parse('1970-01-01T$time24');
-    
-    // Format to 12-hour format with AM/PMx
-    final hour = parsedTime.hour;
-    final minute = parsedTime.minute.toString().padLeft(2, '0');
-    final suffix = hour < 12 ? 'AM' : 'PM';
-    final formattedHour = hour == 0
-        ? 12 // Midnight is 12 AM
-        : hour > 12
-            ? hour - 12
-            : hour; // Convert to 12-hour format
-
-    return '$formattedHour:$minute $suffix';
-  } catch (e) {
-    throw const FormatException("Invalid time format. Ensure input is in HH:mm:ss.");
+  String formatTime(String time) {
+  if (time.length == 8 && time.endsWith(':00')) {
+    return time.substring(0, 5); 
   }
+  return time; 
 }
 
 String reduceToThreeWords(String input) {

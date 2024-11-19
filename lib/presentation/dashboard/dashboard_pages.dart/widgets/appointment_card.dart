@@ -98,7 +98,7 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                               page: ReschedulePage(
                                 isSchedule: true,
                                 appointment: appointmentListsData[index],
-                                isDue: true,
+                                isDue: true, isCompleted: false,
                               ));
                         },
                       child: Container(

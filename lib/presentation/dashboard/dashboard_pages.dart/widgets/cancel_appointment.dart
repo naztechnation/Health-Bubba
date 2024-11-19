@@ -80,9 +80,9 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
       if (state is CancelAppointmentLoaded) {
         if (state.cancelAppointment.ok ?? false) {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.successIcon,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.successIcon,
+                height: 25,
               ),
               title: AppStrings.successTitle,
               subtitle: state.cancelAppointment.message?.message ?? '');
@@ -90,18 +90,18 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
           AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
           ToastService().showToast(context,
-              leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-              
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
               ),
               title: 'Error!!!',
               subtitle: state.cancelAppointment.message?.message ?? '');
         }
       } else if (state is UserApiErr || state is UserNetworkErr) {
         ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(AppImages.error,
-                                                        height: 25,
-            
+            leadingIcon: const ImageView.svg(
+              AppImages.error,
+              height: 25,
             ),
             title: 'Error!!!',
             subtitle: "Network Error");
@@ -187,7 +187,8 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                             color: Color(0xFFFFFFFF),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 18.4, 12),
+                            padding:
+                                const EdgeInsets.fromLTRB(16, 12, 18.4, 12),
                             child: Text(
                               'Please let us know the reason for your cancellation so that we can better serve you. We care about your health!',
                               style: GoogleFonts.getFont(
@@ -222,7 +223,8 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RadioButtonWidget(onChanged: _handleRadioButtonChange)
+                            RadioButtonWidget(
+                                onChanged: _handleRadioButtonChange)
                           ],
                         ),
                       ),
@@ -287,7 +289,8 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                                     child: TextEditView(
                                       controller: _complaintController,
                                       validator: (value) {
-                                        return Validator.validate(value, 'Reason');
+                                        return Validator.validate(
+                                            value, 'Reason');
                                       },
                                       maxLines: 5,
                                       hintText:
@@ -344,11 +347,13 @@ class _CancelAppointmentScreenState extends State<CancelAppointmentScreen> {
                       ))),
             ),
           ),
-            if (state is CancelAppointmentLoading )
+          if (state is CancelAppointmentLoading)
             Container(
               color: AppColors.indicatorBgColor,
-              child:   Center(
-                child: CircularProgressIndicator(color: AppColors.indicatorColor,),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.indicatorColor,
+                ),
               ),
             ),
         ],

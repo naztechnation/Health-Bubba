@@ -120,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
                             page: ReschedulePage(
                               isSchedule: widget.isSchedule,
                               isDue: false,
-                              appointment: filteredAppointmentLists[index],
+                              appointment: filteredAppointmentLists[index], isCompleted: true,
                             ));
                       },
                       upcomingAppointment: filteredAppointmentLists[index],

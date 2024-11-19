@@ -1502,15 +1502,15 @@ class _HomeState extends State<Home> {
                                         )
                                       ],
                                       if (upcomingAppointment.isNotEmpty) ...[
-                                        const SizedBox(
-                                          height: 14,
-                                        ),
-                                        appointmentCard(
-                                            upcomingAppointment,
-                                            doctorsId,
-                                            context,
-                                            lastName,
-                                            userId),
+                                        // const SizedBox(
+                                        //   height: 14,
+                                        // ),
+                                        // appointmentCard(
+                                        //     upcomingAppointment,
+                                        //     doctorsId,
+                                        //     context,
+                                        //     lastName,
+                                        //     userId),
                                       ],
                                       Column(
                                         mainAxisAlignment:

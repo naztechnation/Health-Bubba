@@ -14,6 +14,7 @@ import '../../../../res/app_strings.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
+import '../../../../widgets/modals.dart';
 import 'reschedule.dart';
 
 class AppointmentPatientCard extends StatelessWidget {
@@ -52,9 +53,9 @@ class AppointmentPatientCard extends StatelessWidget {
       onTap: () {
         AppNavigator.pushAndStackPage(context,
             page: ReschedulePage(
-              isSchedule: true,
+              isSchedule: false,
               appointment: upcomingAppointment,
-              isDue: true,
+              isDue: true, isCompleted: false,
             ));
       },
       child: Stack(
@@ -177,24 +178,30 @@ class AppointmentPatientCard extends StatelessWidget {
                                     children: [
                                       SizedBox(
                                         height: 45,
-                                        width: 45 ,
+                                        width: 45,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(30),
+                                          borderRadius:
+                                              BorderRadius.circular(30),
                                           child: Image.network(
-                                                                  fit: BoxFit.cover,
-                                                                  upcomingAppointment.patientPicture ??
+                                            fit: BoxFit.cover,
+                                            upcomingAppointment
+                                                    .patientPicture ??
                                                 '',
-                                                                  errorBuilder: (context, error, stackTrace) {
-                                                                    return const ImageView.asset(AppImages.avatarIcon);
-                                                                  },
-                                                                  loadingBuilder: (context, child, loadingProgress) {
-                                                                    if (loadingProgress == null) return child;
-                                                                    return const ImageView.asset(AppImages.avatarIcon);
-                                                                  },
-                                                                ),
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return const ImageView.asset(
+                                                  AppImages.avatarIcon);
+                                            },
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
+                                              return const ImageView.asset(
+                                                  AppImages.avatarIcon);
+                                            },
+                                          ),
                                         ),
                                       ),
-                                       
                                       const SizedBox(
                                         width: 12,
                                       ),
@@ -283,107 +290,101 @@ class AppointmentPatientCard extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                (AppUtils.isPastDateTime(
-                                        upcomingAppointment.date ?? ''))
-                                    ? const SizedBox.shrink()
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          if (!isReBook)
-                                            Expanded(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  if (AppUtils
-                                                      .isWithinFiveMinutes(
-                                                          upcomingAppointment
-                                                                  .date ??
-                                                              '')) {
-                                                  } else {
-                                                    onCancel();
-                                                  }
-                                                },
-                                                child: Container(
-                                                    width: MediaQuery.sizeOf(
-                                                            context)
-                                                        .width,
-                                                    height: 42,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          100,
-                                                        ),
+                                // (AppUtils.isPastDateTime(
+                                //         upcomingAppointment.date ?? ''))
+                                //     ? const SizedBox.shrink()
+                                //     :
+                                if (isReBook)
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            if (AppUtils.isWithinFiveMinutes(
+                                                upcomingAppointment.date ??
+                                                    '')) {
+                                            } else {
+                                              onCancel();
+                                            }
+                                          },
+                                          child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                  .width,
+                                              height: 42,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    100,
+                                                  ),
+                                                  color: AppColors.lightPrimary,
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 0.5)),
+                                              child: Center(
+                                                child: Opacity(
+                                                  opacity: (!AppUtils
+                                                          .isWithinFiveMinutes(
+                                                              upcomingAppointment
+                                                                      .date ??
+                                                                  ''))
+                                                      ? 1
+                                                      : 0.3,
+                                                  child: const Text(
+                                                    'Cancel',
+                                                    style: TextStyle(
                                                         color: AppColors
-                                                            .lightPrimary,
-                                                        border: Border.all(
-                                                            color: Colors.grey,
-                                                            width: 0.5)),
-                                                    child: Center(
-                                                      child: Opacity(
-                                                        opacity: (!AppUtils
-                                                                .isWithinFiveMinutes(
-                                                                    upcomingAppointment
-                                                                            .date ??
-                                                                        ''))
-                                                            ? 1
-                                                            : 0.3,
-                                                        child: const Text(
-                                                          'Cancel',
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .lightSecondary,
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                      ),
-                                                    )),
-                                              ),
-                                            ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Expanded(
-                                            child: Opacity(
-                                              opacity: (!AppUtils
-                                                      .isWithinFiveMinutes(
-                                                          upcomingAppointment
-                                                                  .date ??
-                                                              ''))
-                                                  ? 1
-                                                  : 0.5,
-                                              child: ButtonView(
-                                                  expanded: false,
-                                                  onPressed: () {
-                                                    if (AppUtils
-                                                        .isWithinFiveMinutes(
-                                                            upcomingAppointment
-                                                                    .date ??
-                                                                '')) {
-                                                    } else {
-                                                      onAccept();
-                                                    }
-                                                  },
-                                                  borderRadius: 100,
-                                                  color:
-                                                      AppColors.lightSecondary,
-                                                  child: Text(
-                                                    actionText,
-                                                    style: const TextStyle(
-                                                        color: AppColors
-                                                            .lightPrimary,
+                                                            .lightSecondary,
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w500),
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
                                       ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Opacity(
+                                          opacity:
+                                              (!AppUtils.isWithinFiveMinutes(
+                                                      upcomingAppointment
+                                                              .date ??
+                                                          ''))
+                                                  ? 1
+                                                  : 0.5,
+                                          child: ButtonView(
+                                              expanded: false,
+                                              onPressed: () {
+                                                if (AppUtils
+                                                    .isWithinFiveMinutes(
+                                                        upcomingAppointment
+                                                                .date ??
+                                                            '')) {
+                                                } else {
+                                                  onAccept();
+                                                }
+                                              },
+                                              borderRadius: 100,
+                                              color: AppColors.lightSecondary,
+                                              child: Text(
+                                                actionText,
+                                                style: const TextStyle(
+                                                    color:
+                                                        AppColors.lightPrimary,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
                           ),
@@ -395,66 +396,71 @@ class AppointmentPatientCard extends StatelessWidget {
               ),
             ),
           ),
-          (!isWithinFiveMinutes(replaceTimeInDateTime(
-                                      upcomingAppointment.date ?? '',
-                                      upcomingAppointment.time ?? ''))
-                                  )
-              ? const SizedBox.shrink()
-              : Positioned(
-                  top: 33,
-                  right: 30,
-                  child: GestureDetector(
-                    onTap: () {
-                      ZegoUIKitPrebuiltCallInvitationService().init(
-                        appID: AppStrings.zigoAppIdUrl,
-                        appSign: AppStrings.zegoAppSign,
-                        userID: userId,
-                        userName: userName,
-                        plugins: [ZegoUIKitSignalingPlugin()],
-                         
-                      );
+          Positioned(
+            top: 33,
+            right: 30,
+            child: Opacity(
+              opacity: (!isWithinFiveMinutes(replaceTimeInDateTime(
+                      upcomingAppointment.date ?? '',
+                      upcomingAppointment.time ?? '')))
+                  ? 0.3
+                  : 1,
+              child: GestureDetector(
+                onTap: () {
+                  if ((!isWithinFiveMinutes(replaceTimeInDateTime(
+                      upcomingAppointment.date ?? '',
+                      upcomingAppointment.time ?? '')))) {
+                    Modals.showToast(
+                        "Appointments can  not be initiated at the moment",
+                        context);
+                  } else {
+                    ZegoUIKitPrebuiltCallInvitationService().init(
+                      appID: AppStrings.zigoAppIdUrl,
+                      appSign: AppStrings.zegoAppSign,
+                      userID: userId,
+                      userName: userName,
+                      plugins: [ZegoUIKitSignalingPlugin()],
+                    );
 
-                      AppNavigator.pushAndStackPage(context,
-                          page: CallInviteScreen(
-                            inviteeId: upcomingAppointment.patientId.toString(),
-                            inviteeName:
-                                upcomingAppointment.patientLastName.toString(),
-                            appointmentId:
-                                upcomingAppointment.appointmentId.toString(),
-                          ));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
-                      child: const SizedBox(
-                        width: 40.1,
-                        height: 40.8,
-                        child: ImageView.svg(AppImages.videoIcon),
-                      ),
-                    ),
+                    AppNavigator.pushAndStackPage(context,
+                        page: CallInviteScreen(
+                          inviteeId: upcomingAppointment.patientId.toString(),
+                          inviteeName:
+                              upcomingAppointment.patientLastName.toString(),
+                          appointmentId:
+                              upcomingAppointment.appointmentId.toString(),
+                        ));
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
+                  child: const SizedBox(
+                    width: 40.1,
+                    height: 40.8,
+                    child: ImageView.svg(AppImages.videoIcon),
                   ),
                 ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
- bool isWithinFiveMinutes(String dateTimeString) {
-  try {
-    DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
+  bool isWithinFiveMinutes(String dateTimeString) {
+    try {
+      DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
 
-    DateTime currentTime = DateTime.now().toUtc();
+      DateTime currentTime = DateTime.now().toUtc();
 
-    if (inputTime.isBefore(currentTime)) {
+      int differenceInMinutes = currentTime.difference(inputTime).inMinutes;
+
+      return differenceInMinutes.abs() <= 38;
+    } catch (e) {
       return false;
     }
-
-    int differenceInMinutes = inputTime.difference(currentTime).inMinutes;
-
-    return differenceInMinutes <= 5;
-  } catch (e) {
-    
-    return false;
-  }}
+  }
 
   String replaceTimeInDateTime(String dateTimeString, String newTime) {
     if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
@@ -470,7 +476,4 @@ class AppointmentPatientCard extends StatelessWidget {
 
     return newDateTimeString;
   }
-
-
-  
 }

@@ -31,12 +31,13 @@ import 'patient_images.dart';
 class ReschedulePage extends StatelessWidget {
   final bool isSchedule;
   final bool isDue;
+  final bool isCompleted;
   final AppointmentListsData appointment;
   const ReschedulePage(
       {super.key,
       required this.isSchedule,
       required this.appointment,
-      required this.isDue});
+      required this.isDue, required this.isCompleted});
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserCubit>(
@@ -47,7 +48,7 @@ class ReschedulePage extends StatelessWidget {
       child: Reschedule(
         isSchedule: isSchedule,
         appointment: appointment,
-        isDue: isDue,
+        isDue: isDue, isCompleted: isCompleted,
       ),
     );
   }
@@ -56,13 +57,15 @@ class ReschedulePage extends StatelessWidget {
 class Reschedule extends StatefulWidget {
   final bool isSchedule;
   final bool isDue;
+  final bool isCompleted;
+
   final AppointmentListsData appointment;
 
   const Reschedule(
       {super.key,
       required this.isSchedule,
       required this.appointment,
-      required this.isDue});
+      required this.isDue, required this.isCompleted});
 
   @override
   State<Reschedule> createState() => _RescheduleState();
@@ -1389,10 +1392,8 @@ class _RescheduleState extends State<Reschedule> {
                               const SizedBox(
                                 height: 25,
                               ),
-                              isWithinFiveMinutes(replaceTimeInDateTime(
-                                      widget.appointment.date ?? '',
-                                      widget.appointment.time ?? ''))
-                                  ? Column(
+                              
+                                    Column(
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -1438,141 +1439,156 @@ class _RescheduleState extends State<Reschedule> {
                                         const SizedBox(
                                           height: 15,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                ZegoUIKitPrebuiltCallInvitationService()
-                                                    .init(
-                                                  appID:
-                                                      AppStrings.zigoAppIdUrl,
-                                                  appSign:
-                                                      AppStrings.zegoAppSign,
-                                                  userID: userId,
-                                                  userName: userName,
-                                                  plugins: [
-                                                    ZegoUIKitSignalingPlugin()
-                                                  ],
-                                                );
+                                        Opacity(
+                                          opacity: isWithinFiveMinutes(replaceTimeInDateTime(
+                                      widget.appointment.date ?? '',
+                                      widget.appointment.time ?? '')) ? 1 : 0.3,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
 
-                                                AppNavigator.pushAndStackPage(
-                                                    context,
-                                                    page: CallInviteScreen(
-                                                      isVideoCall: false,
-                                                      inviteeId: widget
-                                                          .appointment.patientId
-                                                          .toString(),
-                                                      inviteeName: widget
-                                                          .appointment
-                                                          .patientLastName
-                                                          .toString(),
-                                                      appointmentId: widget
-                                                          .appointment
-                                                          .appointmentId
-                                                          .toString(),
-                                                    ));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    height: 38,
-                                                    width: 38,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            color: Color(
-                                                                0xff30B82C),
-                                                            shape: BoxShape
-                                                                .circle),
-                                                    child: const Icon(
-                                                      Icons.call,
-                                                      color: Colors.white,
+                                                  if (isWithinFiveMinutes(replaceTimeInDateTime(
+                                      widget.appointment.date ?? '',
+                                      widget.appointment.time ?? ''))) {
+                                                     ZegoUIKitPrebuiltCallInvitationService()
+                                                      .init(
+                                                    appID:
+                                                        AppStrings.zigoAppIdUrl,
+                                                    appSign:
+                                                        AppStrings.zegoAppSign,
+                                                    userID: userId,
+                                                    userName: userName,
+                                                    plugins: [
+                                                      ZegoUIKitSignalingPlugin()
+                                                    ],
+                                                  );
+                                          
+                                                  AppNavigator.pushAndStackPage(
+                                                      context,
+                                                      page: CallInviteScreen(
+                                                        isVideoCall: false,
+                                                        inviteeId: widget
+                                                            .appointment.patientId
+                                                            .toString(),
+                                                        inviteeName: widget
+                                                            .appointment
+                                                            .patientLastName
+                                                            .toString(),
+                                                        appointmentId: widget
+                                                            .appointment
+                                                            .appointmentId
+                                                            .toString(),
+                                                      ));
+                                                  } else {
+                                                     Modals.showToast(
+                        "Appointments can  not be initiated at the moment",
+                        context);
+                                                  }
+                                                 
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 38,
+                                                      width: 38,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              color: Color(
+                                                                  0xff30B82C),
+                                                              shape: BoxShape
+                                                                  .circle),
+                                                      child: const Icon(
+                                                        Icons.call,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Text(
-                                                    'Audio Call',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xff0A0D14),
+                                                    const SizedBox(
+                                                      width: 8,
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 20,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                ZegoUIKitPrebuiltCallInvitationService()
-                                                    .init(
-                                                  appID:
-                                                      AppStrings.zigoAppIdUrl,
-                                                  appSign:
-                                                      AppStrings.zegoAppSign,
-                                                  userID: userId,
-                                                  userName: userName,
-                                                  plugins: [
-                                                    ZegoUIKitSignalingPlugin()
+                                                    Text(
+                                                      'Audio Call',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color: const Color(
+                                                            0xff0A0D14),
+                                                      ),
+                                                    ),
                                                   ],
-                                                );
-
-                                                AppNavigator.pushAndStackPage(
-                                                    context,
-                                                    page: CallInviteScreen(
-                                                      inviteeId: widget
-                                                          .appointment.patientId
-                                                          .toString(),
-                                                      inviteeName: widget
-                                                          .appointment
-                                                          .patientLastName
-                                                          .toString(),
-                                                      appointmentId: widget
-                                                          .appointment
-                                                          .appointmentId
-                                                          .toString(),
-                                                    ));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  const SizedBox(
-                                                    height: 45,
-                                                    width: 45,
-                                                    child: ImageView.svg(
-                                                        AppImages.videoIcon),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Text(
-                                                    'Video Call',
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xff0A0D14),
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            )
-                                          ],
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  ZegoUIKitPrebuiltCallInvitationService()
+                                                      .init(
+                                                    appID:
+                                                        AppStrings.zigoAppIdUrl,
+                                                    appSign:
+                                                        AppStrings.zegoAppSign,
+                                                    userID: userId,
+                                                    userName: userName,
+                                                    plugins: [
+                                                      ZegoUIKitSignalingPlugin()
+                                                    ],
+                                                  );
+                                          
+                                                  AppNavigator.pushAndStackPage(
+                                                      context,
+                                                      page: CallInviteScreen(
+                                                        inviteeId: widget
+                                                            .appointment.patientId
+                                                            .toString(),
+                                                        inviteeName: widget
+                                                            .appointment
+                                                            .patientLastName
+                                                            .toString(),
+                                                        appointmentId: widget
+                                                            .appointment
+                                                            .appointmentId
+                                                            .toString(),
+                                                      ));
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    const SizedBox(
+                                                      height: 45,
+                                                      width: 45,
+                                                      child: ImageView.svg(
+                                                          AppImages.videoIcon),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Text(
+                                                      'Video Call',
+                                                      style: GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color: const Color(
+                                                            0xff0A0D14),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         )
                                       ],
                                     )
-                                  : const SizedBox.shrink(),
+                                  
                             ],
                           ),
                         ),
@@ -1581,8 +1597,10 @@ class _RescheduleState extends State<Reschedule> {
                   ),
                 ),
               ),
-              bottomNavigationBar: (!widget.isDue)
-                  ? Container(
+              bottomNavigationBar: 
+              (widget.appointment.status != 1)
+                  ? 
+                  Container(
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFFFFF),
                         border: Border(
@@ -1601,19 +1619,21 @@ class _RescheduleState extends State<Reschedule> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                        child: (!widget.isSchedule)
-                            ? ButtonView(
-                                onPressed: () {},
-                                borderRadius: 100,
-                                color: AppColors.lightSecondary,
-                                child: const Text(
-                                  'Rebook',
-                                  style: TextStyle(
-                                      color: AppColors.lightPrimary,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ))
-                            : Row(
+                        child: 
+                        // (!widget.isSchedule)
+                        //     ? ButtonView(
+                        //         onPressed: () {},
+                        //         borderRadius: 100,
+                        //         color: AppColors.lightSecondary,
+                        //         child: const Text(
+                        //           'Rebook',
+                        //           style: TextStyle(
+                        //               color: AppColors.lightPrimary,
+                        //               fontSize: 14,
+                        //               fontWeight: FontWeight.w500),
+                        //         ))
+                        //     :
+                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1621,11 +1641,12 @@ class _RescheduleState extends State<Reschedule> {
                                   Expanded(
                                     child: GestureDetector(
                                       onTap: () {
-                                        AppNavigator.pushAndStackPage(context,
-                                            page: CancelAppointment(
-                                                appointmentId: widget
-                                                    .appointment.appointmentId
-                                                    .toString()));
+                                        Modals.showToast(widget.isCompleted.toString(), context);
+                                        // AppNavigator.pushAndStackPage(context,
+                                        //     page: CancelAppointment(
+                                        //         appointmentId: widget
+                                        //             .appointment.appointmentId
+                                        //             .toString()));
                                       },
                                       child: Container(
                                           width:
@@ -1687,29 +1708,18 @@ class _RescheduleState extends State<Reschedule> {
   }
 
   bool isWithinFiveMinutes(String dateTimeString) {
-  try {
-    // Parse the input date-time string
-    DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
+    try {
+      DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
 
-    // Get the current date-time in UTC
-    DateTime currentTime = DateTime.now().toUtc();
+      DateTime currentTime = DateTime.now().toUtc();
 
-    // Check if the input time is in the past
-    if (inputTime.isBefore(currentTime)) {
+      int differenceInMinutes = currentTime.difference(inputTime).inMinutes;
+
+      return differenceInMinutes.abs() <= 5;
+    } catch (e) {
       return false;
     }
-
-    // Calculate the difference in minutes
-    int differenceInMinutes = inputTime.difference(currentTime).inMinutes;
-
-    // Check if it's within 5 minutes
-    return differenceInMinutes <= 5;
-  } catch (e) {
-    // Handle invalid date format
-    print('Error parsing date: $e');
-    return false;
   }
-}
 
 
   String replaceTimeInDateTime(String dateTimeString, String newTime) {

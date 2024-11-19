@@ -93,12 +93,7 @@ class _CallInviteState extends State<CallInvite> {
       } else if (state is UserNetworkErr) {
         return ErrorPage(statusCode: state.message ?? '', onTap: () {});
 
-        //  AppNavigator.pushAndStackPage(context,
-        //                   page: CancelAppointment(
-        //                     appointmentId: upcomingAppointment[index]
-        //                         .appointmentId
-        //                         .toString(),
-        //                   ));
+      
       }
       return Stack(
         children: [
