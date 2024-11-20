@@ -119,48 +119,85 @@ class AppUtils {
     }
   }
 
+  // static String getTimeDifference(String dateTimeString) {
+  //   final DateTime dateTime = DateTime.parse(dateTimeString);
+  //   final DateTime now = DateTime.now().add(const Duration(hours: 1));
+
+  //   final Duration difference = now.difference(dateTime);
+
+  //   if (difference.isNegative) {
+  //     final Duration futureDifference = dateTime.difference(now);
+  //     return "${formatTimeDuration(futureDifference)} from now";
+  //   } else {
+  //     if (difference.inMinutes < 1) {
+  //       return "just now";
+  //     } else if (difference.inHours < 1) {
+  //       return "${difference.inMinutes} minutes ago";
+  //     } else {
+  //       return "${formatTimeDuration(difference)} ago";
+  //     }
+  //   }
+  // }
+
   static String getTimeDifference(String dateTimeString) {
-    final DateTime dateTime = DateTime.parse(dateTimeString);
-    final DateTime now = DateTime.now().add(const Duration(hours: 1));
+    try {
+      // Parse the input date-time string to a DateTime object
+      final DateTime dateTime = DateTime.parse(dateTimeString).toUtc();
+      final DateTime now = DateTime.now().toUtc();
 
-    final Duration difference = now.difference(dateTime);
+      final Duration difference = now.difference(dateTime);
 
-    if (difference.isNegative) {
-      final Duration futureDifference = dateTime.difference(now);
-      return "${formatTimeDuration(futureDifference)} from now";
-    } else {
-      if (difference.inMinutes < 1) {
-        return "just now";
-      } else if (difference.inHours < 1) {
-        return "${difference.inMinutes} minutes ago";
+      if (difference.isNegative) {
+        // For future times
+        final Duration futureDifference = dateTime.difference(now);
+        return "${formatTimeDuration(futureDifference)} from now";
       } else {
-        return "${formatTimeDuration(difference)} ago";
+        // For past times
+        if (difference.inMinutes < 1) {
+          return "just now";
+        } else if (difference.inMinutes < 60) {
+          return "${difference.inMinutes} minutes ago";
+        } else if (difference.inHours < 24) {
+          return "${difference.inHours} hours ago";
+        } else {
+          final int days = difference.inDays;
+          return "$days ${days == 1 ? 'day' : 'days'} ago";
+        }
       }
+    } catch (e) {
+      return "";
     }
   }
 
+// Helper method to format Duration into a human-readable format
   static String formatTimeDuration(Duration duration) {
-    if (duration.inDays > 0) {
-      int hours = duration.inHours % 24;
-      return "${duration.inDays} day${duration.inDays > 1 ? 's' : ''} and $hours hour${hours != 1 ? 's' : ''}";
-    } else if (duration.inHours > 0) {
-      int minutes = duration.inMinutes % 60;
-      return "${duration.inHours} hour${duration.inHours != 1 ? 's' : ''} and $minutes minute${minutes != 1 ? 's' : ''}";
-    } else if (duration.inMinutes > 0) {
-      return "${duration.inMinutes} minute${duration.inMinutes != 1 ? 's' : ''}";
+    final int days = duration.inDays;
+    final int hours = duration.inHours % 24;
+    final int minutes = duration.inMinutes % 60;
+
+    if (days > 0) {
+      return "$days ${days == 1 ? 'day' : 'days'}, $hours ${hours == 1 ? 'hour' : 'hours'}";
+    } else if (hours > 0) {
+      return "$hours ${hours == 1 ? 'hour' : 'hours'}, $minutes ${minutes == 1 ? 'minute' : 'minutes'}";
     } else {
-      return "${duration.inSeconds} second${duration.inSeconds != 1 ? 's' : ''}";
+      return "$minutes ${minutes == 1 ? 'minute' : 'minutes'}";
     }
   }
 
-  static bool isWithinFiveMinutes(String dateTimeString) {
-    final DateTime dateTime = DateTime.parse(dateTimeString);
-    final DateTime now = DateTime.now();
-
-    final Duration difference = now.difference(dateTime).abs();
-
-    return difference.inMinutes <= 5;
-  }
+  // static String formatTimeDuration(Duration duration) {
+  //   if (duration.inDays > 0) {
+  //     int hours = duration.inHours % 24;
+  //     return "${duration.inDays} day${duration.inDays > 1 ? 's' : ''} and $hours hour${hours != 1 ? 's' : ''}";
+  //   } else if (duration.inHours > 0) {
+  //     int minutes = duration.inMinutes % 60;
+  //     return "${duration.inHours} hour${duration.inHours != 1 ? 's' : ''} and $minutes minute${minutes != 1 ? 's' : ''}";
+  //   } else if (duration.inMinutes > 0) {
+  //     return "${duration.inMinutes} minute${duration.inMinutes != 1 ? 's' : ''}";
+  //   } else {
+  //     return "${duration.inSeconds} second${duration.inSeconds != 1 ? 's' : ''}";
+  //   }
+  // }
+ 
 
   static String formatDuration(Duration duration) {
     if (duration.inDays > 0) {
@@ -183,282 +220,45 @@ class AppUtils {
     return dateTime.isBefore(now);
   }
 
- static bool isInFiveMins(String timeCheck) {
-    switch (timeCheck) {
-      case "just now":
-        return true;
-      case "1 minutes ago":
-        return true;
-      case "1 minute ago":
-        return true;
-      case "2 minutes ago":
-        return true;
-      case "3 minutes ago":
-        return true;
-      case "4 minutes ago":
-        return true;
-      case "5 minutes ago":
-        return true;
+  static  bool isWithinFiveMinutes(
+      String timeOfDay, String today, BuildContext context) {
+    if (today.contains("Today")) {
+      try {
+    // Parse the input time string
+    final parts = timeOfDay.split(":");
+    if (parts.length != 3) {
+      throw const FormatException("Invalid time format");
+    }
 
-      case "1 seconds ago":
-        return true;
-      case "1 second ago":
-        return true;
-      case "2 seconds ago":
-        return true;
-      case "3 seconds ago":
-        return true;
-      case "4 seconds ago":
-        return true;
-      case "5 seconds ago":
-        return true;
-      case "6 seconds ago":
-        return true;
-      case "7 seconds ago":
-        return true;
-      case "8 seconds ago":
-        return true;
-      case "9 seconds ago":
-        return true;
-      case "10 seconds ago":
-        return true;
-      case "11 seconds ago":
-        return true;
-      case "12 seconds ago":
-        return true;
-      case "13 seconds ago":
-        return true;
-      case "14 seconds ago":
-        return true;
-      case "15 seconds ago":
-        return true;
-      case "16 seconds ago":
-        return true;
-      case "17 seconds ago":
-        return true;
-      case "18 seconds ago":
-        return true;
-      case "19 seconds ago":
-        return true;
-      case "20 seconds ago":
-        return true;
-      case "21 seconds ago":
-        return true;
-      case "22 seconds ago":
-        return true;
-      case "23 seconds ago":
-        return true;
-      case "24 seconds ago":
-        return true;
-      case "25 seconds ago":
-        return true;
-      case "26 seconds ago":
-        return true;
-      case "27 seconds ago":
-        return true;
-      case "28 seconds ago":
-        return true;
-      case "29 seconds ago":
-        return true;
-      case "30 seconds ago":
-        return true;
-      case "31 seconds ago":
-        return true;
-      case "32 seconds ago":
-        return true;
-      case "33 seconds ago":
-        return true;
-      case "34 seconds ago":
-        return true;
-      case "35 seconds ago":
-        return true;
-      case "36 seconds ago":
-        return true;
-      case "37 seconds ago":
-        return true;
-      case "38 seconds ago":
-        return true;
-      case "39 seconds ago":
-        return true;
-      case "40 seconds ago":
-        return true;
-      case "41 seconds ago":
-        return true;
-      case "42 seconds ago":
-        return true;
-      case "43 seconds ago":
-        return true;
-      case "44 seconds ago":
-        return true;
-      case "45 seconds ago":
-        return true;
-      case "46 seconds ago":
-        return true;
-      case "47 seconds ago":
-        return true;
-      case "48 seconds ago":
-        return true;
-      case "49 seconds ago":
-        return true;
-      case "50 seconds ago":
-        return true;
-      case "51 seconds ago":
-        return true;
-      case "52 seconds ago":
-        return true;
-      case "53 seconds ago":
-        return true;
-      case "54 seconds ago":
-        return true;
-      case "55 seconds ago":
-        return true;
-      case "56 seconds ago":
-        return true;
-      case "57 seconds ago":
-        return true;
-      case "58 seconds ago":
-        return true;
-      case "59 seconds ago":
-        return true;
-      case "60 seconds ago":
-        return true;
-      case "1 minute from now":
-        return true;
-      case "1 minutes from now":
-        return true;
-      case "2 minutes from now":
-        return true;
-      case "3 minutes from now":
-        return true;
-      case "4 minutes from now":
-        return true;
-      case "5 minutes from now":
-        return true;
-      case "1 seconds from now":
-        return true;
-      case "1 second from now":
-        return true;
-      case "2 seconds from now":
-        return true;
-      case "3 seconds from now":
-        return true;
-      case "4 seconds from now":
-        return true;
-      case "5 seconds from now":
-        return true;
-      case "6 seconds from now":
-        return true;
-      case "7 seconds from now":
-        return true;
-      case "8 seconds from now":
-        return true;
-      case "9 seconds from now":
-        return true;
-      case "10 seconds from now":
-        return true;
-      case "11 seconds from now":
-        return true;
-      case "12 seconds from now":
-        return true;
-      case "13 seconds from now":
-        return true;
-      case "14 seconds from now":
-        return true;
-      case "15 seconds from now":
-        return true;
-      case "16 seconds from now":
-        return true;
-      case "17 seconds from now":
-        return true;
-      case "18 seconds from now":
-        return true;
-      case "19 seconds from now":
-        return true;
-      case "20 seconds from now":
-        return true;
-      case "21 seconds from now":
-        return true;
-      case "22 seconds from now":
-        return true;
-      case "23 seconds from now":
-        return true;
-      case "24 seconds from now":
-        return true;
-      case "25 seconds from now":
-        return true;
-      case "26 seconds from now":
-        return true;
-      case "27 seconds from now":
-        return true;
-      case "28 seconds from now":
-        return true;
-      case "29 seconds from now":
-        return true;
-      case "30 seconds from now":
-        return true;
-      case "31 seconds from now":
-        return true;
-      case "32 seconds from now":
-        return true;
-      case "33 seconds from now":
-        return true;
-      case "34 seconds from now":
-        return true;
-      case "35 seconds from now":
-        return true;
-      case "36 seconds from now":
-        return true;
-      case "37 seconds from now":
-        return true;
-      case "38 seconds from now":
-        return true;
-      case "39 seconds from now":
-        return true;
-      case "40 seconds from now":
-        return true;
-      case "41 seconds from now":
-        return true;
-      case "42 seconds from now":
-        return true;
-      case "43 seconds from now":
-        return true;
-      case "44 seconds from now":
-        return true;
-      case "45 seconds from now":
-        return true;
-      case "46 seconds from now":
-        return true;
-      case "47 seconds from now":
-        return true;
-      case "48 seconds from now":
-        return true;
-      case "49 seconds from now":
-        return true;
-      case "50 seconds from now":
-        return true;
-      case "51 seconds from now":
-        return true;
-      case "52 seconds from now":
-        return true;
-      case "53 seconds from now":
-        return true;
-      case "54 seconds from now":
-        return true;
-      case "55 seconds from now":
-        return true;
-      case "56 seconds from now":
-        return true;
-      case "57 seconds from now":
-        return true;
-      case "58 seconds from now":
-        return true;
-      case "59 seconds from now":
-        return true;
-      case "60 seconds from now":
-        return true;
+    final int inputHour = int.parse(parts[0]);
+    final int inputMinute = int.parse(parts[1]);
+    final int inputSecond = int.parse(parts[2]);
 
-      default:
-        return false;
+    // Get current time
+    final DateTime now = DateTime.now();
+
+    // Create a DateTime object for the input time today
+    final DateTime inputTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      inputHour,
+      inputMinute,
+      inputSecond,
+    );
+
+    // Calculate the difference between the current time and input time
+    final Duration difference = now.difference(inputTime);
+
+    // Check if the difference is within ±5 minutes
+    return difference.inMinutes.abs() <= 5;
+  } catch (e) {
+    // Handle any parsing or input errors
+    print("Error: $e");
+    return false;
+  }
+    } else {
+      return false;
     }
   }
 

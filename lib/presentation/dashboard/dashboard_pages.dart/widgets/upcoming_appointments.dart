@@ -77,7 +77,10 @@ class UpcomingPage extends StatelessWidget {
                           page: ReschedulePage(
                             isSchedule: true,
                             appointment: upcomingAppointment[index],
-                            isDue: false, isTime: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment[index].date ?? '', upcomingAppointment[index].time ?? ''))))
+                            isDue: false, isTime: (AppUtils.isWithinFiveMinutes(
+                        upcomingAppointment[index].time ?? "",
+                        "${AppUtils.getHumanReadableDate(upcomingAppointment[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment[index].time ?? '')}",
+                        context))
                  ,
                           ));
                     },

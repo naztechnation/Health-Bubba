@@ -122,7 +122,11 @@ class _SearchPageState extends State<SearchPage> {
                             page: ReschedulePage(
                               isSchedule: widget.isSchedule,
                               isDue: false,
-                              appointment: filteredAppointmentLists[index], isTime: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(filteredAppointmentLists[index].date ?? '', filteredAppointmentLists[index].time ?? '')))),
+                              appointment: filteredAppointmentLists[index], isTime: 
+                              (AppUtils.isWithinFiveMinutes(
+                        filteredAppointmentLists[index].time ?? "",
+                        "${AppUtils.getHumanReadableDate(filteredAppointmentLists[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: filteredAppointmentLists[index].time ?? '')}",
+                        context)),
                             ));
                       },
                       upcomingAppointment: filteredAppointmentLists[index],

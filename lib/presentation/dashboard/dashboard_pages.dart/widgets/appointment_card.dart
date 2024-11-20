@@ -98,8 +98,11 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                               page: ReschedulePage(
                                 isSchedule: true,
                                 appointment: appointmentListsData[index],
-                                isDue: true, isTime: (AppUtils.isInFiveMins(
-                                  AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))))
+                                isDue: true, isTime: (
+                                 AppUtils.isWithinFiveMinutes(
+                        appointmentListsData[index].time ?? "",
+                        "${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}",
+                        context))
                  ,
                               ));
                         },
