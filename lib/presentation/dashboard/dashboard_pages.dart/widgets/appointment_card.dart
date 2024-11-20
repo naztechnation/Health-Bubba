@@ -98,7 +98,9 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                               page: ReschedulePage(
                                 isSchedule: true,
                                 appointment: appointmentListsData[index],
-                                isDue: true, isCompleted: false,
+                                isDue: true, isTime: (AppUtils.isInFiveMins(
+                                  AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))))
+                 ,
                               ));
                         },
                       child: Container(

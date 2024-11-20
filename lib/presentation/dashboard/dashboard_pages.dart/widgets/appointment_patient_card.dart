@@ -55,7 +55,8 @@ class AppointmentPatientCard extends StatelessWidget {
             page: ReschedulePage(
               isSchedule: false,
               appointment: upcomingAppointment,
-              isDue: true, isCompleted: false,
+              isDue: true, isTime: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '', upcomingAppointment.time ?? ''))))
+                 ,
             ));
       },
       child: Stack(
@@ -304,12 +305,7 @@ class AppointmentPatientCard extends StatelessWidget {
                                       Expanded(
                                         child: GestureDetector(
                                           onTap: () {
-                                            if (AppUtils.isWithinFiveMinutes(
-                                                upcomingAppointment.date ??
-                                                    '')) {
-                                            } else {
-                                              onCancel();
-                                            }
+                                             onCancel();
                                           },
                                           child: Container(
                                               width: MediaQuery.sizeOf(context)
@@ -324,24 +320,15 @@ class AppointmentPatientCard extends StatelessWidget {
                                                   border: Border.all(
                                                       color: Colors.grey,
                                                       width: 0.5)),
-                                              child: Center(
-                                                child: Opacity(
-                                                  opacity: (!AppUtils
-                                                          .isWithinFiveMinutes(
-                                                              upcomingAppointment
-                                                                      .date ??
-                                                                  ''))
-                                                      ? 1
-                                                      : 0.3,
-                                                  child: const Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                        color: AppColors
-                                                            .lightSecondary,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
+                                              child: const Center(
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: TextStyle(
+                                                      color: AppColors
+                                                          .lightSecondary,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                 ),
                                               )),
                                         ),
@@ -350,38 +337,22 @@ class AppointmentPatientCard extends StatelessWidget {
                                         width: 10,
                                       ),
                                       Expanded(
-                                        child: Opacity(
-                                          opacity:
-                                              (!AppUtils.isWithinFiveMinutes(
-                                                      upcomingAppointment
-                                                              .date ??
-                                                          ''))
-                                                  ? 1
-                                                  : 0.5,
-                                          child: ButtonView(
-                                              expanded: false,
-                                              onPressed: () {
-                                                if (AppUtils
-                                                    .isWithinFiveMinutes(
-                                                        upcomingAppointment
-                                                                .date ??
-                                                            '')) {
-                                                } else {
-                                                  onAccept();
-                                                }
-                                              },
-                                              borderRadius: 100,
-                                              color: AppColors.lightSecondary,
-                                              child: Text(
-                                                actionText,
-                                                style: const TextStyle(
-                                                    color:
-                                                        AppColors.lightPrimary,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )),
-                                        ),
+                                        child: ButtonView(
+                                            expanded: false,
+                                            onPressed: () {
+                                              onAccept();
+                                            },
+                                            borderRadius: 100,
+                                            color: AppColors.lightSecondary,
+                                            child: Text(
+                                              actionText,
+                                              style: const TextStyle(
+                                                  color:
+                                                      AppColors.lightPrimary,
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.w500),
+                                            )),
                                       ),
                                     ],
                                   ),
@@ -396,24 +367,17 @@ class AppointmentPatientCard extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            top: 33,
+         if(upcomingAppointment.status != 1)  Positioned(
+            top: 30,
             right: 30,
             child: Opacity(
-              opacity: (!isWithinFiveMinutes(replaceTimeInDateTime(
-                      upcomingAppointment.date ?? '',
-                      upcomingAppointment.time ?? '')))
-                  ? 0.3
-                  : 1,
+              opacity: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '', upcomingAppointment.time ?? ''))))
+                  ? 1
+                  : 0.3,
               child: GestureDetector(
                 onTap: () {
-                  if ((!isWithinFiveMinutes(replaceTimeInDateTime(
-                      upcomingAppointment.date ?? '',
-                      upcomingAppointment.time ?? '')))) {
-                    Modals.showToast(
-                        "Appointments can  not be initiated at the moment",
-                        context);
-                  } else {
+                  if (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment.date ?? '', upcomingAppointment.time ?? '')))) {
+                   
                     ZegoUIKitPrebuiltCallInvitationService().init(
                       appID: AppStrings.zigoAppIdUrl,
                       appSign: AppStrings.zegoAppSign,
@@ -430,6 +394,11 @@ class AppointmentPatientCard extends StatelessWidget {
                           appointmentId:
                               upcomingAppointment.appointmentId.toString(),
                         ));
+                   
+                  } else {
+                    Modals.showToast(
+                        "Appointments can  not be initiated at the moment",
+                        context);
                   }
                 },
                 child: Container(
@@ -448,20 +417,21 @@ class AppointmentPatientCard extends StatelessWidget {
     );
   }
 
+ 
+
   bool isWithinFiveMinutes(String dateTimeString) {
-    try {
-      DateTime inputTime = DateTime.parse(dateTimeString).toUtc();
+  // Parse the input string into a DateTime object
+  DateTime inputDateTime = DateTime.parse(dateTimeString);
 
-      DateTime currentTime = DateTime.now().toUtc();
+  // Get the current DateTime
+  DateTime currentDateTime = DateTime.now();
 
-      int differenceInMinutes = currentTime.difference(inputTime).inMinutes;
+  // Calculate the difference between the two DateTimes
+  Duration difference = inputDateTime.difference(currentDateTime).abs();
 
-      return differenceInMinutes.abs() <= 38;
-    } catch (e) {
-      return false;
-    }
-  }
-
+  // Check if the difference is within 5 minutes
+  return difference.inMinutes <= 15;
+}
   String replaceTimeInDateTime(String dateTimeString, String newTime) {
     if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {
       return dateTimeString;

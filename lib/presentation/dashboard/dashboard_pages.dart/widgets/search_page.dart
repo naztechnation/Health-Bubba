@@ -3,8 +3,10 @@ import 'package:healthbubba/widgets/text_edit_view.dart';
 
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_images.dart';
+import '../../../../utils/app_utils.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/image_view.dart';
+import 'appointment_card.dart';
 import 'appointment_patient_card.dart';
 import 'cancel_appointment.dart';
 import 'reschedule.dart';
@@ -120,7 +122,7 @@ class _SearchPageState extends State<SearchPage> {
                             page: ReschedulePage(
                               isSchedule: widget.isSchedule,
                               isDue: false,
-                              appointment: filteredAppointmentLists[index], isCompleted: true,
+                              appointment: filteredAppointmentLists[index], isTime: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(filteredAppointmentLists[index].date ?? '', filteredAppointmentLists[index].time ?? '')))),
                             ));
                       },
                       upcomingAppointment: filteredAppointmentLists[index],

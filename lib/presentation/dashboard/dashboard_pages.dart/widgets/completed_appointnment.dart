@@ -75,7 +75,7 @@ class CompletedPage extends StatelessWidget {
                             page: ReschedulePage(
                               isSchedule: true,
                               appointment: completedAppointment[index],
-                              isDue: true, isCompleted: false,
+                              isDue: true, isTime: false,
                             ));
                       },
                       upcomingAppointment: completedAppointment[index],

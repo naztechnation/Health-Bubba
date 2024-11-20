@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/model/patients/appointment_details.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/patient/book_appointment.dart';
 import 'package:healthbubba/presentation/dashboard/dashboard_pages.dart/widgets/cancel_appointment.dart';
 import 'package:healthbubba/res/app_images.dart';
@@ -31,13 +30,14 @@ import 'patient_images.dart';
 class ReschedulePage extends StatelessWidget {
   final bool isSchedule;
   final bool isDue;
-  final bool isCompleted;
+  final bool isTime;
   final AppointmentListsData appointment;
   const ReschedulePage(
       {super.key,
       required this.isSchedule,
       required this.appointment,
-      required this.isDue, required this.isCompleted});
+      required this.isDue,
+      required this.isTime});
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserCubit>(
@@ -48,7 +48,8 @@ class ReschedulePage extends StatelessWidget {
       child: Reschedule(
         isSchedule: isSchedule,
         appointment: appointment,
-        isDue: isDue, isCompleted: isCompleted,
+        isDue: isDue,
+        isTime: isTime,
       ),
     );
   }
@@ -57,7 +58,7 @@ class ReschedulePage extends StatelessWidget {
 class Reschedule extends StatefulWidget {
   final bool isSchedule;
   final bool isDue;
-  final bool isCompleted;
+  final bool isTime;
 
   final AppointmentListsData appointment;
 
@@ -65,7 +66,8 @@ class Reschedule extends StatefulWidget {
       {super.key,
       required this.isSchedule,
       required this.appointment,
-      required this.isDue, required this.isCompleted});
+      required this.isDue,
+      required this.isTime});
 
   @override
   State<Reschedule> createState() => _RescheduleState();
@@ -1392,9 +1394,52 @@ class _RescheduleState extends State<Reschedule> {
                               const SizedBox(
                                 height: 25,
                               ),
+
+                                  if (widget.appointment.status != 1)
+                              GestureDetector(
                               
-                                    Column(
-                                      children: [
+                                   onTap: () {
+                                              if (widget.isTime) {
+                                                ZegoUIKitPrebuiltCallInvitationService()
+                                                    .init(
+                                                  appID:
+                                                      AppStrings.zigoAppIdUrl,
+                                                  appSign:
+                                                      AppStrings.zegoAppSign,
+                                                  userID: userId,
+                                                  userName: userName,
+                                                  plugins: [
+                                                    ZegoUIKitSignalingPlugin()
+                                                  ],
+                                                );
+
+                                                AppNavigator.pushAndStackPage(
+                                                    context,
+                                                    page: CallInviteScreen(
+                                                      isVideoCall: false,
+                                                      inviteeId: widget
+                                                          .appointment.patientId
+                                                          .toString(),
+                                                      inviteeName: widget
+                                                          .appointment
+                                                          .patientLastName
+                                                          .toString(),
+                                                      appointmentId: widget
+                                                          .appointment
+                                                          .appointmentId
+                                                          .toString(),
+                                                    ));
+                                              } else {
+                                                Modals.showToast(
+                                                    "Appointments can  not be initiated at the moment",
+                                                    context);
+                                              }
+                                            
+                                },
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Column(
+                                    children: [
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -1413,9 +1458,8 @@ class _RescheduleState extends State<Reschedule> {
                                               width: 10,
                                             ),
                                             Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8),
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(20),
@@ -1429,166 +1473,90 @@ class _RescheduleState extends State<Reschedule> {
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 12,
                                                   height: 1.4,
-                                                  color:
-                                                      const Color(0xff30B82C),
+                                                  color: const Color(0xff30B82C),
                                                 ),
                                               ),
                                             )
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      
                                         Opacity(
-                                          opacity: isWithinFiveMinutes(replaceTimeInDateTime(
-                                      widget.appointment.date ?? '',
-                                      widget.appointment.time ?? '')) ? 1 : 0.3,
+                                          opacity: widget.isTime
+                                              ? 1
+                                              : 0.3,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              GestureDetector(
-                                                onTap: () {
-
-                                                  if (isWithinFiveMinutes(replaceTimeInDateTime(
-                                      widget.appointment.date ?? '',
-                                      widget.appointment.time ?? ''))) {
-                                                     ZegoUIKitPrebuiltCallInvitationService()
-                                                      .init(
-                                                    appID:
-                                                        AppStrings.zigoAppIdUrl,
-                                                    appSign:
-                                                        AppStrings.zegoAppSign,
-                                                    userID: userId,
-                                                    userName: userName,
-                                                    plugins: [
-                                                      ZegoUIKitSignalingPlugin()
-                                                    ],
-                                                  );
-                                          
-                                                  AppNavigator.pushAndStackPage(
-                                                      context,
-                                                      page: CallInviteScreen(
-                                                        isVideoCall: false,
-                                                        inviteeId: widget
-                                                            .appointment.patientId
-                                                            .toString(),
-                                                        inviteeName: widget
-                                                            .appointment
-                                                            .patientLastName
-                                                            .toString(),
-                                                        appointmentId: widget
-                                                            .appointment
-                                                            .appointmentId
-                                                            .toString(),
-                                                      ));
-                                                  } else {
-                                                     Modals.showToast(
-                        "Appointments can  not be initiated at the moment",
-                        context);
-                                                  }
-                                                 
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      height: 38,
-                                                      width: 38,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              color: Color(
-                                                                  0xff30B82C),
-                                                              shape: BoxShape
-                                                                  .circle),
-                                                      child: const Icon(
-                                                        Icons.call,
-                                                        color: Colors.white,
-                                                      ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 38,
+                                                    width: 38,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            color:
+                                                                Color(0xff30B82C),
+                                                            shape:
+                                                                BoxShape.circle),
+                                                    child: const Icon(
+                                                      Icons.call,
+                                                      color: Colors.white,
                                                     ),
-                                                    const SizedBox(
-                                                      width: 8,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Text(
+                                                    'Audio Call',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color:
+                                                          const Color(0xff0A0D14),
                                                     ),
-                                                    Text(
-                                                      'Audio Call',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xff0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                               const SizedBox(
                                                 width: 20,
                                               ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  ZegoUIKitPrebuiltCallInvitationService()
-                                                      .init(
-                                                    appID:
-                                                        AppStrings.zigoAppIdUrl,
-                                                    appSign:
-                                                        AppStrings.zegoAppSign,
-                                                    userID: userId,
-                                                    userName: userName,
-                                                    plugins: [
-                                                      ZegoUIKitSignalingPlugin()
-                                                    ],
-                                                  );
-                                          
-                                                  AppNavigator.pushAndStackPage(
-                                                      context,
-                                                      page: CallInviteScreen(
-                                                        inviteeId: widget
-                                                            .appointment.patientId
-                                                            .toString(),
-                                                        inviteeName: widget
-                                                            .appointment
-                                                            .patientLastName
-                                                            .toString(),
-                                                        appointmentId: widget
-                                                            .appointment
-                                                            .appointmentId
-                                                            .toString(),
-                                                      ));
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    const SizedBox(
-                                                      height: 45,
-                                                      width: 45,
-                                                      child: ImageView.svg(
-                                                          AppImages.videoIcon),
+                                              Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 45,
+                                                    width: 45,
+                                                    child: ImageView.svg(
+                                                        AppImages.videoIcon),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Text(
+                                                    'Video Call',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color:
+                                                          const Color(0xff0A0D14),
                                                     ),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    Text(
-                                                      'Video Call',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                        height: 1.4,
-                                                        color: const Color(
-                                                            0xff0A0D14),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               )
                                             ],
                                           ),
                                         )
-                                      ],
-                                    )
-                                  
+                                    ],
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -1597,10 +1565,8 @@ class _RescheduleState extends State<Reschedule> {
                   ),
                 ),
               ),
-              bottomNavigationBar: 
-              (widget.appointment.status != 1)
-                  ? 
-                  Container(
+              bottomNavigationBar: (widget.appointment.status != 1)
+                  ? Container(
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFFFFF),
                         border: Border(
@@ -1619,87 +1585,81 @@ class _RescheduleState extends State<Reschedule> {
                       ),
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                        child: 
-                        // (!widget.isSchedule)
-                        //     ? ButtonView(
-                        //         onPressed: () {},
-                        //         borderRadius: 100,
-                        //         color: AppColors.lightSecondary,
-                        //         child: const Text(
-                        //           'Rebook',
-                        //           style: TextStyle(
-                        //               color: AppColors.lightPrimary,
-                        //               fontSize: 14,
-                        //               fontWeight: FontWeight.w500),
-                        //         ))
-                        //     :
-                             Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Modals.showToast(widget.isCompleted.toString(), context);
-                                        // AppNavigator.pushAndStackPage(context,
-                                        //     page: CancelAppointment(
-                                        //         appointmentId: widget
-                                        //             .appointment.appointmentId
-                                        //             .toString()));
-                                      },
-                                      child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width,
-                                          height: 42,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                100,
-                                              ),
-                                              color: AppColors.lightPrimary,
-                                              border: Border.all(
-                                                  color: Colors.grey,
-                                                  width: 0.5)),
-                                          child: const Center(
-                                            child: Text(
-                                              'Cancel',
-                                              style: TextStyle(
-                                                  color:
-                                                      AppColors.lightSecondary,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: ButtonView(
-                                        expanded: false,
-                                        onPressed: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: BookAppointentPage(
-                                                isReBookAppointment: true,
-                                                patientsId: widget
-                                                    .appointment.patientId
-                                                    .toString(),
-                                              ));
-                                        },
-                                        borderRadius: 100,
-                                        color: AppColors.lightSecondary,
-                                        child: const Text(
-                                          'Reschedule',
-                                          style: TextStyle(
-                                              color: AppColors.lightPrimary,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
-                                        )),
-                                  ),
-                                ],
+                        child:
+                            // (!widget.isSchedule)
+                            //     ? ButtonView(
+                            //         onPressed: () {},
+                            //         borderRadius: 100,
+                            //         color: AppColors.lightSecondary,
+                            //         child: const Text(
+                            //           'Rebook',
+                            //           style: TextStyle(
+                            //               color: AppColors.lightPrimary,
+                            //               fontSize: 14,
+                            //               fontWeight: FontWeight.w500),
+                            //         ))
+                            //     :
+                            Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  AppNavigator.pushAndStackPage(context,
+                                      page: CancelAppointment(
+                                          appointmentId: widget
+                                              .appointment.appointmentId
+                                              .toString()));
+                                },
+                                child: Container(
+                                    width: MediaQuery.sizeOf(context).width,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          100,
+                                        ),
+                                        color: AppColors.lightPrimary,
+                                        border: Border.all(
+                                            color: Colors.grey, width: 0.5)),
+                                    child: const Center(
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                            color: AppColors.lightSecondary,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )),
                               ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ButtonView(
+                                  expanded: false,
+                                  onPressed: () {
+                                    AppNavigator.pushAndStackPage(context,
+                                        page: BookAppointentPage(
+                                          isReBookAppointment: true,
+                                          patientsId: widget
+                                              .appointment.patientId
+                                              .toString(),
+                                        ));
+                                  },
+                                  borderRadius: 100,
+                                  color: AppColors.lightSecondary,
+                                  child: const Text(
+                                    'Reschedule',
+                                    style: TextStyle(
+                                        color: AppColors.lightPrimary,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   : const SizedBox.shrink(),
@@ -1720,7 +1680,6 @@ class _RescheduleState extends State<Reschedule> {
       return false;
     }
   }
-
 
   String replaceTimeInDateTime(String dateTimeString, String newTime) {
     if (!dateTimeString.contains('T') || !dateTimeString.endsWith('Z')) {

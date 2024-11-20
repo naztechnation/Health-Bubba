@@ -120,7 +120,6 @@ class AppUtils {
   }
 
   static String getTimeDifference(String dateTimeString) {
-      
     final DateTime dateTime = DateTime.parse(dateTimeString);
     final DateTime now = DateTime.now().add(const Duration(hours: 1));
 
@@ -182,6 +181,285 @@ class AppUtils {
     final DateTime now = DateTime.now();
 
     return dateTime.isBefore(now);
+  }
+
+ static bool isInFiveMins(String timeCheck) {
+    switch (timeCheck) {
+      case "just now":
+        return true;
+      case "1 minutes ago":
+        return true;
+      case "1 minute ago":
+        return true;
+      case "2 minutes ago":
+        return true;
+      case "3 minutes ago":
+        return true;
+      case "4 minutes ago":
+        return true;
+      case "5 minutes ago":
+        return true;
+
+      case "1 seconds ago":
+        return true;
+      case "1 second ago":
+        return true;
+      case "2 seconds ago":
+        return true;
+      case "3 seconds ago":
+        return true;
+      case "4 seconds ago":
+        return true;
+      case "5 seconds ago":
+        return true;
+      case "6 seconds ago":
+        return true;
+      case "7 seconds ago":
+        return true;
+      case "8 seconds ago":
+        return true;
+      case "9 seconds ago":
+        return true;
+      case "10 seconds ago":
+        return true;
+      case "11 seconds ago":
+        return true;
+      case "12 seconds ago":
+        return true;
+      case "13 seconds ago":
+        return true;
+      case "14 seconds ago":
+        return true;
+      case "15 seconds ago":
+        return true;
+      case "16 seconds ago":
+        return true;
+      case "17 seconds ago":
+        return true;
+      case "18 seconds ago":
+        return true;
+      case "19 seconds ago":
+        return true;
+      case "20 seconds ago":
+        return true;
+      case "21 seconds ago":
+        return true;
+      case "22 seconds ago":
+        return true;
+      case "23 seconds ago":
+        return true;
+      case "24 seconds ago":
+        return true;
+      case "25 seconds ago":
+        return true;
+      case "26 seconds ago":
+        return true;
+      case "27 seconds ago":
+        return true;
+      case "28 seconds ago":
+        return true;
+      case "29 seconds ago":
+        return true;
+      case "30 seconds ago":
+        return true;
+      case "31 seconds ago":
+        return true;
+      case "32 seconds ago":
+        return true;
+      case "33 seconds ago":
+        return true;
+      case "34 seconds ago":
+        return true;
+      case "35 seconds ago":
+        return true;
+      case "36 seconds ago":
+        return true;
+      case "37 seconds ago":
+        return true;
+      case "38 seconds ago":
+        return true;
+      case "39 seconds ago":
+        return true;
+      case "40 seconds ago":
+        return true;
+      case "41 seconds ago":
+        return true;
+      case "42 seconds ago":
+        return true;
+      case "43 seconds ago":
+        return true;
+      case "44 seconds ago":
+        return true;
+      case "45 seconds ago":
+        return true;
+      case "46 seconds ago":
+        return true;
+      case "47 seconds ago":
+        return true;
+      case "48 seconds ago":
+        return true;
+      case "49 seconds ago":
+        return true;
+      case "50 seconds ago":
+        return true;
+      case "51 seconds ago":
+        return true;
+      case "52 seconds ago":
+        return true;
+      case "53 seconds ago":
+        return true;
+      case "54 seconds ago":
+        return true;
+      case "55 seconds ago":
+        return true;
+      case "56 seconds ago":
+        return true;
+      case "57 seconds ago":
+        return true;
+      case "58 seconds ago":
+        return true;
+      case "59 seconds ago":
+        return true;
+      case "60 seconds ago":
+        return true;
+      case "1 minute from now":
+        return true;
+      case "1 minutes from now":
+        return true;
+      case "2 minutes from now":
+        return true;
+      case "3 minutes from now":
+        return true;
+      case "4 minutes from now":
+        return true;
+      case "5 minutes from now":
+        return true;
+      case "1 seconds from now":
+        return true;
+      case "1 second from now":
+        return true;
+      case "2 seconds from now":
+        return true;
+      case "3 seconds from now":
+        return true;
+      case "4 seconds from now":
+        return true;
+      case "5 seconds from now":
+        return true;
+      case "6 seconds from now":
+        return true;
+      case "7 seconds from now":
+        return true;
+      case "8 seconds from now":
+        return true;
+      case "9 seconds from now":
+        return true;
+      case "10 seconds from now":
+        return true;
+      case "11 seconds from now":
+        return true;
+      case "12 seconds from now":
+        return true;
+      case "13 seconds from now":
+        return true;
+      case "14 seconds from now":
+        return true;
+      case "15 seconds from now":
+        return true;
+      case "16 seconds from now":
+        return true;
+      case "17 seconds from now":
+        return true;
+      case "18 seconds from now":
+        return true;
+      case "19 seconds from now":
+        return true;
+      case "20 seconds from now":
+        return true;
+      case "21 seconds from now":
+        return true;
+      case "22 seconds from now":
+        return true;
+      case "23 seconds from now":
+        return true;
+      case "24 seconds from now":
+        return true;
+      case "25 seconds from now":
+        return true;
+      case "26 seconds from now":
+        return true;
+      case "27 seconds from now":
+        return true;
+      case "28 seconds from now":
+        return true;
+      case "29 seconds from now":
+        return true;
+      case "30 seconds from now":
+        return true;
+      case "31 seconds from now":
+        return true;
+      case "32 seconds from now":
+        return true;
+      case "33 seconds from now":
+        return true;
+      case "34 seconds from now":
+        return true;
+      case "35 seconds from now":
+        return true;
+      case "36 seconds from now":
+        return true;
+      case "37 seconds from now":
+        return true;
+      case "38 seconds from now":
+        return true;
+      case "39 seconds from now":
+        return true;
+      case "40 seconds from now":
+        return true;
+      case "41 seconds from now":
+        return true;
+      case "42 seconds from now":
+        return true;
+      case "43 seconds from now":
+        return true;
+      case "44 seconds from now":
+        return true;
+      case "45 seconds from now":
+        return true;
+      case "46 seconds from now":
+        return true;
+      case "47 seconds from now":
+        return true;
+      case "48 seconds from now":
+        return true;
+      case "49 seconds from now":
+        return true;
+      case "50 seconds from now":
+        return true;
+      case "51 seconds from now":
+        return true;
+      case "52 seconds from now":
+        return true;
+      case "53 seconds from now":
+        return true;
+      case "54 seconds from now":
+        return true;
+      case "55 seconds from now":
+        return true;
+      case "56 seconds from now":
+        return true;
+      case "57 seconds from now":
+        return true;
+      case "58 seconds from now":
+        return true;
+      case "59 seconds from now":
+        return true;
+      case "60 seconds from now":
+        return true;
+
+      default:
+        return false;
+    }
   }
 
   static final dateTimeFormat = DateFormat('dd MMM yyyy, hh:mm a');

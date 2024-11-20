@@ -99,7 +99,7 @@ class TextEditView extends StatelessWidget {
               SizedBox(
                 height: (maxLines == null) ? 47 : null,
                 child: Container(
-                  height: 65,
+                  
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(borderRadius),
                     color: const Color(0xFFFFFFFF),

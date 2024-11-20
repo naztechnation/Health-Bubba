@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../model/patients/appointment_lists.dart';
 import '../../../../res/app_images.dart';
+import '../../../../utils/app_utils.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/image_view.dart';
+import 'appointment_card.dart';
 import 'appointment_patient_card.dart';
 import 'cancel_appointment.dart';
 import 'reschedule.dart';
@@ -75,7 +77,8 @@ class UpcomingPage extends StatelessWidget {
                           page: ReschedulePage(
                             isSchedule: true,
                             appointment: upcomingAppointment[index],
-                            isDue: false, isCompleted: false,
+                            isDue: false, isTime: (AppUtils.isInFiveMins(AppUtils.getTimeDifference(replaceTimeInDateTime(upcomingAppointment[index].date ?? '', upcomingAppointment[index].time ?? ''))))
+                 ,
                           ));
                     },
                     upcomingAppointment: upcomingAppointment[index],
