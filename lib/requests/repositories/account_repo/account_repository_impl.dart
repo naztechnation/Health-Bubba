@@ -12,11 +12,12 @@ import 'package:healthbubba/model/user/select_language.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/selected_docs_availability.dart';
 import 'package:healthbubba/model/user/selected_languages.dart';
-import 'package:healthbubba/model/user/selected_qualifications.dart';
+ 
 import 'package:healthbubba/model/user/upload_image.dart';
+import 'package:healthbubba/model/user/upload_image_file.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 import 'package:healthbubba/model/working_hours.dart';
-import 'package:healthbubba/widgets/modals.dart';
+  
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
@@ -39,8 +40,10 @@ class AccountRepositoryImpl implements AccountRepository {
     required String password,
     required String phone,
     required String referral,
+     required String fcmToken
   }) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+     debugPrint("This is my token${fcmToken}");
+    
 
     final map = await Requests().post(AppStrings.registerUserUrl, body: {
       "email": email,
@@ -65,9 +68,10 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<LoginData> loginUser(
-      {required String email, required String password}) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
-
+      {required String email, required String password, required String fcmToken}) async {
+     
+     debugPrint("This is my token${fcmToken}");
+        
     final map = await Requests().post(AppStrings.loginUrl, body: {
       "email": email,
       "password": password,
@@ -205,6 +209,8 @@ class AccountRepositoryImpl implements AccountRepository {
     required int experience,
     required String hospitalAffliated,
     required String phone,
+    required String doctorLicenceDoc,
+    String? otherDocs,
     String? location,
   }) async {
     final map = await Requests().post(
@@ -218,6 +224,8 @@ class AccountRepositoryImpl implements AccountRepository {
         if (location != null) "address": location,
         "licence_number": licenceNumber,
         "clinic_affiliation": hospitalAffliated,
+        "doctor_license": doctorLicenceDoc,
+       if(otherDocs !=  null || otherDocs != "") "other_document": otherDocs,
       },
     );
     return UpdateUser.fromJson(map);
@@ -344,9 +352,8 @@ class AccountRepositoryImpl implements AccountRepository {
       required String sex,
       required String firstname,
       required String email,
-      required String fcm}) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
-
+      required String fcmToken}) async {
+   
     final map = await Requests().post(AppStrings.googleRegUrl, body: {
       'email': email,
       'firstname': firstname,
@@ -358,8 +365,11 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<LoginWithGoogle> loginWithGoogleA({required String email}) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  Future<LoginWithGoogle> loginWithGoogleA({required String email,
+     required String fcmToken
+  
+  }) async {
+     
 
     final map = await Requests().post(AppStrings.googleLoginUrl, body: {
       'email': email,
@@ -370,8 +380,12 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<LoginWithGoogle> loginWithAppleA(
-      {required String email, required String appleId}) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+      {required String email, required String appleId, 
+      
+     required String fcmToken
+      
+      }) async {
+     
 
     final map = await Requests().post(AppStrings.appleLoginUrl,
      body: {
@@ -389,8 +403,8 @@ class AccountRepositoryImpl implements AccountRepository {
       required String firstname,
       required String email,
       required String appleId,
-      required String fcm}) async {
-    final fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+      required String fcmToken}) async {
+    
 
     final map = await Requests().post(AppStrings.appleRegUrl, body: {
       if(email.isNotEmpty)'email': email,
@@ -424,5 +438,18 @@ class AccountRepositoryImpl implements AccountRepository {
       
     );
     return GooglePlaces.fromJson(map);
+  }
+
+  @override
+  Future<UploadDoc> uploadDoc({required File doc}) async {
+    List<File> docs = [];
+    docs.add(doc);
+
+    final map = await Requests().post(
+      AppStrings.uploadDocUrl,
+      files: {"docs": docs},
+    );
+
+    return UploadDoc.fromJson(map);
   }
 }

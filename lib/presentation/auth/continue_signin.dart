@@ -58,6 +58,18 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
     });
   }
 
+  String fcmToken = "";
+
+  getUserToke()async{
+      fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  }
+
+  @override
+  void initState() {
+     getUserToke();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<OnboardViewModel>(context, listen: true);
@@ -598,7 +610,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                         await context
                                             .read<AccountCubit>()
                                             .loginWithGoogle(
-                                              email: email,
+                                              email: email, fcmToken: fcmToken,
                                             );
                                       } else {
                                         ToastService().showToast(
@@ -668,7 +680,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                                               email: credential.email ?? '',
                                               appleId:
                                                   credential.userIdentifier ??
-                                                      '',
+                                                      '', fcmToken: fcmToken,
                                             );
                                       } else {
                                         ToastService().showToast(
@@ -793,6 +805,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
       ctx.read<AccountCubit>().loginUser(
             password: _passwordController.text.trim(),
             email: widget.emailAddress.trim(),
+             fcmToken: fcmToken,
           );
     }
 

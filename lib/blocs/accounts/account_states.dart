@@ -21,6 +21,7 @@ import '../../model/user/selected_qualifications.dart';
 import '../../model/user/selected_user_specialties.dart';
 import '../../model/user/update_user.dart';
 import '../../model/user/upload_image.dart';
+import '../../model/user/upload_image_file.dart';
  
  
 
@@ -264,6 +265,17 @@ class UploadImageLoaded extends AccountStates {
   const UploadImageLoaded(this.uploadImage);
   @override
   List<Object> get props => [uploadImage];
+}
+class UploadDocsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class UploadDocsLoaded extends AccountStates {
+  final UploadDoc uploadDocs;
+  const UploadDocsLoaded(this.uploadDocs);
+  @override
+  List<Object> get props => [uploadDocs];
 }
 
 

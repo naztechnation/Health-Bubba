@@ -110,719 +110,733 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   ),
                 ),
               ),
-              body: Column(
-                children: [
-               (todayFilter.isEmpty) ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                     SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.3,
-                      width: 80,),
-                  const Align(
-                    child: SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: ImageView.svg(AppImages.noData)),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'No Notifications Data Yet. ',
-                      style: GoogleFonts.getFont(
-                        'Inter',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 1.7,
-                        color: const Color(0xFF0A0D14),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                 (notificationsData?.data?.isEmpty ?? false) ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                       SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.3,
+                        width: 80,),
+                    const Align(
+                      child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child: ImageView.svg(AppImages.noData)),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No Notifications Data Yet. ',
+                        style: GoogleFonts.getFont(
+                          'Inter',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          height: 1.7,
+                          color: const Color(0xFF0A0D14),
+                        ),
                       ),
                     ),
-                  ),
-                   
-                  const SizedBox(
-                    height: 30,
-                  )
-                ],
-              ):   ListView.builder(
-                    itemCount: todayFilter.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
+                     
+                    const SizedBox(
+                      height: 30,
+                    )
+                  ],
+                ):   ListView.builder(
+                      itemCount: todayFilter.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFFFFF),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 8, 17.6, 7),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                                  child: SizedBox(
-                                                    child: Text(
-                                                      'Today',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 16,
-                                                        height: 1.3,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  'Mark all as read',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color: const Color(0xFF40B93C),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
-                                              ),
-                                            ),
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 16, 17, 19),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 6, 16, 2),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          const Color(0x1A40B93C),
-                                                      borderRadius:
-                                                          BorderRadius.circular(25),
-                                                    ),
-                                                    child: Container(
-                                                      width: 50,
-                                                      height: 50,
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              14.5,
-                                                              14.5,
-                                                              13.6,
-                                                              13.6),
-                                                      child:  SizedBox(
-                                                        width: 21.8,
-                                                        height: 21.8,
-                                                        child: SizedBox(
-                                                          width: 21.8,
-                                                          height: 21.8,
-                                                          child:
-                                                          
-                                                          (todayFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentSuccess) : (todayFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
-                                                              AppImages
-                                                                  .scheduleAppointment): (todayFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
-                                                              AppImages
-                                                                  .videoConsultation): (todayFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentCancelled): (todayFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderInTransit): (todayFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderCompleted) : const SizedBox.shrink(),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 8, 17.6, 7),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 0, 10, 0),
+                                                    child: SizedBox(
+                                                      child: Text(
+                                                        'Today',
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 16,
+                                                          height: 1.3,
+                                                          color:
+                                                              const Color(0xFF0A0D14),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
+                                                  Text(
+                                                    'Mark all as read',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(0xFF40B93C),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
                                                 ),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 2),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      0, 0, 10, 0),
-                                                              child: SizedBox(
-                                                                child: Text(
-                                                                  notificationsData?.data?[index].title ?? '',
-                                                                  style: GoogleFonts
-                                                                      .getFont(
-                                                                    'Inter',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 14,
-                                                                    height: 1.4,
-                                                                    color: const Color(
-                                                                        0xFF0A0D14),
+                                              ),
+                                            ),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 16, 17, 19),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 6, 16, 2),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            const Color(0x1A40B93C),
+                                                        borderRadius:
+                                                            BorderRadius.circular(25),
+                                                      ),
+                                                      child: Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        padding:
+                                                            const EdgeInsets.fromLTRB(
+                                                                14.5,
+                                                                14.5,
+                                                                13.6,
+                                                                13.6),
+                                                        child:  SizedBox(
+                                                          width: 21.8,
+                                                          height: 21.8,
+                                                          child: SizedBox(
+                                                            width: 21.8,
+                                                            height: 21.8,
+                                                            child:
+                                                            
+                                                            (todayFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentSuccess) : (todayFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
+                                                                AppImages
+                                                                    .scheduleAppointment): (todayFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
+                                                                AppImages
+                                                                    .videoConsultation): (todayFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled): (todayFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderInTransit): (todayFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderCompleted) : const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 2),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        0, 0, 10, 0),
+                                                                child: SizedBox(
+                                                                  child: Text(
+                                                                    notificationsData?.data?[index].title ?? '',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize: 14,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF0A0D14),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              formatTimeDifference(notificationsData?.data?[index].date ?? ''),
-                                                              style: GoogleFonts
-                                                                  .getFont(
+                                                              Text(
+                                                                formatTimeDifference(notificationsData?.data?[index].date ?? ''),
+                                                                style: GoogleFonts
+                                                                    .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF6B7280),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                              
+                                                                  notificationsData?.data?[index].description ?? '',
+                                                              style:
+                                                                  GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight:
-                                                                    FontWeight.w500,
-                                                                fontSize: 14,
-                                                                height: 1.4,
+                                                                    FontWeight.w400,
+                                                                fontSize: 12,
+                                                                height: 1.7,
                                                                 color: const Color(
                                                                     0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                              )),
+                                                         
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          
+                                          
+                                        
+                                        ],
+                                      ),
+                                     
+                                    ],
+                                  ),
+                                ),
+                               
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    ListView.builder(
+                      itemCount: yesterdayFilter.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFFFFF),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 8, 17.6, 7),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 0, 10, 0),
+                                                    child: SizedBox(
+                                                      child: Text(
+                                                        'Yesterday',
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 16,
+                                                          height: 1.3,
+                                                          color:
+                                                              const Color(0xFF0A0D14),
                                                         ),
                                                       ),
-                                                      Text(
-                                                            
-                                                                notificationsData?.data?[index].description ?? '',
-                                                            style:
-                                                                GoogleFonts.getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w400,
-                                                              fontSize: 12,
-                                                              height: 1.7,
-                                                              color: const Color(
-                                                                  0xFF6B7280),
-                                                            )),
-                                                       
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        
-                                        
-                                      
-                                      ],
-                                    ),
-                                   
-                                  ],
-                                ),
-                              ),
-                             
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: yesterdayFilter.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
+                                                  
+                                                ],
                                               ),
                                             ),
                                           ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 8, 17.6, 7),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                                  child: SizedBox(
-                                                    child: Text(
-                                                      'Yesterday',
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 16,
-                                                        height: 1.3,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ),
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
                                                 ),
-                                                
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
                                               ),
                                             ),
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 16, 17, 19),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 6, 16, 2),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          const Color(0x1A40B93C),
-                                                      borderRadius:
-                                                          BorderRadius.circular(25),
-                                                    ),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 16, 17, 19),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 6, 16, 2),
                                                     child: Container(
-                                                      width: 50,
-                                                      height: 50,
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              14.5,
-                                                              14.5,
-                                                              13.6,
-                                                              13.6),
-                                                      child:  SizedBox(
-                                                        width: 21.8,
-                                                        height: 21.8,
-                                                        child: SizedBox(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            const Color(0x1A40B93C),
+                                                        borderRadius:
+                                                            BorderRadius.circular(25),
+                                                      ),
+                                                      child: Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        padding:
+                                                            const EdgeInsets.fromLTRB(
+                                                                14.5,
+                                                                14.5,
+                                                                13.6,
+                                                                13.6),
+                                                        child:  SizedBox(
                                                           width: 21.8,
                                                           height: 21.8,
-                                                          child:
-                                                          
-                                                          (yesterdayFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentSuccess) : (yesterdayFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
-                                                              AppImages
-                                                                  .scheduleAppointment): (yesterdayFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
-                                                              AppImages
-                                                                  .videoConsultation): (yesterdayFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentCancelled): (yesterdayFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderInTransit): (yesterdayFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderCompleted) : const SizedBox.shrink(),
+                                                          child: SizedBox(
+                                                            width: 21.8,
+                                                            height: 21.8,
+                                                            child:
+                                                            
+                                                            (yesterdayFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentSuccess) : (yesterdayFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
+                                                                AppImages
+                                                                    .scheduleAppointment): (yesterdayFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
+                                                                AppImages
+                                                                    .videoConsultation): (yesterdayFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled): (yesterdayFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderInTransit): (yesterdayFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderCompleted) : const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 2),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      0, 0, 10, 0),
-                                                              child: SizedBox(
-                                                                child: Text(
-                                                                  yesterdayFilter[index].title ?? '',
-                                                                  style: GoogleFonts
-                                                                      .getFont(
-                                                                    'Inter',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 14,
-                                                                    height: 1.4,
-                                                                    color: const Color(
-                                                                        0xFF0A0D14),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 2),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        0, 0, 10, 0),
+                                                                child: SizedBox(
+                                                                  child: Text(
+                                                                    yesterdayFilter[index].title ?? '',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize: 14,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF0A0D14),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              formatTimeDifference(yesterdayFilter[index].date ?? ''),
-                                                              style: GoogleFonts
-                                                                  .getFont(
+                                                              Text(
+                                                                formatTimeDifference(yesterdayFilter[index].date ?? ''),
+                                                                style: GoogleFonts
+                                                                    .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF6B7280),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                              
+                                                                  yesterdayFilter[index].description ?? '',
+                                                              style:
+                                                                  GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight:
-                                                                    FontWeight.w500,
-                                                                fontSize: 14,
-                                                                height: 1.4,
+                                                                    FontWeight.w400,
+                                                                fontSize: 12,
+                                                                height: 1.7,
                                                                 color: const Color(
                                                                     0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                          ],
+                                                              )),
+                                                         
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          
+                                          
+                                        
+                                        ],
+                                      ),
+                                     
+                                    ],
+                                  ),
+                                ),
+                               
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    ListView.builder(
+                      itemCount: pastDaysFilter.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+
+
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFFFFF),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 8, 17.6, 7),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 0, 10, 0),
+                                                    child: SizedBox(
+                                                      child: Text(
+                                                        justGetDate(pastDaysFilter.last.date ?? ''),
+                                                        style: GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight: FontWeight.w500,
+                                                          fontSize: 12,
+                                                          height: 1.3,
+                                                          color:
+                                                              const Color(0xFF0A0D14),
                                                         ),
                                                       ),
-                                                      Text(
-                                                            
-                                                                yesterdayFilter[index].description ?? '',
-                                                            style:
-                                                                GoogleFonts.getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w400,
-                                                              fontSize: 12,
-                                                              height: 1.7,
-                                                              color: const Color(
-                                                                  0xFF6B7280),
-                                                            )),
-                                                       
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        
-                                        
-                                      
-                                      ],
-                                    ),
-                                   
-                                  ],
-                                ),
-                              ),
-                             
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    itemCount: pastDaysFilter.length ?? 0,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFFFFF),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
+                                                  
+                                                ],
                                               ),
                                             ),
                                           ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 8, 17.6, 7),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 0, 10, 0),
-                                                  child: SizedBox(
-                                                    child: Text(
-                                                      justGetDate(pastDaysFilter.last.date ?? ''),
-                                                      style: GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 16,
-                                                        height: 1.3,
-                                                        color:
-                                                            const Color(0xFF0A0D14),
-                                                      ),
-                                                    ),
-                                                  ),
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                              color: Color(0xFFFFFFFF),
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                  color: Color(0xFFE5E7EB),
+                                                  width: 1,
                                                 ),
-                                                
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xFFFFFFFF),
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color(0xFFE5E7EB),
-                                                width: 1,
                                               ),
                                             ),
-                                          ),
-                                          child: Container(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 16, 17, 19),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.fromLTRB(
-                                                      0, 6, 16, 2),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          const Color(0x1A40B93C),
-                                                      borderRadius:
-                                                          BorderRadius.circular(25),
-                                                    ),
+                                            child: Container(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 16, 17, 19),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    margin: const EdgeInsets.fromLTRB(
+                                                        0, 6, 16, 2),
                                                     child: Container(
-                                                      width: 50,
-                                                      height: 50,
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              14.5,
-                                                              14.5,
-                                                              13.6,
-                                                              13.6),
-                                                      child:  SizedBox(
-                                                        width: 21.8,
-                                                        height: 21.8,
-                                                        child: SizedBox(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            const Color(0x1A40B93C),
+                                                        borderRadius:
+                                                            BorderRadius.circular(25),
+                                                      ),
+                                                      child: Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        padding:
+                                                            const EdgeInsets.fromLTRB(
+                                                                14.5,
+                                                                14.5,
+                                                                13.6,
+                                                                13.6),
+                                                        child:  SizedBox(
                                                           width: 21.8,
                                                           height: 21.8,
-                                                          child:
-                                                          
-                                                          (pastDaysFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentSuccess) : (pastDaysFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
-                                                              AppImages
-                                                                  .scheduleAppointment): (pastDaysFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
-                                                              AppImages
-                                                                  .videoConsultation): (pastDaysFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
-                                                              AppImages
-                                                                  .appointmentCancelled): (pastDaysFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderInTransit): (pastDaysFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
-                                                              AppImages
-                                                                  .orderCompleted) : const SizedBox.shrink(),
+                                                          child: SizedBox(
+                                                            width: 21.8,
+                                                            height: 21.8,
+                                                            child:
+                                                            
+                                                            (pastDaysFilter[index].type == 'APPOINTMENT_SUCCESS') ? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentSuccess) : (pastDaysFilter[index].type == 'SCHEDULE_CHANGE')? const ImageView.svg(
+                                                                AppImages
+                                                                    .scheduleAppointment): (pastDaysFilter[index].type == 'VIDEO_CONSULTATION')? const ImageView.svg(
+                                                                AppImages
+                                                                    .videoConsultation): (pastDaysFilter[index].type == 'APPOINTMENT_CANCEL')? const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled): (pastDaysFilter[index].type == 'ORDER_IN_TRANSIT')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderInTransit): (pastDaysFilter[index].type == 'ORDER_COMPLETED')? const ImageView.svg(
+                                                                AppImages
+                                                                    .orderCompleted) : const ImageView.svg(
+                                                                AppImages
+                                                                    .appointmentCancelled),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .fromLTRB(0, 0, 0, 2),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .fromLTRB(
-                                                                      0, 0, 10, 0),
-                                                              child: SizedBox(
-                                                                child: Text(
-                                                                  pastDaysFilter[index].title ?? '',
-                                                                  style: GoogleFonts
-                                                                      .getFont(
-                                                                    'Inter',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: 14,
-                                                                    height: 1.4,
-                                                                    color: const Color(
-                                                                        0xFF0A0D14),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets
+                                                              .fromLTRB(0, 0, 0, 2),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                        0, 0, 10, 0),
+                                                                child: SizedBox(
+                                                                  child: Text(
+                                                                    pastDaysFilter[index].title ?? '',
+                                                                    style: GoogleFonts
+                                                                        .getFont(
+                                                                      'Inter',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize: 13,
+                                                                      height: 1.4,
+                                                                      color: const Color(
+                                                                          0xFF0A0D14),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Text(
-                                                              formatTimeDifference(pastDaysFilter[index].date ?? ''),
-                                                              style: GoogleFonts
-                                                                  .getFont(
+                                                              Text(
+                                                                formatTimeDifference(pastDaysFilter[index].date ?? ''),
+                                                                style: GoogleFonts
+                                                                    .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight.w500,
+                                                                  fontSize: 14,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF6B7280),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                              
+                                                                  pastDaysFilter[index].description ?? '',
+                                                              style:
+                                                                  GoogleFonts.getFont(
                                                                 'Inter',
                                                                 fontWeight:
-                                                                    FontWeight.w500,
-                                                                fontSize: 14,
-                                                                height: 1.4,
+                                                                    FontWeight.w400,
+                                                                fontSize: 12,
+                                                                height: 1.7,
                                                                 color: const Color(
                                                                     0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                            
-                                                                pastDaysFilter[index].description ?? '',
-                                                            style:
-                                                                GoogleFonts.getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight.w400,
-                                                              fontSize: 12,
-                                                              height: 1.7,
-                                                              color: const Color(
-                                                                  0xFF6B7280),
-                                                            )),
-                                                       
-                                                    ],
+                                                              )),
+                                                         
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          
+                                          
                                         
-                                        
-                                      
-                                      ],
-                                    ),
-                                   
-                                  ],
+                                        ],
+                                      ),
+                                     
+                                    ],
+                                  ),
                                 ),
-                              ),
-                             
-                            ],
+                               
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             );
     });

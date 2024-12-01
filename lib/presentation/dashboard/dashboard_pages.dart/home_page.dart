@@ -86,6 +86,9 @@ class _HomeState extends State<Home> {
     userId = await StorageHandler.getUserId();
     doctorState = await StorageHandler.getDoctorState() ?? '0';
 
+     
+
+
       _userCubit.userData();
         _userCubit.getAppointmentList();
     await _userCubit.getProfileStatus();

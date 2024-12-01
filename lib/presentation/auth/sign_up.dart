@@ -31,7 +31,7 @@ import '../../widgets/password_checker.dart';
 import '../profile/profile_setup.dart';
 import 'otp_sent_screen.dart';
 import 'sign_in.dart';
-import 'verify_code.dart';
+ 
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -56,6 +56,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   bool isAgreed = false;
 
+
+   String fcmToken = "";
+
+  getUserToke()async{
+      fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  }
+
+  @override
+  void initState() {
+     getUserToke();
+    super.initState();
+     
+  }
   @override
   Widget build(BuildContext context) {
     final userAuth = Provider.of<OnboardViewModel>(context, listen: true);
@@ -596,7 +609,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             dob: '',
                                             sex: '',
                                             firstname: '',
-                                            fcm: '',
+                                            fcmToken: fcmToken,
                                           );
                                       setState(() {
                                         isLoading = false;
@@ -671,9 +684,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             sex: '',
                                             firstname:
                                                 credential.familyName ?? '',
-                                            fcm: '',
+                                             
                                             appleId:
-                                                credential.userIdentifier ?? '',
+                                                credential.userIdentifier ?? '', fcmToken: fcmToken,
                                           );
                                     } else {
                                       ToastService().showToast(
@@ -747,7 +760,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         AppNavigator.pushAndStackPage(context,
-                                            page: SignInScreen(isFromMainPage: false));
+                                            page: const SignInScreen(isFromMainPage: false));
                                       },
                                       child: Text(
                                         'Login',
@@ -791,7 +804,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 email: _emailController.text.trim(),
                 referral: _referralController.text.trim(),
                 phone: _phoneController.text.trim(),
-                password: _passwordController.text.trim(),
+                password: _passwordController.text.trim(), fcmToken: fcmToken,
               );
         } else {
           ToastService().showToast(

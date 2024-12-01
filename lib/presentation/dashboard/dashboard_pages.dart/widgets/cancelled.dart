@@ -59,6 +59,7 @@ class CancelledPage extends StatelessWidget {
             :   ListView.builder(
                 itemCount: cancelledAppointment.length,
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: ( (context, index) {
                 return AppointmentPatientCard(
                   isScheduled: false,

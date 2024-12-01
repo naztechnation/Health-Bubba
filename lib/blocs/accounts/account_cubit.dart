@@ -22,13 +22,16 @@ class AccountCubit extends Cubit<AccountStates> {
     required String password,
     required String phone,
     required String referral,
+     required String fcmToken
+
   }) async {
     try {
       emit(AccountProcessing());
 
       final user = await accountRepository.registerUser(
         email: email,
-        password: password, phone: phone, referral: referral,
+        password: password, phone: phone, referral: referral, fcmToken: fcmToken
+,
       );
 
       emit(AccountLoaded(user));
@@ -80,13 +83,16 @@ class AccountCubit extends Cubit<AccountStates> {
   Future<void> loginUser({
     required String email,
     required String password,
+     required String fcmToken
+
   }) async {
     try {
       emit(AccountLoading());
 
       final user = await accountRepository.loginUser(
         email: email,
-        password: password,
+        password: password, fcmToken:      fcmToken
+,
       );
 
       emit(LoginLoaded(user));
@@ -427,6 +433,8 @@ class AccountCubit extends Cubit<AccountStates> {
     required int experience,
     required String hospitalAffliated,
     required String phone,
+    required String doctorLicenceDoc,
+    String? otherDocs,
     String? location,
   }) async {
     try {
@@ -439,7 +447,7 @@ class AccountCubit extends Cubit<AccountStates> {
           licenceNumber: licenceNumber,
           experience: experience,
           hospitalAffliated: hospitalAffliated,
-          phone: phone);
+          phone: phone, doctorLicenceDoc: doctorLicenceDoc, otherDocs: otherDocs);
 
       emit(UpdateUserLoaded(user));
     } on ApiException catch (e) {
@@ -508,6 +516,27 @@ class AccountCubit extends Cubit<AccountStates> {
       final user = await accountRepository.uploadImage(image: image);
 
       emit(UploadImageLoaded(user));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<void> uploadDocs({required File docs}) async {
+    try {
+      emit(UploadDocsLoading());
+
+      final docus = await accountRepository.uploadDoc(doc: docs);
+
+      emit(UploadDocsLoaded(docus));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {
@@ -603,12 +632,12 @@ class AccountCubit extends Cubit<AccountStates> {
       required String sex,
       required String firstname,
       required String email,
-      required String fcm}) async {
+      required String fcmToken}) async {
     try {
       emit(GoogleRegLoading());
 
       final google = await accountRepository.regWithGoogleA(
-          dob: dob, sex: sex, firstname: firstname, email: email, fcm: fcm);
+          dob: dob, sex: sex, firstname: firstname, email: email, fcmToken: fcmToken);
 
       emit(GoogleRegLoaded(google));
     } on ApiException catch (e) {
@@ -626,12 +655,14 @@ class AccountCubit extends Cubit<AccountStates> {
     }
   }
 
-  Future<void> loginWithGoogle({required String email}) async {
+  Future<void> loginWithGoogle({required String email,
+  required String fcmToken
+  }) async {
     try {
       emit(GoogleLoginLoading());
 
       final google = await accountRepository.loginWithGoogleA(
-        email: email,
+        email: email, fcmToken: fcmToken,
       );
 
       emit(GoogleLoginLoaded(google));
@@ -655,7 +686,7 @@ class AccountCubit extends Cubit<AccountStates> {
     required String sex,
     required String firstname,
     required String email,
-    required String fcm,
+    required String fcmToken,
     required String appleId,
   }) async {
     try {
@@ -666,8 +697,8 @@ class AccountCubit extends Cubit<AccountStates> {
           sex: sex,
           firstname: firstname,
           email: email,
-          fcm: fcm,
-          appleId: appleId);
+          fcmToken: fcmToken,
+          appleId: appleId, );
 
       emit(AppleRegLoaded(apple));
     } on ApiException catch (e) {
@@ -714,13 +745,14 @@ class AccountCubit extends Cubit<AccountStates> {
   Future<void> loginWithApple({
     required String email,
     required String appleId,
+    required   String fcmToken
   }) async {
     try {
       emit(AppleLoginLoading());
 
       final google = await accountRepository.loginWithAppleA(
         email: email,
-        appleId: appleId,
+        appleId: appleId, fcmToken:fcmToken,
       );
 
       emit(AppleLoginLoaded(google));

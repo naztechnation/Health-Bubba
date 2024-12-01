@@ -251,7 +251,7 @@ static Future<String> getTitle() async {
   }
 
   static Future<String> getFirebaseToken() async {
-    String? value = await storage.read(key: 'FIREBASETOKEN');
+    String? value = await storage.read(key: 'FCM');
     String? token;
     String? data = value;
     if (data != null) {

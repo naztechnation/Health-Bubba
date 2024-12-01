@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/presentation/auth/continue_signin.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-import 'package:zego_zimkit/zego_zimkit.dart';
 
 import '../../blocs/accounts/account.dart';
 import '../../handlers/secure_handler.dart';
@@ -29,12 +27,11 @@ import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/image_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
- 
 
 import '../dashboard/dashboard.dart';
 
 class SignInScreen extends StatefulWidget {
-  final  bool isFromMainPage;
+  final bool isFromMainPage;
 
   const SignInScreen({super.key, required this.isFromMainPage});
   @override
@@ -47,9 +44,17 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  String fcmToken = "";
+
+  getUserToken()async{
+      fcmToken = await StorageHandler.getFirebaseToken() ?? '';
+  }
+
   @override
   void initState() {
-                    StorageHandler.saveIsLoggedIn('');
+     getUserToken();
+    StorageHandler.saveIsLoggedIn('');
 
     super.initState();
   }
@@ -67,8 +72,6 @@ class _SignInScreenState extends State<SignInScreen> {
           listener: (context, state) {
             if (state is GoogleLoginLoaded) {
               if (state.google.ok ?? false) {
-
-                
                 StorageHandler.saveUserToken(state.google.data?.token ?? '');
                 StorageHandler.saveUserId(
                     state.google.data?.user?.id.toString() ?? '');
@@ -90,12 +93,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
 
-                if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
-                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
-                  
-                }else{
-                AppNavigator.pushAndStackPage(context, page: const Dashboard());
-
+                if (state.google.data?.user?.firstName == null ||
+                    state.google.data?.user?.firstName == '') {
+                  AppNavigator.pushAndStackPage(context,
+                      page: const ProfileSetup(
+                        isEdit: false,
+                      ));
+                } else {
+                  AppNavigator.pushAndStackPage(context,
+                      page: const Dashboard());
                 }
               } else {
                 ToastService().showToast(
@@ -109,7 +115,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 );
 
                 StorageHandler.saveIsLoggedIn('');
-
               }
             } else if (state is AppleLoginLoaded) {
               if (state.google.ok ?? false) {
@@ -134,14 +139,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
 
-                 
-
-               if(state.google.data?.user?.firstName == null  || state.google.data?.user?.firstName == ''){
-                AppNavigator.pushAndStackPage(context, page: const ProfileSetup(isEdit: false,));
-                  
-                }else{
-                AppNavigator.pushAndStackPage(context, page: const Dashboard());
-
+                if (state.google.data?.user?.firstName == null ||
+                    state.google.data?.user?.firstName == '') {
+                  AppNavigator.pushAndStackPage(context,
+                      page: const ProfileSetup(
+                        isEdit: false,
+                      ));
+                } else {
+                  AppNavigator.pushAndStackPage(context,
+                      page: const Dashboard());
                 }
               } else {
                 StorageHandler.saveIsLoggedIn('');
@@ -157,7 +163,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 );
               }
             } else if (state is AccountApiErr) {
-                StorageHandler.saveIsLoggedIn('');
+              StorageHandler.saveIsLoggedIn('');
 
               ToastService().showToast(
                 context,
@@ -169,7 +175,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 subtitle: state.message ?? '',
               );
             } else if (state is AccountNetworkErr) {
-                StorageHandler.saveIsLoggedIn('');
+              StorageHandler.saveIsLoggedIn('');
 
               if (state.message != null) {
                 ToastService().showToast(
@@ -187,16 +193,15 @@ class _SignInScreenState extends State<SignInScreen> {
           builder: (context, state) => Stack(
             children: [
               WillPopScope(
-      onWillPop: () async {
-        //  SystemNavigator.pop();
-        if(!widget.isFromMainPage){
-          return true;
-        }else{
-        return false;
-
-        }
-      },
-      child: Scaffold(
+                onWillPop: () async {
+                  //  SystemNavigator.pop();
+                  if (!widget.isFromMainPage) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                },
+                child: Scaffold(
                     backgroundColor: AppColors.lightPrimary,
                     body: Container(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
@@ -209,7 +214,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               SizedBox(
-                                height: MediaQuery.sizeOf(context).height * 0.08,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.08,
                               ),
                               const Align(
                                 child: ImageView.svg(
@@ -229,7 +235,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                     margin:
                                         const EdgeInsets.fromLTRB(0, 0, 0, 24),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -243,8 +250,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Container(
-                                                margin: const EdgeInsets.fromLTRB(
-                                                    0, 0, 9, 8),
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 9, 8),
                                                 child: Text(
                                                   'Sign In',
                                                   style: GoogleFonts.getFont(
@@ -264,7 +272,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 14,
                                                   height: 1.6,
-                                                  color: const Color(0xFF6B7280),
+                                                  color:
+                                                      const Color(0xFF6B7280),
                                                 ),
                                               ),
                                             ],
@@ -286,23 +295,24 @@ class _SignInScreenState extends State<SignInScreen> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    margin:
-                                                        const EdgeInsets.fromLTRB(
-                                                            0, 0, 0, 6),
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(0, 0, 0, 6),
                                                     child: Column(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
                                                         Container(
-                                                          margin: const EdgeInsets
-                                                              .fromLTRB(
-                                                              0, 0, 0, 8),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  0, 0, 0, 8),
                                                           child: Align(
-                                                            alignment:
-                                                                Alignment.topLeft,
+                                                            alignment: Alignment
+                                                                .topLeft,
                                                             child: Text(
                                                               'Email Address',
                                                               style: GoogleFonts
@@ -339,15 +349,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                             ),
                                             ButtonView(
                                                 onPressed: () {
-                                                  _loginUser(context);
+                                                //  Modals.showToast(fcmToken, context);
+                                                    _loginUser(context);
                                                 },
                                                 borderRadius: 100,
                                                 color: AppColors.lightSecondary,
                                                 child: const Text(
                                                   'Continue',
                                                   style: TextStyle(
-                                                      color:
-                                                          AppColors.lightPrimary,
+                                                      color: AppColors
+                                                          .lightPrimary,
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.w500),
@@ -363,7 +374,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   Opacity(
                                     opacity: 0.8,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Expanded(
                                           child: Container(
@@ -409,12 +421,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                         await googleSignIn.signOut();
                                         String email =
                                             await userAuth.signInWithGoogle();
-                
+
                                         if (email.isNotEmpty) {
                                           await context
                                               .read<AccountCubit>()
                                               .loginWithGoogle(
-                                                email: email,
+                                                email: email, fcmToken: fcmToken,
                                               );
                                         } else {
                                           ToastService().showToast(
@@ -445,17 +457,19 @@ class _SignInScreenState extends State<SignInScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              ImageView.svg(AppImages.googleLogo),
+                                              ImageView.svg(
+                                                  AppImages.googleLogo),
                                               SizedBox(
                                                 width: 8,
                                               ),
                                               Text(
                                                 'Continue with Google',
                                                 style: TextStyle(
-                                                    color:
-                                                        AppColors.lightSecondary,
+                                                    color: AppColors
+                                                        .lightSecondary,
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                             ],
                                           ),
@@ -482,7 +496,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 email: credential.email ?? '',
                                                 appleId:
                                                     credential.userIdentifier ??
-                                                        '',
+                                                        '', fcmToken: fcmToken,
                                               );
                                         } else {
                                           ToastService().showToast(
@@ -495,15 +509,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                         }
                                       },
                                       child: Container(
-                                          width: MediaQuery.sizeOf(context).width,
+                                          width:
+                                              MediaQuery.sizeOf(context).width,
                                           height: 45,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(
+                                              borderRadius:
+                                                  BorderRadius.circular(
                                                 100,
                                               ),
                                               color: Colors.white,
                                               border: Border.all(
-                                                  color: const Color(0xFFE9E9E9),
+                                                  color:
+                                                      const Color(0xFFE9E9E9),
                                                   width: 0.8)),
                                           child: const Center(
                                             child: Row(
@@ -536,8 +553,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   Opacity(
                                     opacity: 0.8,
                                     child: Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 0, 0.5, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 0.5, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

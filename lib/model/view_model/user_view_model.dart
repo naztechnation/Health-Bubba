@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,20 @@ void dispose() {
   String _patientName = '';
   String _patientImage = '';
 
+  String _doctorsLicenceDoc = '';
+  String _doctorsOtherDoc = '';
+
+
+  String _pickedDocFilePath1 = '';
+  String _pickedDocFileName1 = '';
+  String _fileExtension1 = '';
+  String _fileSize1 = '';
+
+  String _pickedDocFilePath2 = '';
+  String _pickedDocFileName2 = '';
+  String _fileExtension2 = '';
+  String _fileSize2 = '';
+
   GetProfileStatus? _status;
   DoctorsAnalytics? _analytics;
 
@@ -59,6 +74,20 @@ void dispose() {
  
 
   NotificationsData? _notificationsData;
+
+  updateLicenceDoc(String doctorLicenceDoc){
+
+    _doctorsLicenceDoc =  doctorLicenceDoc;
+    setViewState(ViewState.success);
+
+  }
+
+  updateotherDoc(String doctorOtherDoc){
+
+    _doctorsOtherDoc =  doctorOtherDoc;
+    setViewState(ViewState.success);
+
+  }
 
 
   void _filterPatients() {
@@ -93,6 +122,24 @@ void dispose() {
 
     }
 
+      removeAllPaths1(){
+        _pickedDocFilePath1 = '';
+    _pickedDocFileName1 = '';
+    _fileExtension1 = '';
+    _fileSize1 = '';
+    _doctorsLicenceDoc = "";
+    setViewState(ViewState.success);
+
+      }
+      removeAllPaths2(){
+          _pickedDocFilePath2 = '';
+   _pickedDocFileName2 = '';
+    _fileExtension2 = '';
+    _fileSize2 = '';
+    _doctorsOtherDoc = "";
+    setViewState(ViewState.success);
+
+      }
 
 
 void _filterMedications() {
@@ -178,6 +225,89 @@ void _filterMedications() {
     _locationController.text = fName;
 
     setViewState(ViewState.success);
+  }
+
+   Future<void> uploadFile(BuildContext context) async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+      );
+
+      if (result != null) {
+        PlatformFile pickedFile = result.files.single;
+
+        _pickedDocFilePath1 = pickedFile.path!;
+        _pickedDocFileName1 = pickedFile.name;
+        int fileSizeInBytes = pickedFile.size;
+        String? fileExtension = pickedFile.extension; // Retrieve file extension
+
+        // Optional: Convert file size to KB or MB for easier readability
+        double fileSizeInKB = fileSizeInBytes / 1024;
+        double fileSizeInMB = fileSizeInKB / 1024;
+
+        _fileExtension1 = '$fileExtension';
+        _fileSize1 = '${fileSizeInMB.toStringAsFixed(2)} MB';
+
+        // Debugging or logging details
+        // debugPrint('File Path: $_pickedDocFilePath');
+        // debugPrint('File Name: $_pickedDocFileName');
+        // debugPrint('File Extension: $fileExtension');
+        // debugPrint('File Size: $fileSizeInBytes bytes');
+        // debugPrint('File Size: ${fileSizeInKB.toStringAsFixed(2)} KB');
+        // debugPrint('File Size: ${fileSizeInMB.toStringAsFixed(2)} MB');
+
+        setViewState(ViewState.success);
+
+        // Optionally return or use the file extension and size as needed
+      } else {
+        // File picker was canceled
+        debugPrint("File picker was canceled.");
+      }
+    } catch (e) {
+      debugPrint("Error picking file: $e");
+    }
+  }
+  Future<void> uploadFile1(BuildContext context) async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+      );
+
+      if (result != null) {
+        PlatformFile pickedFile = result.files.single;
+
+        _pickedDocFilePath2 = pickedFile.path!;
+        _pickedDocFileName2 = pickedFile.name;
+        int fileSizeInBytes = pickedFile.size;
+        String? fileExtension = pickedFile.extension; // Retrieve file extension
+
+        // Optional: Convert file size to KB or MB for easier readability
+        double fileSizeInKB = fileSizeInBytes / 1024;
+        double fileSizeInMB = fileSizeInKB / 1024;
+
+        _fileExtension2 = '$fileExtension';
+        _fileSize2 = '${fileSizeInMB.toStringAsFixed(2)} MB';
+
+        // Debugging or logging details
+        // debugPrint('File Path: $_pickedDocFilePath');
+        // debugPrint('File Name: $_pickedDocFileName');
+        // debugPrint('File Extension: $fileExtension');
+        // debugPrint('File Size: $fileSizeInBytes bytes');
+        // debugPrint('File Size: ${fileSizeInKB.toStringAsFixed(2)} KB');
+        // debugPrint('File Size: ${fileSizeInMB.toStringAsFixed(2)} MB');
+
+        setViewState(ViewState.success);
+
+        // Optionally return or use the file extension and size as needed
+      } else {
+        // File picker was canceled
+        debugPrint("File picker was canceled.");
+      }
+    } catch (e) {
+      debugPrint("Error picking file: $e");
+    }
   }
 
     Future<void> updateLastname(
@@ -358,6 +488,20 @@ void _filterMedications() {
   String get patientId => _patientId;
   String  get patientImage => _patientImage;
   String get patientName => _patientName;
+
+
+  String  get licenceDoc => _doctorsLicenceDoc;
+  String get otherDoc => _doctorsOtherDoc;
+
+   String   get pickedDocFilePath1 => _pickedDocFilePath1;
+  String get pickedDocFileName1 => _pickedDocFileName1;
+  String get fileExtension1 => _fileExtension1;
+  String get fileSize1 => _fileSize1;
+
+  String get  pickedDocFilePath2 => _pickedDocFilePath2;
+  String get pickedDocFileName2 => _pickedDocFileName2;
+  String get fileExtension2 => _fileExtension2;
+  String get  fileSize2 => _fileSize2;
 
   TextEditingController  get firstnameController => _firstnameController;
   TextEditingController  get lastnameController => _lastnameController;

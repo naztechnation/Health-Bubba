@@ -77,6 +77,7 @@ class AppStrings {
   static const String medicationCategoriesUrl =
       "${_baseUrl}medication/categories";
   static const String medicationsUrl = "${_baseUrl}doctor/medications";
+  static const String uploadDocUrl = "${_baseUrl}user/upload_docs";
   static const String getProfileStatusUrl =
       "${_baseUrl}status/profile_settings";
   static const String getAdministeredRouteUrl =

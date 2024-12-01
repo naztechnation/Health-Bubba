@@ -22,6 +22,7 @@ import '../../../model/user/select_specialties.dart';
 import '../../../model/user/selected_languages.dart'; 
 import '../../../model/user/selected_user_specialties.dart';
 import '../../../model/user/update_user.dart';
+import '../../../model/user/upload_image_file.dart';
 import '../../../model/working_hours.dart';
 
 abstract class AccountRepository {
@@ -30,6 +31,7 @@ abstract class AccountRepository {
     required String phone,
     required String referral,
     required String password,
+     required String fcmToken
   });
 
   Future<RegisterUser> initiateResetPassword({
@@ -54,6 +56,7 @@ abstract class AccountRepository {
   Future<LoginData> loginUser({
     required String email,
     required String password,
+     required String fcmToken
   });
 
   Future<RegisterUser> resetPassword({
@@ -99,6 +102,7 @@ abstract class AccountRepository {
   });
 
   Future<UploadImage> uploadImage({required File image});
+  Future<UploadDoc> uploadDoc({required File doc});
 
   Future<UpdateUser> updateUserData({
     required String title,
@@ -108,6 +112,8 @@ abstract class AccountRepository {
     required int experience,
     required String hospitalAffliated,
     required String phone,
+    required String doctorLicenceDoc,
+    String? otherDocs,
     String? location,
   });
 
@@ -116,11 +122,12 @@ abstract class AccountRepository {
     required String sex,
     required String firstname,
     required String email,
-    required String fcm,
+    required String fcmToken
   });
    Future<LoginWithGoogle> loginWithGoogleA({
      
     required String email,
+    required String fcmToken
      
   });
 
@@ -130,13 +137,13 @@ abstract class AccountRepository {
     required String firstname,
     required String email,
     required String appleId,
-    required String fcm,
+   required String fcmToken
   });
    Future<LoginWithGoogle> loginWithAppleA({
      
     required String email,
     required String appleId,
-
+    required String fcmToken
      
   });
 }

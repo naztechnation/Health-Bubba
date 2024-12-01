@@ -15,7 +15,7 @@ import 'package:healthbubba/model/user/doctors_analytics.dart';
 import 'package:healthbubba/model/user/medication_details.dart';
 import 'package:healthbubba/model/user/notification_settings.dart';
 import 'package:healthbubba/model/user/notifications_data.dart';
-import 'package:healthbubba/model/user/reg_with_google.dart';
+ 
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/patients/patients_list.dart';
