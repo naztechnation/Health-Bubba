@@ -854,8 +854,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                     padding:
                                                         EdgeInsets.all(16.0),
                                                     child: SizedBox(
-                                                        height: 20,
-                                                        width: 5,
+                                                        height:  15,
+                                                        width: 15,
                                                         child:
                                                             CircularProgressIndicator
                                                                 .adaptive(
@@ -1025,7 +1025,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           'Inter',
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          fontSize: 14,
+                                                          fontSize: 12,
                                                           height: 1.4,
                                                           color: const Color(
                                                               0xFF131316),
@@ -1285,7 +1285,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           'Inter',
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          fontSize: 14,
+                                                          fontSize: 12,
                                                           height: 1.4,
                                                           color: const Color(
                                                               0xFF131316),
