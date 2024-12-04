@@ -323,7 +323,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
 
   bool isLoading = false;
 
-  String selectedNumber =  "0";
+  String selectedNumber = "0";
 
   void _setUserLocation() async {
     setState(() {
@@ -373,9 +373,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         if (state.uploadDocs.ok ?? false) {
           if (selectedNumber == "1") {
             profile.updateLicenceDoc(state.uploadDocs.data?.picture ?? "");
-          } else if(selectedNumber == "2"){
+          } else if (selectedNumber == "2") {
             profile.updateotherDoc(state.uploadDocs.data?.picture ?? "");
-            
           }
         } else {}
       } else if (state is SelectQualificationsLoaded) {
@@ -789,8 +788,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14,
                                                 height: 1.4,
-                                                color:
-                                                    const Color(0xFF131316),
+                                                color: const Color(0xFF131316),
                                               ),
                                             ),
                                             const SizedBox(
@@ -850,32 +848,36 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           0xFF131316),
                                                     ),
                                                   ),
-                                                  trailing: (state is UploadDocsLoading) ? const Padding(
-                                                    padding:
-                                                        EdgeInsets.all(16.0),
-                                                    child: SizedBox(
-                                                        height:  15,
-                                                        width: 15,
-                                                        child:
-                                                            CircularProgressIndicator
-                                                                .adaptive(
-                                                          backgroundColor:
-                                                              Colors.grey,
-                                                        )),
-                                                  ) : GestureDetector(
-                                                    onTap: () {
-                                                      profile.removeAllPaths1();
-                                                    },
-                                                    child: Container(
-                                                        // margin: const EdgeInsets.only(right: 13),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12),
-                                                        child:
-                                                            const ImageView.svg(
-                                                                AppImages
-                                                                    .trash)),
-                                                  ),
+                                                  trailing: (state
+                                                          is UploadDocsLoading)
+                                                      ? const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: SizedBox(
+                                                              height: 15,
+                                                              width: 15,
+                                                              child:
+                                                                  CircularProgressIndicator
+                                                                      .adaptive(
+                                                                backgroundColor:
+                                                                    Colors.grey,
+                                                              )),
+                                                        )
+                                                      : GestureDetector(
+                                                          onTap: () {
+                                                            profile
+                                                                .removeAllPaths1();
+                                                          },
+                                                          child: Container(
+                                                              // margin: const EdgeInsets.only(right: 13),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(12),
+                                                              child: const ImageView
+                                                                  .svg(AppImages
+                                                                      .trash)),
+                                                        ),
                                                 ),
                                               ),
                                             ),
@@ -898,12 +900,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                
                                                 await profile
                                                     .uploadFile(context);
-                                                    setState(() {
-                                                      selectedNumber = "1";
-                                                    });
+                                                setState(() {
+                                                  selectedNumber = "1";
+                                                });
                                                 if (profile.pickedDocFilePath1
                                                     .isNotEmpty) {
                                                   if (!isGreaterThan5MB(
@@ -1049,8 +1050,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 14,
                                                 height: 1.4,
-                                                color:
-                                                    const Color(0xFF131316),
+                                                color: const Color(0xFF131316),
                                               ),
                                             ),
                                             const SizedBox(
@@ -1110,32 +1110,36 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           0xFF131316),
                                                     ),
                                                   ),
-                                                  trailing: (state is UploadDocsLoading) ? const Padding(
-                                                    padding:
-                                                        EdgeInsets.all(16.0),
-                                                    child: SizedBox(
-                                                        height: 20,
-                                                        width: 5,
-                                                        child:
-                                                            CircularProgressIndicator
-                                                                .adaptive(
-                                                          backgroundColor:
-                                                              Colors.grey,
-                                                        )),
-                                                  ) : GestureDetector(
-                                                    onTap: () {
-                                                      profile.removeAllPaths2();
-                                                    },
-                                                    child: Container(
-                                                        // margin: const EdgeInsets.only(right: 13),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(12),
-                                                        child:
-                                                            const ImageView.svg(
-                                                                AppImages
-                                                                    .trash)),
-                                                  ),
+                                                  trailing: (state
+                                                          is UploadDocsLoading)
+                                                      ? const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  16.0),
+                                                          child: SizedBox(
+                                                              height: 20,
+                                                              width: 5,
+                                                              child:
+                                                                  CircularProgressIndicator
+                                                                      .adaptive(
+                                                                backgroundColor:
+                                                                    Colors.grey,
+                                                              )),
+                                                        )
+                                                      : GestureDetector(
+                                                          onTap: () {
+                                                            profile
+                                                                .removeAllPaths2();
+                                                          },
+                                                          child: Container(
+                                                              // margin: const EdgeInsets.only(right: 13),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(12),
+                                                              child: const ImageView
+                                                                  .svg(AppImages
+                                                                      .trash)),
+                                                        ),
                                                 ),
                                               ),
                                             ),
@@ -1158,12 +1162,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                
                                                 await profile
                                                     .uploadFile1(context);
-                                                    setState(() {
-                                                      selectedNumber = "2";
-                                                    });
+                                                setState(() {
+                                                  selectedNumber = "2";
+                                                });
                                                 if (profile.pickedDocFilePath2
                                                     .isNotEmpty) {
                                                   if (!isGreaterThan5MB(
@@ -1460,9 +1463,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   .updateLocation(value);
                                             },
                                           ),
-                                          const SizedBox(
-                                            height: 15,
-                                          ),
+                                         
                                         ],
                                       ),
                                     ),
@@ -1541,165 +1542,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15.0),
-                            child: ButtonView(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              onPressed: () {
-
-
-                                   
-                                if (_formKey.currentState!.validate()) {
-                                  if (profile.titleController.text.trim().isNotEmpty &&
-                                      profile.firstnameController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.lastnameController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.yearsOfExpController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.licenceNumberController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.hospitalAffliateController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.phoneController.text
-                                          .trim()
-                                          .isNotEmpty &&
-                                      profile.licenceDoc.isNotEmpty) {
-                                    if (!isOtherSelected &&
-                                        _qualificationController
-                                            .text.isNotEmpty) {
-                                      _selectedQualificationsIds.clear();
-                                      _selectedQualificationsIds
-                                          .add(_qualificationController.text);
-                                      _accountCubit.selectQualifications(
-                                          qualificationIds:
-                                              _selectedQualificationsIds);
-                                    } else {
-                                      if (doctorsState == '1') {
-                                        Modals.showDialogModal(
-                                          context,
-                                          page: destructiveActions(
-                                              context: context,
-                                              message:
-                                                  'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
-                                              primaryText: 'I Admit',
-                                              secondaryText: 'Exit Please',
-                                              primaryAction: () async {
-                                                Navigator.pop(context);
-                                                _accountCubit.updateUserData(
-                                                    title: profile
-                                                        .titleController.text
-                                                        .trim(),
-                                                    firstname: profile
-                                                        .firstnameController
-                                                        .text
-                                                        .trim(),
-                                                    lastname: profile
-                                                        .lastnameController.text
-                                                        .trim(),
-                                                    licenceNumber: profile
-                                                        .licenceNumberController
-                                                        .text
-                                                        .trim(),
-                                                    experience:
-                                                        int.tryParse(profile.yearsOfExpController.text.trim()) ??
-                                                            0,
-                                                    hospitalAffliated: profile
-                                                        .hospitalAffliateController
-                                                        .text
-                                                        .trim(),
-                                                    phone: profile
-                                                        .phoneController.text
-                                                        .trim(),
-                                                    doctorLicenceDoc:
-                                                        profile.licenceDoc,
-                                                    otherDocs: profile.otherDoc);
-                                              },
-                                              primaryBgColor:
-                                                  const Color(0xFFF70000),
-                                              secondaryBgColor:
-                                                  AppColors.lightPrimary,
-                                              secondaryAction: () {
-                                                Navigator.pop(context);
-                                              }),
-                                        );
-                                      } else {
-                                        _accountCubit.updateUserData(
-                                            title: profile.titleController.text
-                                                .trim(),
-                                            firstname: profile
-                                                .firstnameController.text
-                                                .trim(),
-                                            lastname: profile
-                                                .lastnameController.text
-                                                .trim(),
-                                            licenceNumber:
-                                                profile.licenceNumberController
-                                                    .text
-                                                    .trim(),
-                                            experience: int
-                                                    .tryParse(profile
-                                                        .yearsOfExpController
-                                                        .text
-                                                        .trim()) ??
-                                                0,
-                                            hospitalAffliated: profile
-                                                .hospitalAffliateController.text
-                                                .trim(),
-                                            phone: profile.phoneController.text
-                                                .trim(),
-                                            doctorLicenceDoc:
-                                                profile.licenceDoc,
-                                            otherDocs: profile.otherDoc);
-                                      }
-                                    }
-                                  } else {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'Fill in all fields please');
-                                  }
-                                }
-                              },
-                              borderRadius: 100,
-                              color: AppColors.lightSecondary,
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Next - ',
-                                  style: GoogleFonts.getFont(
-                                    'Inter',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    height: 1.6,
-                                    color: const Color(0xFFFFFFFF),
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: 'Work information',
-                                      style: GoogleFonts.getFont(
-                                        'Inter',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        height: 1.3,
-                                        color: const Color(0xCCFFFFFF),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                         
+                         
                           const SizedBox(
                             height: 40,
                           ),
@@ -1709,6 +1553,197 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   ),
                 ),
               ),
+            ),
+            bottomNavigationBar:  Container(
+              color: Colors.white,
+              margin: const EdgeInsets.only(bottom:  20),
+              child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: ButtonView(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                onPressed: () {
+                                  if (profile.titleController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Title field required');
+                                  } else if (profile.firstnameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'First name field required');
+                                  } else if (profile.lastnameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Last name field required');
+                                  }else if (_qualificationController
+                                      .text.isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle:
+                                            'Qualifications field required');
+                                  } else if (profile.licenceNumberController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle:
+                                            'Licence Number field required');
+                                  }else if (profile.licenceDoc.isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Add licence document please');
+                                  }  else if (profile.yearsOfExpController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle:
+                                            'Years of experience field required');
+                                  } else if (profile
+                                      .hospitalAffliateController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle:
+                                            'Affliated Hospital field required');
+                                  } else if (profile.phoneController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                            height: 25, AppImages.error),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Phone number field required');
+                                  }  else {
+                                    if (doctorsState == '1') {
+                                      Modals.showDialogModal(
+                                        context,
+                                        page: destructiveActions(
+                                            context: context,
+                                            message:
+                                                'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
+                                            primaryText: 'I Admit',
+                                            secondaryText: 'Exit Please',
+                                            primaryAction: () async {
+                                              Navigator.pop(context);
+                                              _accountCubit.updateUserData(
+                                                  title: profile.titleController.text
+                                                      .trim(),
+                                                  firstname: profile
+                                                      .firstnameController.text
+                                                      .trim(),
+                                                  lastname:
+                                                      profile
+                                                          .lastnameController.text
+                                                          .trim(),
+                                                  licenceNumber: profile
+                                                      .licenceNumberController.text
+                                                      .trim(),
+                                                  experience:
+                                                      int.tryParse(
+                                                              profile
+                                                                  .yearsOfExpController
+                                                                  .text
+                                                                  .trim()) ??
+                                                          0,
+                                                  hospitalAffliated: profile
+                                                      .hospitalAffliateController
+                                                      .text
+                                                      .trim(),
+                                                  phone: profile.phoneController.text
+                                                      .trim(),
+                                                  doctorLicenceDoc: profile.licenceDoc,
+                                                  otherDocs: profile.otherDoc);
+                                            },
+                                            primaryBgColor:
+                                                const Color(0xFFF70000),
+                                            secondaryBgColor:
+                                                AppColors.lightPrimary,
+                                            secondaryAction: () {
+                                              Navigator.pop(context);
+                                            }),
+                                      );
+                                    } else {
+                                      _accountCubit.updateUserData(
+                                          title: profile.titleController.text
+                                              .trim(),
+                                          firstname: profile
+                                              .firstnameController.text
+                                              .trim(),
+                                          lastname: profile
+                                              .lastnameController.text
+                                              .trim(),
+                                          licenceNumber: profile
+                                              .licenceNumberController.text
+                                              .trim(),
+                                          experience:
+                                              int.tryParse(
+                                                      profile.yearsOfExpController
+                                                          .text
+                                                          .trim()) ??
+                                                  0,
+                                          hospitalAffliated: profile
+                                              .hospitalAffliateController.text
+                                              .trim(),
+                                          phone:
+                                              profile.phoneController.text.trim(),
+                                          doctorLicenceDoc: profile.licenceDoc,
+                                          otherDocs: profile.otherDoc);
+                                    }
+                                  }
+                                },
+                                borderRadius: 100,
+                                color: AppColors.lightSecondary,
+                                child: RichText(
+                                  text: TextSpan(
+                                    text: 'Next - ',
+                                    style: GoogleFonts.getFont(
+                                      'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.6,
+                                      color: const Color(0xFFFFFFFF),
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Work information',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          height: 1.3,
+                                          color: const Color(0xCCFFFFFF),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
             ),
           ),
           if (state is GetSpecialtiesLoading ||
@@ -1755,7 +1790,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         return false; // Unknown unit.
     }
 
-    // 5 MB in bytes.
+   
     const fiveMBInBytes = 5 * 1024 * 1024;
 
     // Compare the sizes.
@@ -1869,64 +1904,66 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: qualifications.length,
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.grey.shade200,
-              height: 0,
-            ),
-            itemBuilder: (context, index) {
-              QualificationData qualification = qualifications[index];
-              bool isChecked = _selectedItems.any((item) =>
-                  item.qualificationId == qualification.qualificationId);
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 13.0, horizontal: 23),
-                child: Row(
-                  children: [
-                    CustomCheckbox(
-                      bgColor: const Color(0xFF6667FA),
-                      isChecked: isChecked,
-                      onChanged: (checked) {
-                        _onCheckboxChanged(checked, qualification);
-
-                        bool isLastSelected = _selectedItems.any((item) =>
-                            item.qualificationId ==
-                            qualifications.last.qualificationId);
-                        _qualificationController.text =
-                            qualification.qualificationName ?? '';
-
-                        // if (isLastSelected) {
-                        //   // isOtherSelected = false;
-                        //   Navigator.pop(context);
-
-                        //   _qualificationController.clear();
-                        //   setState(() {});
-                        // } else {
-                        //   isOtherSelected = true;
-                        // }
-                      },
-                    ),
-                    const SizedBox(
-                      width: 13,
-                    ),
-                    Expanded(
-                      child: Text(
-                        qualification.qualificationName ?? '',
-                        style: GoogleFonts.getFont(
-                          'Inter',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                          height: 1.5,
-                          color: const Color(0xFF030712),
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: qualifications.length,
+              separatorBuilder: (context, index) => Divider(
+                color: Colors.grey.shade200,
+                height: 0,
+              ),
+              itemBuilder: (context, index) {
+                QualificationData qualification = qualifications[index];
+                bool isChecked = _selectedItems.any((item) =>
+                    item.qualificationId == qualification.qualificationId);
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 13.0, horizontal: 23),
+                  child: Row(
+                    children: [
+                      CustomCheckbox(
+                        bgColor: const Color(0xFF6667FA),
+                        isChecked: isChecked,
+                        onChanged: (checked) {
+                          _onCheckboxChanged(checked, qualification);
+            
+                          bool isLastSelected = _selectedItems.any((item) =>
+                              item.qualificationId ==
+                              qualifications.last.qualificationId);
+                          _qualificationController.text =
+                              qualification.qualificationName ?? '';
+            
+                          // if (isLastSelected) {
+                          //   // isOtherSelected = false;
+                          //   Navigator.pop(context);
+            
+                          //   _qualificationController.clear();
+                          //   setState(() {});
+                          // } else {
+                          //   isOtherSelected = true;
+                          // }
+                        },
+                      ),
+                      const SizedBox(
+                        width: 13,
+                      ),
+                      Expanded(
+                        child: Text(
+                          qualification.qualificationName ?? '',
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
+                            height: 1.5,
+                            color: const Color(0xFF030712),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
           Divider(
             color: Colors.grey.shade200,

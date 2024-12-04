@@ -88,28 +88,60 @@ class Modals {
     return data;
   }
 
-  static Future<dynamic> showBottomSheetModal(BuildContext context,
-      {required Widget page,
-      double? heightFactor = 0.5,
-        bool isDissmissible = false,
+static Future<dynamic> showBottomSheetModal(
+  BuildContext context, {
+  required Widget page,
+  double? heightFactor = 0.5,
+  bool isDissmissible = false,
+  bool isScrollControlled = false,
+  double borderRadius = 20.0,
+}) async {
+  final data = await showModalBottomSheet<dynamic>(
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(borderRadius)),
+    ),
+    backgroundColor: AppColors.cardColor,
+    isDismissible: isDissmissible,
+    useSafeArea: true,
+    isScrollControlled: isScrollControlled,
+    builder: (BuildContext bc) {
+      return DraggableScrollableSheet(
+        initialChildSize: heightFactor ?? 0.5, 
+        minChildSize: 0.3,  
+        maxChildSize: 1.0,  
+        expand: false,  
+        builder: (context, scrollController) {
+          return Column(
+            children: [
+            
+              Container(
+                width: 40,
+                height: 5,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,  
+                  child: page,
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+  return data;
+}
 
-      bool isScrollControlled = false,
-      double borderRadius = 20.0}) async {
-    final data = await showModalBottomSheet<dynamic>(
-        context: context,
-        shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.vertical(top: Radius.circular(borderRadius))),
-        backgroundColor: AppColors.cardColor,
-        isDismissible: isDissmissible,
-        useSafeArea: true,
 
-        isScrollControlled: isScrollControlled,
-        builder: (BuildContext bc) {
-          return FractionallySizedBox(heightFactor: heightFactor, child: page);
-        });
-    return data;
-  }
+
 
   static Future<dynamic> showDialogModal(BuildContext context,
       {required Widget page, double borderRadius = 20.0}) async {

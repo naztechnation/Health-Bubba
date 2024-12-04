@@ -26,3 +26,4 @@
 -dontwarn org.conscrypt.OpenSSLProvider
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 -dontwarn org.conscrypt.Conscrypt
+-dontwarn android.window.BackEvent
