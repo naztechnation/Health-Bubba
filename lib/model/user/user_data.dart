@@ -49,6 +49,8 @@ class MyData {
 	var relationship;
 	String? type;
 	String? loginType;
+	String? doctorsLicense;
+	String? otherDocuments;
 	int? isAdmin;
 	int? isDoctorVerified;
 	String? password;
@@ -62,7 +64,17 @@ class MyData {
  
 	 
 
-	MyData({this.id, this.username, this.appleId, this.picture, this.email, this.emailVerified, this.otpVerified, this.firstName, this.lastName, this.fcmToken, this.phone, this.dob, this.sex,
+	MyData({this.id,
+   this.username,
+   this.appleId, 
+   this.doctorsLicense, 
+   this.picture, 
+   this.otherDocuments, 
+   this.email, 
+   this.emailVerified, 
+   this.otpVerified, this.firstName, 
+   this.lastName, this.fcmToken, this.phone, 
+   this.dob, this.sex,
    this.address, this.latitude, this.longitude, 
    this.bio, this.licenceNumber, this.licenceNumberVerified, 
    this.title, this.yearsOfExperience, this.clinicAffiliation, 
@@ -77,6 +89,8 @@ class MyData {
 		appleId = json['apple_id'];
 		picture = json['picture'];
 		email = json['email'];
+		doctorsLicense = json['doctor_license'];
+		otherDocuments = json['other_document'];
 		emailVerified = json['email_verified'];
 		otpVerified = json['otp_verified'];
 		firstName = json['first_name'];

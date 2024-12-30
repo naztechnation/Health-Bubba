@@ -110,7 +110,7 @@ class AppStrings {
 
       static const String updateInfo =
       "HealthBubba Partner recommends that you update to the latest version. The update is very important so as to enjoy all of our new features, while we keep serving you better!!!.";
-  static const int appVersionIos = 2;
-  static const int appVersionAndroid = 2;
+  static const int appVersionIos = 1;
+  static const int appVersionAndroid = 1;
   
 }

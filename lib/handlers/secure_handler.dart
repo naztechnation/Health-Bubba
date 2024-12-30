@@ -35,6 +35,12 @@ class StorageHandler {
   static Future<void> saveUserId([String? userId]) async {
     if (userId != null) await storage.write(key: 'ID', value: userId);
   }
+  static Future<void> saveDocLicense([String? userId]) async {
+    if (userId != null) await storage.write(key: 'LICENSE', value: userId);
+  }
+  static Future<void> saveOtherDoc([String? userId]) async {
+    if (userId != null) await storage.write(key: 'OTHERDOC', value: userId);
+  }
 
   static Future<void> saveUserPassword([String? password]) async {
     if (password != null) await storage.write(key: 'PASSWORD', value: password);
@@ -68,6 +74,28 @@ class StorageHandler {
 
   static Future<String> getUserName() async {
     String? value = await storage.read(key: 'USER');
+    String? username;
+    String? data = value;
+    if (data != null) {
+      username = data;
+    } else {
+      username = '';
+    }
+    return username;
+  }
+  static Future<String> getOtherDoc() async {
+    String? value = await storage.read(key: 'OTHERDOC');
+    String? username;
+    String? data = value;
+    if (data != null) {
+      username = data;
+    } else {
+      username = '';
+    }
+    return username;
+  }
+  static Future<String> getDocLicense() async {
+    String? value = await storage.read(key: 'LICENSE');
     String? username;
     String? data = value;
     if (data != null) {

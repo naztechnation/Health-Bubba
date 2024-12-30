@@ -77,6 +77,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   String medicalLicence = "";
   String yearsOfExperience = "";
   String hospitalAffliated = "";
+  String uploadedLicense = "";
+  String uploadedDocs = "";
   String phone = "";
   String location = "";
 
@@ -89,6 +91,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     hospitalAffliated = await StorageHandler.getAffliate();
     phone = await StorageHandler.getPhone();
     location = await StorageHandler.getLocation();
+    uploadedLicense = await StorageHandler.getDocLicense();
+    uploadedDocs = await StorageHandler.getOtherDoc();
     title = await StorageHandler.getTitle();
   }
 
@@ -348,6 +352,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     if (widget.isEdit && callOnce) {
       if (name.isNotEmpty && lastName.isNotEmpty) {
         profile.updateFirstname(name);
+        profile.updateLastname(lastName);
+        profile.updateUploadedLicenceDoc(uploadedLicense);
+        profile.updateUploadedotherDoc(uploadedDocs);
         profile.updateLastname(lastName);
         _qualificationController.text = medicalQualification;
         profile.updateLicenceNumber(medicalLicence);
@@ -779,114 +786,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                           const SizedBox(
                                             height: 15,
                                           ),
-                                          if (profile.pickedDocFilePath1
-                                              .isNotEmpty) ...[
+                                          if (profile.licenceUploadedDoc !=
+                                              "") ...[
                                             Text(
-                                              'Upload Medical License Number',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                                color: const Color(0xFF131316),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: const Color(0xFFFFFFFF),
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0xFFF0F0F0),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x409F9E9E),
-                                                    offset: Offset(0, 1),
-                                                    blurRadius: 1,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Align(
-                                                child: ListTile(
-                                                  contentPadding:
-                                                      const EdgeInsets.all(0),
-                                                  leading: Container(
-                                                    height: 32,
-                                                    width: 32,
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 13),
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Colors
-                                                            .grey.shade100),
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: ImageView.svg(
-                                                          AppImages.file),
-                                                    ),
-                                                  ),
-                                                  title: Text(
-                                                    profile.pickedDocFileName1,
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xFF131316),
-                                                    ),
-                                                  ),
-                                                  trailing: (state
-                                                          is UploadDocsLoading)
-                                                      ? const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16.0),
-                                                          child: SizedBox(
-                                                              height: 15,
-                                                              width: 15,
-                                                              child:
-                                                                  CircularProgressIndicator
-                                                                      .adaptive(
-                                                                backgroundColor:
-                                                                    Colors.grey,
-                                                              )),
-                                                        )
-                                                      : GestureDetector(
-                                                          onTap: () {
-                                                            profile
-                                                                .removeAllPaths1();
-                                                          },
-                                                          child: Container(
-                                                              // margin: const EdgeInsets.only(right: 13),
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(12),
-                                                              child: const ImageView
-                                                                  .svg(AppImages
-                                                                      .trash)),
-                                                        ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
-                                          ] else ...[
-                                            Text(
-                                              'Upload Medical License',
+                                              'Uploaded Medical License',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w500,
@@ -900,32 +803,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                await profile
-                                                    .uploadFile(context);
-                                                setState(() {
-                                                  selectedNumber = "1";
-                                                });
-                                                if (profile.pickedDocFilePath1
-                                                    .isNotEmpty) {
-                                                  if (!isGreaterThan5MB(
-                                                      profile.fileSize1)) {
-                                                    _accountCubit.uploadDocs(
-                                                        docs: File(profile
-                                                            .pickedDocFilePath1));
-                                                  } else {
-                                                    ToastService().showToast(
-                                                        context,
-                                                        leadingIcon:
-                                                            const ImageView.svg(
-                                                          AppImages.error,
-                                                          height: 25,
-                                                        ),
-                                                        title: AppStrings
-                                                            .errorTitle,
-                                                        subtitle:
-                                                            'File Size should not be more than 5 MB');
-                                                  }
-                                                }
+                                                profile
+                                                    .removeUploadedLicenceDoc();
                                               },
                                               child: Container(
                                                 padding:
@@ -972,7 +851,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                       ),
                                                     ),
                                                     title: Text(
-                                                      'Click to Upload',
+                                                      'License Uploaded',
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -1020,7 +899,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                         ],
                                                       ),
                                                       child: Text(
-                                                        'Upload Doc',
+                                                        'Remove',
                                                         style:
                                                             GoogleFonts.getFont(
                                                           'Inter',
@@ -1037,118 +916,293 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 15,
-                                            ),
+                                          ] else ...[
+                                            if (profile.pickedDocFilePath1
+                                                .isNotEmpty) ...[
+                                              Text(
+                                                'Upload Medical License Number',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  color:
+                                                      const Color(0xFFFFFFFF),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Color(0xFFF0F0F0),
+                                                      offset: Offset(0, 0),
+                                                      blurRadius: 0,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x409F9E9E),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Align(
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        const EdgeInsets.all(0),
+                                                    leading: Container(
+                                                      height: 32,
+                                                      width: 32,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 13),
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors
+                                                              .grey.shade100),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: ImageView.svg(
+                                                            AppImages.file),
+                                                      ),
+                                                    ),
+                                                    title: Text(
+                                                      profile
+                                                          .pickedDocFileName1,
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color: const Color(
+                                                            0xFF131316),
+                                                      ),
+                                                    ),
+                                                    trailing: (state
+                                                            is UploadDocsLoading)
+                                                        ? const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    16.0),
+                                                            child: SizedBox(
+                                                                height: 15,
+                                                                width: 15,
+                                                                child:
+                                                                    CircularProgressIndicator
+                                                                        .adaptive(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .grey,
+                                                                )),
+                                                          )
+                                                        : GestureDetector(
+                                                            onTap: () {
+                                                              profile
+                                                                  .removeAllPaths1();
+                                                            },
+                                                            child: Container(
+                                                                // margin: const EdgeInsets.only(right: 13),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        12),
+                                                                child: const ImageView
+                                                                    .svg(
+                                                                    AppImages
+                                                                        .trash)),
+                                                          ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                            ] else ...[
+                                              Text(
+                                                'Upload Medical License',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await profile
+                                                      .uploadFile(context);
+                                                  setState(() {
+                                                    selectedNumber = "1";
+                                                  });
+                                                  if (profile.pickedDocFilePath1
+                                                      .isNotEmpty) {
+                                                    if (!isGreaterThan5MB(
+                                                        profile.fileSize1)) {
+                                                      _accountCubit.uploadDocs(
+                                                          docs: File(profile
+                                                              .pickedDocFilePath1));
+                                                    } else {
+                                                      ToastService().showToast(
+                                                          context,
+                                                          leadingIcon:
+                                                              const ImageView
+                                                                  .svg(
+                                                            AppImages.error,
+                                                            height: 25,
+                                                          ),
+                                                          title: AppStrings
+                                                              .errorTitle,
+                                                          subtitle:
+                                                              'File Size should not be more than 5 MB');
+                                                    }
+                                                  }
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color:
+                                                        const Color(0xFFFFFFFF),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0xFFF0F0F0),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 0,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x409F9E9E),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 1,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: Align(
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          const EdgeInsets.all(
+                                                              0),
+                                                      leading: Container(
+                                                        height: 32,
+                                                        width: 32,
+                                                        margin: const EdgeInsets
+                                                            .only(left: 13),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade100),
+                                                        child: const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: ImageView.svg(
+                                                              AppImages.upload),
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        'Click to Upload',
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          height: 1.4,
+                                                          color: const Color(
+                                                              0xFF131316),
+                                                        ),
+                                                      ),
+                                                      trailing: Container(
+                                                        margin: const EdgeInsets
+                                                            .only(right: 13),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 8),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors.grey
+                                                                  .shade300,
+                                                              width: 0.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          color: const Color(
+                                                              0xFFFFFFFF),
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              color: Color(
+                                                                  0xFFF0F0F0),
+                                                              offset:
+                                                                  Offset(0, 0),
+                                                              blurRadius: 0,
+                                                            ),
+                                                            BoxShadow(
+                                                              color: Color(
+                                                                  0x409F9E9E),
+                                                              offset:
+                                                                  Offset(0, 1),
+                                                              blurRadius: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Text(
+                                                          'Upload Doc',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 12,
+                                                            height: 1.4,
+                                                            color: const Color(
+                                                                0xFF131316),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
                                           ],
-                                          if (profile.pickedDocFilePath2
-                                              .isNotEmpty) ...[
-                                            Text(
-                                              'Upload other relevant document (Optional)',
-                                              style: GoogleFonts.getFont(
-                                                'Inter',
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                                color: const Color(0xFF131316),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: const Color(0xFFFFFFFF),
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0xFFF0F0F0),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x409F9E9E),
-                                                    offset: Offset(0, 1),
-                                                    blurRadius: 1,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Align(
-                                                child: ListTile(
-                                                  contentPadding:
-                                                      const EdgeInsets.all(0),
-                                                  leading: Container(
-                                                    height: 32,
-                                                    width: 32,
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 13),
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Colors
-                                                            .grey.shade100),
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: ImageView.svg(
-                                                          AppImages.file),
-                                                    ),
-                                                  ),
-                                                  title: Text(
-                                                    profile.pickedDocFileName2,
-                                                    style: GoogleFonts.getFont(
-                                                      'Inter',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 14,
-                                                      height: 1.4,
-                                                      color: const Color(
-                                                          0xFF131316),
-                                                    ),
-                                                  ),
-                                                  trailing: (state
-                                                          is UploadDocsLoading)
-                                                      ? const Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  16.0),
-                                                          child: SizedBox(
-                                                              height: 20,
-                                                              width: 5,
-                                                              child:
-                                                                  CircularProgressIndicator
-                                                                      .adaptive(
-                                                                backgroundColor:
-                                                                    Colors.grey,
-                                                              )),
-                                                        )
-                                                      : GestureDetector(
-                                                          onTap: () {
-                                                            profile
-                                                                .removeAllPaths2();
-                                                          },
-                                                          child: Container(
-                                                              // margin: const EdgeInsets.only(right: 13),
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(12),
-                                                              child: const ImageView
-                                                                  .svg(AppImages
-                                                                      .trash)),
-                                                        ),
-                                                ),
-                                              ),
-                                            ),
+                                          if (profile.otherUploadedDoc !=
+                                              "") ...[
                                             const SizedBox(
                                               height: 15,
                                             ),
-                                          ] else ...[
                                             Text(
-                                              'Upload other relevant document (Optional)',
+                                              'Additional Documents Uploaded',
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 fontWeight: FontWeight.w500,
@@ -1162,32 +1216,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             ),
                                             GestureDetector(
                                               onTap: () async {
-                                                await profile
-                                                    .uploadFile1(context);
-                                                setState(() {
-                                                  selectedNumber = "2";
-                                                });
-                                                if (profile.pickedDocFilePath2
-                                                    .isNotEmpty) {
-                                                  if (!isGreaterThan5MB(
-                                                      profile.fileSize2)) {
-                                                    _accountCubit.uploadDocs(
-                                                        docs: File(profile
-                                                            .pickedDocFilePath2));
-                                                  } else {
-                                                    ToastService().showToast(
-                                                        context,
-                                                        leadingIcon:
-                                                            const ImageView.svg(
-                                                          AppImages.error,
-                                                          height: 25,
-                                                        ),
-                                                        title: AppStrings
-                                                            .errorTitle,
-                                                        subtitle:
-                                                            'File Size should not be more than 5 MB');
-                                                  }
-                                                }
+                                                profile
+                                                    .removeUploadedotherDoc();
                                               },
                                               child: Container(
                                                 padding:
@@ -1234,7 +1264,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                       ),
                                                     ),
                                                     title: Text(
-                                                      'Click to Upload',
+                                                      'Additional Docs Uploaded',
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -1282,7 +1312,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                         ],
                                                       ),
                                                       child: Text(
-                                                        'Upload Doc',
+                                                        'Remove',
                                                         style:
                                                             GoogleFonts.getFont(
                                                           'Inter',
@@ -1302,6 +1332,285 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             const SizedBox(
                                               height: 15,
                                             ),
+                                          ] else ...[
+                                            if (profile.pickedDocFilePath2
+                                                .isNotEmpty) ...[
+                                              Text(
+                                                'Upload other relevant document (Optional)',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  color:
+                                                      const Color(0xFFFFFFFF),
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      color: Color(0xFFF0F0F0),
+                                                      offset: Offset(0, 0),
+                                                      blurRadius: 0,
+                                                    ),
+                                                    BoxShadow(
+                                                      color: Color(0x409F9E9E),
+                                                      offset: Offset(0, 1),
+                                                      blurRadius: 1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Align(
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        const EdgeInsets.all(0),
+                                                    leading: Container(
+                                                      height: 32,
+                                                      width: 32,
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              left: 13),
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: Colors
+                                                              .grey.shade100),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: ImageView.svg(
+                                                            AppImages.file),
+                                                      ),
+                                                    ),
+                                                    title: Text(
+                                                      profile
+                                                          .pickedDocFileName2,
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                        'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 14,
+                                                        height: 1.4,
+                                                        color: const Color(
+                                                            0xFF131316),
+                                                      ),
+                                                    ),
+                                                    trailing: (state
+                                                            is UploadDocsLoading)
+                                                        ? const Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    16.0),
+                                                            child: SizedBox(
+                                                                height: 20,
+                                                                width: 5,
+                                                                child:
+                                                                    CircularProgressIndicator
+                                                                        .adaptive(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .grey,
+                                                                )),
+                                                          )
+                                                        : GestureDetector(
+                                                            onTap: () {
+                                                              profile
+                                                                  .removeAllPaths2();
+                                                            },
+                                                            child: Container(
+                                                                // margin: const EdgeInsets.only(right: 13),
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        12),
+                                                                child: const ImageView
+                                                                    .svg(
+                                                                    AppImages
+                                                                        .trash)),
+                                                          ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ] else ...[
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Text(
+                                                'Upload other relevant document (Optional)',
+                                                style: GoogleFonts.getFont(
+                                                  'Inter',
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                  height: 1.4,
+                                                  color:
+                                                      const Color(0xFF131316),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await profile
+                                                      .uploadFile1(context);
+                                                  setState(() {
+                                                    selectedNumber = "2";
+                                                  });
+                                                  if (profile.pickedDocFilePath2
+                                                      .isNotEmpty) {
+                                                    if (!isGreaterThan5MB(
+                                                        profile.fileSize2)) {
+                                                      _accountCubit.uploadDocs(
+                                                          docs: File(profile
+                                                              .pickedDocFilePath2));
+                                                    } else {
+                                                      ToastService().showToast(
+                                                          context,
+                                                          leadingIcon:
+                                                              const ImageView
+                                                                  .svg(
+                                                            AppImages.error,
+                                                            height: 25,
+                                                          ),
+                                                          title: AppStrings
+                                                              .errorTitle,
+                                                          subtitle:
+                                                              'File Size should not be more than 5 MB');
+                                                    }
+                                                  }
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 8),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color:
+                                                        const Color(0xFFFFFFFF),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0xFFF0F0F0),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 0,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x409F9E9E),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 1,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: Align(
+                                                    child: ListTile(
+                                                      contentPadding:
+                                                          const EdgeInsets.all(
+                                                              0),
+                                                      leading: Container(
+                                                        height: 32,
+                                                        width: 32,
+                                                        margin: const EdgeInsets
+                                                            .only(left: 13),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .grey
+                                                                    .shade100),
+                                                        child: const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: ImageView.svg(
+                                                              AppImages.upload),
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        'Click to Upload',
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 14,
+                                                          height: 1.4,
+                                                          color: const Color(
+                                                              0xFF131316),
+                                                        ),
+                                                      ),
+                                                      trailing: Container(
+                                                        margin: const EdgeInsets
+                                                            .only(right: 13),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 8),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors.grey
+                                                                  .shade300,
+                                                              width: 0.5),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          color: const Color(
+                                                              0xFFFFFFFF),
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                              color: Color(
+                                                                  0xFFF0F0F0),
+                                                              offset:
+                                                                  Offset(0, 0),
+                                                              blurRadius: 0,
+                                                            ),
+                                                            BoxShadow(
+                                                              color: Color(
+                                                                  0x409F9E9E),
+                                                              offset:
+                                                                  Offset(0, 1),
+                                                              blurRadius: 1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        child: Text(
+                                                          'Upload Doc',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 12,
+                                                            height: 1.4,
+                                                            color: const Color(
+                                                                0xFF131316),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                            ],
                                           ],
                                           Text(
                                             'Years of Experience',
@@ -1463,7 +1772,6 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   .updateLocation(value);
                                             },
                                           ),
-                                         
                                         ],
                                       ),
                                     ),
@@ -1542,8 +1850,6 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                               ],
                             ),
                           ),
-                         
-                         
                           const SizedBox(
                             height: 40,
                           ),
@@ -1554,196 +1860,172 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                 ),
               ),
             ),
-            bottomNavigationBar:  Container(
+            bottomNavigationBar: Container(
               color: Colors.white,
-              margin: const EdgeInsets.only(bottom:  20),
+              margin: const EdgeInsets.only(bottom: 20),
               child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15.0),
-                              child: ButtonView(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                onPressed: () {
-                                  if (profile.titleController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'Title field required');
-                                  } else if (profile.firstnameController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'First name field required');
-                                  } else if (profile.lastnameController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'Last name field required');
-                                  }else if (_qualificationController
-                                      .text.isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle:
-                                            'Qualifications field required');
-                                  } else if (profile.licenceNumberController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle:
-                                            'Licence Number field required');
-                                  }else if (profile.licenceDoc.isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'Add licence document please');
-                                  }  else if (profile.yearsOfExpController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle:
-                                            'Years of experience field required');
-                                  } else if (profile
-                                      .hospitalAffliateController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle:
-                                            'Affliated Hospital field required');
-                                  } else if (profile.phoneController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    ToastService().showToast(context,
-                                        leadingIcon: const ImageView.svg(
-                                            height: 25, AppImages.error),
-                                        title: AppStrings.errorTitle,
-                                        subtitle: 'Phone number field required');
-                                  }  else {
-                                    if (doctorsState == '1') {
-                                      Modals.showDialogModal(
-                                        context,
-                                        page: destructiveActions(
-                                            context: context,
-                                            message:
-                                                'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
-                                            primaryText: 'I Admit',
-                                            secondaryText: 'Exit Please',
-                                            primaryAction: () async {
-                                              Navigator.pop(context);
-                                              _accountCubit.updateUserData(
-                                                  title: profile.titleController.text
-                                                      .trim(),
-                                                  firstname: profile
-                                                      .firstnameController.text
-                                                      .trim(),
-                                                  lastname:
-                                                      profile
-                                                          .lastnameController.text
-                                                          .trim(),
-                                                  licenceNumber: profile
-                                                      .licenceNumberController.text
-                                                      .trim(),
-                                                  experience:
-                                                      int.tryParse(
-                                                              profile
-                                                                  .yearsOfExpController
-                                                                  .text
-                                                                  .trim()) ??
-                                                          0,
-                                                  hospitalAffliated: profile
-                                                      .hospitalAffliateController
-                                                      .text
-                                                      .trim(),
-                                                  phone: profile.phoneController.text
-                                                      .trim(),
-                                                  doctorLicenceDoc: profile.licenceDoc,
-                                                  otherDocs: profile.otherDoc);
-                                            },
-                                            primaryBgColor:
-                                                const Color(0xFFF70000),
-                                            secondaryBgColor:
-                                                AppColors.lightPrimary,
-                                            secondaryAction: () {
-                                              Navigator.pop(context);
-                                            }),
-                                      );
-                                    } else {
-                                      _accountCubit.updateUserData(
-                                          title: profile.titleController.text
-                                              .trim(),
-                                          firstname: profile
-                                              .firstnameController.text
-                                              .trim(),
-                                          lastname: profile
-                                              .lastnameController.text
-                                              .trim(),
-                                          licenceNumber: profile
-                                              .licenceNumberController.text
-                                              .trim(),
-                                          experience:
-                                              int.tryParse(
-                                                      profile.yearsOfExpController
-                                                          .text
-                                                          .trim()) ??
-                                                  0,
-                                          hospitalAffliated: profile
-                                              .hospitalAffliateController.text
-                                              .trim(),
-                                          phone:
-                                              profile.phoneController.text.trim(),
-                                          doctorLicenceDoc: profile.licenceDoc,
-                                          otherDocs: profile.otherDoc);
-                                    }
-                                  }
-                                },
-                                borderRadius: 100,
-                                color: AppColors.lightSecondary,
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: 'Next - ',
-                                    style: GoogleFonts.getFont(
-                                      'Inter',
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                      height: 1.6,
-                                      color: const Color(0xFFFFFFFF),
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: 'Work information',
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          height: 1.3,
-                                          color: const Color(0xCCFFFFFF),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: ButtonView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  onPressed: () {
+                    if (profile.titleController.text.trim().isEmpty) {
+                      ToastService().showToast(context,
+                          leadingIcon:
+                              const ImageView.svg(height: 25, AppImages.error),
+                          title: AppStrings.errorTitle,
+                          subtitle: 'Title field required');
+                    } else if (profile.firstnameController.text
+                        .trim()
+                        .isEmpty) {
+                      ToastService().showToast(context,
+                          leadingIcon:
+                              const ImageView.svg(height: 25, AppImages.error),
+                          title: AppStrings.errorTitle,
+                          subtitle: 'First name field required');
+                    } else if (profile.lastnameController.text.trim().isEmpty) {
+                      ToastService().showToast(context,
+                          leadingIcon:
+                              const ImageView.svg(height: 25, AppImages.error),
+                          title: AppStrings.errorTitle,
+                          subtitle: 'Last name field required');
+                    }
+                    // else if (_qualificationController
+                    //     .text.isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle:
+                    //           'Qualifications field required');
+                    // } else if (profile.licenceNumberController.text
+                    //     .trim()
+                    //     .isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle:
+                    //           'Licence Number field required');
+                    // }else if (profile.licenceDoc.isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle: 'Add licence document please');
+                    // }  else if (profile.yearsOfExpController.text
+                    //     .trim()
+                    //     .isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle:
+                    //           'Years of experience field required');
+                    // } else if (profile
+                    //     .hospitalAffliateController.text
+                    //     .trim()
+                    //     .isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle:
+                    //           'Affliated Hospital field required');
+                    // }
+                    //  else if (profile.phoneController.text
+                    //     .trim()
+                    //     .isEmpty) {
+                    //   ToastService().showToast(context,
+                    //       leadingIcon: const ImageView.svg(
+                    //           height: 25, AppImages.error),
+                    //       title: AppStrings.errorTitle,
+                    //       subtitle: 'Phone number field required');
+                    // }
+                    else {
+                      if (doctorsState == '1') {
+                        Modals.showDialogModal(
+                          context,
+                          page: destructiveActions(
+                              context: context,
+                              message:
+                                  'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
+                              primaryText: 'I Admit',
+                              secondaryText: 'Exit Please',
+                              primaryAction: () async {
+                                Navigator.pop(context);
+                                _accountCubit.updateUserData(
+                                    title: profile.titleController.text.trim(),
+                                    firstname:
+                                        profile.firstnameController.text.trim(),
+                                    lastname:
+                                        profile.lastnameController.text.trim(),
+                                    licenceNumber: profile
+                                        .licenceNumberController.text
+                                        .trim(),
+                                    experience: int.tryParse(profile
+                                            .yearsOfExpController.text
+                                            .trim()) ??
+                                        0,
+                                    hospitalAffliated: profile
+                                        .hospitalAffliateController.text
+                                        .trim(),
+                                    phone: profile.phoneController.text.trim(),
+                                    doctorLicenceDoc: profile.licenceDoc,
+                                    otherDocs: profile.otherDoc);
+                              },
+                              primaryBgColor: const Color(0xFFF70000),
+                              secondaryBgColor: AppColors.lightPrimary,
+                              secondaryAction: () {
+                                Navigator.pop(context);
+                              }),
+                        );
+                      } else {
+                        _accountCubit.updateUserData(
+                            title: profile.titleController.text.trim(),
+                            firstname: profile.firstnameController.text.trim(),
+                            lastname: profile.lastnameController.text.trim(),
+                            licenceNumber:
+                                profile.licenceNumberController.text.trim(),
+                            experience: int.tryParse(
+                                    profile.yearsOfExpController.text.trim()) ??
+                                0,
+                            hospitalAffliated:
+                                profile.hospitalAffliateController.text.trim(),
+                            phone: profile.phoneController.text.trim(),
+                            doctorLicenceDoc: profile.licenceDoc,
+                            otherDocs: profile.otherDoc);
+                      }
+                    }
+                  },
+                  borderRadius: 100,
+                  color: AppColors.lightSecondary,
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Next - ',
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        height: 1.6,
+                        color: const Color(0xFFFFFFFF),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Work information',
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 1.3,
+                            color: const Color(0xCCFFFFFF),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           if (state is GetSpecialtiesLoading ||
@@ -1790,7 +2072,6 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         return false; // Unknown unit.
     }
 
-   
     const fiveMBInBytes = 5 * 1024 * 1024;
 
     // Compare the sizes.
@@ -1917,8 +2198,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                 bool isChecked = _selectedItems.any((item) =>
                     item.qualificationId == qualification.qualificationId);
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 13.0, horizontal: 23),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 13.0, horizontal: 23),
                   child: Row(
                     children: [
                       CustomCheckbox(
@@ -1926,17 +2207,17 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                         isChecked: isChecked,
                         onChanged: (checked) {
                           _onCheckboxChanged(checked, qualification);
-            
+
                           bool isLastSelected = _selectedItems.any((item) =>
                               item.qualificationId ==
                               qualifications.last.qualificationId);
                           _qualificationController.text =
                               qualification.qualificationName ?? '';
-            
+
                           // if (isLastSelected) {
                           //   // isOtherSelected = false;
                           //   Navigator.pop(context);
-            
+
                           //   _qualificationController.clear();
                           //   setState(() {});
                           // } else {

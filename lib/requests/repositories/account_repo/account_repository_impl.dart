@@ -220,7 +220,7 @@ class AccountRepositoryImpl implements AccountRepository {
         "title": title,
         "first_name": firstname,
         "last_name": lastname,
-        "phone": phone,
+        // "phone": phone,
         if (location != null) "address": location,
         "licence_number": licenceNumber,
         "clinic_affiliation": hospitalAffliated,

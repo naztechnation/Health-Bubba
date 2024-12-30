@@ -161,6 +161,10 @@ class _HomeState extends State<Home> {
               state.userData.data?.lastName ?? '');
           StorageHandler.saveUserPicture(
               state.userData.data?.picture ?? '');
+          StorageHandler.saveDocLicense(
+              state.userData.data?.doctorsLicense ?? '');
+          StorageHandler.saveOtherDoc(
+              state.userData.data?.otherDocuments ?? '');
           StorageHandler.saveUserId(
               state.userData.data?.id.toString() ?? '');
           ZegoUIKitPrebuiltCallInvitationService().init(

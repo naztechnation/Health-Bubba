@@ -12,21 +12,20 @@ import '../user/notifications_data.dart';
 import 'base_viewmodel.dart';
 
 class UserViewModel extends BaseViewModel {
-
-  UserViewModel(){
-     searchController = TextEditingController();
-  searchController.addListener(_filterPatients);
-  medSearchController = TextEditingController();
+  UserViewModel() {
+    searchController = TextEditingController();
+    searchController.addListener(_filterPatients);
+    medSearchController = TextEditingController();
     medSearchController.addListener(_filterMedications);
 
     _titleController.text = 'Dr.';
   }
 
-    @override
-void dispose() {
-  searchController.dispose();
-  super.dispose();
-}  
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   int _currentIndex = 0;
   String _patientId = '';
@@ -36,6 +35,8 @@ void dispose() {
   String _doctorsLicenceDoc = '';
   String _doctorsOtherDoc = '';
 
+  String _doctorsUploadedLicenceDoc = '';
+  String _doctorsUploadedOtherDoc = '';
 
   String _pickedDocFilePath1 = '';
   String _pickedDocFileName1 = '';
@@ -62,98 +63,100 @@ void dispose() {
   final _phoneController = TextEditingController();
   final _locationController = TextEditingController();
   GetMedications? _medications;
-   List<GetMedicationsData> medicationLists = [];
+  List<GetMedicationsData> medicationLists = [];
 
   List<GetMedicationsData> _filteredMedicationsLists = [];
 
-   PatientsLists? _patients;
+  PatientsLists? _patients;
   List<Patients> _filteredPatientsLists = [];
 
   List<AppointmentListsData> _appointments = [];
 
- 
-
   NotificationsData? _notificationsData;
 
-  updateLicenceDoc(String doctorLicenceDoc){
-
-    _doctorsLicenceDoc =  doctorLicenceDoc;
+  updateLicenceDoc(String doctorLicenceDoc) {
+    _doctorsLicenceDoc = doctorLicenceDoc;
     setViewState(ViewState.success);
-
   }
 
-  updateotherDoc(String doctorOtherDoc){
-
-    _doctorsOtherDoc =  doctorOtherDoc;
+  updateotherDoc(String doctorOtherDoc) {
+    _doctorsOtherDoc = doctorOtherDoc;
     setViewState(ViewState.success);
-
   }
 
+  updateUploadedLicenceDoc(String doctorLicenceDoc) {
+    _doctorsUploadedLicenceDoc = doctorLicenceDoc;
+    setViewState(ViewState.success);
+  }
+
+  updateUploadedotherDoc(String doctorOtherDoc) {
+    _doctorsUploadedOtherDoc = doctorOtherDoc;
+    setViewState(ViewState.success);
+  }
+
+  removeUploadedLicenceDoc() {
+    _doctorsUploadedLicenceDoc = "";
+    setViewState(ViewState.success);
+  }
+
+  removeUploadedotherDoc() {
+    _doctorsUploadedOtherDoc = "";
+    setViewState(ViewState.success);
+  }
 
   void _filterPatients() {
-   
     String query = searchController.text.toLowerCase();
     _filteredPatientsLists = _patients?.data.patients.where((patient) {
       return patient.firstName.toString().toLowerCase().contains(query);
     }).toList();
     setViewState(ViewState.success);
-  
-}
+  }
 
-    savePatientDetails({
-     required String patientId,
-     required String patientName,
-     required String patientImage
-    }){
-      _patientId = patientId;
-      _patientName = patientName;
-      _patientImage = patientImage;
+  savePatientDetails(
+      {required String patientId,
+      required String patientName,
+      required String patientImage}) {
+    _patientId = patientId;
+    _patientName = patientName;
+    _patientImage = patientImage;
 
     setViewState(ViewState.success);
+  }
 
-    }
-
-    clearPatientDetails( ){
-      _patientId = '';
-      _patientName = '';
-      _patientImage = '';
+  clearPatientDetails() {
+    _patientId = '';
+    _patientName = '';
+    _patientImage = '';
 
     setViewState(ViewState.success);
+  }
 
-    }
-
-      removeAllPaths1(){
-        _pickedDocFilePath1 = '';
+  removeAllPaths1() {
+    _pickedDocFilePath1 = '';
     _pickedDocFileName1 = '';
     _fileExtension1 = '';
     _fileSize1 = '';
     _doctorsLicenceDoc = "";
     setViewState(ViewState.success);
+  }
 
-      }
-      removeAllPaths2(){
-          _pickedDocFilePath2 = '';
-   _pickedDocFileName2 = '';
+  removeAllPaths2() {
+    _pickedDocFilePath2 = '';
+    _pickedDocFileName2 = '';
     _fileExtension2 = '';
     _fileSize2 = '';
     _doctorsOtherDoc = "";
     setViewState(ViewState.success);
-
-      }
-
-
-void _filterMedications() {
-     
-      String query = medSearchController.text.toLowerCase();
-      _filteredMedicationsLists = medicationLists.where((medication) {
-        return medication.medicationName
-            .toString()
-            .toLowerCase()
-            .contains(query);
-      }).toList();
-    setViewState(ViewState.success);
-     
   }
+
+  void _filterMedications() {
+    String query = medSearchController.text.toLowerCase();
+    _filteredMedicationsLists = medicationLists.where((medication) {
+      return medication.medicationName.toString().toLowerCase().contains(query);
+    }).toList();
+    setViewState(ViewState.success);
+  }
+
   Future<void> setAppointmentData(
     List<AppointmentListsData> appointments,
   ) async {
@@ -170,27 +173,27 @@ void _filterMedications() {
     setViewState(ViewState.success);
   }
 
-    clearAllField(){
-      _firstnameController.clear();
-      _lastnameController.clear();
-       
-      _licenceNumberController.clear();
-      _yearsOfExpController.clear();
-      _hospitalAffliateController.clear();
-      _phoneController.clear();
-      _locationController.clear();
+  clearAllField() {
+    _firstnameController.clear();
+    _lastnameController.clear();
 
+    _licenceNumberController.clear();
+    _yearsOfExpController.clear();
+    _hospitalAffliateController.clear();
+    _phoneController.clear();
+    _locationController.clear();
 
     setViewState(ViewState.success);
+  }
 
-    }
-    Future<void> updateFirstname(
+  Future<void> updateFirstname(
     String fName,
   ) async {
     _firstnameController.text = fName;
 
     setViewState(ViewState.success);
   }
+
   Future<void> updateLicenceNumber(
     String number,
   ) async {
@@ -198,6 +201,7 @@ void _filterMedications() {
 
     setViewState(ViewState.success);
   }
+
   Future<void> updateYear(
     String fName,
   ) async {
@@ -205,6 +209,7 @@ void _filterMedications() {
 
     setViewState(ViewState.success);
   }
+
   Future<void> updateHospital(
     String fName,
   ) async {
@@ -212,6 +217,7 @@ void _filterMedications() {
 
     setViewState(ViewState.success);
   }
+
   Future<void> updatePhone(
     String fName,
   ) async {
@@ -219,6 +225,7 @@ void _filterMedications() {
 
     setViewState(ViewState.success);
   }
+
   Future<void> updateLocation(
     String fName,
   ) async {
@@ -227,7 +234,7 @@ void _filterMedications() {
     setViewState(ViewState.success);
   }
 
-   Future<void> uploadFile(BuildContext context) async {
+  Future<void> uploadFile(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -268,6 +275,7 @@ void _filterMedications() {
       debugPrint("Error picking file: $e");
     }
   }
+
   Future<void> uploadFile1(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -310,7 +318,7 @@ void _filterMedications() {
     }
   }
 
-    Future<void> updateLastname(
+  Future<void> updateLastname(
     String lName,
   ) async {
     _lastnameController.text = lName;
@@ -318,35 +326,27 @@ void _filterMedications() {
     setViewState(ViewState.success);
   }
 
-    Future<void> updateTitle(
+  Future<void> updateTitle(
     String title,
   ) async {
-   _titleController.text = title;
-     
+    _titleController.text = title;
 
     setViewState(ViewState.success);
   }
 
-   Future<void> clearFirstname(
-    
-  ) async {
+  Future<void> clearFirstname() async {
     _firstnameController.clear();
 
     setViewState(ViewState.success);
   }
 
-    Future<void> clearLastname(
-    
-  ) async {
-       _lastnameController.clear();
-
+  Future<void> clearLastname() async {
+    _lastnameController.clear();
 
     setViewState(ViewState.success);
   }
 
-    Future<void> clearTitle(
-    
-  ) async {
+  Future<void> clearTitle() async {
     _titleController.clear();
 
     setViewState(ViewState.success);
@@ -355,12 +355,12 @@ void _filterMedications() {
   Future<void> savePatietList(
     PatientsLists filteredPatientsLists,
   ) async {
-     List<Patients> newPatients = filteredPatientsLists.data.patients
-      .where((patient) => !_filteredPatientsLists.any((existingPatient) => existingPatient.id == patient.id))
-      .toList();
+    List<Patients> newPatients = filteredPatientsLists.data.patients
+        .where((patient) => !_filteredPatientsLists
+            .any((existingPatient) => existingPatient.id == patient.id))
+        .toList();
 
-   
-  _filteredPatientsLists.addAll(newPatients);
+    _filteredPatientsLists.addAll(newPatients);
     _patients = filteredPatientsLists;
 
     setViewState(ViewState.success);
@@ -439,8 +439,6 @@ void _filterMedications() {
     }).toList();
   }
 
-
-
   List<AppointmentListsData> get appointments => _appointments;
   List<AppointmentListsData> get upcomingAppointments =>
       _appointments.where((upcoming) => upcoming.status == 0).toList() ?? [];
@@ -484,31 +482,34 @@ void _filterMedications() {
   DoctorsAnalytics? get analytics => _analytics;
   PatientsLists? get patients => _patients;
   List<Patients> get filteredPatientsLists => _filteredPatientsLists;
-  List<GetMedicationsData> get filteredMedicationsLists => _filteredMedicationsLists;
+  List<GetMedicationsData> get filteredMedicationsLists =>
+      _filteredMedicationsLists;
   String get patientId => _patientId;
-  String  get patientImage => _patientImage;
+  String get patientImage => _patientImage;
   String get patientName => _patientName;
 
-
-  String  get licenceDoc => _doctorsLicenceDoc;
+  String get licenceDoc => _doctorsLicenceDoc;
   String get otherDoc => _doctorsOtherDoc;
+  String get licenceUploadedDoc => _doctorsUploadedLicenceDoc;
+  String get otherUploadedDoc => _doctorsUploadedOtherDoc;
 
-   String   get pickedDocFilePath1 => _pickedDocFilePath1;
+  String get pickedDocFilePath1 => _pickedDocFilePath1;
   String get pickedDocFileName1 => _pickedDocFileName1;
   String get fileExtension1 => _fileExtension1;
   String get fileSize1 => _fileSize1;
 
-  String get  pickedDocFilePath2 => _pickedDocFilePath2;
+  String get pickedDocFilePath2 => _pickedDocFilePath2;
   String get pickedDocFileName2 => _pickedDocFileName2;
   String get fileExtension2 => _fileExtension2;
-  String get  fileSize2 => _fileSize2;
+  String get fileSize2 => _fileSize2;
 
-  TextEditingController  get firstnameController => _firstnameController;
-  TextEditingController  get lastnameController => _lastnameController;
-  TextEditingController  get titleController => _titleController;
-  TextEditingController  get licenceNumberController => _licenceNumberController;
-  TextEditingController  get yearsOfExpController => _yearsOfExpController;
-  TextEditingController  get hospitalAffliateController => _hospitalAffliateController;
-  TextEditingController  get phoneController => _phoneController;
-  TextEditingController  get locationController => _locationController;
+  TextEditingController get firstnameController => _firstnameController;
+  TextEditingController get lastnameController => _lastnameController;
+  TextEditingController get titleController => _titleController;
+  TextEditingController get licenceNumberController => _licenceNumberController;
+  TextEditingController get yearsOfExpController => _yearsOfExpController;
+  TextEditingController get hospitalAffliateController =>
+      _hospitalAffliateController;
+  TextEditingController get phoneController => _phoneController;
+  TextEditingController get locationController => _locationController;
 }
