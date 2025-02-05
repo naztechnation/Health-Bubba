@@ -95,4 +95,6 @@ class AppImages {
   static const verifySuccessIcon = '${_baseUrl}verify_success.png';
   static const bellIcon = '${_baseUrl}bell_icon.png';
   static const bellAnim = '${_baseUrl}bell_anim.gif';
+  static const ngFlagIcon = '${_baseUrl}ng_flag.png';
+
 }

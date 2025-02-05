@@ -262,6 +262,16 @@ class AppUtils {
     }
   }
 
+ static String toTitleCase(String text) {
+  if (text.isEmpty) return text;
+  return text
+      .split(' ')
+      .map((word) => word.isNotEmpty 
+          ? '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}' 
+          : '')
+      .join(' ');
+}
+
   static final dateTimeFormat = DateFormat('dd MMM yyyy, hh:mm a');
   static final dateFormat = DateFormat('dd MMM, yyyy');
   static final timeFormat = DateFormat('hh:mm a');

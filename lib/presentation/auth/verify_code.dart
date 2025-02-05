@@ -37,23 +37,14 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-
-
-  
-  
   bool isCountdownComplete = false;
-  
-
 
   bool isVerificationFailed = false;
 
   bool callOnce = true;
 
-   
-
- Timer? _timer;
-  int _secondsRemaining = 90; 
-
+  Timer? _timer;
+  int _secondsRemaining = 90;
 
   @override
   void initState() {
@@ -89,9 +80,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     return '$minutes:$seconds secs';
   }
 
-
-
- @override
+  @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
@@ -99,8 +88,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    
     return BlocProvider<AccountCubit>(
         lazy: false,
         create: (_) => AccountCubit(
@@ -116,14 +103,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                       state.verifyOtp.data?.token?.accessToken ?? '');
                 }
                 if (widget.isForgetPassword) {
-                   
-                    AppNavigator.pushAndStackPage(context,
-                        page: CreateNewPasswordScreen(
-                            email: widget.email, otp: _pinController.text));
-                  
+                  AppNavigator.pushAndStackPage(context,
+                      page: CreateNewPasswordScreen(
+                          email: widget.email, otp: _pinController.text));
                 } else {
-                   AppNavigator.pushAndReplacePage(context,
-                        page: const VerificationSuccessScreen());
+                  AppNavigator.pushAndReplacePage(context,
+                      page: const VerificationSuccessScreen());
                 }
               } else {
                 if (state.verifyOtp.message!.trim() ==
@@ -142,8 +127,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 );
               }
             } else if (state is ResendOtpLoaded) {
-              
-
               ToastService().showToast(
                 context,
                 leadingIcon: const ImageView.svg(
@@ -154,7 +137,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 subtitle: state.otp.message ?? '',
               );
 
-               startTimer();
+              startTimer();
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -194,18 +177,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height * 0.08,
                           ),
-                            Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                                GestureDetector(
-                                  onTap: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child: const ImageView.svg(AppImages.backBtn,fit: BoxFit.cover,
-                                    height: 18,
-                                                                
-                                                                ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const ImageView.svg(
+                                  AppImages.backBtn,
+                                  fit: BoxFit.cover,
+                                  height: 18,
                                 ),
+                              ),
                               const Align(
                                 child: ImageView.svg(
                                   AppImages.appLogo1,
@@ -359,7 +343,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                               else ...[
                                 GestureDetector(
                                   onTap: () {
-                                    
                                     context
                                         .read<AccountCubit>()
                                         .resendOtp(email: widget.email);

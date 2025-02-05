@@ -1665,6 +1665,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
                                             hintText: '',
+                                            
                                             // validator: (value) {
                                             //   return Validator.validate(value,
                                             //       'Clinic/ Hospital Affiliation');
@@ -1697,7 +1698,37 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             keyboardType: TextInputType.number,
                                             borderWidth: 0.5,
+                                            hintText: "+ (234) 567 - 891",
                                             maxLength: 11,
+                                            prefixIcon: SizedBox(
+                                              width: 75,
+                                              child: Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  
+                                                  Text(
+                                            '+234',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    size: 25,
+                                                    color: Colors.grey.shade400,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                             // validator: (value) {
                                             //   return Validator.validate(
                                             //       value, 'Phone Number');

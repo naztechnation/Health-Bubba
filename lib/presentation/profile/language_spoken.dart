@@ -220,7 +220,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               backgroundColor: Colors.white,
               appBar: AppBar(
                 title: const Text(
-                  'Language Spoken',
+                  'Spoken Languages',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 centerTitle: false,
@@ -432,11 +432,11 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16.0, vertical: 8),
-                                  child: Text(_accountCubit
+                                  child: Text(toTitleCase(_accountCubit
                                           .viewModel
                                           .plaformLanguages[index]
                                           .languageName ??
-                                      ''),
+                                      '')),
                                 ),
                               );
                             },
@@ -490,4 +490,15 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
             );
     });
   }
+
+  String toTitleCase(String text) {
+  if (text.isEmpty) return text;
+  return text
+      .split(' ')
+      .map((word) => word.isNotEmpty 
+          ? '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}' 
+          : '')
+      .join(' ');
+}
+
 }

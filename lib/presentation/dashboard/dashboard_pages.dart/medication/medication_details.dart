@@ -282,7 +282,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                 child: Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
-                                                    'Prescription details',
+                                                    'Prescription Details',
                                                     style: GoogleFonts.getFont(
                                                       'Inter',
                                                       fontWeight:
@@ -858,56 +858,56 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFFFFFFFF),
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Color(0xFFE5E7EB),
-                                              width: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              16, 18, 26, 17),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'View Previous Medication ',
-                                                style: GoogleFonts.getFont(
-                                                  'Inter',
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                  height: 1.4,
-                                                  color:
-                                                      const Color(0xFF6B7280),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 5, 15, 5),
-                                                width: 4,
-                                                height: 10,
-                                                child: SizedBox(
-                                                    width: 4,
-                                                    height: 10,
-                                                    child: Icon(
-                                                      Icons.arrow_forward_ios,
-                                                      color:
-                                                          Colors.grey.shade400,
-                                                      size: 16,
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   decoration: const BoxDecoration(
+                                      //     color: Color(0xFFFFFFFF),
+                                      //     border: Border(
+                                      //       bottom: BorderSide(
+                                      //         color: Color(0xFFE5E7EB),
+                                      //         width: 1,
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   child: Container(
+                                      //     padding: const EdgeInsets.fromLTRB(
+                                      //         16, 18, 26, 17),
+                                      //     child: Row(
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceBetween,
+                                      //       crossAxisAlignment:
+                                      //           CrossAxisAlignment.start,
+                                      //       children: [
+                                      //         Text(
+                                      //           'View Previous Medication ',
+                                      //           style: GoogleFonts.getFont(
+                                      //             'Inter',
+                                      //             fontWeight: FontWeight.w500,
+                                      //             fontSize: 14,
+                                      //             height: 1.4,
+                                      //             color:
+                                      //                 const Color(0xFF6B7280),
+                                      //           ),
+                                      //         ),
+                                      //         Container(
+                                      //           margin:
+                                      //               const EdgeInsets.fromLTRB(
+                                      //                   0, 5, 15, 5),
+                                      //           width: 4,
+                                      //           height: 10,
+                                      //           child: SizedBox(
+                                      //               width: 4,
+                                      //               height: 10,
+                                      //               child: Icon(
+                                      //                 Icons.arrow_forward_ios,
+                                      //                 color:
+                                      //                     Colors.grey.shade400,
+                                      //                 size: 16,
+                                      //               )),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       Container(
                                         decoration: const BoxDecoration(
                                           color: Color(0xFFFFFFFF),

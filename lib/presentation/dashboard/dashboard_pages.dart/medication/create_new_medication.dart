@@ -335,7 +335,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
           Scaffold(
             appBar: AppBar(
               title: const Text(
-                'Create New Medication',
+                'Create New Prescription',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               centerTitle: true,
@@ -453,7 +453,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                       child: Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                          'Medication name',
+                                          'Prescription name',
                                           style: GoogleFonts.getFont(
                                             'Inter',
                                             fontWeight: FontWeight.w500,
@@ -1137,7 +1137,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                         borderRadius: 100,
                         color: AppColors.lightSecondary,
                         child: const Text(
-                          'Create New Medication',
+                          'Create New Prescription',
                           style: TextStyle(
                               color: AppColors.lightPrimary,
                               fontSize: 14,

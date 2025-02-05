@@ -339,22 +339,27 @@ class _AppointmentTabViewScreenState extends State<AppointmentTabViewScreen> {
                       ),
                     ),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            if (upComing)
-                              UpcomingPage(
-                                upcomingAppointment: _userCubit.viewModel.upcomingAppointments.reversed.toList(),
-                              )
-                            else if (completed)
-                              CompletedPage(
-                                completedAppointment: _userCubit.viewModel.completedAppointments.reversed.toList(),
-                              )
-                            else if (cancelled)
-                              CancelledPage(
-                                cancelledAppointment: _userCubit.viewModel.cancelledAppointments.reversed.toList(),
-                              )
-                          ],
+                      child: RefreshIndicator.adaptive(
+                        onRefresh: () async{
+                          _userCubit.getAppointmentList();
+                        },
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              if (upComing)
+                                UpcomingPage(
+                                  upcomingAppointment: _userCubit.viewModel.upcomingAppointments.reversed.toList(),
+                                )
+                              else if (completed)
+                                CompletedPage(
+                                  completedAppointment: _userCubit.viewModel.completedAppointments.reversed.toList(),
+                                )
+                              else if (cancelled)
+                                CancelledPage(
+                                  cancelledAppointment: _userCubit.viewModel.cancelledAppointments.reversed.toList(),
+                                )
+                            ],
+                          ),
                         ),
                       ),
                     )

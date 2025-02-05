@@ -31,6 +31,7 @@ import '../../widgets/password_checker.dart';
 import '../profile/profile_setup.dart';
 import 'otp_sent_screen.dart';
 import 'sign_in.dart';
+import 'verify_code.dart';
  
 
 class SignUpScreen extends StatefulWidget {
@@ -308,6 +309,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 keyboardType: TextInputType.number,
                                 borderWidth: 0.5,
                                 maxLength: 11,
+                                prefixIcon: SizedBox(
+                                              width: 75,
+                                              child: Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  
+                                                  Text(
+                                            '+234',
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                                    width: 4,
+                                                  ),
+                                                  Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    size: 25,
+                                                    color: Colors.grey.shade400,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                 validator: (value) {
                                   return Validator.validate(
                                       value, 'Phone Number');
@@ -534,7 +564,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               ButtonView(
                                   onPressed: () {
-                                    registerUser(context: context);
+                                     registerUser(context: context);
+
                                   },
                                   borderRadius: 100,
                                   color: AppColors.lightSecondary,

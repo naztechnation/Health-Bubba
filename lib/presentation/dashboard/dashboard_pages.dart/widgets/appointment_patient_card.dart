@@ -243,16 +243,16 @@ class AppointmentPatientCard extends StatelessWidget {
                                                 0.6,
                                             child: Row(
                                               children: [
-                                                Text(
-                                                  '${AppUtils.getHumanReadableDate(upcomingAppointment.date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
-                                                    color:
-                                                        const Color(0xFF6C7079),
-                                                  ),
-                                                ),
+                                                // Text(
+                                                //   '${AppUtils.getHumanReadableDate(upcomingAppointment.date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}',
+                                                //   style: GoogleFonts.getFont(
+                                                //     'Inter',
+                                                //     fontWeight: FontWeight.w500,
+                                                //     fontSize: 12,
+                                                //     color:
+                                                //         const Color(0xFF6C7079),
+                                                //   ),
+                                                // ),
                                                 const SizedBox(
                                                   width: 5,
                                                 ),

@@ -59,8 +59,8 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
           icon:
               NavItemWrapper(icon: ImageView.svg(AppImages.medicationOutline)),
           activeIcon: NavItemWrapper(icon: ImageView.svg(AppImages.medication)),
-          label: 'Medication',
-          tooltip: 'Medication',
+          label: 'Prescription',
+          tooltip: 'Prescription',
         )
       ];
 
@@ -132,9 +132,8 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
 
     return Scaffold(
       body: PopScope(
-         canPop: false,
+          canPop: false,
           onPopInvokedWithResult: (value, result) async {
-
             if (index == 0) {
               Modals.showDialogModal(
                 context,
@@ -152,16 +151,11 @@ class _DashboardBottomNavigationState extends State<Dashboard> {
                       Navigator.pop(context);
                     }),
               );
-                
             } else {
               setState(() {
                 index = 0;
               });
-
-                
             }
-
-            
           },
           child: pages[index]),
       bottomNavigationBar: BottomNavigationBar(

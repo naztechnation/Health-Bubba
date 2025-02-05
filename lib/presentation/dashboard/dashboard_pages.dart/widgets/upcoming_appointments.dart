@@ -6,7 +6,7 @@ import '../../../../res/app_images.dart';
 import '../../../../utils/app_utils.dart';
 import '../../../../utils/navigator/page_navigator.dart';
 import '../../../../widgets/image_view.dart';
-import 'appointment_card.dart';
+ 
 import 'appointment_patient_card.dart';
 import 'cancel_appointment.dart';
 import 'reschedule.dart';

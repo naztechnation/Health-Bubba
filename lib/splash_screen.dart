@@ -49,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
       AppNavigator.pushAndReplacePage(context, page: const Dashboard());
     }
 
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
   }

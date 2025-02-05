@@ -89,7 +89,9 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
   @override
   void initState() {
     super.initState();
-    getAvailability();
+
+     _accountCubit = context.read<AccountCubit>();
+   // getAvailability();
   }
 
   final Map<String, bool> _daySwitchState = {
@@ -333,6 +335,8 @@ void _showInvalidTimeDialog(BuildContext context) {
       daySchedule.timeSlots.add({'start': start, 'end': end});
     });
   }
+
+  
 
   String _formatTime(TimeOfDay time) {
     final now = DateTime.now();
@@ -645,6 +649,11 @@ void _showInvalidTimeDialog(BuildContext context) {
                                                 end.hour == 0 &&
                                                 end.minute == 0;
                                           });
+
+                                           newSchedule.removeWhere(
+                                                (schedule) =>
+                                                    schedule.day == day);
+                                            _dayTimeSlots[day]?.clear();
                                         });
                                         _showTimePickerModal(context, day);
                                       },

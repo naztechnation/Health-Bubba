@@ -61,11 +61,9 @@ class _MedicationsState extends State<Medications> {
 
   String doctorState = "1";
 
-
-getVerifiedKey()async{
+  getVerifiedKey() async {
     doctorState = await StorageHandler.getDoctorState() ?? '1';
-
-}
+  }
 
   @override
   void initState() {
@@ -172,7 +170,7 @@ getVerifiedKey()async{
                                     padding: const EdgeInsets.fromLTRB(
                                         16, 0, 16, 11),
                                     child: Text(
-                                      'Medication',
+                                      'Manage Prescription',
                                       style: GoogleFonts.getFont(
                                         'Inter',
                                         fontWeight: FontWeight.w600,
@@ -206,16 +204,16 @@ getVerifiedKey()async{
                                       MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                     SizedBox(width: 0),
-                                  ImageView.svg(
-                                    AppImages.searchIcon,
-                                    height: 19,
-                                  ),
-                                  SizedBox(width: 0),
+                                    SizedBox(width: 0),
+                                    ImageView.svg(
+                                      AppImages.searchIcon,
+                                      height: 19,
+                                    ),
+                                    SizedBox(width: 0),
                                   ],
                                 ),
                               ),
-                              hintText: 'Search Medications, Patients',
+                              hintText: 'Search Prescription, Patients',
                             ),
                           ),
                           const SizedBox(
@@ -250,7 +248,7 @@ getVerifiedKey()async{
                                           0, 0, 0, 15),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        'No Medications Data Yet. ',
+                                        'No Prescription Data Yet. ',
                                         style: GoogleFonts.getFont(
                                           'Inter',
                                           fontWeight: FontWeight.w500,
@@ -280,9 +278,9 @@ getVerifiedKey()async{
                                         );
                                       }),
                                 ),
-                                  const SizedBox(
-                    height: 80,
-                  )
+                          const SizedBox(
+                            height: 80,
+                          )
                         ],
                       ),
                     ),
@@ -294,23 +292,19 @@ getVerifiedKey()async{
                     child: ButtonView(
                         onPressed: () {
                           if (doctorState == '0') {
-                                                       AppNavigator
-                                                        .pushAndStackPage(
-                                                      context,
-                                                      page: const PendingVerification(
-                                                         
-                                                      ),
-                                                    );
-                                                    }else{
-                                                       AppNavigator.pushAndStackPage(context,
-                              page: const CreateNewMedication());
-                                                    }
-                         
+                            AppNavigator.pushAndStackPage(
+                              context,
+                              page: const PendingVerification(),
+                            );
+                          } else {
+                            AppNavigator.pushAndStackPage(context,
+                                page: const CreateNewMedication());
+                          }
                         },
                         borderRadius: 100,
                         color: AppColors.lightSecondary,
                         child: const Text(
-                          'Create New Medication',
+                          'Create New Prescription',
                           style: TextStyle(
                               color: AppColors.lightPrimary,
                               fontSize: 14,

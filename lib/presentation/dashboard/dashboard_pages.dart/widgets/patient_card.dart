@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/utils/app_utils.dart';
 
 import '../../../../model/patients/patients_list.dart';
 import '../../../../res/app_images.dart';
@@ -81,7 +82,7 @@ patientCard({required BuildContext context, required Patients patients}) {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Male',
+                        AppUtils.toTitleCase(patients.sex ?? ''),
                         style: GoogleFonts.getFont(
                           'Inter',
                           fontWeight: FontWeight.w400,

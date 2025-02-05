@@ -1766,7 +1766,7 @@ class _HomeState extends State<Home> {
                                                                           20,
                                                                       child:
                                                                           Text(
-                                                                        'Create a New Prescription',
+                                                                        'Create New Prescription',
                                                                         style: GoogleFonts
                                                                             .getFont(
                                                                           'Inter',
