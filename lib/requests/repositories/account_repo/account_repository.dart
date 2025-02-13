@@ -8,6 +8,8 @@ import 'package:healthbubba/model/user/selected_docs_availability.dart';
 import 'package:healthbubba/model/user/upload_image.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 
+import '../../../model/auth_model/account_details.dart';
+import '../../../model/auth_model/get_account.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
 import '../../../model/google_places.dart';
@@ -93,6 +95,12 @@ abstract class AccountRepository {
   Future<GetSpecialties> getSpecialties();
 
   Future<Banks> getBanks();
+  Future<GetBankDetails> getBankDetails();
+  Future<GetAccountName> getAccountName({
+    required String bankCode,
+    required String accountNumber,
+    
+  });
 
   Future<BankDetails> addBankDetails({
     required String bankCode,

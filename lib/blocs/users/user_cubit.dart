@@ -137,6 +137,27 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+  Future<void> getConsultationStatus() async {
+    try {
+      emit(ConsultationFeeDataLoading());
+
+      final user = await userRepository.getConsultaionStats();
+
+      emit(ConsultationStatusLoaded(user));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 
   Future<void> checkSpecialtyStatus({required String url}) async {
     try {

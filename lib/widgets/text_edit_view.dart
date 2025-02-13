@@ -33,6 +33,8 @@ class TextEditView extends StatelessWidget {
   final Color? iconColor;
   final Color? textColor;
   final double boxHeight;
+  final TextCapitalization textCapitalization;
+
   final Iterable<String>? autofillHints;
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
@@ -70,7 +72,8 @@ class TextEditView extends StatelessWidget {
     this.maxLines,
     this.textViewTitle = '',
     this.inputFormatters,
-    this.boxHeight = 20,
+    this.boxHeight = 20,  
+    this.textCapitalization  = TextCapitalization.none,
   }) : super(key: key);
 
   OutlineInputBorder _border(BuildContext context, {Color? borderColor}) =>
@@ -127,6 +130,7 @@ class TextEditView extends StatelessWidget {
                       controller: controller,
                       keyboardType: keyboardType,
                       textInputAction: textInputAction,
+                      textCapitalization: textCapitalization,
                       onChanged: (value) {
                         field.didChange(value);
                         if (onChanged != null) {

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:healthbubba/model/auth_model/account_details.dart';
+import 'package:healthbubba/model/auth_model/get_account.dart';
 import 'package:healthbubba/model/auth_model/verify_otp.dart';
 import 'package:healthbubba/model/user/bank_details.dart';
 import 'package:healthbubba/model/user/banks.dart';
@@ -452,4 +454,31 @@ class AccountRepositoryImpl implements AccountRepository {
 
     return UploadDoc.fromJson(map);
   }
+
+  @override
+  Future<GetBankDetails> getBankDetails()  async {
+    final map = await Requests().get(
+      AppStrings.getBankDetailsUrl,
+      
+    );
+    return GetBankDetails.fromJson(map);
+  }
+
+  @override
+  Future<GetAccountName> getAccountName({
+    required String bankCode,
+    required String accountNumber,
+    
+  }) async {
+     
+
+    final map = await Requests().post(AppStrings.getAccountNameUrl,
+     body: {
+      'account_number': accountNumber,
+      'bank_code': bankCode,
+       
+    });
+    return GetAccountName.fromJson(map);
+  }
+
 }

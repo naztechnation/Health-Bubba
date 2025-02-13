@@ -4,7 +4,7 @@ description: "A new Flutter project."
 publish_to: 'none' 
 
 
-version: 1.0.0+20
+version: 1.0.0+21
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -31,15 +31,15 @@ dependencies:
   equatable: ^2.0.5
   url_launcher: ^6.3.0
   flutter_local_notifications: ^17.0.0
-  firebase_messaging: ^15.1.2
-  firebase_core: ^3.5.0
+  firebase_messaging: ^15.2.2
+  firebase_core: ^3.11.0
   flutter_tawkto: ^0.0.4
   zego_uikit_prebuilt_call: ^4.16.12
   zego_uikit_signaling_plugin: ^2.8.6
   google_sign_in: ^6.2.1
-  firebase_auth: ^5.3.0
+  firebase_auth: ^5.4.2
   sign_in_with_apple: ^6.1.2
-  cloud_firestore: ^5.4.2
+  cloud_firestore: ^5.6.3
   geolocator: ^13.0.1
   geocoding: ^3.0.0
   zego_zimkit: ^1.18.13

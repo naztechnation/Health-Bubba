@@ -18,6 +18,7 @@ import 'package:healthbubba/model/user/notifications_data.dart';
  
 
 import '../../../handlers/secure_handler.dart';
+import '../../../model/patients/consultation_result.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
 import '../../../model/user/user_data.dart';
@@ -54,6 +55,13 @@ class UserRepositoryImpl implements UserRepository {
       AppStrings.profileStatusUrl(url: url),
     );
     return PatientsLists.fromJson(map);
+  }
+  @override
+  Future<ConsultationFeeData> getConsultaionStats() async {
+    final map = await Requests().get(
+      AppStrings.checkConsultationStatusUrl,
+    );
+    return ConsultationFeeData.fromJson(map);
   }
 
   @override

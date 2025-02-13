@@ -190,7 +190,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
               title: AppStrings.errorTitle,
               subtitle: state.language.message ?? '');
 
-          context.read<OnboardViewModel>().clearLanguage();
+         // context.read<OnboardViewModel>().clearLanguage();
         }
       }
     }, builder: (context, state) {

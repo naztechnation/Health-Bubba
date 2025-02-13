@@ -245,16 +245,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                 child: SingleChildScrollView(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 17.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0,
+                          vertical: 12),
                           child: Text(
-                            'Provide more details about you and the services you offer',
+                            'Provide more details about you and the services you offer.',
                             style: GoogleFonts.getFont(
                               'Inter',
                               fontWeight: FontWeight.w400,
-                              fontSize: 13,
+                              fontSize: 14,
                               height: 1.7,
                               color: const Color(0xFF6B7280),
                             ),
@@ -387,7 +388,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               ),
                             ] else ...[
                               Positioned(
-                                top: 43.5,
+                                top: 42.5,
                                 left: 8,
                                 right: 8,
                                 child: GestureDetector(
@@ -543,7 +544,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                             fontWeight: FontWeight.w400,
                                             fontSize: 14,
                                             height: 1.4,
-                                            color: const Color(0xFF6B7280),
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ),
@@ -1087,10 +1088,31 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               ButtonView(
                                   onPressed: () {
                                     if (widget.isEdit) {
-                                      AppNavigator.pushAndReplacePage(context,
-                                          page: ProfileSetup(
-                                            isEdit: widget.isEdit,
-                                          ));
+                                      // AppNavigator.pushAndReplacePage(context,
+                                      //     page: ProfileSetup(
+                                      //       isEdit: widget.isEdit,
+                                      //     ));
+
+                                      Modals.showDialogModal(
+                                    context,
+                                    page: destructiveActions(
+                                        context: context,
+                                        message:
+                                            'Are you sure you want to continue with this action?',
+                                        primaryText: 'Continue',
+                                        secondaryText: 'Cancel',
+                                        primaryAction: () {
+                                          AppNavigator.pushAndReplacePage(
+                                              context,
+                                              page: const Dashboard());
+                                        },
+                                        primaryBgColor: const Color(0xFF093126),
+                                        secondaryBgColor:
+                                            AppColors.lightPrimary,
+                                        secondaryAction: () {
+                                          Navigator.pop(context);
+                                        }),
+                                  );
                                     } else {
                                       Modals.showDialogModal(
                                         context,
@@ -1128,7 +1150,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               const SizedBox(
                                 height: 14,
                               ),
-                              GestureDetector(
+                           if(!widget.isEdit)   GestureDetector(
                                 onTap: () {
                                   Modals.showDialogModal(
                                     context,

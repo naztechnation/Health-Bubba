@@ -329,10 +329,12 @@ void _showInvalidTimeDialog(BuildContext context) {
       
       DaySchedule daySchedule = newSchedule.firstWhere(
         (schedule) => schedule.day == day,
-        orElse: () => DaySchedule(day: day, isOpen: true, timeSlots: []),
+        orElse: () => DaySchedule(day: day, isOpen: true,
+         timeSlots: []),
       );
 
-      daySchedule.timeSlots.add({'start': start, 'end': end});
+      daySchedule.timeSlots.add({'start'
+      : start, 'end': end});
     });
   }
 

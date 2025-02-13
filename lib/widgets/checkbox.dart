@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart'; 
 
-class CustomCheckbox extends StatefulWidget {
-  final ValueChanged<bool>? onChanged; 
-  final Color? bgColor; 
+class CustomCheckbox extends StatelessWidget {
+  final ValueChanged<bool>? onChanged;
+  final Color? bgColor;
   final bool isChecked;
 
-    CustomCheckbox({Key? key, 
+  const CustomCheckbox({
+    Key? key,
     required this.isChecked,
-    this.onChanged, this.bgColor = const Color.fromARGB(255, 53, 114, 55)}) : super(key: key);
+    this.onChanged,
+    this.bgColor = const Color.fromARGB(255, 53, 114, 55),
+  }) : super(key: key);
 
-  @override
-  _CustomCheckboxState createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  late bool _isChecked;
-
-  @override
-  void initState() {
-    super.initState();
-    _isChecked = widget.isChecked;
-  }
   void _toggleCheckbox() {
-    setState(() {
-      _isChecked = !_isChecked;
-      if (widget.onChanged != null) {
-        widget.onChanged!(_isChecked);  
-      }
-    });
+    if (onChanged != null) {
+      onChanged!(!isChecked);
+    }
   }
 
   @override
@@ -52,7 +40,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
           ],
         ),
         child: CustomPaint(
-          painter: CheckboxPainter(isChecked: _isChecked, widget.bgColor!),
+          painter: CheckboxPainter(bgColor!, isChecked: isChecked),
           child: const SizedBox(
             width: 23,
             height: 23,

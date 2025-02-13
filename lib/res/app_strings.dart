@@ -62,7 +62,7 @@ class AppStrings {
   static const String addBanksUrl = "${_baseUrl}add_banking_details";
   static const String editBanksUrl = "${_baseUrl}edit_banking_details";
   static String consultationFeeUrl({required String url}) => "$_baseUrl$url";
-  static const String checkConsultationStatusUrl = "status/consultation_fee";
+  static const String checkConsultationStatusUrl = "${_baseUrl}consultation_fee";
   static const String addConsultationUrl = "add_consultation_fee";
   static const String editConsultationUrl = "edite_consultation_fee";
   static const String availabilityStatus = "status/availability";
@@ -82,6 +82,11 @@ class AppStrings {
       "${_baseUrl}status/profile_settings";
   static const String getAdministeredRouteUrl =
       "${_baseUrl}administration_routes";
+  static const String getBankDetailsUrl =
+      "${_baseUrl}get_user_bank_details";
+   
+  static const String getAccountNameUrl =
+      "${_baseUrl}resolve_account_number";
 
       static const String getNotificationUrl =
       "${_baseUrl}notifications";

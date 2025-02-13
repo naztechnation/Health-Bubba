@@ -4,6 +4,7 @@ import 'package:healthbubba/model/patients/appointment_lists.dart';
 
 import '../../../model/patients/administered_route.dart';
 import '../../../model/patients/appointment_details.dart';
+import '../../../model/patients/consultation_result.dart';
 import '../../../model/patients/create_appointment.dart';
 import '../../../model/patients/get_medications.dart';
 import '../../../model/patients/get_profile_status.dart';
@@ -37,6 +38,7 @@ abstract class UserRepository {
     required String details,
   });
 
+  Future<ConsultationFeeData> getConsultaionStats();
   Future<PatientsLists> getConsultaionStatus({required String url});
 
   Future<PatientsLists> createNewMedication({

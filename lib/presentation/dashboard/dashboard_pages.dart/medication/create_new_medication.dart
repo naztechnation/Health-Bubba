@@ -118,34 +118,56 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   List<String> selectedDays = [];
   List<String> selectedTimeOfDays = [];
 
- void _selectDate(
-    BuildContext context, bool isStartDate, StateSetter state) async {
-  DateTime today = DateTime.now();
-  DateTime? selectedDate = await showDatePicker(
-    context: context,
-    initialDate: today,
-    firstDate: DateTime(today.year, today.month, today.day), // Prevent past dates
-    lastDate: DateTime(2101),
-  );
+  void _selectDate(
+      BuildContext context, bool isStartDate, StateSetter state) async {
+    DateTime today = DateTime.now();
+    DateTime initialDate =
+        isStartDate ? (startDate ?? today) : (endDate ?? startDate ?? today);
+    DateTime firstDate = isStartDate ? today : (startDate ?? today);
 
-  if (selectedDate != null) {
-    state(() {
-      setState(() {
-        if (isStartDate) {
-          startDate = selectedDate;
-          formattedStartDate =
-              DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate!);
-        } else {
-          endDate = selectedDate;
-          formattedEndDate =
-              DateFormat('yyyy-MM-dd HH:mm:ss').format(endDate!);
-        }
-        _updateDateField();
+    DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate:
+          firstDate, // Prevents past dates for startDate and ensures endDate is not before startDate
+      lastDate: DateTime(2101),
+    );
+
+    if (selectedDate != null) {
+      state(() {
+        setState(() {
+          if (isStartDate) {
+            startDate = selectedDate;
+            formattedStartDate =
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate!);
+
+            if (endDate != null && endDate!.isBefore(startDate!)) {
+              endDate = selectedDate;
+              formattedEndDate = formattedStartDate;
+            }
+          } else {
+            if (selectedDate.isAfter(startDate!) ||
+                selectedDate.isAtSameMomentAs(startDate!)) {
+              endDate = selectedDate;
+              formattedEndDate =
+                  DateFormat('yyyy-MM-dd HH:mm:ss').format(endDate!);
+            } else {
+              ToastService().showToast(context,
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
+                  ),
+                  title: AppStrings.errorTitle,
+                  subtitle: 'End date cannot be before start date');
+
+              return;
+            }
+          }
+          _updateDateField();
+        });
       });
-    });
+    }
   }
-}
-
 
   void _updateDateField() {
     String formattedStartDate = _formatDate(startDate);
@@ -164,25 +186,29 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     }
   }
 
-  void _onCheckboxChanged(bool isChecked, String item) {
-    setState(() {
-      if (isChecked) {
-        selectedDays.add(item);
-      } else {
-        selectedDays.remove(item);
-      }
-    });
-  }
+ void _onCheckboxChanged(bool checked, String item, bool allowMultipleSelection) {
+  setState(() {
+    if (!allowMultipleSelection) {
+      selectedDays.clear(); // Deselect all other items
+    }
+    if (checked) {
+      selectedDays.add(item);
+    } else {
+      selectedDays.remove(item);
+    }
+  });
+}
 
-  void _onCheckboxTimeDayChanged(bool isChecked, String item) {
-    setState(() {
-      if (isChecked) {
-        selectedTimeOfDays.add(item);
-      } else {
-        selectedTimeOfDays.remove(item);
-      }
-    });
-  }
+
+  // void _onCheckboxTimeDayChanged(bool isChecked, String item) {
+  //   setState(() {
+  //     if (isChecked) {
+  //       selectedTimeOfDays.add(item);
+  //     } else {
+  //       selectedTimeOfDays.remove(item);
+  //     }
+  //   });
+  // }
 
   void _handleFrequencySelected(String frequency) {
     setState(() {
@@ -227,33 +253,30 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final patient =  Provider.of<UserViewModel>(context, listen: true);
+    final patient = Provider.of<UserViewModel>(context, listen: true);
 
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is CreateMedicationLoaded) {
-
-        if(state.createNewMedication.ok ?? false){
+        if (state.createNewMedication.ok ?? false) {
           ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(
-              AppImages.successIcon,
-              height: 25,
-            ),
-            title: AppStrings.successTitle,
-            subtitle: state.createNewMedication.message ?? ''); 
+              leadingIcon: const ImageView.svg(
+                AppImages.successIcon,
+                height: 25,
+              ),
+              title: AppStrings.successTitle,
+              subtitle: state.createNewMedication.message ?? '');
 
-             AppNavigator.pushAndReplacePage(context,
-                    page: const Dashboard());
-        }else{
+          AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+        } else {
           ToastService().showToast(context,
-            leadingIcon: const ImageView.svg(
-              AppImages.error,
-              height: 25,
-            ),
-            title: AppStrings.errorTitle,
-            subtitle: state.createNewMedication.message ?? '');
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
+              ),
+              title: AppStrings.errorTitle,
+              subtitle: state.createNewMedication.message ?? '');
         }
-       
+
         // Modals.showDialogModal(
         //   context,
         //   page: destructiveActions(
@@ -553,8 +576,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               patientId = patient.patientId;
                                               patientImage =
                                                   patient.patientImage;
-                                              patientName =
-                                                  patient.patientName;
+                                              patientName = patient.patientName;
                                             });
                                           }
                                         },
@@ -665,8 +687,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               GestureDetector(
                                                 onTap: () {
                                                   setState(() {
-                                                    patient.clearPatientDetails( );
-
+                                                    patient
+                                                        .clearPatientDetails();
                                                   });
                                                 },
                                                 child: Container(
@@ -785,14 +807,24 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             ),
                                           ),
                                           TextEditView(
+                                            readOnly: true,
                                             controller:
                                                 medicationDosageController,
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
                                             hintText: 'e.g, 1 Tablet',
-                                            validator: (value) {
-                                              return Validator.validate(
-                                                  value, 'Dosage');
+                                             
+                                            suffixIcon: const Padding(
+                                              padding: EdgeInsets.all(17.0),
+                                              child: ImageView.svg(
+                                                AppImages.dropDown,
+                                                scale: 0.8,
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              Modals.showDialogModal(context,
+                                                  page: dosageModalContent(
+                                                      context: context));
                                             },
                                           ),
                                         ],
@@ -840,6 +872,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                     ),
                                                   ),
                                                   Choices(
+                                                    lockSecondOption: medicationDosageController.text == "1",
                                                     items: const [
                                                       "Everyday",
                                                       "Specific days",
@@ -852,7 +885,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             ),
                                           ),
                                           if (_frequency.toLowerCase() ==
-                                              'Specific days'.toLowerCase())
+                                              'Specific days'.toLowerCase() || medicationDosageController.text == "1")
                                             Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -884,6 +917,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                 child: choiceContent(
                                                   context,
                                                   days,
+                                                  medicationDosageController.text != "1"
                                                 ),
                                               ),
                                             )
@@ -922,6 +956,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             timeDayContent(
                                               context,
                                               timeOfDay,
+                                              medicationDosageController.text != "1"
                                             ),
                                           ],
                                         ),
@@ -996,7 +1031,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               medicationDurationController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
-                                          hintText: 'July 5-July 8',
+                                          hintText: 'July 5 - July 8',
                                           readOnly: true,
                                           onTap: () {
                                             Modals.showDialogModal(context,
@@ -1106,6 +1141,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                 selectedTimeOfDays.isNotEmpty &&
                                 formattedStartDate.isNotEmpty &&
                                 formattedEndDate.isNotEmpty &&
+                                medicationDosageController.text.isNotEmpty &&
                                 medicationId.isNotEmpty) {
                               _userCubit.createNewMedication(
                                   patientId: patientId,
@@ -1171,7 +1207,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
       var controller,
       required List<MedicationCategoryData> item}) {
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.6,
+      width: MediaQuery.sizeOf(context).width * 0.85,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
@@ -1255,7 +1291,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
       required List<Medications> item}) {
     return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
       return Container(
-        width: MediaQuery.sizeOf(context).width * 0.6,
+        width: MediaQuery.sizeOf(context).width * 0.85,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Colors.white,
@@ -1300,12 +1336,12 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                     SizedBox(width: 0),
-                                  ImageView.svg(
-                                    AppImages.searchIcon,
-                                    height: 19,
-                                  ),
-                                  SizedBox(width: 0),
+                      SizedBox(width: 0),
+                      ImageView.svg(
+                        AppImages.searchIcon,
+                        height: 19,
+                      ),
+                      SizedBox(width: 0),
                     ],
                   ),
                 ),
@@ -1376,7 +1412,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
       var controller,
       required List<AdministeredRouteData> item}) {
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.6,
+      width: MediaQuery.sizeOf(context).width * 0.85,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
@@ -1407,7 +1443,11 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: item.length,
-        separatorBuilder: (context, index) =>    Divider(height: 0, thickness: 0.3, color: Colors.grey.shade200,),
+        separatorBuilder: (context, index) => Divider(
+          height: 0,
+          thickness: 0.3,
+          color: Colors.grey.shade200,
+        ),
         itemBuilder: (context, index) {
           String title = item[index].name ?? '';
           adminRouteId = item[index].id.toString() ?? '';
@@ -1422,7 +1462,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color:  Colors.white,
+                color: Colors.white,
               ),
               child: Padding(
                 padding:
@@ -1448,6 +1488,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   choiceContent(
     BuildContext context,
     List<String> items,
+    bool allowMultipleSelection 
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -1468,7 +1509,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                     bgColor: const Color(0xFF40B93C),
                     isChecked: isChecked,
                     onChanged: (checked) {
-                      _onCheckboxChanged(checked, item);
+                      _onCheckboxChanged(checked, item, allowMultipleSelection);
                     },
                   ),
                   const SizedBox(
@@ -1495,52 +1536,70 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     );
   }
 
-  timeDayContent(
-    BuildContext context,
-    List<String> items,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Wrap(
-        spacing: 8.0,
-        runSpacing: 8.0,
-        children: items.map((item) {
-          istimeDayChecked = selectedTimeOfDays.contains(item);
+ Widget timeDayContent(
+  BuildContext context,
+  List<String> items,
+  bool allowMultipleSelection,
+) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Wrap(
+      spacing: 8.0,
+      runSpacing: 8.0,
+      children: items.map((item) {
+        bool isChecked = selectedTimeOfDays.contains(item);
 
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomCheckbox(
-                bgColor: const Color(0xFF40B93C),
-                isChecked: istimeDayChecked,
-                onChanged: (checked) {
-                  _onCheckboxTimeDayChanged(checked, item);
-                },
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              GestureDetector(
-                onTap: () {
-                  //_onCheckboxTimeDayChanged(isChecked, item);
-                },
-                child: Text(
-                  item,
-                  style: GoogleFonts.getFont(
-                    'Inter',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
-                    height: 1.5,
-                    color: const Color(0xFF030712),
-                  ),
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomCheckbox(
+              bgColor: const Color(0xFF40B93C),
+              isChecked: isChecked,
+              onChanged: (checked) {
+                _onCheckboxTimeDayChanged(checked, item, allowMultipleSelection);
+              },
+            ),
+            const SizedBox(width: 13),
+            GestureDetector(
+              onTap: () {
+                _onCheckboxTimeDayChanged(!isChecked, item, allowMultipleSelection);
+              },
+              child: Text(
+                item,
+                style: GoogleFonts.getFont(
+                  'Inter',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 13,
+                  height: 1.5,
+                  color: const Color(0xFF030712),
                 ),
               ),
-            ],
-          );
-        }).toList(),
-      ),
-    );
-  }
+            ),
+          ],
+        );
+      }).toList(),
+    ),
+  );
+}
+
+void _onCheckboxTimeDayChanged(bool checked, String item, bool allowMultipleSelection) {
+  setState(() {
+    if (allowMultipleSelection) {
+      if (checked) {
+        if (!selectedTimeOfDays.contains(item)) {
+          selectedTimeOfDays.add(item);
+        }
+      } else {
+        selectedTimeOfDays.remove(item);
+      }
+    } else {
+      selectedTimeOfDays = checked ? [item] : [];
+    }
+  });
+}
+
+ 
+
 
   dateSelectionWidget() {
     return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
@@ -1674,5 +1733,82 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
         ),
       );
     });
+  }
+
+  List<String> dosage = List.generate(30, (index) => (index + 1).toString());
+
+  dosageModalContent({
+    required BuildContext context,
+  }) {
+    return Container(
+      width: MediaQuery.sizeOf(context).width * 0.85,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300, width: 2),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0A000000),
+            offset: Offset(0, 1),
+            blurRadius: 1.5,
+          ),
+          BoxShadow(
+            color: Color(0x0D2F3037),
+            offset: Offset(0, 24),
+            blurRadius: 34,
+          ),
+          BoxShadow(
+            color: Color(0x0A222A35),
+            offset: Offset(0, 4),
+            blurRadius: 3,
+          ),
+          BoxShadow(
+            color: Color(0x0D000000),
+            offset: Offset(0, 1),
+            blurRadius: 0.5,
+          ),
+        ],
+      ),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: dosage.length,
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.grey.shade300,
+          height: 0,
+        ),
+        itemBuilder: (context, index) {
+          String dose = dosage[index];
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                medicationDosageController.text = dose;
+              });
+
+              Navigator.pop(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color:   Colors.white,
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 13.0, horizontal: 15),
+                child: Text(
+                  dose,
+                  style: GoogleFonts.getFont(
+                    'Inter',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    height: 1.5,
+                    color: const Color(0xFF030712),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

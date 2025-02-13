@@ -1533,9 +1533,14 @@ class _HomeState extends State<Home> {
                                                     page:
                                                         const PendingVerification());
                                               } else {
-                                                AppNavigator.pushAndStackPage(
+                                                // AppNavigator.pushAndStackPage(
+                                                //     context,
+                                                //     page: AppointmentTabView(
+                                                //       isDashboard: false,
+                                                //     ));
+                                                 AppNavigator.pushAndStackPage(
                                                     context,
-                                                    page: AppointmentTabView(
+                                                    page: const PatientPage(
                                                       isDashboard: false,
                                                     ));
                                               }

@@ -73,7 +73,7 @@ getVerifiedKey()async{
   }
 
   void _onScroll() {
-    // Check if the user has scrolled to the bottom of the screen
+ 
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent &&
         !isLoading) {
@@ -104,7 +104,8 @@ getVerifiedKey()async{
       });
        
       _userCubit.getPatientsLists(
-          page: currentPage.toString(), limit: limit.toString());
+          page: currentPage.toString(),
+          limit: limit.toString());
     }
   }
 

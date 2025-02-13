@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 import 'package:healthbubba/model/patients/create_appointment.dart';
@@ -7,6 +6,7 @@ import 'package:healthbubba/model/patients/patients_list.dart';
 
 import '../../model/patients/administered_route.dart';
 import '../../model/patients/appointment_details.dart';
+import '../../model/patients/consultation_result.dart';
 import '../../model/patients/get_medications.dart';
 import '../../model/patients/medication_category.dart';
 import '../../model/patients/medication_sub_category.dart';
@@ -209,6 +209,7 @@ class ProfileStatusLoaded extends UserStates {
   @override
   List<Object> get props => [status];
 }
+
 class PatientDetailsLoading extends UserStates {
   @override
   List<Object> get props => [];
@@ -262,15 +263,24 @@ class CreateAppointmentLoading extends UserStates {
   List<Object> get props => [];
 }
 
+class ConsultationStatusLoaded extends UserStates {
+  final ConsultationFeeData consultationFeeData;
+  const ConsultationStatusLoaded(this.consultationFeeData);
+  @override
+  List<Object> get props => [consultationFeeData];
+}
+
+class ConsultationFeeDataLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
 class CreateAppointmentLoaded extends UserStates {
   final CreateAppointment createAppointment;
   const CreateAppointmentLoaded(this.createAppointment);
   @override
   List<Object> get props => [createAppointment];
 }
-
-
-
 
 class AppointmentListLoading extends UserStates {
   @override
@@ -345,9 +355,3 @@ class UserApiErr extends UserStates {
   @override
   List<Object> get props => [message!];
 }
-
- 
- 
- 
-
- 

@@ -33,10 +33,10 @@ class _PatientDetailsState extends State<PatientDetails> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
-            patientDetails.firstName ?? '',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            'Patients Details',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         centerTitle: true,

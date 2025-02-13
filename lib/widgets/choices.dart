@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class Choices extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String> onSelected;
+  final bool lockSecondOption;
 
   const Choices({
     required this.items,
     required this.onSelected,
+    this.lockSecondOption = false,
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +20,32 @@ class Choices extends StatefulWidget {
 class _ChoicesState extends State<Choices> {
   int _selectedIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.lockSecondOption && widget.items.length > 1) {
+      _selectedIndex = 1; // Auto-select second option
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant Choices oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.lockSecondOption && _selectedIndex != 1 && widget.items.length > 1) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _selectedIndex = 1; // Auto-switch to second option after the build phase
+          });
+          widget.onSelected(widget.items[1]);
+        }
+      });
+    }
+  }
+
   void _onDaySelected(int index) {
+    if (widget.lockSecondOption && index != 1) return; // Prevent changing selection if locked
+
     setState(() {
       _selectedIndex = index;
     });
@@ -28,20 +55,18 @@ class _ChoicesState extends State<Choices> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      // mainAxisAlignment: MainAxisAlignment.start,
-      // mainAxisSize: MainAxisSize.min,
       spacing: 5,
       children: widget.items.asMap().entries.map((entry) {
         int index = entry.key;
         String time = entry.value;
         bool isSelected = _selectedIndex == index;
+
         return GestureDetector(
           onTap: () => _onDaySelected(index),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 5.0, horizontal: 9.0),
+              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 9.0),
               decoration: isSelected
                   ? BoxDecoration(
                       borderRadius: BorderRadius.circular(9999),

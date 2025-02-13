@@ -8,6 +8,8 @@ import 'package:healthbubba/model/user/qualification.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 
+import '../../model/auth_model/account_details.dart';
+import '../../model/auth_model/get_account.dart';
 import '../../model/auth_model/register.dart';
 import '../../model/google_places.dart';
 import '../../model/user/banks.dart';
@@ -267,6 +269,26 @@ class UploadImageLoaded extends AccountStates {
   List<Object> get props => [uploadImage];
 }
 class UploadDocsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+class GetAccountDetailsLoaded extends AccountStates {
+  final GetBankDetails account;
+  const GetAccountDetailsLoaded(this.account);
+  @override
+  List<Object> get props => [account];
+}
+class GetAccountDetailsLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+class GetAccountNameLoaded extends AccountStates {
+  final GetAccountName account;
+  const GetAccountNameLoaded(this.account);
+  @override
+  List<Object> get props => [account];
+}
+class GetAccountNameLoading extends AccountStates {
   @override
   List<Object> get props => [];
 }

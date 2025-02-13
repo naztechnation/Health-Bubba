@@ -84,17 +84,30 @@ class _BookAppointentState extends State<BookAppointent> {
     super.initState();
   }
 
-  List<String> generateTimeSlots() {
-    List<String> timeSlots = [];
-    for (int hour = 0; hour < 24; hour++) {
+  List<String> generateTimeSlots(DateTime selectedDate) {
+  List<String> timeSlots = [];
+  DateTime now = DateTime.now();
+  bool isToday = selectedDate.year == now.year &&
+      selectedDate.month == now.month &&
+      selectedDate.day == now.day;
+
+  for (int hour = 0; hour < 24; hour++) {
+    for (int minute in [0, 30]) {
       String suffix = hour < 12 ? 'AM' : 'PM';
       String formattedHour24 = hour < 10 ? '0$hour' : '$hour';
+      String formattedMinute = minute == 0 ? '00' : '30';
+      DateTime slotTime = DateTime(selectedDate.year, selectedDate.month,
+          selectedDate.day, hour, minute);
 
-      timeSlots.add('$formattedHour24:00 $suffix');
-      timeSlots.add('$formattedHour24:30 $suffix');
+      if (!isToday || slotTime.isAfter(now)) {
+        timeSlots.add('$formattedHour24:$formattedMinute $suffix');
+      }
     }
-    return timeSlots;
   }
+
+  return timeSlots;
+}
+
 
   bool isTimeInPast(String time, String date) {
     try {
@@ -105,7 +118,7 @@ class _BookAppointentState extends State<BookAppointent> {
       RegExp timeRegex = RegExp(r'^(\d{1,2}):(\d{1,2})\s?(AM|PM)$');
       var match = timeRegex.firstMatch(time);
       if (match == null) {
-        throw FormatException("Invalid time format");
+        throw const FormatException("Invalid time format");
       }
 
       int hour = int.parse(match.group(1)!);
@@ -136,6 +149,8 @@ class _BookAppointentState extends State<BookAppointent> {
 
   @override
   Widget build(BuildContext context) {
+
+     
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is CreateAppointmentLoaded) {
         if (state.createAppointment.ok ?? false) {
@@ -423,7 +438,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                         ),
                                       ),
                                       ChoiceSelector(
-                                        items: generateTimeSlots(),
+                                        items: generateTimeSlots(Provider.of<BookAppointmentViewModel>(context, listen: true).selectedDate ?? DateTime.now()),
                                         onSelected: _handleDaySelected,
                                       ),
                                       const SizedBox(

@@ -55,6 +55,7 @@ class _BioWidgetState extends State<BioWidget> {
               TextEditView(
                 controller: bioController,
                 maxLines: 5,
+                textCapitalization: TextCapitalization.sentences,
                 onTap: () {
                   onboard.updateScroll(true);
                 },

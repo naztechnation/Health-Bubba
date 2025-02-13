@@ -94,9 +94,9 @@ class UpdateScreen extends StatelessWidget {
                        
                      if ((Platform.isAndroid)) {
                         if (await canLaunch(
-                            ' ')) {
+                            'https://play.google.com/store/apps/details?id=com.healthbubba.doctorsapp')) {
                           await launch(
-                              ' ');
+                              'https://play.google.com/store/apps/details?id=com.healthbubba.doctorsapp');
                         } else {
                           throw 'Could not launch url';
                         }
