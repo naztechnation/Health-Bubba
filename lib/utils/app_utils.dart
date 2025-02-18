@@ -251,7 +251,7 @@ class AppUtils {
     final Duration difference = now.difference(inputTime);
 
     // Check if the difference is within ±5 minutes
-    return difference.inMinutes.abs() <= 5;
+    return difference.inMinutes.abs() <= 10;
   } catch (e) {
     // Handle any parsing or input errors
     print("Error: $e");

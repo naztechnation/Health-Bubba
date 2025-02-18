@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class ChoiceSelector extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String> onSelected;
+  final bool shouldSelectInitially; 
 
   const ChoiceSelector({
     required this.items,
     required this.onSelected,
+    this.shouldSelectInitially = true,  
     Key? key,
   }) : super(key: key);
 
@@ -16,7 +18,15 @@ class ChoiceSelector extends StatefulWidget {
 }
 
 class _ChoiceSelectorState extends State<ChoiceSelector> {
-  int _selectedIndex = 0;  
+  int? _selectedIndex; // Change to nullable so nothing is selected initially
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.shouldSelectInitially && widget.items.isNotEmpty) {
+      _selectedIndex = 0; // Select the first item by default if allowed
+    }
+  }
 
   void _onDaySelected(int index) {
     setState(() {
@@ -27,29 +37,27 @@ class _ChoiceSelectorState extends State<ChoiceSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    
-    Align(
+    return Align(
       alignment: Alignment.centerLeft,
       child: GridView.builder(
         padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 3,
-                      ),
-                      itemCount: widget.items.length,
-                      itemBuilder: (context, index) {
-                        final time = widget.items[index];
-                         bool isSelected = _selectedIndex == index;
-                        return GestureDetector(
-                          onTap: () => _onDaySelected(index),
-                          child: FittedBox(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 3,
+        ),
+        itemCount: widget.items.length,
+        itemBuilder: (context, index) {
+          final time = widget.items[index];
+          bool isSelected = _selectedIndex == index;
+
+          return GestureDetector(
+            onTap: () => _onDaySelected(index),
+            child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 9.0),  
+                padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 9.0),
                 decoration: isSelected
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(9999),
@@ -82,17 +90,9 @@ class _ChoiceSelectorState extends State<ChoiceSelector> {
                 ),
               ),
             ),
-                        );
-                      },
-                    ),
+          );
+        },
+      ),
     );
-    
-    
-    
-    
-    
-    
-    
-   
   }
 }

@@ -148,6 +148,34 @@ class _PatientDetailsState extends State<PatientDetails> {
                                         color: const Color(0xFF0A0D14),
                                       ),
                                     ),
+                                    const SizedBox(height: 10),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 12),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          6,
+                                        ),
+                                        color: const Color(0xffF3F4F6),
+                                        border: Border.all(
+                                            color: const Color(0xFFE5E7EB),
+                                            width: 1),
+                                      ),
+                                      child: Text(
+                                        patientDetails.patientStatus
+                                                .toString()
+                                                .toUpperCase() ??
+                                            '',
+                                        style: GoogleFonts.getFont(
+                                          'Inter',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                          height: 1.7,
+                                          color: const Color(0xFF838487),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
                                   ],
                                 ),
                               ),
@@ -258,17 +286,33 @@ class _PatientDetailsState extends State<PatientDetails> {
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        (patientDetails.weight == null)
-                                            ? 'N/B'
-                                            : patientDetails.weight.toString(),
-                                        style: GoogleFonts.getFont(
-                                          'Inter',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 10,
-                                          height: 1.7,
-                                          color: const Color(0xFF6B7280),
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            (patientDetails.weight == null)
+                                                ? 'N/B'
+                                                : patientDetails.weight.toString() ,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10,
+                                              height: 1.7,
+                                              color: const Color(0xFF6B7280),
+                                            ),
+                                          ),
+                                           Text(
+                                            (patientDetails.weight == null)
+                                                ? ''
+                                                : (patientDetails.weightUnit == null) ? "KG" :patientDetails.weightUnit.toString() ,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10,
+                                              height: 1.7,
+                                              color: const Color(0xFF6B7280),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -299,7 +343,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                         margin: const EdgeInsets.fromLTRB(
                                             0, 0, 0, 2),
                                         child: Text(
-                                          'Gender+',
+                                          'Gender',
                                           style: GoogleFonts.getFont(
                                             'Inter',
                                             fontWeight: FontWeight.w500,
@@ -768,7 +812,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                   AppNavigator.pushAndStackPage(context,
                       page: BookAppointentPage(
                         isReBookAppointment: false,
-                        patientsId: patientDetails.id.toString() ?? '',
+                        patientsId: patientDetails.id.toString() ?? '', appointmentId: patientDetails.appointmentId ?? "",
                       ));
                 },
                 borderRadius: 100,

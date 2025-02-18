@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:healthbubba/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../res/app_colors.dart';
@@ -55,6 +56,10 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
   var accountNumberController = TextEditingController();
   var accountNameController = TextEditingController();
 
+  String bankName = "";
+  String accountNumber = "";
+  String accountName = "";
+
   getSpecialties() async {
     _accountCubit = context.read<AccountCubit>();
 
@@ -96,23 +101,30 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
           banks = state.banks.message?.data ?? [];
           filteredBanks = banks;
         } else {}
-      }else  if (state is GetAccountNameLoaded) {
+      } else if (state is GetAccountNameLoaded) {
         if (state.account.ok ?? false) {
-           accountNameController.text  = state.account.message?.data?.data?.accountName ?? "";
+          accountNameController.text =
+              state.account.message?.data?.data?.accountName ?? "";
           filteredBanks = banks;
         } else {}
       } else if (state is GetAccountDetailsLoaded) {
         if (state.account.ok ?? false) {
           if (state.account.message?.data != null) {
-            bankNameController.text =
-                state.account.message?.data?.bankName ?? "";
-            accountNameController.text =
-                state.account.message?.data?.accountName ?? "";
-            accountNumberController.text =
-                state.account.message?.data?.accountNumber ?? "";
+            bankName = state.account.message?.data?.bankName ?? "";
+            accountName = state.account.message?.data?.accountName ?? "";
+            accountNumber = state.account.message?.data?.accountNumber ?? "";
+            // bankNameController.text =
+            //     state.account.message?.data?.bankName ?? "";
+            // accountNameController.text =
+            //     state.account.message?.data?.accountName ?? "";
+            // accountNumberController.text =
+            //     state.account.message?.data?.accountNumber ?? "";
             bankCode = state.account.message?.data?.bankCode ?? "";
-
-            hasAddedDetails = true;
+            if (bankCode.isNotEmpty) {
+              hasAddedDetails = true;
+            }
+          } else {
+            hasAddedDetails = false;
           }
         } else {}
       } else if (state is AddBanksDataLoaded) {
@@ -215,270 +227,374 @@ class _BankAccountUpdatePageState extends State<BankAccountUpdatePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Divider(
-                                  color: Color(
-                                    0xFF40B93C,
+                                if (!hasAddedDetails)
+                                  Container(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16, 16, 16, 15),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 16),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 8),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    'Bank Name',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              TextEditView(
+                                                controller: bankNameController,
+                                                borderColor:
+                                                    Colors.grey.shade200,
+                                                borderWidth: 0.5,
+                                                hintText: 'Select',
+                                                readOnly: true,
+                                                suffixIcon: const Padding(
+                                                  padding: EdgeInsets.all(17.0),
+                                                  child: ImageView.svg(
+                                                    AppImages.dropDown,
+                                                    scale: 0.8,
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  if (banks.isNotEmpty) {
+                                                    Modals.showDialogModal(
+                                                        context,
+                                                        page: bankModalContent(
+                                                            context));
+                                                  } else {
+                                                    _accountCubit.getBanks();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 16),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 8),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    'Account Number',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              TextEditView(
+                                                controller:
+                                                    accountNumberController,
+                                                borderColor:
+                                                    Colors.grey.shade200,
+                                                borderWidth: 0.5,
+                                                hintText: ' ',
+                                                maxLength: 10,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                validator: (value) {
+                                                  return Validator.validate(
+                                                      value, 'Account number');
+                                                },
+                                                onChanged: (value) {
+                                                  if (value.length == 10) {
+                                                    _accountCubit.getAccountName(
+                                                        bankCode: bankCode,
+                                                        accountNumber:
+                                                            accountNumberController
+                                                                .text);
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 16),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 8),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    'Account name',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              TextEditView(
+                                                controller:
+                                                    accountNameController,
+                                                borderColor:
+                                                    Colors.grey.shade200,
+                                                borderWidth: 0.5,
+                                                hintText: ' ',
+                                                readOnly: true,
+                                                validator: (value) {
+                                                  return Validator.validate(
+                                                      value, 'Account name');
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Bank Name',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TextEditView(
-                                              controller: bankNameController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              hintText: 'Select',
-                                              readOnly: true,
-                                              suffixIcon: const Padding(
-                                                padding: EdgeInsets.all(17.0),
-                                                child: ImageView.svg(
-                                                  AppImages.dropDown,
-                                                  scale: 0.8,
-                                                ),
-                                              ),
-                                              onTap: () {
-                                                if (banks.isNotEmpty) {
-                                                  Modals.showDialogModal(
-                                                      context,
-                                                      page: bankModalContent(
-                                                          context));
-                                                } else {
-                                                  _accountCubit.getBanks();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Account Number',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TextEditView(
-                                              controller:
-                                                  accountNumberController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              hintText: ' ',
-                                              maxLength: 10,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              validator: (value) {
-                                                return Validator.validate(
-                                                    value, 'Account number');
-                                              },
-                                              onChanged: (value) {
-                                                if(value.length == 10){
-                                                  _accountCubit.getAccountName(bankCode: bankCode, accountNumber: accountNumberController.text);
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 16),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  0, 0, 0, 8),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  'Account name',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF131316),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            TextEditView(
-                                              controller: accountNameController,
-                                              borderColor: Colors.grey.shade200,
-                                              borderWidth: 0.5,
-                                              hintText: ' ',
-                                              readOnly: true,
-                                              validator: (value) {
-                                                return Validator.validate(
-                                                    value, 'Account name');
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ],
                             ),
                           ),
+                          if (hasAddedDetails)
+                            Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(18),
+                                  color: const Color(0xFFFEF3C7),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const ImageView.svg(AppImages.bankIcon),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            bankName,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            accountName,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            accountNumber,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF5E5F6E),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                ButtonView(
+                                    expanded: false,
+                                    onPressed: () {
+                                      setState(() {
+                                        hasAddedDetails = false;
+                                      });
+                                    },
+                                    borderRadius: 100,
+                                    color: AppColors.lightPrimary,
+                                    borderWidth: 1,
+                                    borderColor: Colors.grey.shade300,
+                                    child: const Text(
+                                      'Edit Account Details',
+                                      style: TextStyle(
+                                          color: AppColors.lightSecondary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                              ],
+                            )
                         ],
                       ),
                     ),
                   ),
                 ),
               ),
-              bottomNavigationBar: Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  border: Border(
-                    top: BorderSide(
-                      color: Color(0xFFE5E7EB),
-                      width: 1,
-                    ),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(0, -4),
-                      blurRadius: 8.8999996185,
-                    ),
-                  ],
-                ),
-                child: SafeArea(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: const Color(0xFF093126),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x33212126),
-                            offset: Offset(0, 1),
-                            blurRadius: 1.5,
+              bottomNavigationBar: (hasAddedDetails)
+                  ? const SizedBox.shrink()
+                  : Container(
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFFFFFF),
+                        border: Border(
+                          top: BorderSide(
+                            color: Color(0xFFE5E7EB),
+                            width: 1,
                           ),
+                        ),
+                        boxShadow: [
                           BoxShadow(
-                            color: Color(0xFF083025),
-                            offset: Offset(0, 0),
-                            blurRadius: 0,
+                            color: Color(0x14000000),
+                            offset: Offset(0, -4),
+                            blurRadius: 8.8999996185,
                           ),
                         ],
                       ),
-                      child: ButtonView(
-                          onPressed: () {
-                            if (bankNameController.text.isEmpty) {
-                              ToastService().showToast(context,
-                                  leadingIcon: const ImageView.svg(
-                                    AppImages.error,
-                                    height: 25,
-                                  ),
-                                  title: AppStrings.errorTitle,
-                                  subtitle: 'Select bank name');
-                            } else if (accountNameController.text.isEmpty) {
-                              ToastService().showToast(context,
-                                  leadingIcon: const ImageView.svg(
-                                    AppImages.error,
-                                    height: 25,
-                                  ),
-                                  title: AppStrings.errorTitle,
-                                  subtitle: 'Enter account name');
-                            } else if (accountNumberController.text.isEmpty) {
-                              ToastService().showToast(context,
-                                  leadingIcon: const ImageView.svg(
-                                    AppImages.error,
-                                    height: 25,
-                                  ),
-                                  title: AppStrings.errorTitle,
-                                  subtitle: 'Enter account number');
-                            } else {
-                              if (hasAddedDetails) {
-                                _accountCubit.addBankDetails(
-                                    bankCode: bankCode,
-                                    accountNumber: accountNumberController.text,
-                                    accountName: accountNameController.text,
-                                    url: AppStrings.addBanksUrl);
-                              } else {
-                                _accountCubit.addBankDetails(
-                                    bankCode: bankCode,
-                                    accountNumber: accountNumberController.text,
-                                    accountName: accountNameController.text,
-                                    url: AppStrings.editBanksUrl);
-                              }
-                            }
-                          },
-                          borderRadius: 100,
-                          color: AppColors.lightSecondary,
-                          child: const Text(
-                            'Save',
-                            style: TextStyle(
-                                color: AppColors.lightPrimary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          )),
+                      child: SafeArea(
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16, 15, 16, 16),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: const Color(0xFF093126),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x33212126),
+                                  offset: Offset(0, 1),
+                                  blurRadius: 1.5,
+                                ),
+                                BoxShadow(
+                                  color: Color(0xFF083025),
+                                  offset: Offset(0, 0),
+                                  blurRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: ButtonView(
+                                onPressed: () {
+                                  if (bankNameController.text.isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                          AppImages.error,
+                                          height: 25,
+                                        ),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Select bank name');
+                                  } else if (accountNameController
+                                      .text.isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                          AppImages.error,
+                                          height: 25,
+                                        ),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Enter account name');
+                                  } else if (accountNumberController
+                                      .text.isEmpty) {
+                                    ToastService().showToast(context,
+                                        leadingIcon: const ImageView.svg(
+                                          AppImages.error,
+                                          height: 25,
+                                        ),
+                                        title: AppStrings.errorTitle,
+                                        subtitle: 'Enter account number');
+                                  } else {
+                                    if (hasAddedDetails) {
+                                      _accountCubit.addBankDetails(
+                                          bankCode: bankCode,
+                                          accountNumber:
+                                              accountNumberController.text,
+                                          accountName:
+                                              accountNameController.text,
+                                          url: AppStrings.addBanksUrl);
+                                    } else {
+                                      _accountCubit.addBankDetails(
+                                          bankCode: bankCode,
+                                          accountNumber:
+                                              accountNumberController.text,
+                                          accountName:
+                                              accountNameController.text,
+                                          url: AppStrings.editBanksUrl);
+                                    }
+                                  }
+                                },
+                                borderRadius: 100,
+                                color: AppColors.lightSecondary,
+                                child: const Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: AppColors.lightPrimary,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ),
           ),
-          if (state is BanksDataLoading || state is AddBanksDataLoading) ...[
+          if (state is BanksDataLoading ||
+              state is AddBanksDataLoading ||
+              state is GetAccountNameLoading ||
+              state is GetAccountDetailsLoading) ...[
             Container(
               color: AppColors.indicatorBgColor,
               child: Center(

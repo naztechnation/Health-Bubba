@@ -317,16 +317,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     width: 6,
                                                   ),
                                                   
-                                                  Text(
-                                            '+234',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
+                                          //         Text(
+                                          //   '+234',
+                                          //   style: GoogleFonts.getFont(
+                                          //     'Inter',
+                                          //     fontWeight: FontWeight.w500,
+                                          //     fontSize: 14,
+                                          //     height: 1.4,
+                                          //     color: const Color(0xFF131316),
+                                          //   ),
+                                          // ),
+                                          const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                          const ImageView.asset(AppImages.ngFlagIcon),
                                           const SizedBox(
                                                     width: 4,
                                                   ),
@@ -502,6 +506,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       isChecked: isAgreed,
                                       onChanged: (value) {
                                         isAgreed = value;
+                                        setState(() {
+                                          
+                                        });
                                       },
                                     ),
                                     const SizedBox(

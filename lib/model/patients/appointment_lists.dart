@@ -47,11 +47,12 @@ class Message {
 }
 
 class AppointmentListsData {
-  int? appointmentId;
+  var appointmentId;
   int? patientId;
   int? doctorId;
   String? date;
   String? time;
+  var bookingFor;
   String? complain;
   int? status;
   String? patientFirstName;
@@ -59,6 +60,7 @@ class AppointmentListsData {
   String? patientEmail;
   String? patientDob;
   var patientWeight;
+  var patientWeightUnit;
   var patientHeight;
   String? patientsPhone;
   String? patientSex;
@@ -78,12 +80,14 @@ class AppointmentListsData {
       this.date,
       this.time,
       this.complain,
+      this.bookingFor,
       this.status,
       this.patientFirstName,
       this.patientLastName,
       this.patientEmail,
       this.patientDob,
       this.patientWeight,
+      this.patientWeightUnit,
       this.patientHeight,
       this.patientsPhone,
       this.patientSex,
@@ -101,6 +105,7 @@ class AppointmentListsData {
     doctorId = json['doctor_id'];
     date = json['date'];
     time = json['time'];
+    bookingFor = json['booking_for'];
     complain = json['complain'];
     status = json['status'];
     patientFirstName = json['patient_first_name'];
@@ -108,6 +113,7 @@ class AppointmentListsData {
     patientEmail = json['patient_email'];
     patientDob = json['patient_dob'];
     patientWeight = json['patient_weight'];
+    patientWeightUnit = json['weight_unit'];
     patientHeight = json['patient_height'];
     patientsPhone = json['patients_phone'];
     patientSex = json['patient_sex'];

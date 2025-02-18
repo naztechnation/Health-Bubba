@@ -161,15 +161,20 @@ class UserRepositoryImpl implements UserRepository {
   Future<CreateAppointment> createAppointment(
       {required String patientsId,
       required String date,
+      required String appointmentId,
+      
       required String time,
       required String complaint,
       required List<File> images}) async {
+
+       
     final map = await Requests().post(AppStrings.createAppointmentUrl, 
     // files: {
     //   'files': images,
     // },
      body: {
       'patient_id': patientsId,
+      'appointment_id': appointmentId,
       'date': date,
       'time': time,
       'complain': complaint,

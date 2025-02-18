@@ -57,8 +57,10 @@ class PatientsListsData {
 
 class Patients {
   int? id;
+  dynamic appointmentId;
   String? username;
   String? picture;
+  String? patientStatus;
   String? email;
   int? emailVerified;
   int? otpVerified;
@@ -69,6 +71,7 @@ class Patients {
   String? dob;
   String? sex;
   dynamic weight;
+  dynamic weightUnit;
   String? address;
   dynamic latitude;
   dynamic longitude;
@@ -78,7 +81,7 @@ class Patients {
   String? title;
   dynamic yearsOfExperience;
   dynamic clinicAffiliation;
-  int? parent;
+  var parent;
   String? relationship;
   String? type;
   int? isAdmin;
@@ -92,9 +95,11 @@ class Patients {
 
   Patients(
       {this.id,
+      this.appointmentId,
       this.username,
       this.picture,
       this.email,
+      this.patientStatus,
       this.emailVerified,
       this.otpVerified,
       this.firstName,
@@ -104,6 +109,7 @@ class Patients {
       this.dob,
       this.sex,
       this.weight,
+      this.weightUnit,
       this.address,
       this.latitude,
       this.longitude,
@@ -129,6 +135,7 @@ class Patients {
     id = json['id'];
     username = json['username'];
     picture = json['picture'];
+    patientStatus = json['patient_status'];
     email = json['email'];
     emailVerified = json['email_verified'];
     otpVerified = json['otp_verified'];
@@ -136,9 +143,11 @@ class Patients {
     lastName = json['last_name'];
     fcmToken = json['fcm_token'];
     phone = json['phone'];
+    appointmentId = json['appointment_id'];
     dob = json['dob'];
     sex = json['sex'];
     weight = json['weight'];
+    weightUnit = json['weight_unit'];
     address = json['address'];
     latitude = json['latitude'];
     longitude = json['longitude'];

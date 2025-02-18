@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../res/app_images.dart';
-import '../../../../widgets/choice_widget.dart';
 import '../../../../widgets/choices.dart';
 import '../../../../widgets/image_view.dart';
 
@@ -220,19 +219,7 @@ class AnalyticsData extends StatefulWidget {
 }
 
 class _AnalyticsDataState extends State<AnalyticsData> {
-  String selectedDay = "1 Day";
-
-  void _handleDaySelected(String selectedDay, BuildContext context, String day) {
-   
-
-     
-    setState(() {
-      selectedDay = selectedDay;
-      widget.onTap(day);
-      
-    });
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -273,16 +260,7 @@ class _AnalyticsDataState extends State<AnalyticsData> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Choices(
-                  items: const ["1 Day", "7 Days", "30 Days"],
-                  onSelected: (value){
-                    int number = extractNumber(value);
-                    _handleDaySelected(value,context, number.toString());
-                  } ,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
+               
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE2E4E9)),
@@ -628,15 +606,4 @@ class _AnalyticsDataState extends State<AnalyticsData> {
     );
   }
 
-  int extractNumber(String value) {
-   
-  final RegExp regExp = RegExp(r'\d+');
-  final match = regExp.firstMatch(value);
-  
-  if (match != null) {
-    return int.parse(match.group(0)!);
-  } else {
-    throw ArgumentError('No numeric value found in the string.');
-  }
-}
 }

@@ -851,7 +851,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               .selectedLanguages
                                               .isEmpty)
                                           ? Text(
-                                              'Languages spoken',
+                                              'Spoken Languages',
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                               style: GoogleFonts.getFont(
@@ -882,7 +882,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
-                                                                right: 8.0),
+                                                                right: 1.0),
                                                         child: Text(
                                                           '${language.language}${isLast ? '' : ', '}',
                                                           overflow: TextOverflow
@@ -995,6 +995,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                         .toList();
 
                                                 return Wrap(
+                                                  runSpacing: 4,
                                                   children:
                                                       List<Widget>.generate(
                                                     filteredSpecialties.length,
@@ -1010,7 +1011,7 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
-                                                                right: 8.0),
+                                                                right: 1.0),
                                                         child: Text(
                                                           '$specialties${isLast ? '' : ', '}',
                                                           overflow: TextOverflow

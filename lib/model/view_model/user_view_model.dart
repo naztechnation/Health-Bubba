@@ -152,7 +152,7 @@ class UserViewModel extends BaseViewModel {
   void _filterMedications() {
     String query = medSearchController.text.toLowerCase();
     _filteredMedicationsLists = medicationLists.where((medication) {
-      return medication.medicationName.toString().toLowerCase().contains(query);
+      return medication.medicationName.toString().toLowerCase().contains(query) || medication.patientFirstName.toString().toLowerCase().contains(query)|| medication.patientLastName.toString().toLowerCase().contains(query)  || medication.patientUsername.toString().toLowerCase().contains(query);
     }).toList();
     setViewState(ViewState.success);
   }

@@ -138,8 +138,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     "Ms.",
     "Mrs.",
     "Prof.",
-    "Fr. (Father)",
-    "Sr. (Sister)"
+    
   ];
 
   bool callOnce = true;
@@ -419,7 +418,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
           profile.clearFirstname();
           profile.clearLastname();
           if (widget.isEdit) {
-            AppNavigator.pushAndStackPage(context, page: const Dashboard());
+            AppNavigator.pushAndReplacePage(context, page: const Dashboard());
           } else {
             AppNavigator.pushAndStackPage(context,
                 page: WorkInformation(
@@ -1708,16 +1707,20 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                     width: 6,
                                                   ),
                                                   
-                                                  Text(
-                                            '+234',
-                                            style: GoogleFonts.getFont(
-                                              'Inter',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              height: 1.4,
-                                              color: const Color(0xFF131316),
-                                            ),
-                                          ),
+                                          //         Text(
+                                          //   '+234',
+                                          //   style: GoogleFonts.getFont(
+                                          //     'Inter',
+                                          //     fontWeight: FontWeight.w500,
+                                          //     fontSize: 14,
+                                          //     height: 1.4,
+                                          //     color: const Color(0xFF131316),
+                                          //   ),
+                                          // ),
+                                          const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                          const ImageView.asset(AppImages.ngFlagIcon),
                                           const SizedBox(
                                                     width: 4,
                                                   ),
@@ -1980,7 +1983,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                           page: destructiveActions(
                               context: context,
                               message:
-                                  'Warning: Changes made here will trigger a re-verification process to confirm your identity.',
+                                  'Warning: If Changes made here concerns your Medical License it will trigger a re-verification process to confirm your identity again.',
                               primaryText: 'I Admit',
                               secondaryText: 'Exit Please',
                               primaryAction: () async {
@@ -2033,7 +2036,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   color: AppColors.lightSecondary,
                   child: RichText(
                     text: TextSpan(
-                      text: 'Next - ',
+                      text: (widget.isEdit) ? "" :'Next - ',
                       style: GoogleFonts.getFont(
                         'Inter',
                         fontWeight: FontWeight.w500,
@@ -2043,7 +2046,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                       ),
                       children: [
                         TextSpan(
-                          text: 'Work information',
+                          text: (widget.isEdit) ? "Update Profile" : 'Work information',
                           style: GoogleFonts.getFont(
                             'Inter',
                             fontWeight: FontWeight.w500,

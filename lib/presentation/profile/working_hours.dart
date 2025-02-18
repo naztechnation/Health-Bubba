@@ -59,6 +59,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
     final existingSchedule =
         Provider.of<OnboardViewModel>(context, listen: false).schedule;
 
+      
     if (existingSchedule != null) {
       setState(() {
         for (var daySchedule in existingSchedule) {
@@ -73,7 +74,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                   minute: slot['end_time']?.minute ?? 0),
             };
           }).toList();
-
+          print(daySchedule.timeSlots);
           if (daySchedule.isOpen) {
             newSchedule.add(DaySchedule(
               day: daySchedule.day,
@@ -91,7 +92,7 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
     super.initState();
 
      _accountCubit = context.read<AccountCubit>();
-   // getAvailability();
+   getAvailability();
   }
 
   final Map<String, bool> _daySwitchState = {
@@ -219,6 +220,8 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                               _showInvalidTimeDialog(context);
                             }
                           }
+
+                           
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -265,10 +268,16 @@ class _ScheduleWidgetPageState extends State<ScheduleWidgetPage> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.lightSecondary),
-                    onPressed: _isEndTimeValid(startTime, endTime)
+                    onPressed: _isEndTimeValid( startTime, endTime)
                         ? () {
-                            Navigator.pop(context);
+
+                           if(_isTimeSlotAvailable(day, startTime, endTime)){
+                               Navigator.pop(context);
                             _addTimeSlot(day, startTime, endTime);
+                            }else{
+                              _showInvalidTimeDialog1(context);
+                            }
+                           
                           }
                         : null,
                     child: const Text(
@@ -297,6 +306,45 @@ bool _isEndTimeValid(TimeOfDay start, TimeOfDay end) {
   return true;
 }
 
+bool _isTimeSlotAvailable(String day, TimeOfDay newStart, TimeOfDay newEnd) {
+  List<Map<String, TimeOfDay>> existingSlots = _dayTimeSlots[day] ?? [];
+
+  for (var slot in existingSlots) {
+    TimeOfDay existingStart = slot['start']!;
+    TimeOfDay existingEnd = slot['end']!;
+
+    if (!(newEnd.hour < existingStart.hour || 
+         (newEnd.hour == existingStart.hour && newEnd.minute <= existingStart.minute) || 
+         (newStart.hour > existingEnd.hour || 
+         (newStart.hour == existingEnd.hour && newStart.minute >= existingEnd.minute)))) {
+      return false;  
+    }
+  }
+
+  return true;  
+}
+
+void _showInvalidTimeDialog1(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title:   Text('Invalid Time Selection',style: GoogleFonts.inter(
+        fontSize: 16
+      )),
+      content:   Text('Selected time slot interfers with an already existing one please select a different time slot',  style: GoogleFonts.inter(
+        fontSize: 14
+      ),),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
 
 void _showInvalidTimeDialog(BuildContext context) {
   showDialog(
@@ -588,54 +636,6 @@ void _showInvalidTimeDialog(BuildContext context) {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  ..._dayTimeSlots[day]!
-                                      .asMap()
-                                      .entries
-                                      .map((entry) {
-                                    int idx = entry.key;
-                                    TimeOfDay start = entry.value['start']!;
-                                    TimeOfDay end = entry.value['end']!;
-
-                                    
-
-                                    return (start.hour == 0 &&
-                                            start.minute == 0 &&
-                                            end.hour == 23 &&
-                                            end.minute == 59)
-                                        ? const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(left:20.0),
-                                            child: Text('Open for the day',
-                                            textAlign: TextAlign.left,
-                                            style:   TextStyle(
-                                              
-                                                  fontSize: 15,
-                                                  color:  Color(
-                                                    0xFF40B93C,
-                                                  ),
-                                                  fontWeight: FontWeight.w500)
-                                            ),
-                                          ),
-                                        )
-                                        :ListTile(
-                                      dense: true,
-                                      isThreeLine: false,
-                                      title:  Text('${_formatTime(start)} - ${_formatTime(end)}',
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Color(0xFF0A0D14),
-                                              fontWeight: FontWeight.w600)),
-                                      trailing: IconButton(
-                                        icon: const Icon(Icons.close),
-                                        onPressed: () {
-                                          setState(() {
-                                            _dayTimeSlots[day]?.removeAt(idx);
-                                          });
-                                        },
-                                      ),
-                                    );
-                                  }),
                                   if (_dayTimeSlots[day]!.length < 2)
                                     TextButton(
                                       onPressed: () {
@@ -652,10 +652,10 @@ void _showInvalidTimeDialog(BuildContext context) {
                                                 end.minute == 0;
                                           });
 
-                                           newSchedule.removeWhere(
-                                                (schedule) =>
-                                                    schedule.day == day);
-                                            _dayTimeSlots[day]?.clear();
+                                          //  newSchedule.removeWhere(
+                                          //       (schedule) =>
+                                          //           schedule.day == day);
+                                          //   _dayTimeSlots[day]?.clear();
                                         });
                                         _showTimePickerModal(context, day);
                                       },
@@ -678,6 +678,61 @@ void _showInvalidTimeDialog(BuildContext context) {
                                         ],
                                       ),
                                     ),
+                                  ..._dayTimeSlots[day]!
+                                      .asMap()
+                                      .entries
+                                      .map((entry) {
+                                    int idx = entry.key;
+                                    TimeOfDay start = entry.value['start']!;
+                                    TimeOfDay end = entry.value['end']!;
+
+                                    
+
+                                    return (start.hour == 0 &&
+                                            start.minute == 0 &&
+                                            end.hour == 23 &&
+                                            end.minute == 59)
+                                        ? const Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left:20.0),
+                                            child: Row(
+                                              children: [
+                                                ImageView.svg(AppImages.checkIcon),
+                                                const SizedBox(width: 12,),
+                                                Text('24hours (Open for the day)',
+                                                textAlign: TextAlign.left,
+                                                style:   TextStyle(
+                                                  
+                                                      fontSize: 15,
+                                                      color:  Color(
+                                                        0xFF6B7280,
+                                                      ),
+                                                      fontWeight: FontWeight.w500)
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                        :ListTile(
+                                      dense: true,
+                                      isThreeLine: false,
+                                      title:  Text('${_formatTime(start)} - ${_formatTime(end)}',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF0A0D14),
+                                              fontWeight: FontWeight.w600)),
+                                      trailing: IconButton(
+                                        icon: const Icon(Icons.close),
+                                        onPressed: () {
+                                          setState(() {
+                                            _dayTimeSlots[day]?.removeAt(idx);
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  }),
+                                  
                                 ],
                               ),
                             if (!_daySwitchState[day]!)

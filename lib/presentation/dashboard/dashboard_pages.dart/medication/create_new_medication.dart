@@ -18,7 +18,7 @@ import '../../../../res/app_strings.dart';
 import '../../../../utils/validator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/checkbox.dart';
-import '../../../../widgets/choice_widget.dart';
+ 
 import '../../../../widgets/choices.dart';
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/decision_widgets.dart';
@@ -172,8 +172,14 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   void _updateDateField() {
     String formattedStartDate = _formatDate(startDate);
     String formattedEndDate = _formatDate(endDate);
-    medicationDurationController.text =
+
+    if(medicationDosageController.text == "1"){
+      medicationDurationController.text = formattedStartDate;
+    }else{
+      medicationDurationController.text =
         '$formattedStartDate - $formattedEndDate';
+    }
+    
   }
 
   String _formatDate(
@@ -1031,7 +1037,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               medicationDurationController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
-                                          hintText: 'July 5 - July 8',
+                                          hintText:medicationDosageController.text == "1" ? "July 5" :'July 5 - July 8',
                                           readOnly: true,
                                           onTap: () {
                                             Modals.showDialogModal(context,
@@ -1663,7 +1669,7 @@ void _onCheckboxTimeDayChanged(bool checked, String item, bool allowMultipleSele
                       ],
                     ),
                   ),
-                  GestureDetector(
+               medicationDosageController.text == "1" ? const SizedBox.shrink() :   GestureDetector(
                     onTap: () => _selectDate(context, false, state),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

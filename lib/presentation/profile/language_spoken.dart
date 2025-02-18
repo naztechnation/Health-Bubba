@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/model/user/languages.dart';
 import 'package:healthbubba/res/app_strings.dart';
+import 'package:healthbubba/utils/app_utils.dart';
 import 'package:healthbubba/widgets/modals.dart';
 import 'package:healthbubba/widgets/text_edit_view.dart';
 import 'package:provider/provider.dart';
@@ -372,7 +373,7 @@ class _LanguageSelectorScreenState extends State<LanguageSelectorScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Text(language.language),
+                                            Text(AppUtils.toTitleCase(language.language)),
                                             const SizedBox(
                                               width: 10,
                                             ),

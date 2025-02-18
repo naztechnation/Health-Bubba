@@ -63,6 +63,7 @@ class CancelledPage extends StatelessWidget {
                 itemBuilder: ( (context, index) {
                 return AppointmentPatientCard(
                   isScheduled: false,
+                  isCancelled: false,
                   isReBook: true,
                   actionText: 'Reschedule',
                   onCancel: () {
@@ -72,6 +73,7 @@ class CancelledPage extends StatelessWidget {
                   onAccept: () {
                     AppNavigator.pushAndStackPage(context,
                         page:   ReschedulePage(
+                          isCancel: false,
                           isSchedule: true, appointment: cancelledAppointment[index],isDue: false, isTime: false,
                           
                         ));

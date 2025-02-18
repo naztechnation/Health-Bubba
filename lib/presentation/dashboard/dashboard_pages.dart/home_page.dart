@@ -23,6 +23,8 @@ import '../../../model/view_model/user_view_model.dart';
 import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_colors.dart';
 import '../../../res/app_strings.dart';
+import '../../../utils/app_utils.dart';
+import '../../../widgets/choices.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
 import '../../settings/settings_pages/consultaion_fee.dart';
@@ -32,6 +34,7 @@ import 'patient/patient_page.dart';
 import 'unverified_screen.dart';
 import 'widgets/analytics.dart';
 import 'widgets/appointment_card.dart';
+import 'widgets/reschedule.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -71,7 +74,7 @@ class _HomeState extends State<Home> {
   String totalRevenue = '0';
   String patientDemography = '0/0';
 
-  List<AppointmentListsData> upcomingAppointment = [];
+  List<AppointmentListsData> appointmentListsData = [];
   num doctorsId = 0;
 
   getUserData() async {
@@ -107,6 +110,32 @@ class _HomeState extends State<Home> {
     getUserData();
     super.initState();
   }
+
+   String selectedDay = "1 Day";
+
+  void _handleDaySelected(String selectedDay, BuildContext context, String day) {
+   
+
+     
+    setState(() {
+      selectedDay = selectedDay;
+       
+      
+    });
+  }
+
+
+  int extractNumber(String value) {
+   
+  final RegExp regExp = RegExp(r'\d+');
+  final match = regExp.firstMatch(value);
+  
+  if (match != null) {
+    return int.parse(match.group(0)!);
+  } else {
+    throw ArgumentError('No numeric value found in the string.');
+  }
+}
 
   bool bioStatus = false;
   bool availabilityStatus = false;
@@ -186,7 +215,7 @@ class _HomeState extends State<Home> {
         }
       } else if (state is AppointmentListLoaded) {
         if (state.appointmentLists.ok ?? false) {
-          upcomingAppointment =
+          appointmentListsData =
               _userCubit.viewModel.appointmentsWithinOneHour.reversed.toList();
         } else {
           ToastService().showToast(context,
@@ -1508,16 +1537,183 @@ class _HomeState extends State<Home> {
                                           height: 10,
                                         )
                                       ],
-                                      if (upcomingAppointment.isNotEmpty) ...[
-                                        // const SizedBox(
-                                        //   height: 14,
-                                        // ),
-                                        // appointmentCard(
-                                        //     upcomingAppointment,
-                                        //     doctorsId,
-                                        //     context,
-                                        //     lastName,
-                                        //     userId),
+                                      if (appointmentListsData.isNotEmpty) ...[
+                // //                        GestureDetector(
+                // //        onTap: () {
+                // //           AppNavigator.pushAndStackPage(context,
+                // //               page: ReschedulePage(
+                // //                 isSchedule: true,
+                // //                 appointment: appointmentListsData,
+                // //                 isDue: true, isTime: (
+                // //                  AppUtils.isWithinFiveMinutes(
+                // //         appointmentListsData[index].time ?? "",
+                // //         "${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}",
+                // //         context))
+                // //  ,
+                // //               ));
+                // //         },
+                // //       child: Container(
+                // //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                // //         decoration: BoxDecoration(
+                // //           borderRadius: BorderRadius.circular(12),
+                // //           color: const Color(0xFFFFFFFF),
+                // //           boxShadow: const [
+                // //             BoxShadow(
+                // //               color: Color(0x0A000000),
+                // //               offset: Offset(0, 1),
+                // //               blurRadius: 1.5,
+                // //             ),
+                // //             BoxShadow(
+                // //               color: Color(0x0D2F3037),
+                // //               offset: Offset(0, 24),
+                // //               blurRadius: 34,
+                // //             ),
+                // //             BoxShadow(
+                // //               color: Color(0x0A222A35),
+                // //               offset: Offset(0, 4),
+                // //               blurRadius: 3,
+                // //             ),
+                // //             BoxShadow(
+                // //               color: Color(0x0D000000),
+                // //               offset: Offset(0, 1),
+                // //               blurRadius: 0.5,
+                // //             ),
+                // //           ],
+                // //         ),
+                // //         child: Container(
+                // //           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                // //           child: Row(
+                // //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // //             crossAxisAlignment: CrossAxisAlignment.start,
+                // //             children: [
+                // //               SizedBox(
+                // //                 width: 210.1,
+                // //                 child: Container(
+                // //                   padding:
+                // //                       const EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
+                // //                   child: Row(
+                // //                     children: [
+                // //                       const ImageView.svg(AppImages.avatar),
+                // //                       const SizedBox(
+                // //                         width: 13,
+                // //                       ),
+                // //                       SizedBox(
+                // //                         width: 139.1,
+                // //                         child: Column(
+                // //                           mainAxisAlignment:
+                // //                               MainAxisAlignment.start,
+                // //                           crossAxisAlignment:
+                // //                               CrossAxisAlignment.start,
+                // //                           children: [
+                // //                             Text(
+                // //                               'Video Consultation',
+                // //                               style: GoogleFonts.getFont(
+                // //                                 'Inter',
+                // //                                 fontWeight: FontWeight.w500,
+                // //                                 fontSize: 12,
+                // //                                 height: 1.7,
+                // //                                 color: const Color(0xFF6B7280),
+                // //                               ),
+                // //                             ),
+                // //                             Text(
+                // //                               appointmentListsData[index]
+                // //                                       .patientFirstName ??
+                // //                                   '',
+                // //                               style: GoogleFonts.getFont(
+                // //                                 'Inter',
+                // //                                 fontWeight: FontWeight.w500,
+                // //                                 fontSize: 14,
+                // //                                 height: 1.4,
+                // //                                 color: const Color(0xFF0A0D14),
+                // //                               ),
+                // //                             ),
+                // //                             RichText(
+                // //                               text: TextSpan(
+                // //                                 style: GoogleFonts.getFont(
+                // //                                   'Inter',
+                // //                                   fontWeight: FontWeight.w400,
+                // //                                   fontSize: 12,
+                // //                                   height: 1.7,
+                // //                                   color: const Color(0xFF6B7280),
+                // //                                 ),
+                // //                                 children: [
+                // //                                   TextSpan(
+                // //                                     text:
+                // //                                         '${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}',
+                // //                                     style: GoogleFonts.getFont(
+                // //                                       'Inter',
+                // //                                       fontWeight: FontWeight.w500,
+                // //                                       fontSize: 12,
+                // //                                       height: 1.3,
+                // //                                       color:
+                // //                                           const Color(0xFF6C7079),
+                // //                                     ),
+                // //                                   ),
+                // //                                   TextSpan(
+                // //                                     text:
+                // //                                         '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))})',
+                                                    
+                // //                                     style: GoogleFonts.getFont(
+                                                      
+                // //                                       'Inter',
+                // //                                       fontWeight: FontWeight.w400,
+                // //                                       fontSize: 12,
+                // //                                       height: 1.7,
+                // //                                       color:
+                // //                                           const Color(0xFF6B7280),
+                // //                                     ),
+                // //                                   ),
+                // //                                 ],
+                // //                               ),
+                // //                             ),
+                // //                           ],
+                // //                         ),
+                // //                       ),
+                // //                     ],
+                // //                   ),
+                // //                 ),
+                // //               ),
+                // //               GestureDetector(
+                // //                 onTap: () {
+
+                                 
+
+                // //                   ZegoUIKitPrebuiltCallInvitationService().init(
+                // //                     appID: AppStrings.zigoAppIdUrl,
+                // //                     appSign: AppStrings.zegoAppSign,
+                // //                     userID: userId,
+                // //                     userName: username,
+                // //                     plugins: [ZegoUIKitSignalingPlugin()],
+                // //                   );
+                        
+                // //                   AppNavigator.pushAndStackPage(context,
+                // //                       page: CallInviteScreen(
+                // //                         inviteeId: appointmentListsData[index]
+                // //                             .patientId
+                // //                             .toString(),
+                // //                         inviteeName: appointmentListsData[index]
+                // //                             .patientLastName
+                // //                             .toString(),
+                // //                         appointmentId: appointmentListsData[index]
+                // //                             .appointmentId
+                // //                             .toString(),
+                // //                       ));
+                //                 },
+                //                 child: Container(
+                //                   margin:
+                //                       const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
+                //                   child: const SizedBox(
+                //                     width: 40.1,
+                //                     height: 40.8,
+                //                     child: ImageView.svg(AppImages.videoIcon),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     )
                                       ],
                                       Column(
                                         mainAxisAlignment:
@@ -2001,6 +2197,22 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                 ),
+                                const SizedBox(
+                  height: 15,
+                ),
+                                 Padding(
+                                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                   child: Choices(
+                                                     items: const ["1 Day", "7 Days", "30 Days"],
+                                                     onSelected: (value)async{
+                                                       int number = extractNumber(value);
+                                                       _handleDaySelected(value,context, number.toString());
+                                                         await _userCubit.doctorsAnalyticsAccount(
+                                          days: number.toString());
+                                                     } ,
+                                                   ),
+                                 ),
+                
                                 if (totalConsultation == '0' &&
                                     totalPrescription == '0' &&
                                     totalRevenue == '0' &&
@@ -2015,8 +2227,7 @@ class _HomeState extends State<Home> {
                                     onTap: (String value) async {
                                       // await _userCubit.viewModel
                                       //     .clearAnalytics();
-                                      await _userCubit.doctorsAnalyticsAccount(
-                                          days: value);
+                                    
                                     },
                                   )
                                 ],

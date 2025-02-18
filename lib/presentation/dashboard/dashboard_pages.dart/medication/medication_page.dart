@@ -266,6 +266,7 @@ class _MedicationsState extends State<Medications> {
                               : Expanded(
                                   child: ListView.builder(
                                       shrinkWrap: true,
+                                      padding: const EdgeInsets.only(top:20),
                                       itemCount: Provider.of<UserViewModel>(
                                               context,
                                               listen: true)

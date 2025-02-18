@@ -392,6 +392,7 @@ class UserCubit extends Cubit<UserStates> {
     required String date,
     required String time,
     required String complaint,
+    required String appointmentId,
     required List<File> images,
   }) async {
     try {
@@ -402,7 +403,7 @@ class UserCubit extends Cubit<UserStates> {
         date: date,
         time: time,
         complaint: complaint,
-        images: images,
+        images: images, appointmentId: appointmentId,
       );
 
       emit(CreateAppointmentLoaded(user));

@@ -19,6 +19,7 @@ import 'reschedule.dart';
 
 class AppointmentPatientCard extends StatelessWidget {
   final bool isScheduled;
+  final bool isCancelled;
   final bool isReBook;
   final String actionText;
   final Function onAccept;
@@ -28,6 +29,7 @@ class AppointmentPatientCard extends StatelessWidget {
   AppointmentPatientCard({
     super.key,
     required this.isScheduled,
+      this.isCancelled = true,
     required this.isReBook,
     required this.actionText,
     required this.onAccept,
@@ -56,6 +58,7 @@ class AppointmentPatientCard extends StatelessWidget {
               isSchedule: false,
               appointment: upcomingAppointment,
               isDue: true,
+              isCancel: false,
               isTime: (AppUtils.isWithinFiveMinutes(
                         upcomingAppointment.time ?? "",
                         "${AppUtils.getHumanReadableDate(upcomingAppointment.date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: upcomingAppointment.time ?? '')}",
@@ -305,7 +308,7 @@ class AppointmentPatientCard extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
+                                    if(isCancelled)  Expanded(
                                         child: GestureDetector(
                                           onTap: () {
                                             onCancel();
@@ -407,7 +410,7 @@ class AppointmentPatientCard extends StatelessWidget {
                           ));
                     } else {
                       Modals.showToast(
-                          "Appointments can  not be initiated at the moment",
+                          "Appointment cannot be initiated at the moment",
                           context);
                     }
                   },

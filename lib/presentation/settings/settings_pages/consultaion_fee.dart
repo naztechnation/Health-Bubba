@@ -51,6 +51,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
 
   bool isSavedBefore = false;
 
+  String fee = "";
+
   void _onRadioChanged(String? item) {
     setState(() {
       _selectedItem = item;
@@ -84,7 +86,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
               title: AppStrings.successTitle,
               subtitle: state.fee.message?.message ?? '');
 
-          AppNavigator.pushAndReplacePage(context, page: const Dashboard());
+         
+        Navigator.pop(context);
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(
@@ -96,13 +99,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
         }
       } else if (state is CheckConsultaionStatusLoaded) {
         if (state.fee.ok ?? false) {
-          setState(() {
-            isSavedBefore = true;
-          });
-        } else {
-          setState(() {
-            isSavedBefore = false;
-          });
+         
+         
         }
       } else if (state is ConsultationStatusLoaded) {
         if (state.consultationFeeData.ok ?? false) {
@@ -111,11 +109,13 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                   .isNotEmpty ??
               false) {
             setState(() {
-              rateController.text =
+              fee =
                   state.consultationFeeData.message?.data?.rate.toString() ??
                       "";
-
-              isSavedBefore = true;
+                if (fee.isNotEmpty) {
+                    isSavedBefore = true;
+                }
+              
             });
           } else {
             setState(() {
@@ -197,12 +197,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Divider(
-                                color: Color(
-                                  0xFF40B93C,
-                                ),
-                              ),
-                              Container(
+                             
+                            if(!isSavedBefore)  Container(
                                 padding:
                                     const EdgeInsets.fromLTRB(16, 16, 16, 15),
                                 child: Column(
@@ -302,6 +298,69 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                   ],
                                 ),
                               ),
+                               if (isSavedBefore)
+                            Column(
+                              children: [
+                                Divider(color: Colors.grey.shade300,),
+                                Container(
+                                  padding: const EdgeInsets.all(18),
+                                   
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const ImageView.svg(AppImages.card),
+                                      const SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Rate: NGN$fee",
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                              height: 1.4,
+                                              color: const Color(0xFF131316),
+                                            ),
+                                          ),
+                                          
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Divider(color: Colors.grey.shade300,),
+
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                ButtonView(
+                                    expanded: false,
+                                    onPressed: () {
+                                      setState(() {
+                                        isSavedBefore = false;
+                                      });
+                                    },
+                                    borderRadius: 100,
+                                    color: AppColors.lightPrimary,
+                                    borderWidth: 1,
+                                    borderColor: Colors.grey.shade300,
+                                    child: const Text(
+                                      'Edit Consultation Fee',
+                                      style: TextStyle(
+                                          color: AppColors.lightSecondary,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                              ],
+                            )
                             ],
                           ),
                         ),
@@ -311,7 +370,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                 ),
               ),
             ),
-            bottomNavigationBar: Container(
+            bottomNavigationBar: (isSavedBefore) ? const SizedBox.shrink(): Container(
               decoration: const BoxDecoration(
                 color: Color(0xFFFFFFFF),
                 border: Border(
@@ -388,7 +447,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
               ),
             ),
           ),
-          if (state is CheckConsultaionStatusLoading ||
+          if (state is ConsultationFeeDataLoading ||
               state is ConsultaionFeeLoading) ...[
             Container(
               color: AppColors.indicatorBgColor,

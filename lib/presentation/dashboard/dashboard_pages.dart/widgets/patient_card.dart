@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/app_utils.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../model/patients/patients_list.dart';
 import '../../../../res/app_images.dart';
@@ -81,25 +82,74 @@ patientCard({required BuildContext context, required Patients patients}) {
                     ),
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Text(
-                        AppUtils.toTitleCase(patients.sex ?? ''),
-                        style: GoogleFonts.getFont(
-                          'Inter',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          height: 1.7,
-                          color: const Color(0xFF6B7280),
-                        ),
+                      child: Row(
+                        children: [
+                          Text(
+                            AppUtils.toTitleCase(patients.sex ?? ''),
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              height: 1.7,
+                              color: const Color(0xFF6B7280),
+                            ),
+                          ),
+                          Text(
+                            " • ",
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              height: 1.7,
+                              color:   Colors.grey.shade300,
+                            ),
+                          ),
+                          Text(
+                            (patients.dob == null)
+                                            ? ''
+                                            : calculateAge(
+                                                patients.dob ?? ''),
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              height: 1.7,
+                              color: const Color(0xFF6B7280),
+                            ),
+                          ),
+                          Text(
+                            ( ' years'),
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              height: 1.7,
+                              color: const Color(0xFF6B7280),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.grey.shade500,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6,),
+              color: const Color(0xffF3F4F6),
+              border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+              
+              ),
+              child: Text(patients.patientStatus.toString().toUpperCase() ?? '',
+               style: GoogleFonts.getFont(
+                          'Inter',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                          height: 1.7,
+                          color: const Color(0xFF838487),
+                        ),
+              ),
             )
           ],
         ),
@@ -107,3 +157,23 @@ patientCard({required BuildContext context, required Patients patients}) {
     ),
   );
 }
+ String calculateAge(String birthdate) {
+    if (birthdate.isEmpty) {
+      return '';
+    }
+
+    try {
+      DateTime birthDate = DateFormat('yyyy-MM-dd').parse(birthdate);
+      DateTime today = DateTime.now();
+      int age = today.year - birthDate.year;
+
+      if (today.month < birthDate.month ||
+          (today.month == birthDate.month && today.day < birthDate.day)) {
+        age--;
+      }
+
+      return age.toString();
+    } catch (e) {
+      return 'Invalid date format';
+    }
+  }

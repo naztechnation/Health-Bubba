@@ -71,6 +71,8 @@ class AppImages {
   static const noInternet = '${_baseUrl}no_internet.svg';
   static const notFound = '${_baseUrl}not_found.svg';
   static const supportIcon = '${_baseUrl}support.svg';
+  static const bankIcon = '${_baseUrl}ph_bank.svg';
+  static const checkIcon = '${_baseUrl}check_icon.svg';
   static const refreshIcon = '${_baseUrl}refresh.svg';
   static const warningErrorIcon = '${_baseUrl}warning_error.svg';
   static const successIcon = '${_baseUrl}check.svg';

@@ -204,7 +204,7 @@ getVerifiedKey()async{
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                         alignment: Alignment.center,
                         child: Text(
-                          'No Registered Patient Yet. ',
+                          'You don\'t have a patient yet. ',
                           style: GoogleFonts.getFont(
                             'Inter',
                             fontWeight: FontWeight.w500,
@@ -256,7 +256,7 @@ getVerifiedKey()async{
                                       ],
                                     ),
                                   ),
-                                  hintText: 'Search Patients name ',
+                                  hintText: 'Search patients name ',
                                 ),
                               ),
                               Container(

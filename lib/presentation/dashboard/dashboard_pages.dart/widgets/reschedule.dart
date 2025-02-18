@@ -29,6 +29,7 @@ import 'patient_images.dart';
 
 class ReschedulePage extends StatelessWidget {
   final bool isSchedule;
+  final bool isCancel;
   final bool isDue;
   final bool isTime;
   final AppointmentListsData appointment;
@@ -36,6 +37,7 @@ class ReschedulePage extends StatelessWidget {
       {super.key,
       required this.isSchedule,
       required this.appointment,
+        this.isCancel = true,
       required this.isDue,
       required this.isTime});
   @override
@@ -49,7 +51,7 @@ class ReschedulePage extends StatelessWidget {
         isSchedule: isSchedule,
         appointment: appointment,
         isDue: isDue,
-        isTime: isTime,
+        isTime: isTime, isCancel: isCancel,
       ),
     );
   }
@@ -59,6 +61,7 @@ class Reschedule extends StatefulWidget {
   final bool isSchedule;
   final bool isDue;
   final bool isTime;
+  final bool isCancel;
 
   final AppointmentListsData appointment;
 
@@ -67,7 +70,7 @@ class Reschedule extends StatefulWidget {
       required this.isSchedule,
       required this.appointment,
       required this.isDue,
-      required this.isTime});
+      required this.isTime, required this.isCancel});
 
   @override
   State<Reschedule> createState() => _RescheduleState();
@@ -143,7 +146,7 @@ class _RescheduleState extends State<Reschedule> {
                   child: Text(
                     (widget.isSchedule)
                         ? 'Appointment'
-                        : widget.appointment.patientFirstName ?? '',
+                        :   'Patient Information',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w600),
                   ),
@@ -393,72 +396,72 @@ class _RescheduleState extends State<Reschedule> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0, 12.7, 6, 12.7),
+                                    width: 20,
+                                    height: 20,
+                                    child: const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child:
+                                          ImageView.svg(AppImages.weightIcon),
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 2),
+                                        child: Text(
+                                          'Weight',
+                                          style: GoogleFonts.getFont(
+                                            'Inter',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            height: 1.4,
+                                            color: const Color(0xFF0A0D14),
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
                                         children: [
-                                          Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 12.7, 6, 12.7),
-                                            width: 20,
-                                            height: 20,
-                                            child: const SizedBox(
-                                              width: 20,
-                                              height: 20,
-                                              child: ImageView.svg(
-                                                  AppImages.weightIcon),
+                                          Text(
+                                            (widget.appointment.patientWeight == null)
+                                                ? 'N/B'
+                                                : widget.appointment.patientWeight.toString() ,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10,
+                                              height: 1.7,
+                                              color: const Color(0xFF6B7280),
                                             ),
                                           ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 0, 2),
-                                                child: Text(
-                                                  'Weight',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
-                                                    height: 1.4,
-                                                    color:
-                                                        const Color(0xFF0A0D14),
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 0, 15.8, 0),
-                                                child: Text(
-                                                  (widget.appointment
-                                                              .patientWeight ==
-                                                          null)
-                                                      ? "N/B"
-                                                      : widget.appointment
-                                                              .patientWeight
-                                                              .toString() ??
-                                                          'N/B',
-                                                  style: GoogleFonts.getFont(
-                                                    'Inter',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 10,
-                                                    height: 1.7,
-                                                    color:
-                                                        const Color(0xFF6B7280),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                           Text(
+                                            (widget.appointment.patientWeight == null)
+                                                ? ''
+                                                : (widget.appointment.patientWeightUnit == null) ? "KG" :widget.appointment.patientWeightUnit.toString() ,
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 10,
+                                              height: 1.7,
+                                              color: const Color(0xFF6B7280),
+                                            ),
                                           ),
                                         ],
                                       ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -488,7 +491,7 @@ class _RescheduleState extends State<Reschedule> {
                                                     const EdgeInsets.fromLTRB(
                                                         0, 0, 0, 2),
                                                 child: Text(
-                                                  'Gender+',
+                                                  'Gender',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w500,
@@ -502,9 +505,9 @@ class _RescheduleState extends State<Reschedule> {
                                               Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  widget.appointment
+                                                 AppUtils.toTitleCase( widget.appointment
                                                           .patientSex ??
-                                                      'N/B',
+                                                      'N/B'),
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w400,
@@ -624,7 +627,8 @@ class _RescheduleState extends State<Reschedule> {
                                           ),
                                         ),
                                         Text(
-                                          'Patient',
+                                          AppUtils.toTitleCase(widget.appointment.bookingFor ??
+                                                      ''),
                                           style: GoogleFonts.getFont(
                                             'Inter',
                                             fontWeight: FontWeight.w500,
@@ -1431,7 +1435,7 @@ class _RescheduleState extends State<Reschedule> {
                                                     ));
                                               } else {
                                                 Modals.showToast(
-                                                    "Appointments can  not be initiated at the moment",
+                                                    "Appointments cannot be initiated at the moment",
                                                     context);
                                               }
                                             
@@ -1603,7 +1607,7 @@ class _RescheduleState extends State<Reschedule> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
+                          if(widget.isCancel)  Expanded(
                               child: GestureDetector(
                                 onTap: () {
                                   AppNavigator.pushAndStackPage(context,
@@ -1645,7 +1649,8 @@ class _RescheduleState extends State<Reschedule> {
                                           isReBookAppointment: true,
                                           patientsId: widget
                                               .appointment.patientId
-                                              .toString(),
+                                              .toString(), appointmentId: widget
+                                              .appointment.appointmentId.toString() ?? "",
                                         ));
                                   },
                                   borderRadius: 100,

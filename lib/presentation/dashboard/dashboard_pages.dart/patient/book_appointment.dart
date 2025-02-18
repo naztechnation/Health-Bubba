@@ -26,10 +26,11 @@ import '../widgets/calender_widget.dart';
 
 class BookAppointentPage extends StatelessWidget {
   final String patientsId;
+  final String appointmentId;
   final bool isReBookAppointment;
 
   const BookAppointentPage(
-      {Key? key, required this.patientsId, required this.isReBookAppointment})
+      {Key? key, required this.patientsId, required this.isReBookAppointment, required this.appointmentId})
       : super(key: key);
 
   @override
@@ -41,7 +42,7 @@ class BookAppointentPage extends StatelessWidget {
       ),
       child: BookAppointent(
         patientsId: patientsId,
-        isReBookAppointment: isReBookAppointment,
+        isReBookAppointment: isReBookAppointment, appointmentId: appointmentId,
       ),
     );
   }
@@ -50,9 +51,10 @@ class BookAppointentPage extends StatelessWidget {
 class BookAppointent extends StatefulWidget {
   final bool isReBookAppointment;
   final String patientsId;
+  final String appointmentId;
 
   const BookAppointent(
-      {super.key, required this.isReBookAppointment, required this.patientsId});
+      {super.key, required this.isReBookAppointment, required this.patientsId, required this.appointmentId});
 
   @override
   State<BookAppointent> createState() => _BookAppointentState();
@@ -81,6 +83,8 @@ class _BookAppointentState extends State<BookAppointent> {
     _userCubit = context.read<UserCubit>();
 
     _handleDaySelected('0:00 AM');
+
+     _selectedDay = getNextHourTimeSlot();
     super.initState();
   }
 
@@ -91,6 +95,8 @@ class _BookAppointentState extends State<BookAppointent> {
       selectedDate.month == now.month &&
       selectedDate.day == now.day;
 
+      bool firstSlotSelected = false;
+
   for (int hour = 0; hour < 24; hour++) {
     for (int minute in [0, 30]) {
       String suffix = hour < 12 ? 'AM' : 'PM';
@@ -100,7 +106,10 @@ class _BookAppointentState extends State<BookAppointent> {
           selectedDate.day, hour, minute);
 
       if (!isToday || slotTime.isAfter(now)) {
+         
         timeSlots.add('$formattedHour24:$formattedMinute $suffix');
+        // Set _selectedTime to the first available slot
+        
       }
     }
   }
@@ -108,6 +117,23 @@ class _BookAppointentState extends State<BookAppointent> {
   return timeSlots;
 }
 
+ // Initialize with the next available hour
+
+String getNextHourTimeSlot() {
+  DateTime now = DateTime.now();
+  int nextHour = now.hour + 1;
+  int minute = 0;  
+
+  if (nextHour >= 24) {
+    nextHour = 0;  
+  }
+
+  String suffix = nextHour < 12 ? 'AM' : 'PM';
+  int displayHour = nextHour == 0 ? 12 : (nextHour > 12 ? nextHour - 12 : nextHour);
+  String formattedHour = displayHour < 10 ? '0$displayHour' : '$displayHour';
+  
+  return '$formattedHour:00';
+}
 
   bool isTimeInPast(String time, String date) {
     try {
@@ -193,7 +219,7 @@ class _BookAppointentState extends State<BookAppointent> {
                 complaint: _complaintController.text.trim(),
                 images: Provider.of<BookAppointmentViewModel>(context,
                         listen: false)
-                    .imageUrls,
+                    .imageUrls, appointmentId: widget.appointmentId,
               );
             });
       } else if (state is UserNetworkErr) {
@@ -210,7 +236,7 @@ class _BookAppointentState extends State<BookAppointent> {
                 complaint: _complaintController.text.trim(),
                 images: Provider.of<BookAppointmentViewModel>(context,
                         listen: false)
-                    .imageUrls,
+                    .imageUrls, appointmentId: widget.appointmentId,
               );
             });
       }
@@ -438,7 +464,9 @@ class _BookAppointentState extends State<BookAppointent> {
                                         ),
                                       ),
                                       ChoiceSelector(
-                                        items: generateTimeSlots(Provider.of<BookAppointmentViewModel>(context, listen: true).selectedDate ?? DateTime.now()),
+                                        shouldSelectInitially: false,
+                                        items: generateTimeSlots(Provider.of<BookAppointmentViewModel>(context, 
+                                        listen: true).selectedDate ?? DateTime.now()),
                                         onSelected: _handleDaySelected,
                                       ),
                                       const SizedBox(
@@ -538,6 +566,7 @@ class _BookAppointentState extends State<BookAppointent> {
                       height: 45,
                       child: ButtonView(
                           onPressed: () {
+                            
                             if (isTimeInPast(
                                 realDay,
                                 getFormattedDate(
@@ -551,6 +580,8 @@ class _BookAppointentState extends State<BookAppointent> {
                                   'Please select a time that is in the future',
                                   context);
                             } else {
+
+                              
                               Modals.showDialogModal(
                                 context,
                                 page: destructiveActions(
@@ -579,7 +610,7 @@ class _BookAppointentState extends State<BookAppointent> {
                                             Provider.of<BookAppointmentViewModel>(
                                                     context,
                                                     listen: false)
-                                                .imageUrls,
+                                                .imageUrls, appointmentId: widget.appointmentId,
                                       );
                                     },
                                     primaryBgColor: const Color(0xFF093126),

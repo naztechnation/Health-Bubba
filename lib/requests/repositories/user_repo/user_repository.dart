@@ -92,6 +92,7 @@ abstract class UserRepository {
   Future<CreateAppointment> createAppointment({
     required String date,
     required String time,
+    required String appointmentId,
     required String complaint,
     required List<File> images,
     required String patientsId,
