@@ -17,7 +17,7 @@ import '../../model/user/doctors_analytics.dart';
 import '../../model/user/medication_details.dart';
 import '../../model/user/notification_settings.dart';
 import '../../model/user/notifications_data.dart';
-import '../../model/user/reg_with_google.dart';
+
 import '../../model/user/user_data.dart';
 
 abstract class UserStates extends Equatable {

@@ -19,7 +19,7 @@ import '../../model/user/select_language.dart';
 import '../../model/user/select_specialties.dart';
 import '../../model/user/selected_docs_availability.dart';
 import '../../model/user/selected_languages.dart';
-import '../../model/user/selected_qualifications.dart';
+
 import '../../model/user/selected_user_specialties.dart';
 import '../../model/user/update_user.dart';
 import '../../model/user/upload_image.dart';

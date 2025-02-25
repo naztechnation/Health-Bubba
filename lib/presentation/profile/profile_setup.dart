@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -73,6 +74,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   String name = "";
   String title = "";
   String lastName = "";
+  String email = "";
   String medicalQualification = "";
   String medicalLicence = "";
   String yearsOfExperience = "";
@@ -85,6 +87,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   getUserData() async {
     name = await StorageHandler.getFirstName();
     lastName = await StorageHandler.getLastName();
+    email = await StorageHandler.getUserEmail();
     medicalQualification = await StorageHandler.getMedicalQualification();
     medicalLicence = await StorageHandler.getMedicalLicenceNumber();
     yearsOfExperience = await StorageHandler.getYear();
@@ -138,7 +141,6 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     "Ms.",
     "Mrs.",
     "Prof.",
-    
   ];
 
   bool callOnce = true;
@@ -351,6 +353,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     if (widget.isEdit && callOnce) {
       if (name.isNotEmpty && lastName.isNotEmpty) {
         profile.updateFirstname(name);
+        profile.updateEmailAddress(email);
         profile.updateLastname(lastName);
         profile.updateUploadedLicenceDoc(uploadedLicense);
         profile.updateUploadedotherDoc(uploadedDocs);
@@ -589,6 +592,37 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                       context));
                                             },
                                           ),
+                                          if (profile
+                                              .emailController.text.isNotEmpty)
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
+                                          if (profile
+                                              .emailController.text.isNotEmpty)
+                                            Text(
+                                              'Email Address',
+                                              style: GoogleFonts.getFont(
+                                                'Inter',
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                                color: const Color(0xFF131316),
+                                              ),
+                                            ),
+                                          if (profile
+                                              .emailController.text.isNotEmpty)
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                          if (profile
+                                              .emailController.text.isNotEmpty)
+                                            TextEditView(
+                                              controller:
+                                                  profile.emailController,
+                                              borderColor: Colors.grey.shade200,
+                                              readOnly: true,
+                                              borderWidth: 0.5,
+                                            ),
                                           const SizedBox(
                                             height: 15,
                                           ),
@@ -734,9 +768,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             onTap: () {
                                               if (isOtherSelected) {
                                                 if (qualifications.isNotEmpty) {
-                                                  _selectedItems.clear();
-                                                  _qualificationController
-                                                      .clear();
+                                                  // _selectedItems.clear();
+                                                  // _qualificationController
+                                                  //     .clear();
                                                   Modals.showDialogModal(
                                                       context,
                                                       page:
@@ -771,10 +805,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             keyboardType: TextInputType.number,
                                             borderWidth: 0.5,
-                                            // validator: (value) {
-                                            //   return Validator.validate(
-                                            //       value, 'License Number');
-                                            // },
+                                            validator: (value) {
+                                              return Validator.validate(
+                                                  value, 'License Number');
+                                            },
                                             onChanged: (value) {
                                               Provider.of<UserViewModel>(
                                                       context,
@@ -1664,7 +1698,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
                                             hintText: '',
-                                            
+
                                             // validator: (value) {
                                             //   return Validator.validate(value,
                                             //       'Clinic/ Hospital Affiliation');
@@ -1697,38 +1731,48 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             keyboardType: TextInputType.number,
                                             borderWidth: 0.5,
-                                            hintText: "+ (234) 567 - 891",
-                                            maxLength: 11,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.digitsOnly,
+                                              NumberInputFormatter(),
+                                            ],
+                                            hintText: "9044568789",
+                                            maxLength: 10,
+                                            validator: (value) {
+                                              return Validator.validatePhone(
+                                                  value, 'Phone Number');
+                                            },
                                             prefixIcon: SizedBox(
-                                              width: 75,
+                                              width: 120,
                                               child: Row(
                                                 children: [
                                                   const SizedBox(
                                                     width: 6,
                                                   ),
-                                                  
-                                          //         Text(
-                                          //   '+234',
-                                          //   style: GoogleFonts.getFont(
-                                          //     'Inter',
-                                          //     fontWeight: FontWeight.w500,
-                                          //     fontSize: 14,
-                                          //     height: 1.4,
-                                          //     color: const Color(0xFF131316),
-                                          //   ),
-                                          // ),
-                                          const SizedBox(
-                                                    width: 6,
-                                                  ),
-                                          const ImageView.asset(AppImages.ngFlagIcon),
-                                          const SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Icon(
-                                                    Icons.keyboard_arrow_down,
+                                                  const Icon(
+                                                    Icons.arrow_drop_down,
                                                     size: 25,
-                                                    color: Colors.grey.shade400,
-                                                  )
+                                                    color: Color(0xFF131316),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  const ImageView.asset(
+                                                      AppImages.ngFlagIcon),
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    '+234',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -1903,132 +1947,143 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   onPressed: () {
-                    if (profile.titleController.text.trim().isEmpty) {
-                      ToastService().showToast(context,
-                          leadingIcon:
-                              const ImageView.svg(height: 25, AppImages.error),
-                          title: AppStrings.errorTitle,
-                          subtitle: 'Title field required');
-                    } else if (profile.firstnameController.text
-                        .trim()
-                        .isEmpty) {
-                      ToastService().showToast(context,
-                          leadingIcon:
-                              const ImageView.svg(height: 25, AppImages.error),
-                          title: AppStrings.errorTitle,
-                          subtitle: 'First name field required');
-                    } else if (profile.lastnameController.text.trim().isEmpty) {
-                      ToastService().showToast(context,
-                          leadingIcon:
-                              const ImageView.svg(height: 25, AppImages.error),
-                          title: AppStrings.errorTitle,
-                          subtitle: 'Last name field required');
-                    }
-                    // else if (_qualificationController
-                    //     .text.isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle:
-                    //           'Qualifications field required');
-                    // } else if (profile.licenceNumberController.text
-                    //     .trim()
-                    //     .isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle:
-                    //           'Licence Number field required');
-                    // }else if (profile.licenceDoc.isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle: 'Add licence document please');
-                    // }  else if (profile.yearsOfExpController.text
-                    //     .trim()
-                    //     .isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle:
-                    //           'Years of experience field required');
-                    // } else if (profile
-                    //     .hospitalAffliateController.text
-                    //     .trim()
-                    //     .isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle:
-                    //           'Affliated Hospital field required');
-                    // }
-                    //  else if (profile.phoneController.text
-                    //     .trim()
-                    //     .isEmpty) {
-                    //   ToastService().showToast(context,
-                    //       leadingIcon: const ImageView.svg(
-                    //           height: 25, AppImages.error),
-                    //       title: AppStrings.errorTitle,
-                    //       subtitle: 'Phone number field required');
-                    // }
-                    else {
-                      if (doctorsState == '1') {
-                        Modals.showDialogModal(
-                          context,
-                          page: destructiveActions(
-                              context: context,
-                              message:
-                                  'Warning: If Changes made here concerns your Medical License it will trigger a re-verification process to confirm your identity again.',
-                              primaryText: 'I Admit',
-                              secondaryText: 'Exit Please',
-                              primaryAction: () async {
-                                Navigator.pop(context);
-                                _accountCubit.updateUserData(
-                                    title: profile.titleController.text.trim(),
-                                    firstname:
-                                        profile.firstnameController.text.trim(),
-                                    lastname:
-                                        profile.lastnameController.text.trim(),
-                                    licenceNumber: profile
-                                        .licenceNumberController.text
-                                        .trim(),
-                                    experience: int.tryParse(profile
-                                            .yearsOfExpController.text
-                                            .trim()) ??
-                                        0,
-                                    hospitalAffliated: profile
-                                        .hospitalAffliateController.text
-                                        .trim(),
-                                    phone: profile.phoneController.text.trim(),
-                                    doctorLicenceDoc: profile.licenceDoc,
-                                    otherDocs: profile.otherDoc);
-                              },
-                              primaryBgColor: const Color(0xFFF70000),
-                              secondaryBgColor: AppColors.lightPrimary,
-                              secondaryAction: () {
-                                Navigator.pop(context);
-                              }),
-                        );
-                      } else {
-                        _accountCubit.updateUserData(
-                            title: profile.titleController.text.trim(),
-                            firstname: profile.firstnameController.text.trim(),
-                            lastname: profile.lastnameController.text.trim(),
-                            licenceNumber:
-                                profile.licenceNumberController.text.trim(),
-                            experience: int.tryParse(
-                                    profile.yearsOfExpController.text.trim()) ??
-                                0,
-                            hospitalAffliated:
-                                profile.hospitalAffliateController.text.trim(),
-                            phone: profile.phoneController.text.trim(),
-                            doctorLicenceDoc: profile.licenceDoc,
-                            otherDocs: profile.otherDoc);
+                    if (_formKey.currentState!.validate()) {
+                      if (profile.titleController.text.trim().isEmpty) {
+                        ToastService().showToast(context,
+                            leadingIcon: const ImageView.svg(
+                                height: 25, AppImages.error),
+                            title: AppStrings.errorTitle,
+                            subtitle: 'Title field required');
+                      } else if (profile.firstnameController.text
+                          .trim()
+                          .isEmpty) {
+                        ToastService().showToast(context,
+                            leadingIcon: const ImageView.svg(
+                                height: 25, AppImages.error),
+                            title: AppStrings.errorTitle,
+                            subtitle: 'First name field required');
+                      } else if (profile.lastnameController.text
+                          .trim()
+                          .isEmpty) {
+                        ToastService().showToast(context,
+                            leadingIcon: const ImageView.svg(
+                                height: 25, AppImages.error),
+                            title: AppStrings.errorTitle,
+                            subtitle: 'Last name field required');
+                      }
+                      else if (profile.pickedDocFilePath1
+                                                .isEmpty && profile.licenceUploadedDoc ==
+                                              "") {
+                        ToastService().showToast(context,
+                            leadingIcon: const ImageView.svg(
+                                height: 25, AppImages.error),
+                            title: AppStrings.errorTitle,
+                            subtitle:
+                                'Please upload medical license');
+                      }
+                      // else if (profile.licenceNumberController.text
+                      //     .trim()
+                      //     .isEmpty) {
+                      //   ToastService().showToast(context,
+                      //       leadingIcon: const ImageView.svg(
+                      //           height: 25, AppImages.error),
+                      //       title: AppStrings.errorTitle,
+                      //       subtitle:
+                      //           'Licence Number field required');
+                      // }else if (profile.licenceDoc.isEmpty) {
+                      //   ToastService().showToast(context,
+                      //       leadingIcon: const ImageView.svg(
+                      //           height: 25, AppImages.error),
+                      //       title: AppStrings.errorTitle,
+                      //       subtitle: 'Add licence document please');
+                      // }  else if (profile.yearsOfExpController.text
+                      //     .trim()
+                      //     .isEmpty) {
+                      //   ToastService().showToast(context,
+                      //       leadingIcon: const ImageView.svg(
+                      //           height: 25, AppImages.error),
+                      //       title: AppStrings.errorTitle,
+                      //       subtitle:
+                      //           'Years of experience field required');
+                      // } else if (profile
+                      //     .hospitalAffliateController.text
+                      //     .trim()
+                      //     .isEmpty) {
+                      //   ToastService().showToast(context,
+                      //       leadingIcon: const ImageView.svg(
+                      //           height: 25, AppImages.error),
+                      //       title: AppStrings.errorTitle,
+                      //       subtitle:
+                      //           'Affliated Hospital field required');
+                      // }
+                      //  else if (profile.phoneController.text
+                      //     .trim()
+                      //     .isEmpty) {
+                      //   ToastService().showToast(context,
+                      //       leadingIcon: const ImageView.svg(
+                      //           height: 25, AppImages.error),
+                      //       title: AppStrings.errorTitle,
+                      //       subtitle: 'Phone number field required');
+                      // }
+                      else {
+                        if (doctorsState == '1') {
+                          Modals.showDialogModal(
+                            context,
+                            page: destructiveActions(
+                                context: context,
+                                message:
+                                    'Warning: If Changes made here concerns your Medical License it will trigger a re-verification process to confirm your identity again.',
+                                primaryText: 'I Admit',
+                                secondaryText: 'Exit Please',
+                                primaryAction: () async {
+                                  Navigator.pop(context);
+                                  _accountCubit.updateUserData(
+                                      title:
+                                          profile.titleController.text.trim(),
+                                      firstname: profile.firstnameController.text
+                                          .trim(),
+                                      lastname: profile.lastnameController.text
+                                          .trim(),
+                                      licenceNumber: profile
+                                          .licenceNumberController.text
+                                          .trim(),
+                                      experience: int.tryParse(profile
+                                              .yearsOfExpController.text
+                                              .trim()) ??
+                                          0,
+                                      hospitalAffliated: profile
+                                          .hospitalAffliateController.text
+                                          .trim(),
+                                      phone:
+                                          profile.phoneController.text.trim(),
+                                      doctorLicenceDoc: profile.licenceDoc,
+                                      otherDocs: profile.otherDoc);
+                                },
+                                primaryBgColor: const Color(0xFFF70000),
+                                secondaryBgColor: AppColors.lightPrimary,
+                                secondaryAction: () {
+                                  Navigator.pop(context);
+                                }),
+                          );
+                        } else {
+                          _accountCubit.updateUserData(
+                              title: profile.titleController.text.trim(),
+                              firstname:
+                                  profile.firstnameController.text.trim(),
+                              lastname: profile.lastnameController.text.trim(),
+                              licenceNumber:
+                                  profile.licenceNumberController.text.trim(),
+                              experience: int.tryParse(profile
+                                      .yearsOfExpController.text
+                                      .trim()) ??
+                                  0,
+                              hospitalAffliated: profile
+                                  .hospitalAffliateController.text
+                                  .trim(),
+                              phone: profile.phoneController.text.trim(),
+                              doctorLicenceDoc: profile.licenceDoc,
+                              otherDocs: profile.otherDoc);
+                        }
                       }
                     }
                   },
@@ -2036,7 +2091,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   color: AppColors.lightSecondary,
                   child: RichText(
                     text: TextSpan(
-                      text: (widget.isEdit) ? "" :'Next - ',
+                      text: (widget.isEdit) ? "" : 'Next - ',
                       style: GoogleFonts.getFont(
                         'Inter',
                         fontWeight: FontWeight.w500,
@@ -2046,7 +2101,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                       ),
                       children: [
                         TextSpan(
-                          text: (widget.isEdit) ? "Update Profile" : 'Work information',
+                          text: (widget.isEdit)
+                              ? "Update Profile"
+                              : 'Work information',
                           style: GoogleFonts.getFont(
                             'Inter',
                             fontWeight: FontWeight.w500,
@@ -2080,17 +2137,15 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
   }
 
   bool isGreaterThan5MB(String fileSize) {
-    // Parse the input string (e.g., "0.02 MB").
-    final parts = fileSize.split(' '); // Splits into ["0.02", "MB"]
+    final parts = fileSize.split(' ');
 
-    if (parts.length != 2) return false; // Ensure the format is correct.
+    if (parts.length != 2) return false;
 
     final sizeValue = double.tryParse(parts[0]);
-    final sizeUnit = parts[1].toUpperCase(); // Normalize the unit (e.g., "MB").
+    final sizeUnit = parts[1].toUpperCase();
 
-    if (sizeValue == null) return false; // Invalid number.
+    if (sizeValue == null) return false;
 
-    // Convert the size to bytes.
     double sizeInBytes;
     switch (sizeUnit) {
       case 'KB':
@@ -2103,12 +2158,11 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
         sizeInBytes = sizeValue * 1024 * 1024 * 1024;
         break;
       default:
-        return false; // Unknown unit.
+        return false;
     }
 
     const fiveMBInBytes = 5 * 1024 * 1024;
 
-    // Compare the sizes.
     return sizeInBytes > fiveMBInBytes;
   }
 
@@ -2186,121 +2240,101 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     );
   }
 
-  qualificationModalContent(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width * 0.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300, width: 2),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0A000000),
-            offset: Offset(0, 1),
-            blurRadius: 1.5,
+  Widget qualificationModalContent(BuildContext context) {
+    return StatefulBuilder(
+      builder: (context, setStateModal) {
+        return Container(
+          width: MediaQuery.sizeOf(context).width * 0.8,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+            border: Border.all(color: Colors.grey.shade300, width: 2),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0A000000),
+                offset: Offset(0, 1),
+                blurRadius: 1.5,
+              ),
+              BoxShadow(
+                color: Color(0x0D2F3037),
+                offset: Offset(0, 24),
+                blurRadius: 34,
+              ),
+              BoxShadow(
+                color: Color(0x0A222A35),
+                offset: Offset(0, 4),
+                blurRadius: 3,
+              ),
+              BoxShadow(
+                color: Color(0x0D000000),
+                offset: Offset(0, 1),
+                blurRadius: 0.5,
+              ),
+            ],
           ),
-          BoxShadow(
-            color: Color(0x0D2F3037),
-            offset: Offset(0, 24),
-            blurRadius: 34,
-          ),
-          BoxShadow(
-            color: Color(0x0A222A35),
-            offset: Offset(0, 4),
-            blurRadius: 3,
-          ),
-          BoxShadow(
-            color: Color(0x0D000000),
-            offset: Offset(0, 1),
-            blurRadius: 0.5,
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: qualifications.length,
-              separatorBuilder: (context, index) => Divider(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: qualifications.length,
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey.shade200,
+                    height: 0,
+                  ),
+                  itemBuilder: (context, index) {
+                    QualificationData qualification = qualifications[index];
+                    bool isChecked = _selectedItems.any((item) =>
+                        item.qualificationId == qualification.qualificationId);
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13.0, horizontal: 23),
+                      child: Row(
+                        children: [
+                          CustomCheckbox(
+                            bgColor: const Color.fromARGB(255, 53, 114, 55),
+                            isChecked: isChecked,
+                            onChanged: (checked) {
+                              setStateModal(() {
+                                _onCheckboxChanged(checked, qualification);
+                              });
+                            },
+                          ),
+                          const SizedBox(width: 13),
+                          Expanded(
+                            child: Text(
+                              qualification.qualificationName ?? '',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                height: 1.5,
+                                color: const Color(0xFF030712),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Divider(
                 color: Colors.grey.shade200,
                 height: 0,
               ),
-              itemBuilder: (context, index) {
-                QualificationData qualification = qualifications[index];
-                bool isChecked = _selectedItems.any((item) =>
-                    item.qualificationId == qualification.qualificationId);
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 13.0, horizontal: 23),
-                  child: Row(
-                    children: [
-                      CustomCheckbox(
-                        bgColor: const Color(0xFF6667FA),
-                        isChecked: isChecked,
-                        onChanged: (checked) {
-                          _onCheckboxChanged(checked, qualification);
-
-                          bool isLastSelected = _selectedItems.any((item) =>
-                              item.qualificationId ==
-                              qualifications.last.qualificationId);
-                          _qualificationController.text =
-                              qualification.qualificationName ?? '';
-
-                          // if (isLastSelected) {
-                          //   // isOtherSelected = false;
-                          //   Navigator.pop(context);
-
-                          //   _qualificationController.clear();
-                          //   setState(() {});
-                          // } else {
-                          //   isOtherSelected = true;
-                          // }
-                        },
-                      ),
-                      const SizedBox(
-                        width: 13,
-                      ),
-                      Expanded(
-                        child: Text(
-                          qualification.qualificationName ?? '',
-                          style: GoogleFonts.getFont(
-                            'Inter',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                            height: 1.5,
-                            color: const Color(0xFF030712),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          Divider(
-            color: Colors.grey.shade200,
-            height: 0,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: .0),
-                      child: Text(
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
                         'Close',
                         style: TextStyle(
                             fontSize: 16,
@@ -2308,18 +2342,12 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                             color: Colors.red),
                       ),
                     ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    _saveSelectedQualificationsIds();
-                  },
-                  child: const Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: .0),
-                      child: Text(
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        _saveSelectedQualificationsIds();
+                      },
+                      child: const Text(
                         'Save',
                         style: TextStyle(
                           fontSize: 16,
@@ -2327,16 +2355,14 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          const SizedBox(
-            height: 20,
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -2344,5 +2370,23 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
     }
+  }
+}
+
+class NumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String text = newValue.text;
+
+    
+    if (text.startsWith('0')) {
+      text = text.replaceFirst(RegExp(r'^0+'), '');
+    }
+
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
   }
 }

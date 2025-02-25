@@ -7,6 +7,7 @@ import 'package:healthbubba/widgets/image_view.dart';
 import 'package:intl/intl.dart';
 import '../../../../model/patients/patients_list.dart';
 import '../../../../res/app_colors.dart';
+import '../../../../utils/app_utils.dart';
 import '../../../../widgets/button_view.dart';
 
 class PatientDetails extends StatefulWidget {
@@ -354,7 +355,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                                         ),
                                       ),
                                       Text(
-                                        patientDetails.sex ?? 'N/B',
+                                        AppUtils.toTitleCase(patientDetails.sex ?? 'N/B'),
                                         style: GoogleFonts.getFont(
                                           'Inter',
                                           fontWeight: FontWeight.w400,
@@ -403,6 +404,18 @@ class _PatientDetailsState extends State<PatientDetails> {
                                     ),
                                   ),
                                 ),
+                                 if (patientDetails.currentMedications?.isEmpty ?? false)
+                                 Text(
+                                                     'None',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 13,
+                                                      height: 1.5,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    )),
                                 if (patientDetails.currentMedications != null)
                                   Column(
                                       crossAxisAlignment:
@@ -818,7 +831,7 @@ class _PatientDetailsState extends State<PatientDetails> {
                 borderRadius: 100,
                 color: AppColors.lightSecondary,
                 child: const Text(
-                  'Reschedule an Appointment',
+                  'Reschedule Appointment',
                   style: TextStyle(
                     color: AppColors.lightPrimary,
                     fontSize: 14,

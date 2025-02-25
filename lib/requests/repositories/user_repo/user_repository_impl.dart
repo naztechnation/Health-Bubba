@@ -99,7 +99,7 @@ class UserRepositoryImpl implements UserRepository {
       "dosage": dosage,
       "notes": notes,
       "duration_start_time": durationStart,
-      "duration_end_time": durationEnd,
+     "duration_end_time": durationEnd,
       "to_be_taken": toBeTaken,
       "frequency": frequency,
       "days": days,

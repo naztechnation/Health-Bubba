@@ -176,6 +176,7 @@ class _HomeState extends State<Home> {
               state.userData.data?.isDoctorVerified.toString() ?? '0';
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
+          StorageHandler.saveEmail(state.userData.data?.email ?? '');
            StorageHandler.saveMedicalQualification('');
           StorageHandler.saveMedicalLicenceNumber(state.userData.data?.licenceNumber ?? '');
           StorageHandler.saveAffliate(state.userData.data?.clinicAffiliation ?? '');

@@ -284,7 +284,7 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                         ),
                                         children: [
                                           TextSpan(
-                                            text: 'your email and phone number',
+                                            text: widget.email,
                                             style: GoogleFonts.getFont(
                                               'Inter',
                                               fontWeight: FontWeight.w600,
@@ -303,10 +303,10 @@ class _OTPScreenState extends State<OTPSentScreen> {
                                 height: 10,
                               ),
 
-                              if (!isCountdownComplete)
-                                            Text(
-                                              "Resend code in $timerText",
-                                            ),
+                              // if (!isCountdownComplete)
+                              //               Text(
+                              //                 "Resend code in $timerText",
+                              //               ),
                                           
                              
                                

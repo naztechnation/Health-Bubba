@@ -57,6 +57,7 @@ class UserViewModel extends BaseViewModel {
   final _firstnameController = TextEditingController();
   final _lastnameController = TextEditingController();
   final _titleController = TextEditingController();
+  final _emailController = TextEditingController();
   final _licenceNumberController = TextEditingController();
   final _yearsOfExpController = TextEditingController();
   final _hospitalAffliateController = TextEditingController();
@@ -190,6 +191,13 @@ class UserViewModel extends BaseViewModel {
     String fName,
   ) async {
     _firstnameController.text = fName;
+
+    setViewState(ViewState.success);
+  }
+  Future<void> updateEmailAddress(
+    String address,
+  ) async {
+    _emailController.text = address;
 
     setViewState(ViewState.success);
   }
@@ -506,6 +514,7 @@ class UserViewModel extends BaseViewModel {
   TextEditingController get firstnameController => _firstnameController;
   TextEditingController get lastnameController => _lastnameController;
   TextEditingController get titleController => _titleController;
+  TextEditingController get emailController => _emailController;
   TextEditingController get licenceNumberController => _licenceNumberController;
   TextEditingController get yearsOfExpController => _yearsOfExpController;
   TextEditingController get hospitalAffliateController =>

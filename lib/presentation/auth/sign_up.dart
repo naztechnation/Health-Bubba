@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -308,44 +309,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderColor: Colors.grey.shade200,
                                 keyboardType: TextInputType.number,
                                 borderWidth: 0.5,
-                                maxLength: 11,
-                                prefixIcon: SizedBox(
-                                              width: 75,
+                                inputFormatters: [
+                                              FilteringTextInputFormatter.digitsOnly,
+                                              NumberInputFormatter(),
+                                            ],
+                                            hintText: "9044568789",
+                                            maxLength: 10,
+                                            validator: (value) {
+                                              return Validator.validatePhone(
+                                                  value, 'Phone Number');
+                                            },
+                                            prefixIcon: SizedBox(
+                                              width: 120,
                                               child: Row(
                                                 children: [
                                                   const SizedBox(
                                                     width: 6,
                                                   ),
-                                                  
-                                          //         Text(
-                                          //   '+234',
-                                          //   style: GoogleFonts.getFont(
-                                          //     'Inter',
-                                          //     fontWeight: FontWeight.w500,
-                                          //     fontSize: 14,
-                                          //     height: 1.4,
-                                          //     color: const Color(0xFF131316),
-                                          //   ),
-                                          // ),
-                                          const SizedBox(
-                                                    width: 6,
-                                                  ),
-                                          const ImageView.asset(AppImages.ngFlagIcon),
-                                          const SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  Icon(
-                                                    Icons.keyboard_arrow_down,
+                                                  const Icon(
+                                                    Icons.arrow_drop_down,
                                                     size: 25,
-                                                    color: Colors.grey.shade400,
-                                                  )
+                                                    color: Color(0xFF131316),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  const ImageView.asset(
+                                                      AppImages.ngFlagIcon),
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    '+234',
+                                                    style: GoogleFonts.getFont(
+                                                      'Inter',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 14,
+                                                      height: 1.4,
+                                                      color: const Color(
+                                                          0xFF131316),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                validator: (value) {
-                                  return Validator.validate(
-                                      value, 'Phone Number');
-                                },
+                                 
                               ),
                               const SizedBox(
                                 height: 15,
@@ -864,5 +873,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (!await launchUrl(Uri.parse(url))) {
       throw Exception('Could not launch $url');
     }
+  }
+}
+
+class NumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String text = newValue.text;
+
+    
+    if (text.startsWith('0')) {
+      text = text.replaceFirst(RegExp(r'^0+'), '');
+    }
+
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
   }
 }

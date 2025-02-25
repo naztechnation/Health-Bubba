@@ -23,6 +23,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../model/working_hours.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
+import '../../utils/app_utils.dart';
 import '../../widgets/button_view.dart';
 import '../../widgets/custom_toast.dart';
 import '../../widgets/decision_widgets.dart';
@@ -169,25 +170,26 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
           for (var entry in data) {
             String day = entry.dayOfWeek ?? '';
-            bool isOpen = (entry.availabilty == 1) ? true : false;
+            bool isOpen = (entry.availabilty == 1);
             String startTime = entry.startTime ?? '';
             String endTime = entry.endTime ?? '';
 
-            if (!addedDays.contains(day)) {
-              TimeOfDay start = stringToTimeOfDay(startTime);
-              TimeOfDay end = stringToTimeOfDay(endTime);
+            TimeOfDay start = stringToTimeOfDay(startTime);
+            TimeOfDay end = stringToTimeOfDay(endTime);
 
-              newSchedule.add(
-                DaySchedule(
-                  day: day,
-                  timeSlots: [
-                    {'start_time': start, 'end_time': end}
-                  ],
-                  isOpen: isOpen,
-                ),
-              );
+            DaySchedule? existingDay = newSchedule.firstWhere(
+              (schedule) => schedule.day == day,
+              orElse: () =>
+                  DaySchedule(day: day, isOpen: isOpen, timeSlots: []),
+            );
+
+            existingDay.timeSlots.add({'start_time': start, 'end_time': end});
+
+            if (!addedDays.contains(day)) {
+              newSchedule.add(existingDay);
               addedDays.add(day);
             }
+
             isAvailable.add(entry.availabilty ?? 0);
 
             if (!availabilities.containsKey(day)) {
@@ -248,8 +250,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0,
-                          vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 12),
                           child: Text(
                             'Provide more details about you and the services you offer.',
                             style: GoogleFonts.getFont(
@@ -676,8 +678,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                               : Consumer<OnboardViewModel>(
                                                   builder: (context,
                                                       scheduleProvider, child) {
-                                                         List<String> daysList =
-                                                            addedDays.toList();
+                                                    List<String> daysList =
+                                                        addedDays.toList();
                                                     return ListView.builder(
                                                       itemCount:
                                                           addedDays.length,
@@ -689,7 +691,6 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                           const NeverScrollableScrollPhysics(),
                                                       itemBuilder:
                                                           (context, index) {
-                                                       
                                                         String day =
                                                             daysList[index];
                                                         List<
@@ -700,7 +701,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
 
                                                         return ListTile(
                                                             title: Text(
-                                                              reduceToThreeWords(day),
+                                                              reduceToThreeWords(
+                                                                  day),
                                                               style:
                                                                   const TextStyle(
                                                                 fontSize: 14,
@@ -726,7 +728,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                               CrossAxisAlignment.start,
                                                                           children:
                                                                               daySlots.map((slot) {
-                                                                            if (slot['start_time']!.startsWith('00:00') && slot['end_time']!.startsWith('00:00')) {
+                                                                            if (slot['start_time']!.startsWith('00:00') &&
+                                                                                slot['end_time']!.startsWith('00:00')) {
                                                                               return const Expanded(
                                                                                 child: Padding(
                                                                                     padding: EdgeInsets.only(top: 0.0),
@@ -884,7 +887,8 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                                                 .only(
                                                                 right: 1.0),
                                                         child: Text(
-                                                          '${language.language}${isLast ? '' : ', '}',
+                                                          AppUtils.toTitleCase(
+                                                              '${language.language}${isLast ? '' : ', '}'),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
@@ -1095,25 +1099,26 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                                       //     ));
 
                                       Modals.showDialogModal(
-                                    context,
-                                    page: destructiveActions(
-                                        context: context,
-                                        message:
-                                            'Are you sure you want to continue with this action?',
-                                        primaryText: 'Continue',
-                                        secondaryText: 'Cancel',
-                                        primaryAction: () {
-                                          AppNavigator.pushAndReplacePage(
-                                              context,
-                                              page: const Dashboard());
-                                        },
-                                        primaryBgColor: const Color(0xFF093126),
-                                        secondaryBgColor:
-                                            AppColors.lightPrimary,
-                                        secondaryAction: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  );
+                                        context,
+                                        page: destructiveActions(
+                                            context: context,
+                                            message:
+                                                'Are you sure you want to continue with this action?',
+                                            primaryText: 'Continue',
+                                            secondaryText: 'Cancel',
+                                            primaryAction: () {
+                                              AppNavigator.pushAndReplacePage(
+                                                  context,
+                                                  page: const Dashboard());
+                                            },
+                                            primaryBgColor:
+                                                const Color(0xFF093126),
+                                            secondaryBgColor:
+                                                AppColors.lightPrimary,
+                                            secondaryAction: () {
+                                              Navigator.pop(context);
+                                            }),
+                                      );
                                     } else {
                                       Modals.showDialogModal(
                                         context,
@@ -1151,49 +1156,51 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               const SizedBox(
                                 height: 14,
                               ),
-                           if(!widget.isEdit)   GestureDetector(
-                                onTap: () {
-                                  Modals.showDialogModal(
-                                    context,
-                                    page: destructiveActions(
-                                        context: context,
-                                        message:
-                                            'Are you sure you want to continue with this action?',
-                                        primaryText: 'Continue',
-                                        secondaryText: 'Cancel',
-                                        primaryAction: () {
-                                          AppNavigator.pushAndReplacePage(
-                                              context,
-                                              page: const Dashboard());
-                                        },
-                                        primaryBgColor: const Color(0xFF093126),
-                                        secondaryBgColor:
-                                            AppColors.lightPrimary,
-                                        secondaryAction: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  );
-                                },
-                                child: Container(
-                                    width: MediaQuery.sizeOf(context).width,
-                                    height: 42,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                          100,
+                              if (!widget.isEdit)
+                                GestureDetector(
+                                  onTap: () {
+                                    Modals.showDialogModal(
+                                      context,
+                                      page: destructiveActions(
+                                          context: context,
+                                          message:
+                                              'Are you sure you want to continue with this action?',
+                                          primaryText: 'Continue',
+                                          secondaryText: 'Cancel',
+                                          primaryAction: () {
+                                            AppNavigator.pushAndReplacePage(
+                                                context,
+                                                page: const Dashboard());
+                                          },
+                                          primaryBgColor:
+                                              const Color(0xFF093126),
+                                          secondaryBgColor:
+                                              AppColors.lightPrimary,
+                                          secondaryAction: () {
+                                            Navigator.pop(context);
+                                          }),
+                                    );
+                                  },
+                                  child: Container(
+                                      width: MediaQuery.sizeOf(context).width,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            100,
+                                          ),
+                                          color: AppColors.lightPrimary,
+                                          border: Border.all(
+                                              color: Colors.grey, width: 0.5)),
+                                      child: const Center(
+                                        child: Text(
+                                          'Skip to dashboard',
+                                          style: TextStyle(
+                                              color: AppColors.lightSecondary,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                        color: AppColors.lightPrimary,
-                                        border: Border.all(
-                                            color: Colors.grey, width: 0.5)),
-                                    child: const Center(
-                                      child: Text(
-                                        'Skip to dashboard',
-                                        style: TextStyle(
-                                            color: AppColors.lightSecondary,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    )),
-                              )
+                                      )),
+                                )
                             ],
                           ),
                         ),
@@ -1207,18 +1214,17 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
   }
 
   String formatTime(String time) {
-  if (time.length == 8 && time.endsWith(':00')) {
-    return time.substring(0, 5); 
+    if (time.length == 8 && time.endsWith(':00')) {
+      return time.substring(0, 5);
+    }
+    return time;
   }
-  return time; 
-}
 
-String reduceToThreeWords(String input) {
-  List<String> words = input.split(' ');
+  String reduceToThreeWords(String input) {
+    List<String> words = input.split(' ');
 
-  List<String> reducedWords = words.take(3).toList();
+    List<String> reducedWords = words.take(3).toList();
 
-  return reducedWords.join(' ');
-}
-
+    return reducedWords.join(' ');
+  }
 }

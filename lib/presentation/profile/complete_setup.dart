@@ -30,20 +30,21 @@ class _CompleteSetUpScreenState extends State<CompleteSetUpScreen> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_progress < 1.0) {
-        setState(() {
-          _progress += Random().nextDouble() * 0.1;
-          if (_progress > 1.0) {
-            _progress = 1.0;
-          }
-        });
-      } else {
-        _timer.cancel();
-        _onComplete();
-      }
-    });
-  }
+  _timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
+    if (_progress < 1.0) {
+      setState(() {
+        _progress += Random().nextDouble() * 0.2;   
+        if (_progress > 1.0) {
+          _progress = 1.0;
+        }
+      });
+    } else {
+      _timer.cancel();
+      _onComplete();
+    }
+  });
+}
+
 
   void _onComplete() {
     AppNavigator.pushAndReplacePage(context,

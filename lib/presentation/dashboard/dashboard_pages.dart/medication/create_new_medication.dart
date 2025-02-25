@@ -18,7 +18,7 @@ import '../../../../res/app_strings.dart';
 import '../../../../utils/validator.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/checkbox.dart';
- 
+
 import '../../../../widgets/choices.dart';
 import '../../../../widgets/custom_toast.dart';
 import '../../../../widgets/decision_widgets.dart';
@@ -173,13 +173,12 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     String formattedStartDate = _formatDate(startDate);
     String formattedEndDate = _formatDate(endDate);
 
-    if(medicationDosageController.text == "1"){
+    if (medicationDosageController.text == "1") {
       medicationDurationController.text = formattedStartDate;
-    }else{
+    } else {
       medicationDurationController.text =
-        '$formattedStartDate - $formattedEndDate';
+          '$formattedStartDate - $formattedEndDate';
     }
-    
   }
 
   String _formatDate(
@@ -192,19 +191,19 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     }
   }
 
- void _onCheckboxChanged(bool checked, String item, bool allowMultipleSelection) {
-  setState(() {
-    if (!allowMultipleSelection) {
-      selectedDays.clear(); // Deselect all other items
-    }
-    if (checked) {
-      selectedDays.add(item);
-    } else {
-      selectedDays.remove(item);
-    }
-  });
-}
-
+  void _onCheckboxChanged(
+      bool checked, String item, bool allowMultipleSelection) {
+    setState(() {
+      if (!allowMultipleSelection) {
+        selectedDays.clear(); // Deselect all other items
+      }
+      if (checked) {
+        selectedDays.add(item);
+      } else {
+        selectedDays.remove(item);
+      }
+    });
+  }
 
   // void _onCheckboxTimeDayChanged(bool isChecked, String item) {
   //   setState(() {
@@ -270,7 +269,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                 height: 25,
               ),
               title: AppStrings.successTitle,
-              subtitle: state.createNewMedication.message ?? '');
+              subtitle: 'Prescription created successfully');
 
           AppNavigator.pushAndReplacePage(context, page: const Dashboard());
         } else {
@@ -819,7 +818,6 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             borderColor: Colors.grey.shade200,
                                             borderWidth: 0.5,
                                             hintText: 'e.g, 1 Tablet',
-                                             
                                             suffixIcon: const Padding(
                                               padding: EdgeInsets.all(17.0),
                                               child: ImageView.svg(
@@ -878,7 +876,10 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                     ),
                                                   ),
                                                   Choices(
-                                                    lockSecondOption: medicationDosageController.text == "1",
+                                                    lockSecondOption:
+                                                        medicationDosageController
+                                                                .text ==
+                                                            "1",
                                                     items: const [
                                                       "Everyday",
                                                       "Specific days",
@@ -891,7 +892,10 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                             ),
                                           ),
                                           if (_frequency.toLowerCase() ==
-                                              'Specific days'.toLowerCase() || medicationDosageController.text == "1")
+                                                  'Specific days'
+                                                      .toLowerCase() ||
+                                              medicationDosageController.text ==
+                                                  "1")
                                             Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -921,10 +925,11 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                                     const EdgeInsets.fromLTRB(
                                                         17.7, 8, 0, 16),
                                                 child: choiceContent(
-                                                  context,
-                                                  days,
-                                                  medicationDosageController.text != "1"
-                                                ),
+                                                    context,
+                                                    days,
+                                                    medicationDosageController
+                                                            .text !=
+                                                        "1"),
                                               ),
                                             )
                                         ],
@@ -960,10 +965,11 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               ),
                                             ),
                                             timeDayContent(
-                                              context,
-                                              timeOfDay,
-                                              medicationDosageController.text != "1"
-                                            ),
+                                                context,
+                                                timeOfDay,
+                                                medicationDosageController
+                                                        .text !=
+                                                    "1"),
                                           ],
                                         ),
                                       ),
@@ -1037,7 +1043,11 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                                               medicationDurationController,
                                           borderColor: Colors.grey.shade200,
                                           borderWidth: 0.5,
-                                          hintText:medicationDosageController.text == "1" ? "July 5" :'July 5 - July 8',
+                                          hintText:
+                                              medicationDosageController.text ==
+                                                      "1"
+                                                  ? "July 5"
+                                                  : 'July 5 - July 8',
                                           readOnly: true,
                                           onTap: () {
                                             Modals.showDialogModal(context,
@@ -1139,7 +1149,42 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                     height: 45,
                     child: ButtonView(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (medicationDosageController.text == "1") {
+                            if (patientId.isNotEmpty &&
+                                adminRouteId.isNotEmpty &&
+                                medicationCategoryController.text.isNotEmpty &&
+                                administrationRouteController.text.isNotEmpty &&
+                                selectedTimeOfDays.isNotEmpty &&
+                                formattedStartDate.isNotEmpty &&
+                                 
+                                medicationDosageController.text.isNotEmpty &&
+                                medicationId.isNotEmpty) {
+                              _userCubit.createNewMedication(
+                                  patientId: patientId,
+                                  medicationName: medicationNameController.text,
+                                  medicationId: medicationId,
+                                  category: medicationCategoryController.text,
+                                  administrationRouteId: adminRouteId,
+                                  dosage: medicationDosageController.text,
+                                  notes: medicationNoteController.text,
+                                  durationStart: formattedStartDate,
+                                  durationEnd: formattedStartDate,
+                                  frequency: _frequency,
+                                  toBeTaken: _whenTaken,
+                                  days: selectedDays,
+                                  times: selectedTimeOfDays);
+                            } else {
+                              ToastService().showToast(
+                                context,
+                                leadingIcon: const ImageView.svg(
+                                  AppImages.error,
+                                  height: 25,
+                                ),
+                                title: 'Error!!!',
+                                subtitle: 'Select all fields',
+                              );
+                            }
+                          } else {
                             if (patientId.isNotEmpty &&
                                 adminRouteId.isNotEmpty &&
                                 medicationCategoryController.text.isNotEmpty &&
@@ -1492,10 +1537,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   }
 
   choiceContent(
-    BuildContext context,
-    List<String> items,
-    bool allowMultipleSelection 
-  ) {
+      BuildContext context, List<String> items, bool allowMultipleSelection) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -1542,70 +1584,70 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
     );
   }
 
- Widget timeDayContent(
-  BuildContext context,
-  List<String> items,
-  bool allowMultipleSelection,
-) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Wrap(
-      spacing: 8.0,
-      runSpacing: 8.0,
-      children: items.map((item) {
-        bool isChecked = selectedTimeOfDays.contains(item);
+  Widget timeDayContent(
+    BuildContext context,
+    List<String> items,
+    bool allowMultipleSelection,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Wrap(
+        spacing: 8.0,
+        runSpacing: 8.0,
+        children: items.map((item) {
+          bool isChecked = selectedTimeOfDays.contains(item);
 
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomCheckbox(
-              bgColor: const Color(0xFF40B93C),
-              isChecked: isChecked,
-              onChanged: (checked) {
-                _onCheckboxTimeDayChanged(checked, item, allowMultipleSelection);
-              },
-            ),
-            const SizedBox(width: 13),
-            GestureDetector(
-              onTap: () {
-                _onCheckboxTimeDayChanged(!isChecked, item, allowMultipleSelection);
-              },
-              child: Text(
-                item,
-                style: GoogleFonts.getFont(
-                  'Inter',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 13,
-                  height: 1.5,
-                  color: const Color(0xFF030712),
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomCheckbox(
+                bgColor: const Color(0xFF40B93C),
+                isChecked: isChecked,
+                onChanged: (checked) {
+                  _onCheckboxTimeDayChanged(
+                      checked, item, allowMultipleSelection);
+                },
+              ),
+              const SizedBox(width: 13),
+              GestureDetector(
+                onTap: () {
+                  _onCheckboxTimeDayChanged(
+                      !isChecked, item, allowMultipleSelection);
+                },
+                child: Text(
+                  item,
+                  style: GoogleFonts.getFont(
+                    'Inter',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    height: 1.5,
+                    color: const Color(0xFF030712),
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
-      }).toList(),
-    ),
-  );
-}
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
 
-void _onCheckboxTimeDayChanged(bool checked, String item, bool allowMultipleSelection) {
-  setState(() {
-    if (allowMultipleSelection) {
-      if (checked) {
-        if (!selectedTimeOfDays.contains(item)) {
-          selectedTimeOfDays.add(item);
+  void _onCheckboxTimeDayChanged(
+      bool checked, String item, bool allowMultipleSelection) {
+    setState(() {
+      if (allowMultipleSelection) {
+        if (checked) {
+          if (!selectedTimeOfDays.contains(item)) {
+            selectedTimeOfDays.add(item);
+          }
+        } else {
+          selectedTimeOfDays.remove(item);
         }
       } else {
-        selectedTimeOfDays.remove(item);
+        selectedTimeOfDays = checked ? [item] : [];
       }
-    } else {
-      selectedTimeOfDays = checked ? [item] : [];
-    }
-  });
-}
-
- 
-
+    });
+  }
 
   dateSelectionWidget() {
     return StatefulBuilder(builder: (BuildContext context, StateSetter state) {
@@ -1669,50 +1711,52 @@ void _onCheckboxTimeDayChanged(bool checked, String item, bool allowMultipleSele
                       ],
                     ),
                   ),
-               medicationDosageController.text == "1" ? const SizedBox.shrink() :   GestureDetector(
-                    onTap: () => _selectDate(context, false, state),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'End Date',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text(
-                              _formatDate(endDate),
-                              style: TextStyle(
-                                fontSize: endDate == null ? 22 : 14,
-                                color: endDate == null
-                                    ? Colors.black
-                                    : Colors.black,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                state(() {
-                                  _selectDate(context, false, state);
-                                });
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(17.0),
-                                child: ImageView.svg(
-                                  AppImages.dropDown,
-                                  scale: 0.8,
+                  medicationDosageController.text == "1"
+                      ? const SizedBox.shrink()
+                      : GestureDetector(
+                          onTap: () => _selectDate(context, false, state),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'End Date',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    _formatDate(endDate),
+                                    style: TextStyle(
+                                      fontSize: endDate == null ? 22 : 14,
+                                      color: endDate == null
+                                          ? Colors.black
+                                          : Colors.black,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      state(() {
+                                        _selectDate(context, false, state);
+                                      });
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(17.0),
+                                      child: ImageView.svg(
+                                        AppImages.dropDown,
+                                        scale: 0.8,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -1795,7 +1839,7 @@ void _onCheckboxTimeDayChanged(bool checked, String item, bool allowMultipleSele
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color:   Colors.white,
+                color: Colors.white,
               ),
               child: Padding(
                 padding:
