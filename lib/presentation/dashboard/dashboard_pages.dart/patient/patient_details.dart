@@ -288,10 +288,11 @@ class _PatientDetailsState extends State<PatientDetails> {
                                         ),
                                       ),
                                       Row(
+                                        
                                         children: [
                                           Text(
                                             (patientDetails.weight == null)
-                                                ? 'N/B'
+                                                ? '     —'
                                                 : patientDetails.weight.toString() ,
                                             style: GoogleFonts.getFont(
                                               'Inter',

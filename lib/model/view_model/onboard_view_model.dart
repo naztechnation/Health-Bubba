@@ -64,15 +64,22 @@ String _successMessage = '';
 
  
 
- void addLanguage(String language, int languageId) {
-  if (_selectedLanguages.length < 4) {
-    if (!_selectedLanguages.any((selectedLang) => selectedLang.language == language)) {
-      _selectedLanguages.add(SelectedLangs(language: language, languageId: languageId));
-      _selectedLanguagesId.add(languageId);
-      setViewState(ViewState.success);
-    }
-  } else {
+//  void addLanguage(String language, int languageId) {
+//   if (_selectedLanguages.length < 4) {
+//     if (!_selectedLanguages.any((selectedLang) => selectedLang.language == language)) {
+//       _selectedLanguages.add(SelectedLangs(language: language, languageId: languageId));
+//       _selectedLanguagesId.add(languageId);
+//       setViewState(ViewState.success);
+//     }
+//   } else {
     
+//   }
+// }
+ void addLanguage(String language, int languageId) {
+  if (!_selectedLanguages.any((selectedLang) => selectedLang.language == language)) {
+    _selectedLanguages.add(SelectedLangs(language: language, languageId: languageId));
+    _selectedLanguagesId.add(languageId);
+    setViewState(ViewState.success);
   }
 }
 

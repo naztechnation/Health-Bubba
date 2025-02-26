@@ -313,7 +313,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               FilteringTextInputFormatter.digitsOnly,
                                               NumberInputFormatter(),
                                             ],
-                                            hintText: "9044568789",
+                                            hintText: "Enter Phone number",
                                             maxLength: 10,
                                             validator: (value) {
                                               return Validator.validatePhone(

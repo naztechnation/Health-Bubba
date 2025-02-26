@@ -434,7 +434,7 @@ class _RescheduleState extends State<Reschedule> {
                                         children: [
                                           Text(
                                             (widget.appointment.patientWeight == null)
-                                                ? 'N/B'
+                                                ? '     —'
                                                 : widget.appointment.patientWeight.toString() ,
                                             style: GoogleFonts.getFont(
                                               'Inter',
@@ -609,36 +609,36 @@ class _RescheduleState extends State<Reschedule> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Booking For',
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF0A0D14),
-                                          ),
-                                        ),
-                                        Text(
-                                          AppUtils.toTitleCase(widget.appointment.bookingFor ??
-                                                      ''),
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            height: 1.4,
-                                            color: const Color(0xFF0A0D14),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Text(
+                                    //       'Booking For',
+                                    //       style: GoogleFonts.getFont(
+                                    //         'Inter',
+                                    //         fontWeight: FontWeight.w400,
+                                    //         fontSize: 14,
+                                    //         height: 1.4,
+                                    //         color: const Color(0xFF0A0D14),
+                                    //       ),
+                                    //     ),
+                                    //     Text(
+                                    //       AppUtils.toTitleCase(widget.appointment.bookingFor ??
+                                    //                   ''),
+                                    //       style: GoogleFonts.getFont(
+                                    //         'Inter',
+                                    //         fontWeight: FontWeight.w500,
+                                    //         fontSize: 14,
+                                    //         height: 1.4,
+                                    //         color: const Color(0xFF0A0D14),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ),

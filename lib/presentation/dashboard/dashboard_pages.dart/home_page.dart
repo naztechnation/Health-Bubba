@@ -2313,10 +2313,12 @@ class _HomeState extends State<Home> {
   Future<void> _refreshPage() async {
     // await _userCubit.viewModel.clearProfileStatus();
     // await _userCubit.viewModel.clearAnalytics();
-    await _userCubit.getProfileStatus();
-    await _userCubit.doctorsAnalyticsAccount(days: '1');
+      _userCubit.getProfileStatus();
+      _userCubit.doctorsAnalyticsAccount(days: '1');
 
-    await _userCubit.userData();
-    await _userCubit.getAppointmentList();
+      _userCubit.userData();
+      _userCubit.getAppointmentList();
+
+    
   }
 }
