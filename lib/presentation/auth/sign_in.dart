@@ -89,7 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
 
@@ -135,7 +135,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
 

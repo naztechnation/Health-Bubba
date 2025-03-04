@@ -128,7 +128,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                     appID: AppStrings.zigoAppIdUrl,
                     appSign: AppStrings.zegoAppSign,
                     userID: state.loginData.data?.user?.id.toString() ?? '',
-                    userName: state.loginData.data?.user?.lastName ?? '',
+                    userName: state.loginData.data?.user?.firstName ?? '',
                     plugins: [ZegoUIKitSignalingPlugin()],
                   );
                  
@@ -175,7 +175,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
                  
@@ -219,7 +219,7 @@ class _ContinueSignInScreenState extends State<ContinueSignInScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
 

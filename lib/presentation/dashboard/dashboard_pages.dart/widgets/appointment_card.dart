@@ -246,7 +246,7 @@ appointmentCard(List<AppointmentListsData> appointmentListsData, num doctorsId,
                                             .patientId
                                             .toString(),
                                         inviteeName: appointmentListsData[index]
-                                            .patientLastName
+                                            .patientFirstName
                                             .toString(),
                                         appointmentId: appointmentListsData[index]
                                             .appointmentId

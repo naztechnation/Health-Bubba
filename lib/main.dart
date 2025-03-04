@@ -16,6 +16,7 @@ import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'firebase_options.dart';
 import 'handlers/secure_handler.dart';
 import 'model/view_model/onboard_view_model.dart';
+import 'res/app_strings.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -33,9 +34,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
     ZIMKit().init(
-                  appID: 1938588583,
+                  appID: AppStrings.zigoAppIdUrl,
                   appSign:
-                      '5757c6364a17cdbe311f0413d5baccd70644d6ece0f031ce93d968d6d810ff7a',
+                      AppStrings.zegoAppSign,
                 );
   
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

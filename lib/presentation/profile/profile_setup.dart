@@ -593,12 +593,12 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             },
                                           ),
                                           if (profile
-                                              .emailController.text.isNotEmpty)
+                                              .emailController.text.isNotEmpty && (widget.isEdit))
                                             const SizedBox(
                                               height: 15,
                                             ),
                                           if (profile
-                                              .emailController.text.isNotEmpty)
+                                              .emailController.text.isNotEmpty && (widget.isEdit))
                                             Text(
                                               'Email Address',
                                               style: GoogleFonts.getFont(
@@ -610,12 +610,12 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               ),
                                             ),
                                           if (profile
-                                              .emailController.text.isNotEmpty)
+                                              .emailController.text.isNotEmpty  && (widget.isEdit))
                                             const SizedBox(
                                               height: 8,
                                             ),
                                           if (profile
-                                              .emailController.text.isNotEmpty)
+                                              .emailController.text.isNotEmpty  && (widget.isEdit))
                                             TextEditView(
                                               controller:
                                                   profile.emailController,
@@ -805,10 +805,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             borderColor: Colors.grey.shade200,
                                             keyboardType: TextInputType.number,
                                             borderWidth: 0.5,
-                                            validator: (value) {
-                                              return Validator.validate(
-                                                  value, 'License Number');
-                                            },
+                                             
                                             onChanged: (value) {
                                               Provider.of<UserViewModel>(
                                                       context,
@@ -1087,13 +1084,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   });
                                                   if (profile.pickedDocFilePath1
                                                       .isNotEmpty) {
-                                                    if (!isGreaterThan5MB(
+                                                    if (isGreaterThan5MB(
                                                         profile.fileSize1)) {
-                                                      _accountCubit.uploadDocs(
-                                                          docs: File(profile
-                                                              .pickedDocFilePath1));
-                                                    } else {
-                                                      ToastService().showToast(
+                                                     ToastService().showToast(
                                                           context,
                                                           leadingIcon:
                                                               const ImageView
@@ -1104,7 +1097,13 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           title: AppStrings
                                                               .errorTitle,
                                                           subtitle:
-                                                              'File Size should not be more than 5 MB');
+                                                              'File size should not be more than 5MB');
+                                                              profile.removeAllPaths1();
+                                                    } else {
+                                                       _accountCubit.uploadDocs(
+                                                          docs: File(profile
+                                                              .pickedDocFilePath1));
+                                                      
                                                     }
                                                   }
                                                 },
@@ -1503,13 +1502,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   });
                                                   if (profile.pickedDocFilePath2
                                                       .isNotEmpty) {
-                                                    if (!isGreaterThan5MB(
+                                                    if (isGreaterThan5MB(
                                                         profile.fileSize2)) {
-                                                      _accountCubit.uploadDocs(
-                                                          docs: File(profile
-                                                              .pickedDocFilePath2));
-                                                    } else {
-                                                      ToastService().showToast(
+                                                     ToastService().showToast(
                                                           context,
                                                           leadingIcon:
                                                               const ImageView
@@ -1520,7 +1515,14 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           title: AppStrings
                                                               .errorTitle,
                                                           subtitle:
-                                                              'File Size should not be more than 5 MB');
+                                                              'File size should not be more than 5MB');
+
+                                                              profile.removeAllPaths2();
+                                                    } else {
+                                                       _accountCubit.uploadDocs(
+                                                          docs: File(profile
+                                                              .pickedDocFilePath2));
+                                                      
                                                     }
                                                   }
                                                 },
@@ -1710,10 +1712,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                   .updateHospital(value);
                                             },
                                           ),
-                                          const SizedBox(
+                                        if  (widget.isEdit)  const SizedBox(
                                             height: 15,
                                           ),
-                                          Text(
+                                        if  (widget.isEdit)  Text(
                                             'Phone Number',
                                             style: GoogleFonts.getFont(
                                               'Inter',
@@ -1723,10 +1725,10 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               color: const Color(0xFF131316),
                                             ),
                                           ),
-                                          const SizedBox(
+                                       if  (widget.isEdit)   const SizedBox(
                                             height: 8,
                                           ),
-                                          TextEditView(
+                                        if  (widget.isEdit)  TextEditView(
                                             controller: profile.phoneController,
                                             borderColor: Colors.grey.shade200,
                                             keyboardType: TextInputType.number,
@@ -1737,10 +1739,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                             ],
                                             hintText: "Enter Phone number",
                                             maxLength: 10,
-                                            validator: (value) {
-                                              return Validator.validatePhone(
-                                                  value, 'Phone Number');
-                                            },
+                                            
                                             prefixIcon: SizedBox(
                                               width: 120,
                                               child: Row(
@@ -1947,7 +1946,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                     
                       if (profile.titleController.text.trim().isEmpty) {
                         ToastService().showToast(context,
                             leadingIcon: const ImageView.svg(
@@ -1962,7 +1961,8 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                 height: 25, AppImages.error),
                             title: AppStrings.errorTitle,
                             subtitle: 'First name field required');
-                      } else if (profile.lastnameController.text
+                      } 
+                      else if (profile.lastnameController.text
                           .trim()
                           .isEmpty) {
                         ToastService().showToast(context,
@@ -1970,6 +1970,15 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                 height: 25, AppImages.error),
                             title: AppStrings.errorTitle,
                             subtitle: 'Last name field required');
+                      }
+                      else if (profile.licenceNumberController.text
+                          .trim()
+                          .isEmpty) {
+                        ToastService().showToast(context,
+                            leadingIcon: const ImageView.svg(
+                                height: 25, AppImages.error),
+                            title: AppStrings.errorTitle,
+                            subtitle: 'License Number required');
                       }
                       else if (profile.pickedDocFilePath1
                                                 .isEmpty && profile.licenceUploadedDoc ==
@@ -2026,7 +2035,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                       //       subtitle: 'Phone number field required');
                       // }
                       else {
-                        if (doctorsState == '1') {
+                        if (doctorsState == '1' && widget.isEdit) {
                           Modals.showDialogModal(
                             context,
                             page: destructiveActions(
@@ -2085,7 +2094,7 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                               otherDocs: profile.otherDoc);
                         }
                       }
-                    }
+                    
                   },
                   borderRadius: 100,
                   color: AppColors.lightSecondary,

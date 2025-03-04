@@ -122,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
                 AppNavigator.pushAndReplacePage(context,
@@ -160,7 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   appID: AppStrings.zigoAppIdUrl,
                   appSign: AppStrings.zegoAppSign,
                   userID: state.google.data?.user?.id.toString() ?? '',
-                  userName: state.google.data?.user?.lastName ?? '',
+                  userName: state.google.data?.user?.firstName ?? '',
                   plugins: [ZegoUIKitSignalingPlugin()],
                 );
                 AppNavigator.pushAndReplacePage(context,

@@ -141,6 +141,8 @@ class UserViewModel extends BaseViewModel {
     setViewState(ViewState.success);
   }
 
+  
+
   removeAllPaths2() {
     _pickedDocFilePath2 = '';
     _pickedDocFileName2 = '';
@@ -255,7 +257,7 @@ class UserViewModel extends BaseViewModel {
         _pickedDocFilePath1 = pickedFile.path!;
         _pickedDocFileName1 = pickedFile.name;
         int fileSizeInBytes = pickedFile.size;
-        String? fileExtension = pickedFile.extension; // Retrieve file extension
+        String? fileExtension = pickedFile.extension;  
 
         // Optional: Convert file size to KB or MB for easier readability
         double fileSizeInKB = fileSizeInBytes / 1024;
@@ -264,19 +266,12 @@ class UserViewModel extends BaseViewModel {
         _fileExtension1 = '$fileExtension';
         _fileSize1 = '${fileSizeInMB.toStringAsFixed(2)} MB';
 
-        // Debugging or logging details
-        // debugPrint('File Path: $_pickedDocFilePath');
-        // debugPrint('File Name: $_pickedDocFileName');
-        // debugPrint('File Extension: $fileExtension');
-        // debugPrint('File Size: $fileSizeInBytes bytes');
-        // debugPrint('File Size: ${fileSizeInKB.toStringAsFixed(2)} KB');
-        // debugPrint('File Size: ${fileSizeInMB.toStringAsFixed(2)} MB');
-
+        
         setViewState(ViewState.success);
 
-        // Optionally return or use the file extension and size as needed
+        
       } else {
-        // File picker was canceled
+         
         debugPrint("File picker was canceled.");
       }
     } catch (e) {
