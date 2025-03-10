@@ -1156,51 +1156,51 @@ class _WorkInformationPageState extends State<WorkInformationPage> {
                               const SizedBox(
                                 height: 14,
                               ),
-                              if (!widget.isEdit)
-                                GestureDetector(
-                                  onTap: () {
-                                    Modals.showDialogModal(
-                                      context,
-                                      page: destructiveActions(
-                                          context: context,
-                                          message:
-                                              'Are you sure you want to continue with this action?',
-                                          primaryText: 'Continue',
-                                          secondaryText: 'Cancel',
-                                          primaryAction: () {
-                                            AppNavigator.pushAndReplacePage(
-                                                context,
-                                                page: const Dashboard());
-                                          },
-                                          primaryBgColor:
-                                              const Color(0xFF093126),
-                                          secondaryBgColor:
-                                              AppColors.lightPrimary,
-                                          secondaryAction: () {
-                                            Navigator.pop(context);
-                                          }),
-                                    );
-                                  },
-                                  child: Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      height: 42,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            100,
-                                          ),
-                                          color: AppColors.lightPrimary,
-                                          border: Border.all(
-                                              color: Colors.grey, width: 0.5)),
-                                      child: const Center(
-                                        child: Text(
-                                          'Skip to dashboard',
-                                          style: TextStyle(
-                                              color: AppColors.lightSecondary,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      )),
-                                )
+                              // if (!widget.isEdit)
+                              //   GestureDetector(
+                              //     onTap: () {
+                              //       Modals.showDialogModal(
+                              //         context,
+                              //         page: destructiveActions(
+                              //             context: context,
+                              //             message:
+                              //                 'Are you sure you want to continue with this action?',
+                              //             primaryText: 'Continue',
+                              //             secondaryText: 'Cancel',
+                              //             primaryAction: () {
+                              //               AppNavigator.pushAndReplacePage(
+                              //                   context,
+                              //                   page: const Dashboard());
+                              //             },
+                              //             primaryBgColor:
+                              //                 const Color(0xFF093126),
+                              //             secondaryBgColor:
+                              //                 AppColors.lightPrimary,
+                              //             secondaryAction: () {
+                              //               Navigator.pop(context);
+                              //             }),
+                              //       );
+                              //     },
+                              //     child: Container(
+                              //         width: MediaQuery.sizeOf(context).width,
+                              //         height: 42,
+                              //         decoration: BoxDecoration(
+                              //             borderRadius: BorderRadius.circular(
+                              //               100,
+                              //             ),
+                              //             color: AppColors.lightPrimary,
+                              //             border: Border.all(
+                              //                 color: Colors.grey, width: 0.5)),
+                              //         child: const Center(
+                              //           child: Text(
+                              //             'Skip to dashboard',
+                              //             style: TextStyle(
+                              //                 color: AppColors.lightSecondary,
+                              //                 fontSize: 14,
+                              //                 fontWeight: FontWeight.w500),
+                              //           ),
+                              //         )),
+                              //   )
                             ],
                           ),
                         ),

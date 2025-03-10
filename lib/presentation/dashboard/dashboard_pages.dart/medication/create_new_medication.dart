@@ -230,6 +230,8 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
   getUserData() async {
     _userCubit = context.read<UserCubit>();
 
+      _userCubit.getPatientsLists(
+        page: "1", limit: "10");
     _userCubit.getMedicationCategory();
     _userCubit.getAdministeredRoute();
   }
@@ -384,7 +386,43 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
                 ),
               ),
             ),
-            body: Container(
+            body:(Provider.of<UserViewModel>(context, listen: true)
+                    .filteredPatientsLists
+                    .isEmpty)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.10,
+                        width: 80,
+                      ),
+                      const Align(
+                        child: SizedBox(
+                            height: 80,
+                            width: 80,
+                            child: ImageView.svg(AppImages.noData)),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Consult with Patients to issue prescriptions',
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 1.7,
+                            color: const Color(0xFF0A0D14),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  )
+                : Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFFFFFFF),
                 borderRadius: BorderRadius.circular(16),
@@ -1238,7 +1276,7 @@ class _CreateNewMedicationScreenState extends State<CreateNewMedicationScreen> {
           if (state is MedicationCategoryLoading ||
               state is MedicationSubCategoryLoading ||
               state is AdministeredRouteLoading ||
-              state is CreateMedicationLoading) ...[
+              state is CreateMedicationLoading || state is PatientDetailsLoading) ...[
             Container(
               color: AppColors.indicatorBgColor,
               child: Center(

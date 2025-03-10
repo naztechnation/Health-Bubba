@@ -835,6 +835,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               onTap: () async {
                                                 profile
                                                     .removeUploadedLicenceDoc();
+                                                    setState(() {
+                                                      
+                                                    });
                                               },
                                               child: Container(
                                                 padding:
@@ -1042,6 +1045,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                             onTap: () {
                                                               profile
                                                                   .removeAllPaths1();
+                                                                   setState(() {
+                                                      
+                                                    });
                                                             },
                                                             child: Container(
                                                                 // margin: const EdgeInsets.only(right: 13),
@@ -1099,10 +1105,16 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                                           subtitle:
                                                               'File size should not be more than 5MB');
                                                               profile.removeAllPaths1();
+                                                               setState(() {
+                                                      
+                                                    });
                                                     } else {
                                                        _accountCubit.uploadDocs(
                                                           docs: File(profile
                                                               .pickedDocFilePath1));
+                                                               setState(() {
+                                                      
+                                                    });
                                                       
                                                     }
                                                   }
@@ -1250,6 +1262,9 @@ class _ProfileSetupPageState extends State<ProfileSetupPage> {
                                               onTap: () async {
                                                 profile
                                                     .removeUploadedotherDoc();
+                                                     setState(() {
+                                                      
+                                                    });
                                               },
                                               child: Container(
                                                 padding:

@@ -66,8 +66,18 @@ class AccountViewModel extends BaseViewModel {
   }
 
   savePlatformLanguages(List<LanguagesData> platformLanguages) {
-    _platformLanguages = platformLanguages;
-    setViewState(ViewState.success);
+    final uniqueLanguages = <String, LanguagesData>{};
+
+  for (var lang in platformLanguages) {
+    String formattedLanguage = lang.languageName.toString().toLowerCase().trim();
+
+    if (!uniqueLanguages.containsKey(formattedLanguage)) {
+      uniqueLanguages[formattedLanguage] = lang;
+    }
+  }
+
+  _platformLanguages = uniqueLanguages.values.toList();
+  setViewState(ViewState.success);
   }
 
   savePlatformSpecialties(List<GetSpecialtiesData> platformSpecialties) {
