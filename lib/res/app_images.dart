@@ -79,6 +79,14 @@ class AppImages {
   static const closeIcon = '${_baseUrl}close_icon.svg';
   static const eyeClosedIcon = '${_baseUrl}eyes_closed.svg';
   static const eyeOpenIcon = '${_baseUrl}eye_open.svg';
+  static const arrowBackIcon = '${_baseUrl}arrow_back.svg';
+  static const infoBorderIcon = '${_baseUrl}info_border.svg';
+  static const licenseSignIcon = '${_baseUrl}license_sign.svg';
+  static const signIcon = '${_baseUrl}sign.svg';
+  static const personIcon = '${_baseUrl}person_check.svg';
+  static const licenseIcon = '${_baseUrl}license.svg';
+  static const andIcon = '${_baseUrl}and.svg';
+  static const checkCirlceIcon = '${_baseUrl}check_circle.svg';
   static const logoo = '${_baseUrl}HealthBubba.gif';
   static const appointmentSuccess = '${_baseUrl}calendar.svg';
   static const scheduleChange = '${_baseUrl}calendar_blue.svg';

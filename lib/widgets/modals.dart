@@ -114,13 +114,13 @@ static Future<dynamic> showBottomSheetModal(
         builder: (context, scrollController) {
           return Column(
             children: [
-            
+              const SizedBox(height: 20,),
               Container(
-                width: 40,
-                height: 5,
+                width: 49,
+                height:4,
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: Colors.grey[400],
+                  color: const Color(0xFFD9D9D9),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

@@ -32,6 +32,7 @@ import 'appointment_tabs.dart';
 import 'medication/medication_page.dart';
 import 'patient/patient_page.dart';
 import 'unverified_screen.dart';
+import 'upload_medical_license.dart';
 import 'widgets/analytics.dart';
 import 'widgets/appointment_card.dart';
 import 'widgets/reschedule.dart';
@@ -171,9 +172,9 @@ class _HomeState extends State<Home> {
           title = state.userData.data?.title ?? '';
              
              Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState( state.userData.data?.isDoctorVerified.toString() ?? '0');
+              .saveDoctorState('1');
           doctorState =
-              state.userData.data?.isDoctorVerified.toString() ?? '0';
+               '1';
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveEmail(state.userData.data?.email ?? '');
@@ -801,6 +802,169 @@ class _HomeState extends State<Home> {
                                                                               margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
                                                                               child: Text(
                                                                                 'Add a Bio to your profile',
+                                                                                style: GoogleFonts.getFont(
+                                                                                  'Inter',
+                                                                                  fontWeight: FontWeight.w400,
+                                                                                  fontSize: 14,
+                                                                                  decoration: (bioStatus) ? TextDecoration.lineThrough : TextDecoration.none,
+                                                                                  color: const Color(0xFF15141D),
+                                                                                  decorationColor: const Color(0xFF15141D),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
+                                                                              0,
+                                                                              5,
+                                                                              0,
+                                                                              5),
+                                                                          width:
+                                                                              4,
+                                                                          height:
+                                                                              10,
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.arrow_forward_ios,
+                                                                            size:
+                                                                                16,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                               GestureDetector(
+                                                                onTap: () {
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const UploadMedicalLicense(
+                                                                           
+                                                                          ));
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    color: const Color(
+                                                                        0xFFFFFFFF),
+                                                                    boxShadow: const [
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            1.5,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D2F3037),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
+                                                                        blurRadius:
+                                                                            34,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A222A35),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
+                                                                        blurRadius:
+                                                                            3,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            0.5,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.3, 0),
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(99),
+                                                                                color: const Color(0xFFFFFFFF),
+                                                                                boxShadow: const [
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 2),
+                                                                                    blurRadius: 2,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x0A123769),
+                                                                                    offset: Offset(0, 1),
+                                                                                    blurRadius: 0.5,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 0),
+                                                                                    blurRadius: 0,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              child: Container(
+                                                                                width: 20,
+                                                                                height: 20,
+                                                                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                                                                child: SizedBox(
+                                                                                  width: 10,
+                                                                                  height: 10,
+                                                                                  child: ImageView.svg(
+                                                                                    AppImages.check,
+                                                                                    color: (bioStatus) ? Colors.green : Colors.grey.shade300,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
+                                                                                'Upload medical license and e-signature',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
                                                                                   fontWeight: FontWeight.w400,
