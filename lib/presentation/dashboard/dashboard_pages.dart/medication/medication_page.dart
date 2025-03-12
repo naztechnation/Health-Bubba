@@ -115,7 +115,105 @@ class _MedicationsState extends State<Medications> {
               length: MediaQuery.sizeOf(context).height.toInt(),
             )
           : Scaffold(
-              body: Stack(
+              body: (Provider.of<UserViewModel>(context, listen: true)
+                    .filteredPatientsLists
+                    .isEmpty)
+                ?Container(
+                    color: const Color(0xFFFFFFFF),
+                    padding: const EdgeInsets.fromLTRB(0, 6, 0, 0),
+                    child: SizedBox(
+                      width: double.infinity,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          
+                           SafeArea(
+                             child: Row(
+                               children: [
+                                 (!widget.isDashboard)
+                                     ? GestureDetector(
+                                         onTap: () {
+                                           AppNavigator.pushAndReplacePage(
+                                               context,
+                                               page: const Dashboard());
+                                         },
+                                         child: const Padding(
+                                           padding: EdgeInsets.only(
+                                               left: 18.0, top: 8, bottom: 19),
+                                           child: SizedBox(
+                                             width: 18,
+                                             height: 18,
+                                             child: ImageView.svg(
+                                               AppImages.backBtn,
+                                               height: 18,
+                                             ),
+                                           ),
+                                         ),
+                                       )
+                                     : Text(
+                                         ' ',
+                                         style: GoogleFonts.getFont(
+                                           'Inter',
+                                           fontWeight: FontWeight.w600,
+                                           fontSize: 16,
+                                           height: 1.5,
+                                           color: const Color(0xFF0A0D14),
+                                         ),
+                                       ),
+                                 const SizedBox(
+                                   width: 12,
+                                 ),
+                                 Container(
+                                   decoration: const BoxDecoration(
+                                     color: Color(0xFFFFFFFF),
+                                   ),
+                                   child: Container(
+                                     padding: const EdgeInsets.fromLTRB(
+                                         16, 0, 16, 11),
+                                     child: Text(
+                                       'Manage Prescription',
+                                       style: GoogleFonts.getFont(
+                                         'Inter',
+                                         fontWeight: FontWeight.w600,
+                                         fontSize: 16,
+                                         height: 1.5,
+                                         color: const Color(0xFF0A0D14),
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                             SizedBox(height: MediaQuery.sizeOf(context).height * 0.3,),
+                          const Align(
+                            child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: ImageView.svg(AppImages.noData)),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Consult with Patients to issue prescriptions',
+                              style: GoogleFonts.getFont(
+                                'Inter',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.7,
+                                color: const Color(0xFF0A0D14),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          )
+                        ],
+                      ),
+                  ),
+                ) : Stack(
                 children: [
                   Container(
                     color: const Color(0xFFFFFFFF),
@@ -286,7 +384,10 @@ class _MedicationsState extends State<Medications> {
                       ),
                     ),
                   ),
-                  Positioned(
+              if(Provider.of<UserViewModel>(context, listen: true)
+                    .filteredPatientsLists
+                    .isEmpty)...[]else...[
+                      Positioned(
                     bottom: 20,
                     right: 20,
                     left: 20,
@@ -315,6 +416,8 @@ class _MedicationsState extends State<Medications> {
                   const SizedBox(
                     height: 40,
                   )
+                    ],
+                   
                 ],
               ),
             );

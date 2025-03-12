@@ -103,6 +103,7 @@ static Future<dynamic> showBottomSheetModal(
     ),
     backgroundColor: AppColors.cardColor,
     isDismissible: isDissmissible,
+     
     useSafeArea: true,
     isScrollControlled: isScrollControlled,
     builder: (BuildContext bc) {

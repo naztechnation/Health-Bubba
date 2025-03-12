@@ -18,6 +18,7 @@ import '../../model/view_model/user_view_model.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
+import '../dashboard/dashboard_pages.dart/new_profile_details.dart';
 import '../dashboard/dashboard_pages.dart/unverified_screen.dart';
 import '../profile/profile_setup.dart';
 import 'settings_pages/delete_account.dart';
@@ -133,9 +134,46 @@ class _SettingsPageState extends State<SettingsPage> {
                               Icons.arrow_back_ios,
                               size: 16,
                               color: Colors.white,
-                            )))
+                            ))),
+                             Positioned(
+                               top: 200,
+                               child: Container(
+                                                 margin: const EdgeInsets.only(right: 13),
+                                                 padding:
+                                                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                                                 decoration: BoxDecoration(
+                                                   border:
+                                                       Border.all(color: const Color(0xFFFECDD3), width: 1),
+                                                   borderRadius: BorderRadius.circular(8),
+                                                   color: const Color(0xFFFFE4E6),
+                                                   boxShadow: const [
+                                                     BoxShadow(
+                                                       color: Color(0xFFF0F0F0),
+                                                       offset: Offset(0, 0),
+                                                       blurRadius: 0,
+                                                     ),
+                                                     BoxShadow(
+                                                       color: Color(0x409F9E9E),
+                                                       offset: Offset(0, 1),
+                                                       blurRadius: 1,
+                                                     ),
+                                                   ],
+                                                 ),
+                                                 child: Text(
+                                                   'Verification Required',
+                                                   style: GoogleFonts.getFont(
+                                                     'Inter',
+                                                     fontWeight: FontWeight.w500,
+                                                     fontSize: 14,
+                                                     height: 1.4,
+                                                     color: const Color(0xFF9F1239),
+                                                   ),
+                                                 ),
+                                               ),
+                             ),
                   ],
                 ),
+               const SizedBox(height: 40,),
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 48),
                   child: Column(
@@ -202,9 +240,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                         icon: AppImages.profileDetails,
                                         onTap: () {
                                           AppNavigator.pushAndStackPage(context,
-                                              page: const ProfileSetup(
-                                                isEdit: true,
+                                              page: const NewProfileDetails(
+                                                 
                                               ));
+                                              //TODO
+                                          // AppNavigator.pushAndStackPage(context,
+                                          //     page: const ProfileSetup(
+                                          //       isEdit: true,
+                                          //     ));
                                         }),
                                     settingsDetails(
                                         title: 'Work Information',
@@ -215,7 +258,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                   isEdit: true));
                                         }),
                                     settingsDetails(
-                                        title: 'Payment Settings',
+                                        title: 'Fees and Payments',
                                         icon: AppImages.paymentSettings,
                                         onTap: () {
                                           if (doctorState == '0') {
@@ -391,7 +434,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                   await StorageHandler
                                                       .clearCache();
 
-                                                      profile.clearAllField();
+                                                  profile.clearAllField();
                                                   StorageHandler
                                                       .saveOnboardState('true');
                                                   StorageHandler.saveIsLoggedIn(

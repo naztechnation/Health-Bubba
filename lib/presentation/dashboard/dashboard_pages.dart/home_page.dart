@@ -27,10 +27,12 @@ import '../../../utils/app_utils.dart';
 import '../../../widgets/choices.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
+import '../../settings/settings_pages/bank_account_update.dart';
 import '../../settings/settings_pages/consultaion_fee.dart';
 import 'appointment_tabs.dart';
 import 'medication/medication_page.dart';
 import 'patient/patient_page.dart';
+import 'phone_number_verification.dart';
 import 'unverified_screen.dart';
 import 'upload_medical_license.dart';
 import 'widgets/analytics.dart';
@@ -90,20 +92,15 @@ class _HomeState extends State<Home> {
     userId = await StorageHandler.getUserId();
     doctorState = await StorageHandler.getDoctorState() ?? '0';
 
-     
-
-
-      _userCubit.userData();
-        _userCubit.getAppointmentList();
+    _userCubit.userData();
+    _userCubit.getAppointmentList();
     await _userCubit.getProfileStatus();
-     _userCubit.doctorsAnalyticsAccount(days: '1');
+    _userCubit.doctorsAnalyticsAccount(days: '1');
 
-     Future.delayed(const Duration(seconds: 2),(){
+    Future.delayed(const Duration(seconds: 2), () {
       Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState( doctorState);
-     });
-
-    
+          .saveDoctorState(doctorState);
+    });
   }
 
   @override
@@ -112,31 +109,25 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-   String selectedDay = "1 Day";
+  String selectedDay = "1 Day";
 
-  void _handleDaySelected(String selectedDay, BuildContext context, String day) {
-   
-
-     
+  void _handleDaySelected(
+      String selectedDay, BuildContext context, String day) {
     setState(() {
       selectedDay = selectedDay;
-       
-      
     });
   }
 
-
   int extractNumber(String value) {
-   
-  final RegExp regExp = RegExp(r'\d+');
-  final match = regExp.firstMatch(value);
-  
-  if (match != null) {
-    return int.parse(match.group(0)!);
-  } else {
-    throw ArgumentError('No numeric value found in the string.');
+    final RegExp regExp = RegExp(r'\d+');
+    final match = regExp.firstMatch(value);
+
+    if (match != null) {
+      return int.parse(match.group(0)!);
+    } else {
+      throw ArgumentError('No numeric value found in the string.');
+    }
   }
-}
 
   bool bioStatus = false;
   bool availabilityStatus = false;
@@ -170,34 +161,33 @@ class _HomeState extends State<Home> {
           imageUrl = state.userData.data?.picture ?? "";
           name = state.userData.data?.firstName ?? '';
           title = state.userData.data?.title ?? '';
-             
-             Provider.of<OnboardViewModel>(context, listen: false)
+
+          Provider.of<OnboardViewModel>(context, listen: false)
               .saveDoctorState('1');
-          doctorState =
-               '1';
+          doctorState = '1';
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveEmail(state.userData.data?.email ?? '');
-           StorageHandler.saveMedicalQualification('');
-          StorageHandler.saveMedicalLicenceNumber(state.userData.data?.licenceNumber ?? '');
-          StorageHandler.saveAffliate(state.userData.data?.clinicAffiliation ?? '');
+          StorageHandler.saveMedicalQualification('');
+          StorageHandler.saveMedicalLicenceNumber(
+              state.userData.data?.licenceNumber ?? '');
+          StorageHandler.saveAffliate(
+              state.userData.data?.clinicAffiliation ?? '');
           StorageHandler.savePhone(state.userData.data?.phone ?? '');
           StorageHandler.saveLocation(state.userData.data?.address ?? '');
-          StorageHandler.saveYear(state.userData.data?.yearsOfExperience.toString() ?? '');
+          StorageHandler.saveYear(
+              state.userData.data?.yearsOfExperience.toString() ?? '');
           StorageHandler.saveDoctorState(
               state.userData.data?.isDoctorVerified.toString() ?? '0');
           StorageHandler.saveUserFirstName(
               state.userData.data?.firstName ?? '');
-              StorageHandler.saveLastName(
-              state.userData.data?.lastName ?? '');
-          StorageHandler.saveUserPicture(
-              state.userData.data?.picture ?? '');
+          StorageHandler.saveLastName(state.userData.data?.lastName ?? '');
+          StorageHandler.saveUserPicture(state.userData.data?.picture ?? '');
           StorageHandler.saveDocLicense(
               state.userData.data?.doctorsLicense ?? '');
           StorageHandler.saveOtherDoc(
               state.userData.data?.otherDocuments ?? '');
-          StorageHandler.saveUserId(
-              state.userData.data?.id.toString() ?? '');
+          StorageHandler.saveUserId(state.userData.data?.id.toString() ?? '');
           ZegoUIKitPrebuiltCallInvitationService().init(
             appID: AppStrings.zigoAppIdUrl,
             appSign: AppStrings.zegoAppSign,
@@ -205,7 +195,9 @@ class _HomeState extends State<Home> {
             userName: state.userData.data?.lastName ?? '',
             plugins: [ZegoUIKitSignalingPlugin()],
           );
-           ZIMKit().connectUser(id: state.userData.data?.id.toString() ?? '', name:   state.userData.data?.firstName ?? '');
+          ZIMKit().connectUser(
+              id: state.userData.data?.id.toString() ?? '',
+              name: state.userData.data?.firstName ?? '');
         } else {
           ToastService().showToast(context,
               leadingIcon: const ImageView.svg(
@@ -546,6 +538,69 @@ class _HomeState extends State<Home> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
+                                  margin: const EdgeInsets.all(13),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: const Color(0xFFFDE68A),
+                                        width: 1),
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: const Color(0xFFFEF3C7),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0xFFF0F0F0),
+                                        offset: Offset(0, 0),
+                                        blurRadius: 0,
+                                      ),
+                                      BoxShadow(
+                                        color: Color(0x409F9E9E),
+                                        offset: Offset(0, 1),
+                                        blurRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const ImageView.svg(
+                                        AppImages.infoBorderIcon,
+                                        color: Color(0xFF92400E),
+                                        height: 20,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      Expanded(
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text:
+                                                'Your license expires in 7days. Please re-verify to avoid interruptions.',
+                                            style: GoogleFonts.inter(
+                                              fontSize: 14,
+                                              height: 1.4,
+                                              color: const Color(0xFF92400E),
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: ' Update now',
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 14,
+                                                  color:
+                                                      const Color(0xFF92400E),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
                                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 3),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -837,15 +892,13 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                               GestureDetector(
+                                                              GestureDetector(
                                                                 onTap: () {
                                                                   AppNavigator
                                                                       .pushAndStackPage(
                                                                           context,
                                                                           page:
-                                                                              const UploadMedicalLicense(
-                                                                           
-                                                                          ));
+                                                                              const UploadMedicalLicense());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -965,6 +1018,167 @@ class _HomeState extends State<Home> {
                                                                               margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
                                                                               child: Text(
                                                                                 'Upload medical license and e-signature',
+                                                                                style: GoogleFonts.getFont(
+                                                                                  'Inter',
+                                                                                  fontWeight: FontWeight.w400,
+                                                                                  fontSize: 14,
+                                                                                  decoration: (bioStatus) ? TextDecoration.lineThrough : TextDecoration.none,
+                                                                                  color: const Color(0xFF15141D),
+                                                                                  decorationColor: const Color(0xFF15141D),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
+                                                                              0,
+                                                                              5,
+                                                                              0,
+                                                                              5),
+                                                                          width:
+                                                                              4,
+                                                                          height:
+                                                                              10,
+                                                                          child:
+                                                                              const Icon(
+                                                                            Icons.arrow_forward_ios,
+                                                                            size:
+                                                                                16,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const PhoneNumberVerification());
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin: const EdgeInsets
+                                                                      .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    color: const Color(
+                                                                        0xFFFFFFFF),
+                                                                    boxShadow: const [
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            1.5,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D2F3037),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
+                                                                        blurRadius:
+                                                                            34,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A222A35),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
+                                                                        blurRadius:
+                                                                            3,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            0.5,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.3, 0),
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(99),
+                                                                                color: const Color(0xFFFFFFFF),
+                                                                                boxShadow: const [
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 2),
+                                                                                    blurRadius: 2,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x0A123769),
+                                                                                    offset: Offset(0, 1),
+                                                                                    blurRadius: 0.5,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 0),
+                                                                                    blurRadius: 0,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              child: Container(
+                                                                                width: 20,
+                                                                                height: 20,
+                                                                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                                                                child: SizedBox(
+                                                                                  width: 10,
+                                                                                  height: 10,
+                                                                                  child: ImageView.svg(
+                                                                                    AppImages.check,
+                                                                                    color: (bioStatus) ? Colors.green : Colors.grey.shade300,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
+                                                                                'Verify your Phone Number',
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
                                                                                   fontWeight: FontWeight.w400,
@@ -1343,22 +1557,22 @@ class _HomeState extends State<Home> {
                                                                           isEdit:
                                                                               true));
 
-                    //                                                ZegoUIKitPrebuiltCallInvitationService().init(
-                    //   appID: AppStrings.zigoAppIdUrl,
-                    //   appSign: AppStrings.zegoAppSign,
-                      
-                    //   userID:  userId,
-      
-                    //   userName:  'userName',
-                      
-                    //   plugins: [ZegoUIKitSignalingPlugin()],
-                    // );
-                        
-                    //   AppNavigator.pushAndStackPage(context, 
-                    //   page: CallInviteScreen(inviteeId: 
-                    //   '293', 
-                    //   inviteeName: 'Nelson',
-                    //   appointmentId: 'upcomingAppointment.appointmentId.toString()',));
+                                                                  //                                                ZegoUIKitPrebuiltCallInvitationService().init(
+                                                                  //   appID: AppStrings.zigoAppIdUrl,
+                                                                  //   appSign: AppStrings.zegoAppSign,
+
+                                                                  //   userID:  userId,
+
+                                                                  //   userName:  'userName',
+
+                                                                  //   plugins: [ZegoUIKitSignalingPlugin()],
+                                                                  // );
+
+                                                                  //   AppNavigator.pushAndStackPage(context,
+                                                                  //   page: CallInviteScreen(inviteeId:
+                                                                  //   '293',
+                                                                  //   inviteeName: 'Nelson',
+                                                                  //   appointmentId: 'upcomingAppointment.appointmentId.toString()',));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1685,6 +1899,176 @@ class _HomeState extends State<Home> {
                                                                   ),
                                                                 ),
                                                               ),
+                                                              const SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  if (doctorState ==
+                                                                      '0') {
+                                                                    AppNavigator.pushAndStackPage(
+                                                                        context,
+                                                                        page:
+                                                                            const PendingVerification());
+                                                                  } else {
+                                                                    AppNavigator.pushAndStackPage(
+                                                                        context,
+                                                                        page:
+                                                                            const BankAccountUpdate());
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                    color: const Color(
+                                                                        0xFFFFFFFF),
+                                                                    boxShadow: const [
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            1.5,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D2F3037),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            24),
+                                                                        blurRadius:
+                                                                            34,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0A222A35),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            4),
+                                                                        blurRadius:
+                                                                            3,
+                                                                      ),
+                                                                      BoxShadow(
+                                                                        color: Color(
+                                                                            0x0D000000),
+                                                                        offset: Offset(
+                                                                            0,
+                                                                            1),
+                                                                        blurRadius:
+                                                                            0.5,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .fromLTRB(
+                                                                            12,
+                                                                            10,
+                                                                            22,
+                                                                            10),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 0, 8.4, 0),
+                                                                              decoration: BoxDecoration(
+                                                                                borderRadius: BorderRadius.circular(99),
+                                                                                color: const Color(0xFFFFFFFF),
+                                                                                boxShadow: const [
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 2),
+                                                                                    blurRadius: 2,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x0A123769),
+                                                                                    offset: Offset(0, 1),
+                                                                                    blurRadius: 0.5,
+                                                                                  ),
+                                                                                  BoxShadow(
+                                                                                    color: Color(0x14123769),
+                                                                                    offset: Offset(0, 0),
+                                                                                    blurRadius: 0,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              child: Container(
+                                                                                width: 20,
+                                                                                height: 20,
+                                                                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                                                                child: SizedBox(
+                                                                                  width: 10,
+                                                                                  height: 10,
+                                                                                  child: ImageView.svg(
+                                                                                    AppImages.check,
+                                                                                    color: (consultationStatus) ? Colors.green : Colors.grey.shade300,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              child: Text(
+                                                                                'Add Withdrawal Bank Account ',
+                                                                                style: GoogleFonts.getFont(
+                                                                                  'Inter',
+                                                                                  fontWeight: FontWeight.w400,
+                                                                                  fontSize: 14,
+                                                                                  decoration: (consultationStatus) ? TextDecoration.lineThrough : TextDecoration.none,
+                                                                                  color: const Color(0xFF15141D),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
+                                                                              0,
+                                                                              5,
+                                                                              0,
+                                                                              5),
+                                                                          width:
+                                                                              4,
+                                                                          height:
+                                                                              10,
+                                                                          child:
+                                                                              const SizedBox(
+                                                                            width:
+                                                                                4,
+                                                                            height:
+                                                                                10,
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 16,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         ),
@@ -1703,182 +2087,180 @@ class _HomeState extends State<Home> {
                                         )
                                       ],
                                       if (appointmentListsData.isNotEmpty) ...[
-                // //                        GestureDetector(
-                // //        onTap: () {
-                // //           AppNavigator.pushAndStackPage(context,
-                // //               page: ReschedulePage(
-                // //                 isSchedule: true,
-                // //                 appointment: appointmentListsData,
-                // //                 isDue: true, isTime: (
-                // //                  AppUtils.isWithinFiveMinutes(
-                // //         appointmentListsData[index].time ?? "",
-                // //         "${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}",
-                // //         context))
-                // //  ,
-                // //               ));
-                // //         },
-                // //       child: Container(
-                // //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                // //         decoration: BoxDecoration(
-                // //           borderRadius: BorderRadius.circular(12),
-                // //           color: const Color(0xFFFFFFFF),
-                // //           boxShadow: const [
-                // //             BoxShadow(
-                // //               color: Color(0x0A000000),
-                // //               offset: Offset(0, 1),
-                // //               blurRadius: 1.5,
-                // //             ),
-                // //             BoxShadow(
-                // //               color: Color(0x0D2F3037),
-                // //               offset: Offset(0, 24),
-                // //               blurRadius: 34,
-                // //             ),
-                // //             BoxShadow(
-                // //               color: Color(0x0A222A35),
-                // //               offset: Offset(0, 4),
-                // //               blurRadius: 3,
-                // //             ),
-                // //             BoxShadow(
-                // //               color: Color(0x0D000000),
-                // //               offset: Offset(0, 1),
-                // //               blurRadius: 0.5,
-                // //             ),
-                // //           ],
-                // //         ),
-                // //         child: Container(
-                // //           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                // //           child: Row(
-                // //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // //             crossAxisAlignment: CrossAxisAlignment.start,
-                // //             children: [
-                // //               SizedBox(
-                // //                 width: 210.1,
-                // //                 child: Container(
-                // //                   padding:
-                // //                       const EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
-                // //                   child: Row(
-                // //                     children: [
-                // //                       const ImageView.svg(AppImages.avatar),
-                // //                       const SizedBox(
-                // //                         width: 13,
-                // //                       ),
-                // //                       SizedBox(
-                // //                         width: 139.1,
-                // //                         child: Column(
-                // //                           mainAxisAlignment:
-                // //                               MainAxisAlignment.start,
-                // //                           crossAxisAlignment:
-                // //                               CrossAxisAlignment.start,
-                // //                           children: [
-                // //                             Text(
-                // //                               'Video Consultation',
-                // //                               style: GoogleFonts.getFont(
-                // //                                 'Inter',
-                // //                                 fontWeight: FontWeight.w500,
-                // //                                 fontSize: 12,
-                // //                                 height: 1.7,
-                // //                                 color: const Color(0xFF6B7280),
-                // //                               ),
-                // //                             ),
-                // //                             Text(
-                // //                               appointmentListsData[index]
-                // //                                       .patientFirstName ??
-                // //                                   '',
-                // //                               style: GoogleFonts.getFont(
-                // //                                 'Inter',
-                // //                                 fontWeight: FontWeight.w500,
-                // //                                 fontSize: 14,
-                // //                                 height: 1.4,
-                // //                                 color: const Color(0xFF0A0D14),
-                // //                               ),
-                // //                             ),
-                // //                             RichText(
-                // //                               text: TextSpan(
-                // //                                 style: GoogleFonts.getFont(
-                // //                                   'Inter',
-                // //                                   fontWeight: FontWeight.w400,
-                // //                                   fontSize: 12,
-                // //                                   height: 1.7,
-                // //                                   color: const Color(0xFF6B7280),
-                // //                                 ),
-                // //                                 children: [
-                // //                                   TextSpan(
-                // //                                     text:
-                // //                                         '${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}',
-                // //                                     style: GoogleFonts.getFont(
-                // //                                       'Inter',
-                // //                                       fontWeight: FontWeight.w500,
-                // //                                       fontSize: 12,
-                // //                                       height: 1.3,
-                // //                                       color:
-                // //                                           const Color(0xFF6C7079),
-                // //                                     ),
-                // //                                   ),
-                // //                                   TextSpan(
-                // //                                     text:
-                // //                                         '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))})',
-                                                    
-                // //                                     style: GoogleFonts.getFont(
-                                                      
-                // //                                       'Inter',
-                // //                                       fontWeight: FontWeight.w400,
-                // //                                       fontSize: 12,
-                // //                                       height: 1.7,
-                // //                                       color:
-                // //                                           const Color(0xFF6B7280),
-                // //                                     ),
-                // //                                   ),
-                // //                                 ],
-                // //                               ),
-                // //                             ),
-                // //                           ],
-                // //                         ),
-                // //                       ),
-                // //                     ],
-                // //                   ),
-                // //                 ),
-                // //               ),
-                // //               GestureDetector(
-                // //                 onTap: () {
+                                        // //                        GestureDetector(
+                                        // //        onTap: () {
+                                        // //           AppNavigator.pushAndStackPage(context,
+                                        // //               page: ReschedulePage(
+                                        // //                 isSchedule: true,
+                                        // //                 appointment: appointmentListsData,
+                                        // //                 isDue: true, isTime: (
+                                        // //                  AppUtils.isWithinFiveMinutes(
+                                        // //         appointmentListsData[index].time ?? "",
+                                        // //         "${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}",
+                                        // //         context))
+                                        // //  ,
+                                        // //               ));
+                                        // //         },
+                                        // //       child: Container(
+                                        // //         margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                        // //         decoration: BoxDecoration(
+                                        // //           borderRadius: BorderRadius.circular(12),
+                                        // //           color: const Color(0xFFFFFFFF),
+                                        // //           boxShadow: const [
+                                        // //             BoxShadow(
+                                        // //               color: Color(0x0A000000),
+                                        // //               offset: Offset(0, 1),
+                                        // //               blurRadius: 1.5,
+                                        // //             ),
+                                        // //             BoxShadow(
+                                        // //               color: Color(0x0D2F3037),
+                                        // //               offset: Offset(0, 24),
+                                        // //               blurRadius: 34,
+                                        // //             ),
+                                        // //             BoxShadow(
+                                        // //               color: Color(0x0A222A35),
+                                        // //               offset: Offset(0, 4),
+                                        // //               blurRadius: 3,
+                                        // //             ),
+                                        // //             BoxShadow(
+                                        // //               color: Color(0x0D000000),
+                                        // //               offset: Offset(0, 1),
+                                        // //               blurRadius: 0.5,
+                                        // //             ),
+                                        // //           ],
+                                        // //         ),
+                                        // //         child: Container(
+                                        // //           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                                        // //           child: Row(
+                                        // //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        // //             crossAxisAlignment: CrossAxisAlignment.start,
+                                        // //             children: [
+                                        // //               SizedBox(
+                                        // //                 width: 210.1,
+                                        // //                 child: Container(
+                                        // //                   padding:
+                                        // //                       const EdgeInsets.fromLTRB(0, 2.5, 0, 2.5),
+                                        // //                   child: Row(
+                                        // //                     children: [
+                                        // //                       const ImageView.svg(AppImages.avatar),
+                                        // //                       const SizedBox(
+                                        // //                         width: 13,
+                                        // //                       ),
+                                        // //                       SizedBox(
+                                        // //                         width: 139.1,
+                                        // //                         child: Column(
+                                        // //                           mainAxisAlignment:
+                                        // //                               MainAxisAlignment.start,
+                                        // //                           crossAxisAlignment:
+                                        // //                               CrossAxisAlignment.start,
+                                        // //                           children: [
+                                        // //                             Text(
+                                        // //                               'Video Consultation',
+                                        // //                               style: GoogleFonts.getFont(
+                                        // //                                 'Inter',
+                                        // //                                 fontWeight: FontWeight.w500,
+                                        // //                                 fontSize: 12,
+                                        // //                                 height: 1.7,
+                                        // //                                 color: const Color(0xFF6B7280),
+                                        // //                               ),
+                                        // //                             ),
+                                        // //                             Text(
+                                        // //                               appointmentListsData[index]
+                                        // //                                       .patientFirstName ??
+                                        // //                                   '',
+                                        // //                               style: GoogleFonts.getFont(
+                                        // //                                 'Inter',
+                                        // //                                 fontWeight: FontWeight.w500,
+                                        // //                                 fontSize: 14,
+                                        // //                                 height: 1.4,
+                                        // //                                 color: const Color(0xFF0A0D14),
+                                        // //                               ),
+                                        // //                             ),
+                                        // //                             RichText(
+                                        // //                               text: TextSpan(
+                                        // //                                 style: GoogleFonts.getFont(
+                                        // //                                   'Inter',
+                                        // //                                   fontWeight: FontWeight.w400,
+                                        // //                                   fontSize: 12,
+                                        // //                                   height: 1.7,
+                                        // //                                   color: const Color(0xFF6B7280),
+                                        // //                                 ),
+                                        // //                                 children: [
+                                        // //                                   TextSpan(
+                                        // //                                     text:
+                                        // //                                         '${AppUtils.getHumanReadableDate(appointmentListsData[index].date ?? '')}, ${AppUtils.formatTimeOnly(dateTime: appointmentListsData[index].time ?? '')}',
+                                        // //                                     style: GoogleFonts.getFont(
+                                        // //                                       'Inter',
+                                        // //                                       fontWeight: FontWeight.w500,
+                                        // //                                       fontSize: 12,
+                                        // //                                       height: 1.3,
+                                        // //                                       color:
+                                        // //                                           const Color(0xFF6C7079),
+                                        // //                                     ),
+                                        // //                                   ),
+                                        // //                                   TextSpan(
+                                        // //                                     text:
+                                        // //                                         '  (${AppUtils.getTimeDifference(replaceTimeInDateTime(appointmentListsData[index].date ?? '', appointmentListsData[index].time ?? ''))})',
 
-                                 
+                                        // //                                     style: GoogleFonts.getFont(
 
-                // //                   ZegoUIKitPrebuiltCallInvitationService().init(
-                // //                     appID: AppStrings.zigoAppIdUrl,
-                // //                     appSign: AppStrings.zegoAppSign,
-                // //                     userID: userId,
-                // //                     userName: username,
-                // //                     plugins: [ZegoUIKitSignalingPlugin()],
-                // //                   );
-                        
-                // //                   AppNavigator.pushAndStackPage(context,
-                // //                       page: CallInviteScreen(
-                // //                         inviteeId: appointmentListsData[index]
-                // //                             .patientId
-                // //                             .toString(),
-                // //                         inviteeName: appointmentListsData[index]
-                // //                             .patientLastName
-                // //                             .toString(),
-                // //                         appointmentId: appointmentListsData[index]
-                // //                             .appointmentId
-                // //                             .toString(),
-                // //                       ));
-                //                 },
-                //                 child: Container(
-                //                   margin:
-                //                       const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
-                //                   child: const SizedBox(
-                //                     width: 40.1,
-                //                     height: 40.8,
-                //                     child: ImageView.svg(AppImages.videoIcon),
-                //                   ),
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     )
+                                        // //                                       'Inter',
+                                        // //                                       fontWeight: FontWeight.w400,
+                                        // //                                       fontSize: 12,
+                                        // //                                       height: 1.7,
+                                        // //                                       color:
+                                        // //                                           const Color(0xFF6B7280),
+                                        // //                                     ),
+                                        // //                                   ),
+                                        // //                                 ],
+                                        // //                               ),
+                                        // //                             ),
+                                        // //                           ],
+                                        // //                         ),
+                                        // //                       ),
+                                        // //                     ],
+                                        // //                   ),
+                                        // //                 ),
+                                        // //               ),
+                                        // //               GestureDetector(
+                                        // //                 onTap: () {
+
+                                        // //                   ZegoUIKitPrebuiltCallInvitationService().init(
+                                        // //                     appID: AppStrings.zigoAppIdUrl,
+                                        // //                     appSign: AppStrings.zegoAppSign,
+                                        // //                     userID: userId,
+                                        // //                     userName: username,
+                                        // //                     plugins: [ZegoUIKitSignalingPlugin()],
+                                        // //                   );
+
+                                        // //                   AppNavigator.pushAndStackPage(context,
+                                        // //                       page: CallInviteScreen(
+                                        // //                         inviteeId: appointmentListsData[index]
+                                        // //                             .patientId
+                                        // //                             .toString(),
+                                        // //                         inviteeName: appointmentListsData[index]
+                                        // //                             .patientLastName
+                                        // //                             .toString(),
+                                        // //                         appointmentId: appointmentListsData[index]
+                                        // //                             .appointmentId
+                                        // //                             .toString(),
+                                        // //                       ));
+                                        //                 },
+                                        //                 child: Container(
+                                        //                   margin:
+                                        //                       const EdgeInsets.fromLTRB(0, 29.2, 0, 0),
+                                        //                   child: const SizedBox(
+                                        //                     width: 40.1,
+                                        //                     height: 40.8,
+                                        //                     child: ImageView.svg(AppImages.videoIcon),
+                                        //                   ),
+                                        //                 ),
+                                        //               ),
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     )
                                       ],
                                       Column(
                                         mainAxisAlignment:
@@ -1899,7 +2281,7 @@ class _HomeState extends State<Home> {
                                                 //     page: AppointmentTabView(
                                                 //       isDashboard: false,
                                                 //     ));
-                                                 AppNavigator.pushAndStackPage(
+                                                AppNavigator.pushAndStackPage(
                                                     context,
                                                     page: const PatientPage(
                                                       isDashboard: false,
@@ -2363,21 +2745,22 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 const SizedBox(
-                  height: 15,
-                ),
-                                 Padding(
-                                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                   child: Choices(
-                                                     items: const ["1 Day", "7 Days", "30 Days"],
-                                                     onSelected: (value)async{
-                                                       int number = extractNumber(value);
-                                                       _handleDaySelected(value,context, number.toString());
-                                                         await _userCubit.doctorsAnalyticsAccount(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: Choices(
+                                    items: const ["1 Day", "7 Days", "30 Days"],
+                                    onSelected: (value) async {
+                                      int number = extractNumber(value);
+                                      _handleDaySelected(
+                                          value, context, number.toString());
+                                      await _userCubit.doctorsAnalyticsAccount(
                                           days: number.toString());
-                                                     } ,
-                                                   ),
-                                 ),
-                
+                                    },
+                                  ),
+                                ),
                                 if (totalConsultation == '0' &&
                                     totalPrescription == '0' &&
                                     totalRevenue == '0' &&
@@ -2389,11 +2772,7 @@ class _HomeState extends State<Home> {
                                     totalPrescription: totalPrescription,
                                     totalRevenue: totalRevenue,
                                     patientDemography: patientDemography,
-                                    onTap: (String value) async {
-                                      // await _userCubit.viewModel
-                                      //     .clearAnalytics();
-                                    
-                                    },
+                                    onTap: (String value) async {},
                                   )
                                 ],
                               ],
@@ -2405,13 +2784,9 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              if (
-                // ((_userCubit.viewModel.analytics == null)
-                //       ? state is AnalyticsLoading
-                //       : false) ||
-                  ((_userCubit.viewModel.status == null)
-                      ? state is ProfileStatusLoading
-                      : false))
+              if (isLoading || _userCubit.viewModel.status == null
+                  ? state is ProfileStatusLoading
+                  : false)
                 Container(
                   color: AppColors.indicatorBgColor,
                   child: Center(
@@ -2474,15 +2849,19 @@ class _HomeState extends State<Home> {
     }
   }
 
+  bool isLoading = false;
   Future<void> _refreshPage() async {
-    // await _userCubit.viewModel.clearProfileStatus();
-    // await _userCubit.viewModel.clearAnalytics();
-      _userCubit.getProfileStatus();
-      _userCubit.doctorsAnalyticsAccount(days: '1');
+    setState(() {
+      isLoading = true;
+    });
+    await _userCubit.getProfileStatus();
+    await _userCubit.doctorsAnalyticsAccount(days: '1');
 
-      _userCubit.userData();
-      _userCubit.getAppointmentList();
+    await _userCubit.userData();
 
-    
+    setState(() {
+      isLoading = false;
+    });
+    _userCubit.getAppointmentList();
   }
 }

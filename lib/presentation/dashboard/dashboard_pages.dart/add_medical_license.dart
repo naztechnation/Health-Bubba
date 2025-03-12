@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../res/app_colors.dart';
 import '../../../res/app_images.dart';
+import '../../../utils/navigator/page_navigator.dart';
 import '../../../utils/validator.dart';
 
 import '../../../widgets/button_view.dart';
 import '../../../widgets/image_view.dart';
 import '../../../widgets/modals.dart';
 import '../../../widgets/text_edit_view.dart';
+import 'uploaded_medical_license.dart';
 
 class AddMedicalLicense extends StatelessWidget {
   AddMedicalLicense({super.key});
@@ -58,9 +60,7 @@ class AddMedicalLicense extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  
                   Text(
                     'Medical Qualification',
                     style: GoogleFonts.getFont(
@@ -267,7 +267,7 @@ class AddMedicalLicense extends StatelessWidget {
                         ClipRRect(
                           borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(20),
-                              bottomRight: const Radius.circular(20)),
+                              bottomRight:   Radius.circular(20)),
                           child: Container(
                             width: MediaQuery.sizeOf(context).width,
                             padding: const EdgeInsets.symmetric(
@@ -305,7 +305,7 @@ class AddMedicalLicense extends StatelessWidget {
           child: ButtonView(
               onPressed: () {
                 Modals.showBottomSheetModal(context,
-                    heightFactor: 0.5,
+                    heightFactor: 0.45,
                     isDissmissible: true,
                     isScrollControlled: true,
                     page: Padding(
@@ -314,7 +314,7 @@ class AddMedicalLicense extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(
-                            height: 30,
+                            height: 15,
                           ),
                          Container(
                     padding: const EdgeInsets.all(14),
@@ -393,7 +393,10 @@ class AddMedicalLicense extends StatelessWidget {
                             height: 50,
                           ),
                           ButtonView(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pop(context);
+                                AppNavigator.pushAndStackPage(context, page: UploadedMedicalLicensePage());
+                              },
                               borderRadius: 100,
                               color: AppColors.lightSecondary,
                               child: const Text(

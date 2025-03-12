@@ -252,7 +252,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                               children: [
                                                 TextSpan(
                                                   text:
-                                                      'your email and phone number',
+                                                      'your email',
                                                   style: GoogleFonts.getFont(
                                                     'Inter',
                                                     fontWeight: FontWeight.w600,
