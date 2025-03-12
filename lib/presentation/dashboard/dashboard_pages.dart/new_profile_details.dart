@@ -199,446 +199,104 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (!isSavedBefore)
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 16, 16, 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            width: MediaQuery.sizeOf(context)
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0x12000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                    spreadRadius: 1,
-                                                  ),
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: const Color(0xFFF7F7F7)),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(14),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            'Personal Details ',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 16,
-                                                              height: 1.6,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                          const ImageView.svg(
-                                                            AppImages.edit,
-                                                            height: 18,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                 
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      boxShadow: const [
-                                                        BoxShadow(
-                                                          color:
-                                                              Color(0x08000000),
-                                                          offset: Offset(0, 0),
-                                                          blurRadius: 0,
-                                                          spreadRadius: 1,
-                                                        ),
-                                                        BoxShadow(
-                                                          color:
-                                                              Color(0x0F191C21),
-                                                          offset: Offset(0, 1),
-                                                          blurRadius: 2,
-                                                          spreadRadius: 0,
-                                                        ),
-                                                        BoxShadow(
-                                                          color:
-                                                              Color(0x14000000),
-                                                          offset: Offset(0, 0),
-                                                          blurRadius: 2,
-                                                          spreadRadius: 0,
-                                                        ),
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20),
-                                                      color: Colors.white),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            14.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Title',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'MR',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'First name',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Alexander',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Last name',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Ogunyemi',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Phone Number',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              '08116848839',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Location',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Ikeja, Lagos',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Experience',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              '14 years',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              'Clinic/Hospital Affiliation',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .start,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF6B7280),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'FMC, Yaba',
-                                                              textAlign:
-                                                                  TextAlign.end,
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Inter',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: 13,
-                                                                height: 1.4,
-                                                                color: const Color(
-                                                                    0xFF131316),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 16, 15),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width,
+                                          decoration: BoxDecoration(
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color(0x12000000),
+                                                  offset: Offset(0, 0),
+                                                  blurRadius: 0,
+                                                  spreadRadius: 1,
                                                 ),
                                               ],
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.sizeOf(context)
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0x12000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                    spreadRadius: 1,
-                                                  ),
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: const Color(0xFFF7F7F7)),
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(14),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: const Color(0xFFF7F7F7)),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Personal Details ',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 16,
+                                                            height: 1.6,
+                                                            color: const Color(
+                                                                0xFF131316),
+                                                          ),
+                                                        ),
+                                                        const ImageView.svg(
+                                                          AppImages.edit,
+                                                          height: 18,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x08000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 0,
+                                                        spreadRadius: 1,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x0F191C21),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x14000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.white),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      14.0),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -650,796 +308,760 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                 .spaceBetween,
                                                         children: [
                                                           Text(
-                                                            'Enable Returning Consultation Fee',
+                                                            'Title',
+                                                            textAlign:
+                                                                TextAlign.start,
                                                             style: GoogleFonts
                                                                 .getFont(
                                                               'Inter',
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w500,
-                                                              fontSize: 16,
-                                                              height: 1.6,
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'MR',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
                                                               color: const Color(
                                                                   0xFF131316),
                                                             ),
-                                                          ),
-                                                          Transform.scale(
-                                                            scale: 0.85,
-                                                            child:
-                                                                CupertinoSwitch(
-                                                              value:
-                                                                  isReturningOn,
-                                                              onChanged:
-                                                                  (value) {
-                                                                setState(() {
-                                                                  isReturningOn =
-                                                                      value;
-                                                                });
-                                                              },
-                                                              activeColor:
-                                                                  const Color(
-                                                                      0xff3B82F6),
-                                                            ),
-                                                          ),
+                                                          )
                                                         ],
                                                       ),
                                                       const SizedBox(
                                                         height: 10,
                                                       ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'First name',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Alexander',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Last name',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Ogunyemi',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Phone Number',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '08116848839',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Location',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'Ikeja, Lagos',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Experience',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '14 years',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Clinic/Hospital Affiliation',
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF6B7280),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            'FMC, Yaba',
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Inter',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13,
+                                                              height: 1.4,
+                                                              color: const Color(
+                                                                  0xFF131316),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width,
+                                          decoration: BoxDecoration(
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color(0x12000000),
+                                                  offset: Offset(0, 0),
+                                                  blurRadius: 0,
+                                                  spreadRadius: 1,
+                                                ),
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: const Color(0xFFF7F7F7)),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(14),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Work Details ',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Inter',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 16,
+                                                            height: 1.6,
+                                                            color: const Color(
+                                                                0xFF131316),
+                                                          ),
+                                                        ),
+                                                        const ImageView.svg(
+                                                          AppImages.edit,
+                                                          height: 18,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x08000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 0,
+                                                        spreadRadius: 1,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x0F191C21),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x14000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.white),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      14.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
                                                       Text(
-                                                        'Offer a promotional fee to returning patients within a certain period from their First Consultation',
+                                                        'Medical License ',
                                                         style:
                                                             GoogleFonts.getFont(
                                                           'Inter',
                                                           fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: 14,
-                                                          height: 1.4,
+                                                              FontWeight.w500,
+                                                          fontSize: 16,
+                                                          height: 1.6,
                                                           color: const Color(
-                                                              0xFF6B7280),
+                                                              0xFF131316),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                if (isReturningOn)
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        boxShadow: const [
-                                                          BoxShadow(
-                                                            color: Color(
-                                                                0x08000000),
-                                                            offset:
-                                                                Offset(0, 0),
-                                                            blurRadius: 0,
-                                                            spreadRadius: 1,
-                                                          ),
-                                                          BoxShadow(
-                                                            color: Color(
-                                                                0x0F191C21),
-                                                            offset:
-                                                                Offset(0, 1),
-                                                            blurRadius: 2,
-                                                            spreadRadius: 0,
-                                                          ),
-                                                          BoxShadow(
-                                                            color: Color(
-                                                                0x14000000),
-                                                            offset:
-                                                                Offset(0, 0),
-                                                            blurRadius: 2,
-                                                            spreadRadius: 0,
-                                                          ),
-                                                        ],
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        color: Colors.white),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              14.0),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            'Rate',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 14,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          TextEditView(
-                                                            controller:
-                                                                returningRateController,
-                                                            borderColor: Colors
-                                                                .grey.shade200,
-                                                            borderWidth: 0.5,
-                                                            hintText:
-                                                                'Enter rate in NGN',
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            validator: (value) {
-                                                              return Validator
-                                                                  .validate(
-                                                                      value,
-                                                                      'Rate');
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            'Each consultation lasts 30minutes',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 16,
-                                                              height: 1.6,
-                                                              color: const Color(
-                                                                  0xFFD97706),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Divider(
-                                                            color: Colors
-                                                                .grey.shade200,
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            'Valid for (Returning fee would be applied throughout this period):',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 16,
-                                                              height: 1.6,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 14,
-                                                          ),
-                                                          Text(
-                                                            'Duration',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 14,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          TextEditView(
-                                                            controller:
-                                                                durationController,
-                                                            borderColor: Colors
-                                                                .grey.shade200,
-                                                            borderWidth: 0.5,
-                                                            hintText: 'Select',
-                                                            suffixIcon: Icon(
-                                                              Icons
-                                                                  .keyboard_arrow_down,
-                                                              color: Colors.grey
-                                                                  .shade700,
-                                                            ),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            validator: (value) {
-                                                              return Validator
-                                                                  .validate(
-                                                                      value,
-                                                                      'Rate');
-                                                            },
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                'Forever',
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .getFont(
-                                                                  'Inter',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontSize: 16,
-                                                                  height: 1.6,
-                                                                  color: const Color(
-                                                                      0xFF131316),
-                                                                ),
-                                                              ),
-                                                              Transform.scale(
-                                                                scale: 0.85,
-                                                                child:
-                                                                    CupertinoSwitch(
-                                                                  value:
-                                                                      isForeverOn,
-                                                                  onChanged:
-                                                                      (value) {
-                                                                    setState(
-                                                                        () {
-                                                                      isForeverOn =
-                                                                          value;
-                                                                    });
-                                                                  },
-                                                                  activeColor:
-                                                                      const Color(
-                                                                          0xff3B82F6),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      // Container(
-                                      //   margin: const EdgeInsets.fromLTRB(
-                                      //       0, 0, 0, 16),
-                                      //   child: Column(
-                                      //     mainAxisAlignment:
-                                      //         MainAxisAlignment.start,
-                                      //     crossAxisAlignment:
-                                      //         CrossAxisAlignment.start,
-                                      //     children: [
-                                      //       Container(
-                                      //         margin: const EdgeInsets.fromLTRB(
-                                      //             0, 0, 0, 8),
-                                      //         child: Align(
-                                      //           alignment: Alignment.topLeft,
-                                      //           child: Text(
-                                      //             'Duration',
-                                      //             style: GoogleFonts.getFont(
-                                      //               'Inter',
-                                      //               fontWeight: FontWeight.w500,
-                                      //               fontSize: 14,
-                                      //               height: 1.4,
-                                      //               color:
-                                      //                   const Color(0xFF131316),
-                                      //             ),
-                                      //           ),
-                                      //         ),
-                                      //       ),
-                                      //       TextEditView(
-                                      //         controller: durationController,
-                                      //         borderColor: Colors.grey.shade200,
-                                      //         borderWidth: 0.5,
-                                      //         readOnly: true,
-                                      //         hintText: 'Select',
-                                      //         suffixIcon: const Padding(
-                                      //           padding: EdgeInsets.all(17.0),
-                                      //           child: ImageView.svg(
-                                      //             AppImages.dropDown,
-                                      //             scale: 0.8,
-                                      //           ),
-                                      //         ),
-                                      //         onTap: () {
-                                      //           Modals.showDialogModal(context,
-                                      //               page: durationModalContent(
-                                      //                   context));
-                                      //         },
-                                      //       ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                              if (isSavedBefore)
-                                Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      margin: const EdgeInsets.all(14),
-                                      decoration: BoxDecoration(
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x12000000),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                              spreadRadius: 1,
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: const Color(0xFFF7F7F7)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(14),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Default Consultation fee',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 16,
-                                                        height: 1.6,
-                                                        color: const Color(
-                                                            0xFF131316),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0x08000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                    spreadRadius: 1,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x0F191C21),
-                                                    offset: Offset(0, 1),
-                                                    blurRadius: 2,
-                                                    spreadRadius: 0,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x14000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 2,
-                                                    spreadRadius: 0,
-                                                  ),
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Colors.white),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.all(18),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const ImageView.svg(
-                                                            AppImages.card,
-                                                            height: 32,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "Rate: N${AppUtils.convertPrice(fee)}",
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          16,
-                                                                      height:
-                                                                          1.4,
-                                                                      color: const Color(
-                                                                          0xFF131316),
-                                                                    ),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 12,
-                                                                  ),
-                                                                  Text(
-                                                                    "For 30mins",
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          14,
-                                                                      height:
-                                                                          1.4,
-                                                                      color: const Color(
-                                                                          0xFF5E5F6E),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
+                                                      const SizedBox(
+                                                        height: 10,
                                                       ),
                                                       GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              isSavedBefore =
-                                                                  false;
-                                                            });
-                                                          },
-                                                          child: const ImageView
-                                                              .svg(
-                                                            AppImages.edit,
-                                                            height: 18,
-                                                          ))
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Container(
-                                      width: MediaQuery.sizeOf(context).width,
-                                      margin: const EdgeInsets.all(14),
-                                      decoration: BoxDecoration(
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color(0x12000000),
-                                              offset: Offset(0, 0),
-                                              blurRadius: 0,
-                                              spreadRadius: 1,
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: const Color(0xFFF7F7F7)),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(14),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Returning Consultation Fee',
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                        'Inter',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 16,
-                                                        height: 1.6,
-                                                        color: const Color(
-                                                            0xFF131316),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    GestureDetector(
-                                                        onTap: () {
-                                                          Modals.showBottomSheetModal(
-                                                              context,
-                                                              heightFactor:
-                                                                  0.35,
-                                                              isDissmissible:
-                                                                  true,
-                                                              isScrollControlled:
-                                                                  true,
-                                                              page: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        18.0),
-                                                                child: Column(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                      context)
+                                                                  .width,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 14,
+                                                                  horizontal:
+                                                                      20),
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: const [
+                                                                BoxShadow(
+                                                                  color: Color(
+                                                                      0x12000000),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0, 0),
+                                                                  blurRadius: 0,
+                                                                  spreadRadius:
+                                                                      1,
+                                                                ),
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color: const Color(
+                                                                  0xFFF7F7F7)),
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Column(
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    Text(
-                                                                      'Returning Consultation Fee',
-                                                                      style: GoogleFonts
-                                                                          .getFont(
-                                                                        'Inter',
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            1.6,
-                                                                        color: const Color(
-                                                                            0xFF131316),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height:
-                                                                          16,
-                                                                    ),
-                                                                    Text(
-                                                                      'Offer a promotional fee to returning patients within a certain period from their First Consultation',
-                                                                      style: GoogleFonts
-                                                                          .getFont(
-                                                                        'Inter',
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            1.6,
-                                                                        color: const Color(
-                                                                            0xFF6B7280),
-                                                                      ),
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height:
-                                                                          40,
-                                                                    ),
-                                                                    ButtonView(
-                                                                        onPressed:
-                                                                            () {},
-                                                                        borderRadius:
-                                                                            100,
-                                                                        color: AppColors
-                                                                            .lightSecondary,
-                                                                        child:
-                                                                            const Text(
-                                                                          'Okay',
+                                                                    Row(
+                                                                      children: [
+                                                                        Container(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              8),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            shape:
+                                                                                BoxShape.circle,
+                                                                            color:
+                                                                                Colors.grey.shade200,
+                                                                          ),
+                                                                          child:
+                                                                              const ImageView.svg(
+                                                                            AppImages.file,
+                                                                            height:
+                                                                                18,
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          width:
+                                                                              12,
+                                                                        ),
+                                                                        const Text(
+                                                                          'MBCH',
                                                                           style: TextStyle(
-                                                                              color: AppColors.lightPrimary,
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.w600),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      height:
+                                                                          10,
+                                                                    ),
+                                                                    Text(
+                                                                      'Medical License MBCH.pdf',
+                                                                      style: GoogleFonts.inter(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color: const Color(
+                                                                              0xFF1D2939),
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      height:
+                                                                          10,
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        RichText(
+                                                                          text:
+                                                                              TextSpan(
+                                                                            text:
+                                                                                'Valid till: ',
+                                                                            style:
+                                                                                GoogleFonts.inter(
                                                                               fontSize: 14,
-                                                                              fontWeight: FontWeight.w500),
-                                                                        )),
+                                                                              color: const Color(0xFF1D2939),
+                                                                              fontWeight: FontWeight.w300,
+                                                                            ),
+                                                                            children: [
+                                                                              TextSpan(
+                                                                                text: '8-09-2026',
+                                                                                style: GoogleFonts.inter(
+                                                                                  fontSize: 14,
+                                                                                  color: Colors.black,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                        Container(
+                                                                          margin: const EdgeInsets
+                                                                              .only(
+                                                                              right: 13),
+                                                                          padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                              horizontal: 12,
+                                                                              vertical: 8),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            border:
+                                                                                Border.all(color: const Color(0xFFFDE68A), width: 1),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                            color:
+                                                                                const Color(0xFFFEF3C7),
+                                                                            boxShadow: const [
+                                                                              BoxShadow(
+                                                                                color: Color(0xFFF0F0F0),
+                                                                                offset: Offset(0, 0),
+                                                                                blurRadius: 0,
+                                                                              ),
+                                                                              BoxShadow(
+                                                                                color: Color(0x409F9E9E),
+                                                                                offset: Offset(0, 1),
+                                                                                blurRadius: 1,
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          child:
+                                                                              Text(
+                                                                            'Under Review',
+                                                                            style:
+                                                                                GoogleFonts.getFont(
+                                                                              'Inter',
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontSize: 14,
+                                                                              height: 1.4,
+                                                                              color: const Color(0xFF92400E),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      height: 8,
+                                                                    ),
+                                                                    
                                                                   ],
-                                                                ),
-                                                              ));
-                                                        },
-                                                        child:
-                                                            const ImageView.svg(
-                                                          AppImages
-                                                              .infoBorderIcon,
-                                                          height: 25,
-                                                        ))
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                    color: Color(0x08000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 0,
-                                                    spreadRadius: 1,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x0F191C21),
-                                                    offset: Offset(0, 1),
-                                                    blurRadius: 2,
-                                                    spreadRadius: 0,
-                                                  ),
-                                                  BoxShadow(
-                                                    color: Color(0x14000000),
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 2,
-                                                    spreadRadius: 0,
-                                                  ),
-                                                ],
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Colors.white),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.all(18),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          const ImageView.svg(
-                                                            AppImages.card,
-                                                            height: 32,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "Rate: N${AppUtils.convertPrice(fee)}",
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          16,
-                                                                      height:
-                                                                          1.4,
-                                                                      color: const Color(
-                                                                          0xFF131316),
-                                                                    ),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 12,
-                                                                  ),
-                                                                  Text(
-                                                                    "For 30mins",
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          14,
-                                                                      height:
-                                                                          1.4,
-                                                                      color: const Color(
-                                                                          0xFF5E5F6E),
-                                                                    ),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 12,
-                                                                  ),
-                                                                  Text(
-                                                                    "Validity: Forever",
-                                                                    style: GoogleFonts
-                                                                        .getFont(
-                                                                      'Inter',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          14,
-                                                                      height:
-                                                                          1.4,
-                                                                      color: const Color(
-                                                                          0xFF5E5F6E),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
+                                                                )
+                                                              ]),
+                                                        ),
                                                       ),
-                                                      GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              isSavedBefore =
-                                                                  false;
-                                                            });
-                                                          },
-                                                          child: const ImageView
-                                                              .svg(
-                                                            AppImages.edit,
-                                                            height: 18,
-                                                          ))
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              const SizedBox(height: 10,),
+                                               Container(
+                                                decoration: BoxDecoration(
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x08000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 0,
+                                                        spreadRadius: 1,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x0F191C21),
+                                                        offset: Offset(0, 1),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                      BoxShadow(
+                                                        color:
+                                                            Color(0x14000000),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 0,
+                                                      ),
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    color: Colors.white),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      14.0),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'E-signature',
+                                                        style:
+                                                            GoogleFonts.getFont(
+                                                          'Inter',
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 16,
+                                                          height: 1.6,
+                                                          color: const Color(
+                                                              0xFF131316),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () {},
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                      context)
+                                                                  .width,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 14,
+                                                                  horizontal:
+                                                                      20),
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: const [
+                                                                BoxShadow(
+                                                                  color: Color(
+                                                                      0x12000000),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0, 0),
+                                                                  blurRadius: 0,
+                                                                  spreadRadius:
+                                                                      1,
+                                                                ),
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                              color: const Color(
+                                                                  0xFFF7F7F7)),
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Container(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              8),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            shape:
+                                                                                BoxShape.circle,
+                                                                            color:
+                                                                                Colors.grey.shade200,
+                                                                          ),
+                                                                          child:
+                                                                              const ImageView.svg(
+                                                                            AppImages.file,
+                                                                            height:
+                                                                                18,
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          width:
+                                                                              12,
+                                                                        ),
+                                                                        Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            const Text(
+                                                                              'E-signature.pdf',
+                                                                              style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  fontWeight: FontWeight.w600),
+                                                                            ),
+                                                                            
+                                                                    Text(
+                                                                      'Uploaded Nov 24. 2023',
+                                                                      style: GoogleFonts.inter(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: const Color(
+                                                                              0xFF98A2B3),
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    
+                                                                   
+                                                                    
+                                                                       
+                                                                     
+                                                                    
+                                                                  ],
+                                                                )
+                                                              ]),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    // ButtonView(
-                                    //     expanded: false,
-                                    //     onPressed: () {
-
-                                    //     },
-                                    //     borderRadius: 100,
-                                    //     color: AppColors.lightPrimary,
-                                    //     borderWidth: 1,
-                                    //     borderColor: Colors.grey.shade300,
-                                    //     child: const Text(
-                                    //       'Edit Consultation Fee',
-                                    //       style: TextStyle(
-                                    //           color: AppColors.lightSecondary,
-                                    //           fontSize: 14,
-                                    //           fontWeight: FontWeight.w500),
-                                    //     )),
                                   ],
-                                )
+                                ),
+                              ),
                             ],
                           ),
                         ),

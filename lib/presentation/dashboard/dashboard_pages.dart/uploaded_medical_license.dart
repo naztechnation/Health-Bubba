@@ -56,8 +56,7 @@ class UploadedMedicalLicensePage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                // AppNavigator.pushAndStackPage(context,
-                // page: AddMedicalLicense());
+                
               },
               child: Container(
                 width: MediaQuery.sizeOf(context).width,
