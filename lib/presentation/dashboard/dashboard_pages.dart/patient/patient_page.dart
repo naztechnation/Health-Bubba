@@ -18,6 +18,7 @@ import '../../../../widgets/text_edit_view.dart';
 import '../../dashboard.dart';
 import '../unverified_screen.dart';
 import '../widgets/patient_card.dart';
+import 'new_patient_details.dart';
 import 'patient_details.dart';
 
 class PatientPage extends StatelessWidget {
@@ -323,13 +324,23 @@ getVerifiedKey()async{
                                                        AppNavigator
                                                         .pushAndStackPage(
                                                       context,
-                                                      page: PatientDetails(
+                                                      page: NewPatientDetails(
                                                         patientsData: _userCubit
                                                                 .viewModel
                                                                 .filteredPatientsLists[
                                                             index],
                                                       ),
                                                     );
+                                                    //    AppNavigator
+                                                    //     .pushAndStackPage(
+                                                    //   context,
+                                                    //   page: PatientDetails(
+                                                    //     patientsData: _userCubit
+                                                    //             .viewModel
+                                                    //             .filteredPatientsLists[
+                                                    //         index],
+                                                    //   ),
+                                                    // );
 
                                                   
                                                     }

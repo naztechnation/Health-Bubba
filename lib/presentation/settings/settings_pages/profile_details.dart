@@ -1,6 +1,4 @@
-
-
-import 'package:flutter/cupertino.dart';
+ 
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -14,33 +12,32 @@ import 'consultaion_fee.dart';
 class PaymentDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return 
-    Scaffold(
-       backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-          title: const Text(
-            'Payment Details',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Padding(
-              padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
-              child: SizedBox(
-                width: 15,
+        title: const Text(
+          'Payment Details',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Padding(
+            padding: EdgeInsets.only(left: 12.0, top: 19, bottom: 19),
+            child: SizedBox(
+              width: 15,
+              height: 15,
+              child: ImageView.svg(
+                AppImages.backBtn,
                 height: 15,
-                child: ImageView.svg(
-                  AppImages.backBtn,
-                  height: 15,
-                ),
               ),
             ),
           ),
         ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: const Color(0xFFFFFFFF),
@@ -56,13 +53,12 @@ class PaymentDetails extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 decoration: const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide (
+                    bottom: BorderSide(
                       color: Color(0xFFE5E7EB),
                       width: 1,
                     ),
                   ),
                 ),
-                 
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -70,20 +66,18 @@ class PaymentDetails extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-
-                                              AppNavigator.pushAndStackPage(context, page: ConsultationFeePage());
-
-                      
+                      AppNavigator.pushAndStackPage(context,
+                          page: const ConsultationFeePage());
                     },
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFFFFF),
                         border: Border(
-                          top: BorderSide (
+                          top: BorderSide(
                             color: Color(0xFFE2E4E9),
                             width: 1,
                           ),
-                          bottom: BorderSide (
+                          bottom: BorderSide(
                             color: Color(0xFFE2E4E9),
                             width: 1,
                           ),
@@ -101,7 +95,7 @@ class PaymentDetails extends StatelessWidget {
                               height: 25,
                               child: const SizedBox(
                                 width: 25,
-                              height: 25,
+                                height: 25,
                                 child: ImageView.svg(AppImages.card),
                               ),
                             ),
@@ -111,7 +105,8 @@ class PaymentDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                     child: Align(
                                       alignment: Alignment.topLeft,
                                       child: Text(
@@ -146,14 +141,14 @@ class PaymentDetails extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                                              AppNavigator.pushAndStackPage(context, page: BankAccountUpdate());
-                      
+                      AppNavigator.pushAndStackPage(context,
+                          page: const BankAccountUpdate());
                     },
                     child: Container(
                       decoration: const BoxDecoration(
                         color: Color(0xFFFFFFFF),
                         border: Border(
-                          bottom:  BorderSide (
+                          bottom: BorderSide(
                             color: Color(0xFFE2E4E9),
                             width: 1,
                           ),
@@ -166,14 +161,14 @@ class PaymentDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              margin: const EdgeInsets.fromLTRB(0, 2.3, 14.8, 0),
+                              margin:
+                                  const EdgeInsets.fromLTRB(0, 2.3, 14.8, 0),
                               width: 25,
                               height: 25,
                               child: const SizedBox(
-                                width: 25,
-                              height: 25,
-                                child: ImageView.svg(AppImages.bank)
-                              ),
+                                  width: 25,
+                                  height: 25,
+                                  child: ImageView.svg(AppImages.bank)),
                             ),
                             Expanded(
                               child: Column(
@@ -181,7 +176,8 @@ class PaymentDetails extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 8),
                                     child: Text(
                                       'Bank Account Settings',
                                       style: GoogleFonts.getFont(

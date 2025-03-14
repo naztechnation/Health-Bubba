@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:healthbubba/utils/app_utils.dart';
+import 'package:healthbubba/utils/navigator/page_navigator.dart';
 import 'package:healthbubba/widgets/modals.dart';
 
 import 'package:provider/provider.dart';
@@ -19,6 +20,8 @@ import '../../../res/app_strings.dart';
 import '../../../utils/validator.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
+import '../../profile/profile_setup.dart';
+import 'edit_medical_license.dart';
 
 class NewProfileDetails extends StatelessWidget {
   const NewProfileDetails({Key? key}) : super(key: key);
@@ -256,9 +259,22 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                 0xFF131316),
                                                           ),
                                                         ),
-                                                        const ImageView.svg(
-                                                          AppImages.edit,
-                                                          height: 18,
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            AppNavigator
+                                                                .pushAndStackPage(
+                                                                    context,
+                                                                    page:
+                                                                        const ProfileSetup(
+                                                                      isEdit:
+                                                                          true,
+                                                                    ));
+                                                          },
+                                                          child: const ImageView
+                                                              .svg(
+                                                            AppImages.edit,
+                                                            height: 18,
+                                                          ),
                                                         )
                                                       ],
                                                     ),
@@ -449,21 +465,93 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                   0xFF6B7280),
                                                             ),
                                                           ),
-                                                          Text(
-                                                            '08116848839',
-                                                            textAlign:
-                                                                TextAlign.end,
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 13,
-                                                              height: 1.4,
-                                                              color: const Color(
-                                                                  0xFF131316),
-                                                            ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        right:
+                                                                            13),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        12,
+                                                                    vertical:
+                                                                        5),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: const Color(
+                                                                          0xFFD1FAE5),
+                                                                      width: 1),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  color: const Color(
+                                                                      0xFFD1FAE5),
+                                                                  boxShadow: const [
+                                                                    BoxShadow(
+                                                                      color: Color(
+                                                                          0xFFF0F0F0),
+                                                                      offset:
+                                                                          Offset(
+                                                                              0,
+                                                                              0),
+                                                                      blurRadius:
+                                                                          0,
+                                                                    ),
+                                                                    BoxShadow(
+                                                                      color: Color(
+                                                                          0x409F9E9E),
+                                                                      offset:
+                                                                          Offset(
+                                                                              0,
+                                                                              1),
+                                                                      blurRadius:
+                                                                          1,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                child: Text(
+                                                                  'Verified',
+                                                                  style: GoogleFonts
+                                                                      .getFont(
+                                                                    'Inter',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        14,
+                                                                    height: 1.4,
+                                                                    color: const Color(
+                                                                        0xFF065F46),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                '08116848839',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .end,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .getFont(
+                                                                  'Inter',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: 13,
+                                                                  height: 1.4,
+                                                                  color: const Color(
+                                                                      0xFF131316),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           )
                                                         ],
                                                       ),
@@ -650,9 +738,14 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                 0xFF131316),
                                                           ),
                                                         ),
-                                                        const ImageView.svg(
-                                                          AppImages.edit,
-                                                          height: 18,
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            AppNavigator.pushAndStackPage(context, page: const EditMedicalLicense());
+                                                          },
+                                                          child: const ImageView.svg(
+                                                            AppImages.edit,
+                                                            height: 18,
+                                                          ),
                                                         )
                                                       ],
                                                     ),
@@ -879,7 +972,6 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                     const SizedBox(
                                                                       height: 8,
                                                                     ),
-                                                                    
                                                                   ],
                                                                 )
                                                               ]),
@@ -892,8 +984,10 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 10,),
-                                               Container(
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
                                                 decoration: BoxDecoration(
                                                     boxShadow: const [
                                                       BoxShadow(
@@ -1013,35 +1107,21 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                               12,
                                                                         ),
                                                                         Column(
-                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
                                                                           children: [
                                                                             const Text(
                                                                               'E-signature.pdf',
-                                                                              style: TextStyle(
-                                                                                  fontSize: 16,
-                                                                                  fontWeight: FontWeight.w600),
+                                                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                                                             ),
-                                                                            
-                                                                    Text(
-                                                                      'Uploaded Nov 24. 2023',
-                                                                      style: GoogleFonts.inter(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color: const Color(
-                                                                              0xFF98A2B3),
-                                                                          fontWeight:
-                                                                              FontWeight.w400),
-                                                                    ),
+                                                                            Text(
+                                                                              'Uploaded Nov 24. 2023',
+                                                                              style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF98A2B3), fontWeight: FontWeight.w400),
+                                                                            ),
                                                                           ],
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    
-                                                                   
-                                                                    
-                                                                       
-                                                                     
-                                                                    
                                                                   ],
                                                                 )
                                                               ]),

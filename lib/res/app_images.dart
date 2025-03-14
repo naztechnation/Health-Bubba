@@ -98,6 +98,11 @@ class AppImages {
   static const appleLogo = '${_baseUrl}apple.svg';
   static const googleLogo = '${_baseUrl}google.svg';
   static const upload = '${_baseUrl}upload_cloud.svg';
+  static const whatsappIcon = '${_baseUrl}whatsapp.svg';
+  static const instagramIcon = '${_baseUrl}instagram.svg';
+  static const joinIcon = '${_baseUrl}join.svg';
+  static const emailIcon = '${_baseUrl}email.svg';
+  static const linkIcon = '${_baseUrl}link.svg';
   static const trash = '${_baseUrl}trash.svg';
   static const file = '${_baseUrl}file.svg';
   static const playStoreLogo = '${_baseUrl}playstore.png';
