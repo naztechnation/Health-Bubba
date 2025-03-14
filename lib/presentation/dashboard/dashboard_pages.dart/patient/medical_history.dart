@@ -1,17 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/image_view.dart';
 
-class MedicalHistory extends StatelessWidget {
+class MedicalHistory extends StatefulWidget {
   const MedicalHistory({super.key});
+
+  @override
+  State<MedicalHistory> createState() => _MedicalHistoryState();
+}
+
+class _MedicalHistoryState extends State<MedicalHistory> {
+
+    String selectedFilter = "All"; // Only one selection at a time
+
+  final List<String> filterOptions = [
+    "All",
+    "Appointments",
+    "General Information",
+    "Current Health Conditions",
+    "Past Conditions",
+    "Emergency Contact"
+  ];
+
+  void _selectFilter(String value) {
+    setState(() {
+      selectedFilter = value;
+    });
+    Navigator.pop(context); // Close the popup after selection
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+           PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) {
+              return filterOptions.map((option) {
+                return PopupMenuItem<String>(
+                  value: option,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: selectedFilter == option,
+                        onChanged: (bool? checked) {
+                          _selectFilter(option);
+                        },
+                        activeColor: AppColors.lightSecondary, // Active color
+                      ),
+                      Text(option,
+                          style: GoogleFonts.inter(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: selectedFilter == option
+                                  ?  AppColors.lightSecondary
+                                  : Colors.black)),
+                    ],
+                  ),
+                  onTap: () => _selectFilter(option), // Also allow tapping the row
+                );
+              }).toList();
+            },
+            icon: const Padding(
+              padding: EdgeInsets.only(right:12.0),
+              child: ImageView.svg(AppImages.filterIcon, height: 28,),
+            ),
+          ),
+        ],
         title: const Center(
           child: Text(
             'Medical History',
@@ -35,12 +94,7 @@ class MedicalHistory extends StatelessWidget {
             ),
           ),
         ),
-        actions: const [
-          Text(
-            '         ',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-        ],
+         
       ),
       body: SingleChildScrollView(
           child: Column(

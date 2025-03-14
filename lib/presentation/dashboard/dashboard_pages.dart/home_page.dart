@@ -894,11 +894,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const UploadMedicalLicense());
+                                                                  // AppNavigator
+                                                                  //     .pushAndStackPage(
+                                                                  //         context,
+                                                                  //         page:
+                                                                  //             const UploadMedicalLicense());
                                                                 },
                                                                 child:
                                                                     Container(

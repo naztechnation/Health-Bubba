@@ -87,6 +87,8 @@ class AppImages {
   static const licenseIcon = '${_baseUrl}license.svg';
   static const verifyCheckIcon = '${_baseUrl}verify_check.svg';
   static const andIcon = '${_baseUrl}and.svg';
+  static const filterIcon = '${_baseUrl}filter.svg';
+  static const settingsIcon = '${_baseUrl}settings.svg';
   static const checkCirlceIcon = '${_baseUrl}check_circle.svg';
   static const logoo = '${_baseUrl}HealthBubba.gif';
   static const appointmentSuccess = '${_baseUrl}calendar.svg';

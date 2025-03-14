@@ -239,15 +239,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                         title: 'Profile Details',
                                         icon: AppImages.profileDetails,
                                         onTap: () {
-                                          AppNavigator.pushAndStackPage(context,
-                                              page: const NewProfileDetails(
-                                                 
-                                              ));
-                                              //TODO
                                           // AppNavigator.pushAndStackPage(context,
-                                          //     page: const ProfileSetup(
-                                          //       isEdit: true,
+                                          //     page: const NewProfileDetails(
+                                                 
                                           //     ));
+                                              //TODO
+                                          AppNavigator.pushAndStackPage(context,
+                                              page: const ProfileSetup(
+                                                isEdit: true,
+                                              ));
                                         }),
                                     settingsDetails(
                                         title: 'Work Information',

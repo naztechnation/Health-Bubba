@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
+ 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:healthbubba/utils/app_utils.dart';
+ 
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
-import 'package:healthbubba/widgets/modals.dart';
+ 
 
 import 'package:provider/provider.dart';
 
@@ -12,12 +12,12 @@ import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
-import '../../../../widgets/text_edit_view.dart';
+ 
 import '../../../blocs/users/users.dart';
 import '../../../model/view_model/user_view_model.dart';
 import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_strings.dart';
-import '../../../utils/validator.dart';
+ 
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
 import '../../profile/profile_setup.dart';

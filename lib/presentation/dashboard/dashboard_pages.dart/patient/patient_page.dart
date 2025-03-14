@@ -321,26 +321,26 @@ getVerifiedKey()async{
                                                       ),
                                                     );
                                                     } else {
-                                                       AppNavigator
-                                                        .pushAndStackPage(
-                                                      context,
-                                                      page: NewPatientDetails(
-                                                        patientsData: _userCubit
-                                                                .viewModel
-                                                                .filteredPatientsLists[
-                                                            index],
-                                                      ),
-                                                    );
                                                     //    AppNavigator
                                                     //     .pushAndStackPage(
                                                     //   context,
-                                                    //   page: PatientDetails(
+                                                    //   page: NewPatientDetails(
                                                     //     patientsData: _userCubit
                                                     //             .viewModel
                                                     //             .filteredPatientsLists[
                                                     //         index],
                                                     //   ),
                                                     // );
+                                                       AppNavigator
+                                                        .pushAndStackPage(
+                                                      context,
+                                                      page: PatientDetails(
+                                                        patientsData: _userCubit
+                                                                .viewModel
+                                                                .filteredPatientsLists[
+                                                            index],
+                                                      ),
+                                                    );
 
                                                   
                                                     }

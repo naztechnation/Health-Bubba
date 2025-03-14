@@ -7,6 +7,7 @@ import 'package:healthbubba/presentation/settings/settings_pages/bank_account_up
 import '../../../res/app_images.dart';
 import '../../../utils/navigator/page_navigator.dart';
 import '../../../widgets/image_view.dart';
+ 
 import 'consultaion_fee.dart';
 
 class PaymentDetails extends StatelessWidget {
@@ -16,9 +17,15 @@ class PaymentDetails extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
-          'Payment Details',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        title: GestureDetector(
+          onTap: () {
+            // AppNavigator.pushAndStackPage(context, page: const WalletPage());
+          },
+          child: const Text(
+            'Payment Details',
+            style: TextStyle(fontSize: 16,
+             fontWeight: FontWeight.w600),
+          ),
         ),
         centerTitle: true,
         leading: GestureDetector(
