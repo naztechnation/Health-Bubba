@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,7 @@ import '../../../widgets/button_view.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/image_view.dart';
 import '../../../widgets/pin_code_view.dart';
+import '../../settings/settings_pages/help_support.dart';
 import 'phone_number_verified.dart';
 
 class PhoneNumberVerification extends StatefulWidget {
@@ -184,14 +186,14 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                           ],
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
-                      
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),
-                             bottomRight: Radius.circular(20)),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(16),
+                                bottomRight: Radius.circular(20)),
                             color: Color(0xFFFFFFFF),
                             boxShadow: [
                               BoxShadow(
@@ -218,7 +220,7 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               const SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -368,7 +370,9 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                         ButtonView(
                                             onPressed: () {
                                               // _verifyCode(context);
-                                              AppNavigator.pushAndStackPage(context, page: PhoneNumberVerified());
+                                              AppNavigator.pushAndStackPage(
+                                                  context,
+                                                  page: PhoneNumberVerified());
                                             },
                                             processin:
                                                 state is ResendOtpLoading,
@@ -405,6 +409,10 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                           children: [
                                             TextSpan(
                                               text: 'Reach out to support',
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  AppNavigator.pushAndStackPage(context, page: HelpSupport());
+                                                },
                                               style: GoogleFonts.getFont(
                                                 'Inter',
                                                 decoration:

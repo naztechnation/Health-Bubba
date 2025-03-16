@@ -156,7 +156,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
             appBar: AppBar(
               title: const Text(
                 'Consultation Fee',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               ),
               centerTitle: true,
               leading: GestureDetector(
@@ -246,7 +246,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                           'Inter',
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          fontSize: 16,
+                                                          fontSize: 14,
                                                           height: 1.6,
                                                           color: const Color(
                                                               0xFF131316),
@@ -357,7 +357,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                                 GoogleFonts.getFont(
                                                                               'Inter',
                                                                               fontWeight: FontWeight.w600,
-                                                                              fontSize: 16,
+                                                                              fontSize: 14,
                                                                               height: 1.6,
                                                                               color: const Color(0xFF131316),
                                                                             ),
@@ -372,7 +372,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                                 GoogleFonts.getFont(
                                                                               'Inter',
                                                                               fontWeight: FontWeight.w500,
-                                                                              fontSize: 16,
+                                                                              fontSize: 14,
                                                                               height: 1.6,
                                                                               color: const Color(0xFF6B7280),
                                                                             ),
@@ -417,9 +417,9 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                               TextInputType
                                                                   .number,
                                                           validator: (value) {
-                                                            return Validator
-                                                                .validate(value,
-                                                                    'Rate');
+                                                            // return Validator
+                                                            //     .validate(value,
+                                                            //         'Rate');
                                                           },
                                                         ),
                                                         const SizedBox(
@@ -432,7 +432,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                             'Inter',
                                                             fontWeight:
                                                                 FontWeight.w400,
-                                                            fontSize: 16,
+                                                            fontSize: 14,
                                                             height: 1.6,
                                                             color: const Color(
                                                                 0xFFD97706),
@@ -478,18 +478,20 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            'Enable Returning Consultation Fee',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Inter',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 16,
-                                                              height: 1.6,
-                                                              color: const Color(
-                                                                  0xFF131316),
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Enable Returning Consultation Fee',
+                                                              style: GoogleFonts
+                                                                  .getFont(
+                                                                'Inter',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 14,
+                                                                height: 1.6,
+                                                                color: const Color(
+                                                                    0xFF131316),
+                                                              ),
                                                             ),
                                                           ),
                                                           Transform.scale(
@@ -605,10 +607,10 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                 TextInputType
                                                                     .number,
                                                             validator: (value) {
-                                                              return Validator
-                                                                  .validate(
-                                                                      value,
-                                                                      'Rate');
+                                                              // return Validator
+                                                              //     .validate(
+                                                              //         value,
+                                                              //         'Rate');
                                                             },
                                                           ),
                                                           const SizedBox(
@@ -622,7 +624,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                               height: 1.6,
                                                               color: const Color(
                                                                   0xFFD97706),
@@ -646,7 +648,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
-                                                              fontSize: 16,
+                                                              fontSize: 14,
                                                               height: 1.6,
                                                               color: const Color(
                                                                   0xFF131316),
@@ -675,6 +677,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                           TextEditView(
                                                             controller:
                                                                 durationController,
+                                                            readOnly: true,
                                                             borderColor: Colors
                                                                 .grey.shade200,
                                                             borderWidth: 0.5,
@@ -689,10 +692,10 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                 TextInputType
                                                                     .number,
                                                             validator: (value) {
-                                                              return Validator
-                                                                  .validate(
-                                                                      value,
-                                                                      'Rate');
+                                                              // return Validator
+                                                              //     .validate(
+                                                              //         value,
+                                                              //         'Rate');
                                                             },
                                                           ),
                                                           const SizedBox(
@@ -712,7 +715,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
-                                                                  fontSize: 16,
+                                                                  fontSize: 14,
                                                                   height: 1.6,
                                                                   color: const Color(
                                                                       0xFF131316),
@@ -824,7 +827,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                       child: Column(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(14),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 14, vertical: 8),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -841,7 +845,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                         'Inter',
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                         height: 1.6,
                                                         color: const Color(
                                                             0xFF131316),
@@ -882,8 +886,10 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.all(18),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 14),
                                                   child: Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -931,7 +937,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                     ),
                                                                   ),
                                                                   const SizedBox(
-                                                                    height: 12,
+                                                                    height: 6,
                                                                   ),
                                                                   Text(
                                                                     "For 30mins",
@@ -995,7 +1001,8 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                       child: Column(
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(14),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 14, vertical: 8),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -1011,7 +1018,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                         'Inter',
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                         height: 1.6,
                                                         color: const Color(
                                                             0xFF131316),
@@ -1024,8 +1031,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                         onTap: () {
                                                           Modals.showBottomSheetModal(
                                                               context,
-                                                              heightFactor:
-                                                                  0.35,
+                                                              heightFactor: 0.4,
                                                               isDissmissible:
                                                                   true,
                                                               isScrollControlled:
@@ -1065,7 +1071,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                           .getFont(
                                                                         'Inter',
                                                                         fontWeight:
-                                                                            FontWeight.w500,
+                                                                            FontWeight.w400,
                                                                         fontSize:
                                                                             16,
                                                                         height:
@@ -1101,7 +1107,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                             const ImageView.svg(
                                                           AppImages
                                                               .infoBorderIcon,
-                                                          height: 25,
+                                                          height: 20,
                                                         ))
                                                   ],
                                                 ),
@@ -1138,8 +1144,10 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.all(18),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 14),
                                                   child: Row(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -1187,7 +1195,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                     ),
                                                                   ),
                                                                   const SizedBox(
-                                                                    height: 12,
+                                                                    height: 6,
                                                                   ),
                                                                   Text(
                                                                     "For 30mins",
@@ -1206,7 +1214,7 @@ class _ConsultationFeeState extends State<ConsultationFee> {
                                                                     ),
                                                                   ),
                                                                   const SizedBox(
-                                                                    height: 12,
+                                                                    height: 6,
                                                                   ),
                                                                   Text(
                                                                     "Validity: Forever",

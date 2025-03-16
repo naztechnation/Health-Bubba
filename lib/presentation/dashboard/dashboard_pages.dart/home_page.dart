@@ -163,8 +163,8 @@ class _HomeState extends State<Home> {
           title = state.userData.data?.title ?? '';
 
           Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState('1');
-          doctorState = '1';
+              .saveDoctorState(state.userData.data?.isDoctorVerified.toString() ?? '1');
+          doctorState = state.userData.data?.isDoctorVerified.toString() ?? '1';
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveEmail(state.userData.data?.email ?? '');
@@ -1016,12 +1016,17 @@ class _HomeState extends State<Home> {
                                                                             ),
                                                                             Container(
                                                                               margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
+                                                                              width: MediaQuery.sizeOf(context).width * 0.7,
+                                                                             
                                                                               child: Text(
                                                                                 'Upload medical license and e-signature',
+                                                                                maxLines: 1,
+                                                                                overflow: TextOverflow.ellipsis,
                                                                                 style: GoogleFonts.getFont(
                                                                                   'Inter',
                                                                                   fontWeight: FontWeight.w400,
                                                                                   fontSize: 14,
+                                                                                  
                                                                                   decoration: (bioStatus) ? TextDecoration.lineThrough : TextDecoration.none,
                                                                                   color: const Color(0xFF15141D),
                                                                                   decorationColor: const Color(0xFF15141D),
@@ -2858,10 +2863,11 @@ class _HomeState extends State<Home> {
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
     await _userCubit.userData();
+    await   _userCubit.getAppointmentList();
 
     setState(() {
       isLoading = false;
     });
-    _userCubit.getAppointmentList();
+   
   }
 }
