@@ -1,10 +1,8 @@
- 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
- 
+
 import 'package:healthbubba/utils/navigator/page_navigator.dart';
- 
 
 import 'package:provider/provider.dart';
 
@@ -12,12 +10,14 @@ import '../../../../res/app_colors.dart';
 import '../../../../res/app_images.dart';
 import '../../../../widgets/button_view.dart';
 import '../../../../widgets/image_view.dart';
- 
+
 import '../../../blocs/users/users.dart';
+import '../../../handlers/secure_handler.dart';
+import '../../../model/view_model/onboard_view_model.dart';
 import '../../../model/view_model/user_view_model.dart';
 import '../../../requests/repositories/user_repo/user_repository_impl.dart';
 import '../../../res/app_strings.dart';
- 
+
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/error_page.dart';
 import '../../profile/profile_setup.dart';
@@ -59,7 +59,23 @@ class _ConsultationFeeState extends State<ProfileDetails> {
   bool isReturningOn = false;
   bool isForeverOn = false;
 
+  bool callOnce = true;
+
+
   String fee = "";
+
+  String name = "";
+  String title = "";
+  String lastName = "";
+  String email = "";
+  String medicalQualification = "";
+  String medicalLicence = "";
+  String yearsOfExperience = "";
+  String hospitalAffliated = "";
+  String uploadedLicense = "";
+  String uploadedDocs = "";
+  String phone = "";
+  String location = "";
 
   void _onRadioChanged(String? item) {
     setState(() {
@@ -72,17 +88,55 @@ class _ConsultationFeeState extends State<ProfileDetails> {
     durationController.text = _selectedItem ?? '';
   }
 
+  getUserData() async {
+    name = await StorageHandler.getFirstName();
+    lastName = await StorageHandler.getLastName();
+    email = await StorageHandler.getUserEmail();
+    medicalQualification = await StorageHandler.getMedicalQualification();
+    medicalLicence = await StorageHandler.getMedicalLicenceNumber();
+    yearsOfExperience = await StorageHandler.getYear();
+    hospitalAffliated = await StorageHandler.getAffliate();
+    phone = await StorageHandler.getPhone();
+    location = await StorageHandler.getLocation();
+    uploadedLicense = await StorageHandler.getDocLicense();
+    uploadedDocs = await StorageHandler.getOtherDoc();
+    title = await StorageHandler.getTitle();
+  }
+
   @override
   void initState() {
     _userCubit = context.read<UserCubit>();
 
     _userCubit.getConsultationStatus();
-
+    getUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+     final profile = Provider.of<UserViewModel>(context, listen: true);
+    final doctorsState =
+        Provider.of<OnboardViewModel>(context, listen: true).doctorsState;
+
+    if (callOnce) {
+      if (name.isNotEmpty && lastName.isNotEmpty) {
+        profile.updateFirstname(name);
+        profile.updateEmailAddress(email);
+        profile.updateLastname(lastName);
+        profile.updateUploadedLicenceDoc(uploadedLicense);
+        profile.updateUploadedotherDoc(uploadedDocs);
+         
+         
+        profile.updateLicenceNumber(medicalLicence);
+
+        profile.updateYear(yearsOfExperience);
+        profile.updateHospital(hospitalAffliated);
+        profile.updatePhone(phone);
+        profile.updateLocation(location);
+        callOnce = false;
+      }
+    }
     return BlocConsumer<UserCubit, UserStates>(listener: (context, state) {
       if (state is ConsultaionFeeLoaded) {
         if (state.fee.ok ?? false) {
@@ -340,7 +394,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'MR',
+                                                            title,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -382,7 +436,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'Alexander',
+                                                            name,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -424,7 +478,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'Ogunyemi',
+                                                            lastName,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -534,7 +588,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                                 ),
                                                               ),
                                                               Text(
-                                                                '08116848839',
+                                                                phone,
                                                                 textAlign:
                                                                     TextAlign
                                                                         .end,
@@ -580,7 +634,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'Ikeja, Lagos',
+                                                            location,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -622,7 +676,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            '14 years',
+                                                            yearsOfExperience,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -664,7 +718,7 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'FMC, Yaba',
+                                                            hospitalAffliated,
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: GoogleFonts
@@ -740,9 +794,14 @@ class _ConsultationFeeState extends State<ProfileDetails> {
                                                         ),
                                                         GestureDetector(
                                                           onTap: () {
-                                                            AppNavigator.pushAndStackPage(context, page: const EditMedicalLicense());
+                                                            AppNavigator
+                                                                .pushAndStackPage(
+                                                                    context,
+                                                                    page:
+                                                                        const EditMedicalLicense());
                                                           },
-                                                          child: const ImageView.svg(
+                                                          child: const ImageView
+                                                              .svg(
                                                             AppImages.edit,
                                                             height: 18,
                                                           ),

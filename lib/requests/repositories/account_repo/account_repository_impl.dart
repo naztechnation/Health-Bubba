@@ -14,16 +14,16 @@ import 'package:healthbubba/model/user/select_language.dart';
 import 'package:healthbubba/model/user/select_qualifications.dart';
 import 'package:healthbubba/model/user/selected_docs_availability.dart';
 import 'package:healthbubba/model/user/selected_languages.dart';
- 
+
 import 'package:healthbubba/model/user/upload_image.dart';
 import 'package:healthbubba/model/user/upload_image_file.dart';
 import 'package:healthbubba/model/user/user_data.dart';
 import 'package:healthbubba/model/working_hours.dart';
-  
 
 import '../../../handlers/secure_handler.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/auth_model/send_phone_otp.dart';
 import '../../../model/google_places.dart';
 import '../../../model/user/login_with_google.dart';
 import '../../../model/user/reg_with_google.dart';
@@ -37,15 +37,13 @@ import 'account_repository.dart';
 
 class AccountRepositoryImpl implements AccountRepository {
   @override
-  Future<RegisterUser> registerUser({
-    required String email,
-    required String password,
-    required String phone,
-    required String referral,
-     required String fcmToken
-  }) async {
-     debugPrint("This is my token${fcmToken}");
-    
+  Future<RegisterUser> registerUser(
+      {required String email,
+      required String password,
+      required String phone,
+      required String referral,
+      required String fcmToken}) async {
+    debugPrint("This is my token${fcmToken}");
 
     final map = await Requests().post(AppStrings.registerUserUrl, body: {
       "email": email,
@@ -70,10 +68,11 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<LoginData> loginUser(
-      {required String email, required String password, required String fcmToken}) async {
-     
-     debugPrint("This is my token${fcmToken}");
-        
+      {required String email,
+      required String password,
+      required String fcmToken}) async {
+    debugPrint("This is my token${fcmToken}");
+
     final map = await Requests().post(AppStrings.loginUrl, body: {
       "email": email,
       "password": password,
@@ -166,23 +165,20 @@ class AccountRepositoryImpl implements AccountRepository {
 
     for (var scheduleData in schedule) {
       for (var timeSlots in scheduleData.timeSlots) {
-        
-          
         TimeOfDay start = timeSlots['start']!;
         TimeOfDay end = timeSlots['end']!;
 
         availabilityList.add({
           "day_of_week": scheduleData.day,
-          "is_available": (scheduleData.isOpen) ? 1: 0,
-         if(start != null) "start_time": start.format(context),
-         if(end != null) "end_time": end.format(context),
+          "is_available": (scheduleData.isOpen) ? 1 : 0,
+          if (start != null) "start_time": start.format(context),
+          if (end != null) "end_time": end.format(context),
         });
       }
     }
 
     body["availabilities"] = availabilityList;
 
-    
     final map = await Requests()
         .post(AppStrings.addAvailabilityUrl, body: jsonEncode(body), headers: {
       'Content-Type': 'application/json',
@@ -227,7 +223,7 @@ class AccountRepositoryImpl implements AccountRepository {
         "licence_number": licenceNumber,
         "clinic_affiliation": hospitalAffliated,
         "doctor_license": doctorLicenceDoc,
-       if(otherDocs !=  null || otherDocs != "") "other_document": otherDocs,
+        if (otherDocs != null || otherDocs != "") "other_document": otherDocs,
       },
     );
     return UpdateUser.fromJson(map);
@@ -355,7 +351,6 @@ class AccountRepositoryImpl implements AccountRepository {
       required String firstname,
       required String email,
       required String fcmToken}) async {
-   
     final map = await Requests().post(AppStrings.googleRegUrl, body: {
       'email': email,
       'firstname': firstname,
@@ -367,12 +362,8 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<LoginWithGoogle> loginWithGoogleA({required String email,
-     required String fcmToken
-  
-  }) async {
-     
-
+  Future<LoginWithGoogle> loginWithGoogleA(
+      {required String email, required String fcmToken}) async {
     final map = await Requests().post(AppStrings.googleLoginUrl, body: {
       'email': email,
       'fcm_token': fcmToken,
@@ -382,15 +373,10 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<LoginWithGoogle> loginWithAppleA(
-      {required String email, required String appleId, 
-      
-     required String fcmToken
-      
-      }) async {
-     
-
-    final map = await Requests().post(AppStrings.appleLoginUrl,
-     body: {
+      {required String email,
+      required String appleId,
+      required String fcmToken}) async {
+    final map = await Requests().post(AppStrings.appleLoginUrl, body: {
       'email': email,
       'apple_id': appleId,
       'fcm_token': fcmToken,
@@ -406,38 +392,35 @@ class AccountRepositoryImpl implements AccountRepository {
       required String email,
       required String appleId,
       required String fcmToken}) async {
-    
-
-    final map = await Requests().post(AppStrings.appleRegUrl, body: {
-      if(email.isNotEmpty)'email': email,
-      'firstname': firstname,
-      'apple_id': appleId,
-      'sex': sex,
-      'dob': dob,
-      'fcm_token': fcmToken,
-    },
-    
+    final map = await Requests().post(
+      AppStrings.appleRegUrl,
+      body: {
+        if (email.isNotEmpty) 'email': email,
+        'firstname': firstname,
+        'apple_id': appleId,
+        'sex': sex,
+        'dob': dob,
+        'fcm_token': fcmToken,
+      },
     );
     return RegWithGoogle.fromJson(map);
   }
-  
+
   @override
   Future<VerifyOtp> resendOtp({required String email}) async {
     final map = await Requests().post(
       AppStrings.resendOtpUrl,
       body: {
         "email": email,
-        
       },
     );
     return VerifyOtp.fromJson(map);
   }
-  
+
   @override
   Future<GooglePlaces> googlePlacesSearch({required String input}) async {
     final map = await Requests().get(
       AppStrings.googlePlaceApi(input: input),
-      
     );
     return GooglePlaces.fromJson(map);
   }
@@ -456,10 +439,9 @@ class AccountRepositoryImpl implements AccountRepository {
   }
 
   @override
-  Future<GetBankDetails> getBankDetails()  async {
+  Future<GetBankDetails> getBankDetails() async {
     final map = await Requests().get(
       AppStrings.getBankDetailsUrl,
-      
     );
     return GetBankDetails.fromJson(map);
   }
@@ -468,17 +450,27 @@ class AccountRepositoryImpl implements AccountRepository {
   Future<GetAccountName> getAccountName({
     required String bankCode,
     required String accountNumber,
-    
   }) async {
-     
-
-    final map = await Requests().post(AppStrings.getAccountNameUrl,
-     body: {
+    final map = await Requests().post(AppStrings.getAccountNameUrl, body: {
       'account_number': accountNumber,
       'bank_code': bankCode,
-       
     });
     return GetAccountName.fromJson(map);
   }
 
+  @override
+  Future<PhoneOtp> sendPhoneOptp() async {
+    final map = await Requests().post(
+      AppStrings.sendPhoneOtpUrl,
+    );
+    return PhoneOtp.fromJson(map);
+  }
+
+  @override
+  Future<PhoneOtp> verifyPhoneOptp(
+      {required String phone, required String otp}) async {
+    final map = await Requests()
+        .post(AppStrings.verifyPhoneOtpUrl, body: {"phone": phone, "otp": otp});
+    return PhoneOtp.fromJson(map);
+  }
 }

@@ -4,6 +4,7 @@ import 'package:healthbubba/model/patients/create_appointment.dart';
 import 'package:healthbubba/model/patients/get_profile_status.dart';
 import 'package:healthbubba/model/patients/patients_list.dart';
 
+import '../../model/auth_model/send_phone_otp.dart';
 import '../../model/patients/administered_route.dart';
 import '../../model/patients/appointment_details.dart';
 import '../../model/patients/consultation_result.dart';
@@ -124,6 +125,17 @@ class UserDataLoaded extends UserStates {
   const UserDataLoaded(this.userData);
   @override
   List<Object> get props => [userData];
+}
+class SendPhoneLoading extends UserStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SendPhoneLoaded extends UserStates {
+  final PhoneOtp phoneOtp;
+  const SendPhoneLoaded(this.phoneOtp);
+  @override
+  List<Object> get props => [phoneOtp];
 }
 
 class AnalyticsLoading extends UserStates {

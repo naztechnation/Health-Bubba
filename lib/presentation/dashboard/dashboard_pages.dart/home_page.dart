@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
   String lastName = "";
   String userId = "";
   String title = "";
+  String phone = "";
   String doctorState = "0";
 
   String totalConsultation = '0';
@@ -86,6 +87,7 @@ class _HomeState extends State<Home> {
     imageUrl = await StorageHandler.getUserPicture();
     name = await StorageHandler.getFirstName();
     lastName = await StorageHandler.getLastName();
+    phone = await StorageHandler.getPhone();
 
     title = await StorageHandler.getUserTitle();
     userId = await StorageHandler.getUserId();
@@ -161,10 +163,11 @@ class _HomeState extends State<Home> {
           imageUrl = state.userData.data?.picture ?? "";
           name = state.userData.data?.firstName ?? '';
           title = state.userData.data?.title ?? '';
+          phone = state.userData.data?.phone ?? '';
 
-          Provider.of<OnboardViewModel>(context, listen: false)
-              .saveDoctorState(state.userData.data?.isDoctorVerified.toString() ?? '1');
-          doctorState = state.userData.data?.isDoctorVerified.toString() ?? '1';
+          Provider.of<OnboardViewModel>(context, listen: false).saveDoctorState(
+              state.userData.data?.isDoctorVerified.toString() ?? '0');
+          doctorState = state.userData.data?.isDoctorVerified.toString() ?? '0';
 
           StorageHandler.saveUserTitle(state.userData.data?.title ?? '');
           StorageHandler.saveEmail(state.userData.data?.email ?? '');
@@ -221,6 +224,20 @@ class _HomeState extends State<Home> {
               subtitle: state.appointmentLists.message?.message ?? '');
         }
       } else if (state is AnalyticsLoaded) {
+      } else if (state is ProfileStatusLoaded) {
+      } else if (state is SendPhoneLoaded) {
+        if (state.phoneOtp.ok ?? false) {
+          AppNavigator.pushAndStackPage(context,
+              page: PhoneNumberVerification(phone: phone));
+        } else {
+          ToastService().showToast(context,
+              leadingIcon: const ImageView.svg(
+                AppImages.error,
+                height: 25,
+              ),
+              title: 'Error!!!',
+              subtitle: state.phoneOtp.message ?? '');
+        }
       } else if (state is ProfileStatusLoaded) {
       } else if (state is CheckConsultaionStatusLoaded) {
         if (state.fee.ok ?? false) {
@@ -894,11 +911,11 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  // AppNavigator
-                                                                  //     .pushAndStackPage(
-                                                                  //         context,
-                                                                  //         page:
-                                                                  //             const UploadMedicalLicense());
+                                                                  AppNavigator
+                                                                      .pushAndStackPage(
+                                                                          context,
+                                                                          page:
+                                                                              const UploadMedicalLicense());
                                                                 },
                                                                 child:
                                                                     Container(
@@ -1017,7 +1034,6 @@ class _HomeState extends State<Home> {
                                                                             Container(
                                                                               margin: const EdgeInsets.fromLTRB(0, 1.5, 0, 1.5),
                                                                               width: MediaQuery.sizeOf(context).width * 0.7,
-                                                                             
                                                                               child: Text(
                                                                                 'Upload medical license and e-signature',
                                                                                 maxLines: 1,
@@ -1026,7 +1042,6 @@ class _HomeState extends State<Home> {
                                                                                   'Inter',
                                                                                   fontWeight: FontWeight.w400,
                                                                                   fontSize: 14,
-                                                                                  
                                                                                   decoration: (bioStatus) ? TextDecoration.lineThrough : TextDecoration.none,
                                                                                   color: const Color(0xFF15141D),
                                                                                   decorationColor: const Color(0xFF15141D),
@@ -1060,11 +1075,8 @@ class _HomeState extends State<Home> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  AppNavigator
-                                                                      .pushAndStackPage(
-                                                                          context,
-                                                                          page:
-                                                                              const PhoneNumberVerification());
+                                                                  _userCubit
+                                                                      .sendPhoneOtp();
                                                                 },
                                                                 child:
                                                                     Container(
@@ -2800,6 +2812,15 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+              if (state is SendPhoneLoading)
+                Container(
+                  color: AppColors.indicatorBgColor,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.indicatorColor,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -2863,11 +2884,10 @@ class _HomeState extends State<Home> {
     await _userCubit.doctorsAnalyticsAccount(days: '1');
 
     await _userCubit.userData();
-    await   _userCubit.getAppointmentList();
+    await _userCubit.getAppointmentList();
 
     setState(() {
       isLoading = false;
     });
-   
   }
 }

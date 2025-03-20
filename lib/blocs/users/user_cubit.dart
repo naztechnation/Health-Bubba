@@ -631,6 +631,28 @@ class UserCubit extends Cubit<UserStates> {
       }
     }
   }
+  Future<void> sendPhoneOtp(
+      ) async {
+    try {
+      emit(SendPhoneLoading());
+
+      final phone = await userRepository.sendPhoneOptp(
+          );
+      emit(SendPhoneLoaded(phone));
+    } on ApiException catch (e) {
+      emit(UserApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(UserNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
 
   Future<void> doctorsAnalyticsAccount(
     {required String days}

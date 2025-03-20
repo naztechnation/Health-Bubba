@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthbubba/blocs/accounts/account.dart';
+import 'package:healthbubba/presentation/auth/verify_code.dart';
 
 import '../../model/view_model/account_view_model.dart';
 import '../../model/working_hours.dart';
@@ -806,6 +807,53 @@ class AccountCubit extends Cubit<AccountStates> {
       );
 
       emit(AppleLoginLoaded(google));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> sendPhoneOtp(
+      ) async {
+    try {
+      emit(SendPhoneLoading());
+
+      final phone = await accountRepository.sendPhoneOptp(
+          );
+      emit(SendPhoneLoaded(phone));
+    } on ApiException catch (e) {
+      emit(AccountApiErr(e.message));
+    } catch (e) {
+      if (e is NetworkException ||
+          e is BadRequestException ||
+          e is UnauthorisedException ||
+          e is FileNotFoundException ||
+          e is AlreadyRegisteredException) {
+        emit(AccountNetworkErr(e.toString()));
+      } else {
+        rethrow;
+      }
+    }
+  }
+  Future<void> verifyCodeScreen({
+    required String phone, required String otp
+  }
+      ) async {
+    try {
+      emit(VerifyPhoneLoading());
+
+      final verify = await accountRepository.verifyPhoneOptp(phone: phone, otp: otp
+          );
+      emit(VerifyPhoneLoaded(verify));
     } on ApiException catch (e) {
       emit(AccountApiErr(e.message));
     } catch (e) {

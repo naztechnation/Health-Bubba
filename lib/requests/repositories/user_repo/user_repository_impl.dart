@@ -18,6 +18,7 @@ import 'package:healthbubba/model/user/notifications_data.dart';
  
 
 import '../../../handlers/secure_handler.dart';
+import '../../../model/auth_model/send_phone_otp.dart';
 import '../../../model/patients/consultation_result.dart';
 import '../../../model/patients/patients_list.dart';
 import '../../../model/user/consultation_data.dart';
@@ -283,6 +284,14 @@ class UserRepositoryImpl implements UserRepository {
        
     );
     return DoctorsAnalytics.fromJson(map);
+  }
+  
+  @override
+  Future<PhoneOtp> sendPhoneOptp()  async {
+    final map =
+        await Requests().post(AppStrings.sendPhoneOtpUrl, 
+    );
+    return PhoneOtp.fromJson(map);
   }
 
   

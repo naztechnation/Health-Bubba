@@ -23,8 +23,10 @@ import '../../settings/settings_pages/help_support.dart';
 import 'phone_number_verified.dart';
 
 class PhoneNumberVerification extends StatefulWidget {
+  final String phone;
   const PhoneNumberVerification({
     super.key,
+    required this.phone,
   });
 
   @override
@@ -94,19 +96,11 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
             viewModel: Provider.of<AccountViewModel>(context, listen: false)),
         child: BlocConsumer<AccountCubit, AccountStates>(
           listener: (context, state) {
-            if (state is VerifyOtpLoaded) {
-              if (state.verifyOtp.ok!) {
-                if (state.verifyOtp.data is String) {
-                } else {
-                  StorageHandler.saveUserToken(
-                      state.verifyOtp.data?.token?.accessToken ?? '');
-                }
+            if (state is VerifyPhoneLoaded) {
+              if (state.phoneOtp.ok ?? false) {
+                AppNavigator.pushAndRemovePreviousPages(context,
+                    page: const PhoneNumberVerified());
               } else {
-                if (state.verifyOtp.message!.trim() ==
-                    "Invalid or expired OTP") {
-                  isVerificationFailed = true;
-                }
-
                 ToastService().showToast(
                   context,
                   leadingIcon: const ImageView.svg(
@@ -114,21 +108,33 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                     height: 25,
                   ),
                   title: AppStrings.errorTitle,
-                  subtitle: state.verifyOtp.message ?? '',
+                  subtitle: state.phoneOtp.message ?? '',
                 );
               }
-            } else if (state is ResendOtpLoaded) {
-              ToastService().showToast(
-                context,
-                leadingIcon: const ImageView.svg(
-                  AppImages.success,
-                  height: 25,
-                ),
-                title: AppStrings.successTitle,
-                subtitle: state.otp.message ?? '',
-              );
+            } else if (state is SendPhoneLoaded) {
+              if (state.phoneOtp.ok ?? false) {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(
+                    AppImages.success,
+                    height: 25,
+                  ),
+                  title: AppStrings.successTitle,
+                  subtitle: state.phoneOtp.message ?? '',
+                );
 
-              startTimer();
+                startTimer();
+              } else {
+                ToastService().showToast(
+                  context,
+                  leadingIcon: const ImageView.svg(
+                    AppImages.error,
+                    height: 25,
+                  ),
+                  title: AppStrings.errorTitle,
+                  subtitle: state.phoneOtp.message ?? '',
+                );
+              }
             } else if (state is AccountApiErr) {
               ToastService().showToast(
                 context,
@@ -277,7 +283,8 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: '08116848839',
+                                                      text:
+                                                          "+234${widget.phone}",
                                                       style:
                                                           GoogleFonts.getFont(
                                                         'Inter',
@@ -339,14 +346,14 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                           ),
                                         ),
                                         if (!isCountdownComplete ||
-                                            state is ResendOtpLoading)
+                                            state is SendPhoneLoading)
                                           ...[]
                                         else ...[
                                           GestureDetector(
                                             onTap: () {
                                               context
                                                   .read<AccountCubit>()
-                                                  .resendOtp(email: "");
+                                                  .sendPhoneOtp();
                                             },
                                             child: Text(
                                               'Resend Code $timerText',
@@ -369,10 +376,7 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                         ),
                                         ButtonView(
                                             onPressed: () {
-                                              // _verifyCode(context);
-                                              AppNavigator.pushAndStackPage(
-                                                  context,
-                                                  page: PhoneNumberVerified());
+                                              _verifyCode(context);
                                             },
                                             processin:
                                                 state is ResendOtpLoading,
@@ -411,7 +415,9 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                                               text: 'Reach out to support',
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
-                                                  AppNavigator.pushAndStackPage(context, page: HelpSupport());
+                                                  AppNavigator.pushAndStackPage(
+                                                      context,
+                                                      page: HelpSupport());
                                                 },
                                               style: GoogleFonts.getFont(
                                                 'Inter',
@@ -440,7 +446,7 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
                       ],
                     ),
                   )),
-              if (state is VerifyOtpLoading)
+              if (state is VerifyPhoneLoading || state is SendPhoneLoading)
                 Container(
                   color: AppColors.indicatorBgColor,
                   child: Center(
@@ -460,7 +466,8 @@ class _PhoneNumberVerificationState extends State<PhoneNumberVerification> {
     if (_formKey.currentState!.validate()) {
       ctx
           .read<AccountCubit>()
-          .verifyOtp(otp: _pinController.text.trim(), email: "", url: "");
+          .verifyCodeScreen(otp: _pinController.text.trim(),
+           phone: widget.phone, );
       // url: widget.isForgetPassword
       //     ? AppStrings.verifyOtpPasswordResetUrl
       //     : AppStrings.verifyOtpUrl);

@@ -18,6 +18,7 @@ import '../../model/view_model/user_view_model.dart';
 import '../../res/app_colors.dart';
 import '../../widgets/decision_widgets.dart';
 import '../../widgets/modals.dart';
+
 import '../dashboard/dashboard_pages.dart/new_profile_details.dart';
 import '../dashboard/dashboard_pages.dart/unverified_screen.dart';
 import '../profile/profile_setup.dart';
@@ -36,10 +37,14 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final Uri _url = Uri.parse('https://healthbubba.com/privacy-policy');
 
-  String doctorState = "1";
+  String doctorState = "0";
 
   getVerifiedKey() async {
-    doctorState = await StorageHandler.getDoctorState() ?? '1';
+    doctorState = await StorageHandler.getDoctorState() ?? '0';
+
+    setState(() {
+      
+    });
   }
 
   @override
@@ -135,45 +140,47 @@ class _SettingsPageState extends State<SettingsPage> {
                               size: 16,
                               color: Colors.white,
                             ))),
-                             Positioned(
-                               top: 200,
-                               child: Container(
-                                                 margin: const EdgeInsets.only(right: 13),
-                                                 padding:
-                                                     const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                                                 decoration: BoxDecoration(
-                                                   border:
-                                                       Border.all(color: const Color(0xFFFECDD3), width: 1),
-                                                   borderRadius: BorderRadius.circular(8),
-                                                   color: const Color(0xFFFFE4E6),
-                                                   boxShadow: const [
-                                                     BoxShadow(
-                                                       color: Color(0xFFF0F0F0),
-                                                       offset: Offset(0, 0),
-                                                       blurRadius: 0,
-                                                     ),
-                                                     BoxShadow(
-                                                       color: Color(0x409F9E9E),
-                                                       offset: Offset(0, 1),
-                                                       blurRadius: 1,
-                                                     ),
-                                                   ],
-                                                 ),
-                                                 child: Text(
-                                                   'Verification Required',
-                                                   style: GoogleFonts.getFont(
-                                                     'Inter',
-                                                     fontWeight: FontWeight.w500,
-                                                     fontSize: 14,
-                                                     height: 1.4,
-                                                     color: const Color(0xFF9F1239),
-                                                   ),
-                                                 ),
-                                               ),
-                             ),
+                if(doctorState == "0")    Positioned(
+                      top: 200,
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 13),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 5),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: const Color(0xFFFECDD3), width: 1),
+                          borderRadius: BorderRadius.circular(8),
+                          color: const Color(0xFFFFE4E6),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0xFFF0F0F0),
+                              offset: Offset(0, 0),
+                              blurRadius: 0,
+                            ),
+                            BoxShadow(
+                              color: Color(0x409F9E9E),
+                              offset: Offset(0, 1),
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          'Verification Required',
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            height: 1.4,
+                            color: const Color(0xFF9F1239),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-               const SizedBox(height: 40,),
+               if(doctorState == "0")  const SizedBox(
+                  height: 40,
+                ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 0, 48),
                   child: Column(
@@ -239,15 +246,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                         title: 'Profile Details',
                                         icon: AppImages.profileDetails,
                                         onTap: () {
-                                          // AppNavigator.pushAndStackPage(context,
-                                          //     page: const NewProfileDetails(
-                                                 
-                                          //     ));
-                                              //TODO
                                           AppNavigator.pushAndStackPage(context,
-                                              page: const ProfileSetup(
-                                                isEdit: true,
+                                              page: const NewProfileDetails(
+
                                               ));
+                                          //TODO
+                                          // AppNavigator.pushAndStackPage(context,
+                                          //     page: const ProfileSetup(
+                                          //       isEdit: true,
+                                          //     ));
                                         }),
                                     settingsDetails(
                                         title: 'Work Information',

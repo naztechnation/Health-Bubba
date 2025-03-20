@@ -14,11 +14,10 @@ import '../../../requests/repositories/account_repo/account_repository_impl.dart
 import '../../../res/app_colors.dart';
 import '../../../res/app_images.dart';
 import '../../../res/app_strings.dart';
-import '../../../utils/validator.dart';
+
 import '../../../widgets/button_view.dart';
 import '../../../widgets/custom_toast.dart';
 import '../../../widgets/image_view.dart';
-import '../../../widgets/pin_code_view.dart';
 
 class PhoneNumberVerified extends StatefulWidget {
   const PhoneNumberVerified({
@@ -26,8 +25,7 @@ class PhoneNumberVerified extends StatefulWidget {
   });
 
   @override
-  State<PhoneNumberVerified> createState() =>
-      _PhoneNumberVerifiedState();
+  State<PhoneNumberVerified> createState() => _PhoneNumberVerifiedState();
 }
 
 class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
@@ -169,7 +167,8 @@ class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.pop(context);
+                                AppNavigator.pushAndRemovePreviousPages(context,
+                                    page: const Dashboard());
                               },
                               child: const Padding(
                                 padding: EdgeInsets.only(left: 20.0),
@@ -186,12 +185,12 @@ class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
                         const SizedBox(
                           height: 30,
                         ),
-                      
                         Container(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),
-                             bottomRight: Radius.circular(20)),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(16),
+                                bottomRight: Radius.circular(20)),
                             color: Color(0xFFFFFFFF),
                             boxShadow: [
                               BoxShadow(
@@ -242,7 +241,10 @@ class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              const ImageView.svg(AppImages.verifyCheckIcon, height: 55,),
+                                              const ImageView.svg(
+                                                AppImages.verifyCheckIcon,
+                                                height: 55,
+                                              ),
                                               Container(
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
@@ -291,18 +293,18 @@ class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
                                                   ],
                                                 ),
                                               ),
-                                               
-                                               
                                             ],
                                           ),
                                         ),
-                                       
                                         const SizedBox(
                                           height: 50,
                                         ),
                                         ButtonView(
                                             onPressed: () {
-                                              AppNavigator.pushAndRemovePreviousPages(context, page: const Dashboard());
+                                              AppNavigator
+                                                  .pushAndRemovePreviousPages(
+                                                      context,
+                                                      page: const Dashboard());
                                             },
                                             processin:
                                                 state is ResendOtpLoading,
@@ -319,7 +321,6 @@ class _PhoneNumberVerifiedState extends State<PhoneNumberVerified> {
                                       ],
                                     ),
                                   ),
-                                  
                                   const SizedBox(
                                     height: 10,
                                   ),

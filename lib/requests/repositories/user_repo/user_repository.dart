@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:healthbubba/model/patients/appointment_lists.dart';
 
+import '../../../model/auth_model/send_phone_otp.dart';
 import '../../../model/patients/administered_route.dart';
 import '../../../model/patients/appointment_details.dart';
 import '../../../model/patients/consultation_result.dart';
@@ -88,6 +89,7 @@ abstract class UserRepository {
   });
 
   Future<NotificationSettings> getNotificationSettings();
+  Future<PhoneOtp> sendPhoneOptp();
 
   Future<CreateAppointment> createAppointment({
     required String date,

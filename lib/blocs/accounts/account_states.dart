@@ -11,6 +11,7 @@ import 'package:healthbubba/model/user/user_data.dart';
 import '../../model/auth_model/account_details.dart';
 import '../../model/auth_model/get_account.dart';
 import '../../model/auth_model/register.dart';
+import '../../model/auth_model/send_phone_otp.dart';
 import '../../model/google_places.dart';
 import '../../model/user/banks.dart';
 import '../../model/user/login_with_google.dart';
@@ -414,6 +415,31 @@ class ResendOtpLoaded extends AccountStates {
   @override
   List<Object> get props => [otp];
 }
+
+class SendPhoneLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class SendPhoneLoaded extends AccountStates {
+  final PhoneOtp phoneOtp;
+  const SendPhoneLoaded(this.phoneOtp);
+  @override
+  List<Object> get props => [phoneOtp];
+}
+class VerifyPhoneLoading extends AccountStates {
+  @override
+  List<Object> get props => [];
+}
+
+class VerifyPhoneLoaded extends AccountStates {
+  final PhoneOtp phoneOtp;
+  const VerifyPhoneLoaded(this.phoneOtp);
+  @override
+  List<Object> get props => [phoneOtp];
+}
+
+
 class SearchPlacesLoading extends AccountStates {
   @override
   List<Object> get props => [];

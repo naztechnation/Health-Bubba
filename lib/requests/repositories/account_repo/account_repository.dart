@@ -12,6 +12,7 @@ import '../../../model/auth_model/account_details.dart';
 import '../../../model/auth_model/get_account.dart';
 import '../../../model/auth_model/login.dart';
 import '../../../model/auth_model/register.dart';
+import '../../../model/auth_model/send_phone_otp.dart';
 import '../../../model/google_places.dart';
 import '../../../model/user/bank_details.dart';
 import '../../../model/user/get_specialties.dart';
@@ -91,6 +92,9 @@ abstract class AccountRepository {
   Future<UpdateUser> updateBio({required String bio});
 
   Future<UserData> getUserInfo();
+    Future<PhoneOtp> sendPhoneOptp();
+    Future<PhoneOtp> verifyPhoneOptp({required  String phone,required String otp});
+
 
   Future<GetSpecialties> getSpecialties();
 

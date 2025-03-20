@@ -25,7 +25,7 @@ import '../../model/view_model/onboard_view_model.dart';
 import '../../model/view_model/user_view_model.dart';
 import '../../requests/repositories/account_repo/account_repository_impl.dart';
 import '../../res/app_colors.dart';
-import '../../utils/validator.dart';
+ 
 import '../../widgets/button_view.dart';
 import '../../widgets/checkbox.dart';
 import '../../widgets/custom_toast.dart';

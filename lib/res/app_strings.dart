@@ -7,7 +7,9 @@ class AppStrings {
 
  //static const String _baseUrl = 'https://api.healthbubba.com/api/';
   static const String googleKey = 'AIzaSyAl73gnRt865JBHRFeDyfRCuS5oIJijzQM';
- static const String _baseUrl = 'https://app.healthbubba.com/api/';
+   static const String _baseUrl = 'https://staging.healthbubba.com/api/';
+  //  static const String _baseUrl = 'https://app.healthbubba.com/api/';
+ static const String _stageUrl = 'https://staging.healthbubba.com/api/';
 
 
   ///base url
@@ -84,6 +86,7 @@ class AppStrings {
       "${_baseUrl}administration_routes";
   static const String getBankDetailsUrl =
       "${_baseUrl}get_user_bank_details";
+  
    
   static const String getAccountNameUrl =
       "${_baseUrl}resolve_account_number";
@@ -115,6 +118,18 @@ class AppStrings {
 
       static const String updateInfo =
       "HealthBubba Partner recommends that you update to the latest version. The update is very important so as to enjoy all of our new features, while we keep serving you better!!!.";
+ 
+ //Staging endpoints
+
+ static const String sendPhoneOtpUrl =
+      "${_stageUrl}user/send-phone-otp";
+ 
+ static const String verifyPhoneOtpUrl =
+      "${_stageUrl}user/verify-phone";
+ 
+ 
+ 
+ 
   static const int appVersionIos = 2;
   static const int appVersionAndroid = 2;
   
